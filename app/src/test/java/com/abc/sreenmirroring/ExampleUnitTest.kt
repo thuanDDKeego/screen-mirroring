@@ -1,4 +1,4 @@
-package com.softgo.sreen_mirroring_cast_tv
+package com.abc.sreenmirroring
 
 import org.junit.Test
 

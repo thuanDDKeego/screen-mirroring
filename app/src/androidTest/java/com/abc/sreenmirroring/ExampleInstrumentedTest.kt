@@ -1,4 +1,4 @@
-package com.softgo.sreen_mirroring_cast_tv
+package com.abc.sreenmirroring
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
