@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#7C6AFF</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorGrayBg">#F1F1F1</color>
+    <color name="colorGrayUnactive">#919191</color>
+    <color name="bgGray">#EEEEEE</color>
+
+
+    <color name="actionbarColor">#1c1e2b</color>
+    <color name="black">#000000</color>
+    <color name="blackAlpha20">#33000000</color>
+    <color name="blackBgDialog">#CC141735</color>
+    <color name="blackAlpha45">#73000000</color>
+    <color name="blackAlpha70">#b3000000</color>
+    <color name="txBlack">#2D2D2D</color>
+    <color name="bgBlack">#272836</color>
+    <color name="blackA01">#344B67</color>
+    <color name="blackA02">#343434</color>
+    <color name="blackA03">#3C3D4A</color>
+
+    <color name="white">#ffffff</color>
+    <color name="whiteAlpha20">#33ffffff</color>
+    <color name="whiteAlpha90">#e6ffffff</color>
+    <color name="whiteAlpha70">#b3ffffff</color>
+
+    <color name="blueA01">#73A6FF</color>
+
+    <color name="greenA01">#26cac3</color>
+
+    <color name="orangeA01">#FF604D</color>
+    <color name="orangeA02">#FF5454</color>
+    <color name="orangeA03">#FFE6E6</color>
+    <color name="orangeA04">#FF6A6A</color>
+
+    <color name="grayA01">#BEBEBE</color>
+    <color name="grayA02">#888888</color>
+    <color name="grayA03">#78909c</color>
+    <color name="grayA04">#f1f1f1</color>
+    <color name="grayA05">#627388</color>
+    <color name="grayA06">#919191</color>
+    <color name="grayA07">#575757</color>
+    <color name="purpleA01">#D0B9FD</color>
+    <color name="purpleA02">#E2D3FF</color>
+
+    <color name="pinkA01">#FF4E8A</color>
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="bgTransparent">#1Affffff</color>
+
+    //text color
+    <color name="txt_white">#FFFFFF</color>
+    <color name="txt_light_gray">#C8C8C8</color>
+    <color name="txt_gray">#6B6B6B</color>
+    <color name="txt_dark_gray">#FFFFFF</color>
+    <color name="txt_black">#000000</color>
+
 </resources>
