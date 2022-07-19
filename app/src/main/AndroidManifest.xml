@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sreenmirroringcasttv"
         tools:targetApi="31">
+        <service
+            android:name=".MirrorService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,6 +26,7 @@
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
