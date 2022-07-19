@@ -14,10 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sreenmirroringcasttv"
         tools:targetApi="31">
+        <activity
+            android:name=".BrowserMirrorActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.MirrorService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity
             android:name=".ui.HomeActivity"
