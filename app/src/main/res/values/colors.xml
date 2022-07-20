@@ -26,7 +26,7 @@
     <color name="whiteAlpha90">#e6ffffff</color>
     <color name="whiteAlpha70">#b3ffffff</color>
 
-    <color name="blueA01">#73A6FF</color>
+    <color name="blueA01">#00AAFF</color>
 
     <color name="greenA01">#26cac3</color>
 
@@ -46,6 +46,9 @@
     <color name="purpleA02">#E2D3FF</color>
     <color name="line_gray">#c4c4c4</color>
 
+    <color name="bg_gray_dialog">#66B4B4B4</color>
+    <color name="bg_dark_gray_dialog">#66666666</color>
+
     <color name="pinkA01">#FF4E8A</color>
 
     <color name="transparent">#00FFFFFF</color>
@@ -55,7 +58,7 @@
     <color name="txt_white">#FFFFFF</color>
     <color name="txt_light_gray">#C8C8C8</color>
     <color name="txt_gray">#6B6B6B</color>
-    <color name="txt_dark_gray">#FFFFFF</color>
+    <color name="txt_dark_gray">#4B4B4B</color>
     <color name="txt_black">#000000</color>
 
 </resources>

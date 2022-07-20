@@ -4,6 +4,7 @@
     //margin dimen
     <dimen name="margin_2dp">2dp</dimen>
     <dimen name="marin_4dp">4dp</dimen>
+    <dimen name="margin_6dp">6dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
@@ -13,6 +14,7 @@
     <dimen name="margin_30dp">30dp</dimen>
     <dimen name="margin_42dp">42dp</dimen>
     <dimen name="margin_54dp">54dp</dimen>
+    <dimen name="margin_64dp">65dp</dimen>
     <dimen name="margin_72dp">72dp</dimen>
 
     //image dimen
