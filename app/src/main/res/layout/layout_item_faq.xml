@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llItemFAQ"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_24dp"
+    android:paddingVertical="@dimen/margin_16dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitleFAQ"
+            style="@style/regularBoldText"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/the_ip_address_may_change_every_time_you_connect"
+            android:textColor="@color/txt_black"
+            android:paddingEnd="@dimen/margin_24dp"/>
+
+        <ImageView
+            android:layout_width="@dimen/margin_16dp"
+            android:layout_height="@dimen/margin_16dp"
+            android:src="@drawable/ic_expand"
+            android:layout_marginTop="@dimen/margin_16dp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/expandTextView"
+        style="@style/regularText"
+        android:textColor="@color/txt_dark_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_gray"
+        android:layout_marginTop="@dimen/margin_24dp"
+        />
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+

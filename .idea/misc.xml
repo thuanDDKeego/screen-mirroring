@@ -12,6 +12,11 @@
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_home.xml" value="0.32083333333333336" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_home2.xml" value="0.31979166666666664" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_main.xml" value="0.3146067415730337" />
+        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_tutorial.xml" value="0.25" />
+        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_connected_devices.xml" value="0.32083333333333336" />
+        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_f_a_q.xml" value="0.32083333333333336" />
+        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_tutorial.xml" value="0.32083333333333336" />
+        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/layout_item_faq.xml" value="0.31979166666666664" />
       </map>
     </option>
   </component>
