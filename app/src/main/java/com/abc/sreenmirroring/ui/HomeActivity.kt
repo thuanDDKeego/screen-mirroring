@@ -13,5 +13,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun initActions() {
+        binding.constraintBrowserMirror.setOnClickListener {
+            
+        }
     }
 }

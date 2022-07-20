@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SmallText" parent="Widget.AppCompat.TextView">
+    <style name="SmallText">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 
-    <style name="ContentText" parent="Widget.AppCompat.TextView">
+    <style name="ContentText" >
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_content</item>
     </style>
 
-    <style name="regularText" parent="Widget.AppCompat.TextView">
+    <style name="regularText" >
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_regular</item>
     </style>
 
-    <style name="BoldTitleText" parent="Widget.AppCompat.TextView">
+    <style name="BoldTitleText" >
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textSize">@dimen/text_title</item>
     </style>
 
-    <style name="ExtraBoldLargeText" parent="Widget.AppCompat.TextView">
+    <style name="ExtraBoldLargeText">
         <item name="android:fontFamily">@font/inter_extra_bold</item>
         <item name="android:textSize">@dimen/text_large</item>
-        </style>
+    </style>
 </resources>

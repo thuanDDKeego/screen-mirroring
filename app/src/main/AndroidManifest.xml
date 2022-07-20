@@ -12,11 +12,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sreenmirroringcasttv"
+        android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".BrowserMirrorActivity"
-            android:exported="false" />
+            android:name=".ui.browsermirror.BrowserMirrorActivity"
+            android:exported="false"
+            />
 
         <service
             android:name=".service.MirrorService"
