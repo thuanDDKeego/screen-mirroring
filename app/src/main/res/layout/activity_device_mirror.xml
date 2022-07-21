@@ -134,6 +134,7 @@
         android:layout_marginEnd="@dimen/margin_24dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSelectDevice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintDimensionRatio="6.5"
