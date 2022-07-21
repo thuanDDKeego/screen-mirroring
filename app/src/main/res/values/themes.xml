@@ -19,6 +19,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.Sreenmirroringcasttv.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+
+
     <style name="Theme.Sreenmirroringcasttv.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Sreenmirroringcasttv.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
