@@ -4,8 +4,9 @@ import android.view.View
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
-import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
+import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
+import com.abc.sreenmirroring.ui.settings.SettingActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -26,14 +27,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             showRatingDialog()
-
-        }
-        binding.imgHelp.setOnClickListener {
-            TutorialActivity.gotoActivity(this@HomeActivity)
         }
         binding.constrantMirror.setOnClickListener {
             DeviceMirrorActivity.gotoActivity(this@HomeActivity)
         }
+        binding.imgSetting.setOnClickListener {
+            SettingActivity.gotoActivity(this@HomeActivity)
+        }
+        binding.imgHelp.setOnClickListener {
+            TutorialActivity.gotoActivity(this@HomeActivity)
+        }
+
     }
 
 
