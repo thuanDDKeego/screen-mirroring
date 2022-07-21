@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.tutorial
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.abc.sreenmirroring.base.BaseFragment
@@ -17,9 +18,9 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
     ) = FragmentFAQBinding.inflate(inflater, container, false)
 
     override fun initViews() {
-        adapter = FAQItemAdapter()
+        adapter = FAQItemAdapter(Constant.LIST_fAQ)
+        Log.i("binding FAQ", binding.toString())
         binding.recyclerViewFAQ.adapter = adapter
-        adapter.setItemList(Constant.LIST_fAQ)
     }
 
     override fun initActions() {
