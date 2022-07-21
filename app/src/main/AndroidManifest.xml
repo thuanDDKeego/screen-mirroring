@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".DeviceMirrorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.tutorial.TutorialActivity"
             android:exported="false"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"/>
