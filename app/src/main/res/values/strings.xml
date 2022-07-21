@@ -52,8 +52,6 @@
     <string name="feedback">Feedback</string>
 
 
-
-
     //faq item
     <string name="faq_item_title1">My smartphone can’t find any device for coupling with.</string>
     <string name="faq_item_description1">- Ensure the same Wifi connection\n- Turn off VPN\n- Shorten the distance between devices\n- Check supported devices</string>
