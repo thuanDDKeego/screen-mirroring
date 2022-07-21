@@ -14,10 +14,10 @@ abstract class BaseFragment<V: ViewBinding>: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        binding =  initBinding(inflater, container)
         initViews()
         initActions()
         showAds()
-        binding =  initBinding(inflater, container)
         return binding.root
     }
     abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): V

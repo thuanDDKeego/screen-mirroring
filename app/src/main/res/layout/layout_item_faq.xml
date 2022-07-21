@@ -16,17 +16,18 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTitleFAQ"
             style="@style/regularBoldText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/the_ip_address_may_change_every_time_you_connect"
             android:textColor="@color/txt_black"
             android:paddingEnd="@dimen/margin_24dp"/>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/margin_16dp"
             android:layout_height="@dimen/margin_16dp"
             android:src="@drawable/ic_expand"
-            android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_2dp"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
