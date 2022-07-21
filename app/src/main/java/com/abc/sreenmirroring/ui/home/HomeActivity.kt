@@ -4,6 +4,7 @@ import android.view.View
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
+import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.imgHelp.setOnClickListener {
             TutorialActivity.gotoActivity(this@HomeActivity)
+        }
+        binding.constrantMirror.setOnClickListener {
+            DeviceMirrorActivity.gotoActivity(this@HomeActivity)
         }
     }
 
