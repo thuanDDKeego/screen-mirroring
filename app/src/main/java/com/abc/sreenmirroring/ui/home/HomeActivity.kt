@@ -46,7 +46,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 //        browserDialog = true
         dialogBinding = LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBinding.txtClose.setOnClickListener {
-            dialogBinding.root.visibility = View.GONE
+            dialogBinding.root.visibility = View.INVISIBLE
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(5000)
