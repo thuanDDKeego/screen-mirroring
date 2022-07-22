@@ -8,6 +8,9 @@
     <color name="colorGrayUnactive">#919191</color>
     <color name="bgGray">#EEEEEE</color>
 
+    <color name="transparent">#00000000</color>
+
+    <color name="aqua_main">#00AAFF</color>
 
     <color name="actionbarColor">#1c1e2b</color>
     <color name="black">#000000</color>

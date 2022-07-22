@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bgScreenBubble"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnBubble"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_float_bubble"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelinePosition" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnTime"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="18dp"
+        android:elevation="1dp"
+        android:src="@drawable/ic_float_timer"
+        app:layout_constraintBottom_toTopOf="@+id/btnBubble"
+        app:layout_constraintStart_toStartOf="@+id/btnBubble" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnScreenShot"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="22dp"
+        android:elevation="1dp"
+        android:src="@drawable/ic_float_snapshot"
+        app:layout_constraintStart_toEndOf="@+id/btnBubble"
+        app:layout_constraintTop_toTopOf="@+id/btnTime" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnPencil"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="22dp"
+        android:elevation="1dp"
+        android:src="@drawable/ic_float_pen"
+        app:layout_constraintStart_toEndOf="@+id/btnBubble"
+        app:layout_constraintTop_toBottomOf="@+id/btnScreenShot" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnCamera"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="18dp"
+        android:elevation="1dp"
+        android:src="@drawable/ic_float_camera_preview"
+        app:layout_constraintStart_toStartOf="@+id/btnBubble"
+        app:layout_constraintTop_toBottomOf="@+id/btnBubble" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="306dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
