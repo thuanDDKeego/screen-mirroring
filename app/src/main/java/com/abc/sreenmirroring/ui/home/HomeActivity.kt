@@ -26,7 +26,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
-            showRatingDialog()
+//            showRatingDialog()
+            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
         }
         binding.constrantMirror.setOnClickListener {
             DeviceMirrorActivity.gotoActivity(this@HomeActivity)

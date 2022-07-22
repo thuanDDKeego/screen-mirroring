@@ -22,6 +22,7 @@
     //image dimen
     <dimen name="small_icon_size">18dp</dimen>
     <dimen name="medium_icon_size">24dp</dimen>
+    <dimen name="medium_icon_size_2">28dp</dimen>
     <dimen name="large_icon_size">32dp</dimen>
     <dimen name="small_img_icon_size">40dp</dimen>
     <dimen name="medium_img_icon_size">50dp</dimen>

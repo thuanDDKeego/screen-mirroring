@@ -7,7 +7,11 @@
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_main.xml" value="0.3146067415730337" />
         <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
         <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.27760416666666665" />
+        <entry key="app/src/main/res/drawable/bg_border_radius_15dp.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.1705" />
+        <entry key="app/src/main/res/drawable/ic_copy.xml" value="0.238" />
+        <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1859375" />
         <entry key="app/src/main/res/layout/activity_stream.xml" value="0.27760416666666665" />
       </map>
     </option>

@@ -20,6 +20,7 @@
     <color name="blackA01">#344B67</color>
     <color name="blackA02">#343434</color>
     <color name="blackA03">#3C3D4A</color>
+    <color name="blackA04">#383A40</color>
 
     <color name="white">#ffffff</color>
     <color name="whiteAlpha20">#33ffffff</color>
@@ -27,6 +28,7 @@
     <color name="whiteAlpha70">#b3ffffff</color>
 
     <color name="blueA01">#00AAFF</color>
+    <color name="blueA02">#3300AAFF</color>
 
     <color name="greenA01">#26cac3</color>
 
