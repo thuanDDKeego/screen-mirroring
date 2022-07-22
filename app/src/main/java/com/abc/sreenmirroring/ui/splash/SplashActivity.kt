@@ -12,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         job = CoroutineScope(Dispatchers.Main).launch {
-            delay(3000)
+            delay(500)
             startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
             finish()
         }

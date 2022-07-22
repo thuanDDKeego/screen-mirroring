@@ -5,12 +5,15 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.activity.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityTutorialBinding
 import com.abc.sreenmirroring.ui.tutorial.adapter.TutorialPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     AdapterView.OnItemSelectedListener {
 
