@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -37,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':screen-stream')
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -58,6 +60,11 @@ dependencies {
     // When using Java.
 //    annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0'
 //    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    implementation("com.github.iamironz:binaryprefs:1.0.1")
+    // log timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    implementation 'com.elvishew:xlog:1.11.0'
 }
 kapt {
     correctErrorTypes true

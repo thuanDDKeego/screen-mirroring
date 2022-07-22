@@ -100,7 +100,7 @@
         android:textColor="@color/grayA07" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtIpAdress"
+        android:id="@+id/txtIpAddress"
         style="@style/regularText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -109,7 +109,6 @@
         android:layout_marginHorizontal="@dimen/margin_24dp"
         android:layout_marginVertical="@dimen/margin_12dp"
         android:background="@drawable/bg_txt_ip_address"
-        android:text="http://192.168.1.13:5621"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLinkDescripion"
@@ -119,9 +118,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/medium_icon_size"
         android:layout_height="@dimen/medium_icon_size"
-        app:layout_constraintTop_toTopOf="@id/txtIpAdress"
-        app:layout_constraintBottom_toBottomOf="@id/txtIpAdress"
-        app:layout_constraintEnd_toEndOf="@id/txtIpAdress"
+        app:layout_constraintTop_toTopOf="@id/txtIpAddress"
+        app:layout_constraintBottom_toBottomOf="@id/txtIpAddress"
+        app:layout_constraintEnd_toEndOf="@id/txtIpAddress"
         android:src="@drawable/ic_copy"
         android:layout_marginEnd="@dimen/margin_24dp"/>
 
@@ -131,7 +130,7 @@
         android:layout_height="wrap_content"
         android:text="@string/stop_stream"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/txtIpAdress"
+        app:layout_constraintTop_toBottomOf="@id/txtIpAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
