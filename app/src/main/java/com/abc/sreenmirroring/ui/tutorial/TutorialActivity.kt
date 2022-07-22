@@ -5,7 +5,6 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import androidx.activity.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
