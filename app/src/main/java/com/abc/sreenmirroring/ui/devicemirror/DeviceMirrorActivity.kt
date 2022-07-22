@@ -30,12 +30,20 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     override fun initBinding() = ActivityDeviceMirrorBinding.inflate(layoutInflater)
 
     override fun initViews() {
+
+        val connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        if (networkInfo?.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
+            setupCheckWifiConnectView(false)
+        }
+
         networkRequest = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
 
-        val connectivityManager = getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+        val connectivityManager =
+            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
         connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
@@ -44,7 +52,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             selectDeviceMirror()
         }
         binding.btnGoToWifiSetting.setOnClickListener {
-            startActivity( Intent(Settings.ACTION_WIFI_SETTINGS));
+            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS));
         }
     }
 
@@ -54,8 +62,6 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             super.onAvailable(network)
             setupCheckWifiConnectView(true)
         }
-
-        // Network capabilities have changed for the network
 
         // lost network connection
         override fun onLost(network: Network) {
@@ -81,18 +87,18 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     private fun setupCheckWifiConnectView(isConnected: Boolean) {
         CoroutineScope(Dispatchers.Main).launch {
             resetWifiLoadingView()
-            delay(2000)
+            delay(800)
             binding.progressCheckConnectionDistance.visibility = View.INVISIBLE
             if (isConnected) {
                 binding.imgResultCheckConnectionDistance.visibility = View.VISIBLE
                 binding.imgResultCheckConnectionDistance.background =
                     resources.getDrawable(R.drawable.ic_tick)
-                delay(800)
+                delay(600)
                 binding.imgResultCheckSignalTransmission.visibility = View.VISIBLE
                 binding.progressCheckSignalTransmission.visibility = View.INVISIBLE
                 binding.imgResultCheckSignalTransmission.background =
                     resources.getDrawable(R.drawable.ic_tick)
-                delay(600)
+                delay(400)
                 binding.imgResultTestConnectionSpeed.visibility = View.VISIBLE
                 binding.progressTestConnectionSpeed.visibility = View.INVISIBLE
                 binding.imgResultTestConnectionSpeed.background =
