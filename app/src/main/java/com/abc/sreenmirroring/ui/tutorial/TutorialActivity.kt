@@ -10,7 +10,9 @@ import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityTutorialBinding
 import com.abc.sreenmirroring.ui.tutorial.adapter.TutorialPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     AdapterView.OnItemSelectedListener {
 

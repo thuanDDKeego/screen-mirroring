@@ -151,7 +151,7 @@
     <View
         android:id="@+id/viewBannerAd"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150dp"
+        android:layout_height="@dimen/margin_64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
