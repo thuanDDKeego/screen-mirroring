@@ -2,8 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_dark_gray_dialog">
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/bgDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_dark_gray_dialog" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDialog"
@@ -12,8 +17,8 @@
         android:layout_marginHorizontal="@dimen/margin_6dp"
         android:background="@drawable/bg_button_gradient_radius_15dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="@dimen/margin_8dp"
         app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,15 +27,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/margin_20dp"
+            android:paddingVertical="@dimen/margin_24dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtTitleDialog"
                 style="@style/TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_24dp"
-                android:text="@string/browser_mirror"
+                android:text="@string/change_pin_code"
                 android:textColor="@color/txt_black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,50 +44,60 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtContentDialog"
-                style="@style/ContentText"
+                style="@style/regularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24dp"
-                android:layout_marginVertical="@dimen/margin_42dp"
-                android:text="Enter a new pin code"
+                android:layout_marginTop="@dimen/margin_36dp"
+                android:layout_marginBottom="@dimen/margin_42dp"
                 android:gravity="center"
+                android:text="@string/enter_a_new_pin_code"
                 android:textColor="@color/txt_gray"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtTitleDialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTitleDialog" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtStartVideoInTime"
-                style="@style/regularText"
+
+            <com.chaos.view.PinView
+                android:id="@+id/pinView"
+                style="@style/PinWidget.PinView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24dp"
-                android:layout_marginVertical="@dimen/margin_42dp"
-                android:text="start video in 5s"
-                android:gravity="center"
-                android:textColor="@color/blueA01"
+                android:cursorVisible="true"
+                android:inputType="number"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cursorWidth="2dp"
+                app:itemCount="4"
+                app:itemHeight="36dp"
+                app:itemWidth="36dp"
+                app:itemRadius="4dp"
+                app:itemSpacing="16dp"
+                android:layout_marginTop="@dimen/margin_42dp"
+                android:itemBackground="#D9D9D9"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtContentDialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:drawableStart="@drawable/ic_play"
-                android:drawablePadding="@dimen/margin_8dp"
-                />
+                app:lineWidth="0dp"
+                app:viewType="rectangle">
+                <requestFocus />
+            </com.chaos.view.PinView>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtUpgrade"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnSaveNewPinCode"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/regularText"
-                android:text="@string/upgrade"
-                android:paddingVertical="@dimen/margin_8dp"
-                android:paddingHorizontal="@dimen/margin_12dp"
-                android:textColor="@color/blueA01"
-                app:layout_constraintTop_toBottomOf="@id/txtStartVideoInTime"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_42dp"
+                android:layout_marginBottom="@dimen/margin_50dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:backgroundTint="@color/blueA01"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="@dimen/margin_30dp"
-                android:background="@drawable/bg_txt_ip_address"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pinView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

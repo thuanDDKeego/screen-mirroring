@@ -87,8 +87,7 @@
                         android:id="@+id/switchOnOffPinCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/blueA01"
-                        android:button="@color/blueA01"
+                        android:theme="@style/ColorSwitchStyle"
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -111,10 +110,11 @@
                         android:maxLines="1"
                         android:layout_weight="1"
                         android:paddingHorizontal="20dp"
-                        android:text="Change Pin code"
+                        android:text="@string/change_pin_code"
                         android:textColor="@color/txt_black" />
 
                     <TextView
+                        android:id="@+id/txtPinCode"
                         style="@style/regularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
