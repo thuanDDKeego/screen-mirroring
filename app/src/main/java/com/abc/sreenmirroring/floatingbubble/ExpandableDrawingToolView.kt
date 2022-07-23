@@ -4,6 +4,9 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import androidx.viewbinding.ViewBinding
+import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.databinding.FloatDrawingToolBinding
 import com.abc.sreenmirroring.helper.logIfError
 import com.abc.sreenmirroring.helper.onComplete
 
@@ -61,8 +64,36 @@ class ExpandableDrawingToolView(
             return this
         }
 
-        override fun setDrawingToolView(view: View): BuilderDrawingTool {
-            this.rootView = view
+        override fun setDrawingToolView(_binding: ViewBinding): BuilderDrawingTool {
+            //set action draw tools
+            val binding = _binding as FloatDrawingToolBinding
+            binding.llDrawToolsBox.visibility = View.VISIBLE
+            binding.btnOpenPencil.setOnClickListener {
+                binding.llDrawToolsBox.visibility = View.GONE
+                binding.llPencilDraw.visibility = View.VISIBLE
+                binding.btnOpenPencil.backgroundTintList =
+                    context.resources.getColorStateList(R.color.blueA01)
+            }
+            binding.btnBack.setOnClickListener {
+                listener.backToBubble()
+            }
+
+            //set action pencil tools
+            binding.btnAccept.setOnClickListener {
+                binding.llPencilDraw.visibility = View.GONE
+                binding.llDrawToolsBox.visibility = View.VISIBLE
+            }
+
+            fun resetPencilChooseColor() {
+                binding.imgChooseBlack.background = context.getDrawable(R.drawable.ic_circle_black)
+                binding.imgChooseWhite.background = context.getDrawable(R.drawable.ic_circle_white)
+                binding.imgChooseBlue.background = context.getDrawable(R.drawable.ic_circle_blue)
+                binding.imgChooseRed.background = context.getDrawable(R.drawable.ic_circle_red)
+                binding.imgChooseYellow.background = context.getDrawable(R.drawable.ic_circle_yellow)
+                binding.imgChoosePink.background = context.getDrawable(R.drawable.ic_circle_pink)
+                binding.imgChooseOrange.background = context.getDrawable(R.drawable.ic_circle_orange)
+            }
+            this.rootView = binding.root
             return this
         }
 
@@ -85,7 +116,7 @@ class ExpandableDrawingToolView(
 
         fun with(context: Context): IExpandableDrawingToolViewBuilder
 
-        fun setDrawingToolView(view: View): IExpandableDrawingToolViewBuilder
+        fun setDrawingToolView(binding: ViewBinding): IExpandableDrawingToolViewBuilder
 
         fun addDrawingToolViewListener(action: ExpandableDrawingToolView.Action): IExpandableDrawingToolViewBuilder
 
