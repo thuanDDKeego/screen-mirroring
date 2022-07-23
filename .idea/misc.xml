@@ -5,28 +5,9 @@
       <map>
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_15dp.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.209" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_circle.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.209" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_txt_ip_address.xml" value="0.209" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_black.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_blue.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_blue.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_green.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_orange.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_pink.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_red.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_white.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_yellow.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_color.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_green.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_orange.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_pink.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_red.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_yellow.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_color.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_float_bubble.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_on_off_state.xml" value="0.2085" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_pen.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_smart_tv.xml" value="0.2145" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_state_off_viewpager_home.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_state_on_viewpager_home.xml" value="0.2085" />
@@ -39,9 +20,6 @@
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_main.xml" value="0.3146067415730337" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_setting.xml" value="0.32083333333333336" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_tutorial.xml" value="0.25" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/float_drawing_tool.xml" value="0.25" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/float_expandable_menu_left.xml" value="0.32083333333333336" />
-        <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/float_expandable_menu_right.xml" value="0.32083333333333336" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_ad_banner1.xml" value="0.32083333333333336" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_ad_banner2.xml" value="0.30364583333333334" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_ad_banner3.xml" value="0.32083333333333336" />
@@ -51,6 +29,17 @@
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/fragment_tutorial.xml" value="0.32083333333333336" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.31979166666666664" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/layout/layout_item_faq.xml" value="0.31979166666666664" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_black.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_blue.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_orange.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_pink.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_red.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_white.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_choosed_yellow.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_orange.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_pink.xml" value="0.2265" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_drawing_tool.xml" value="0.264" />
+        <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_remove_icon.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>
@@ -60,5 +49,8 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressKotlinCodeStyleNotification">
+    <option name="disableForAll" value="true" />
   </component>
 </project>

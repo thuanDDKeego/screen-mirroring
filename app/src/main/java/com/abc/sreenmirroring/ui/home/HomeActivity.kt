@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.home
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.widget.CompoundButton
@@ -33,6 +34,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         job = setAutoScrollJob()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             showBrowserDialog()
