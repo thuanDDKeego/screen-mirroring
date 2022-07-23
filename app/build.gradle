@@ -65,6 +65,9 @@ dependencies {
     // log timber
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'com.elvishew:xlog:1.11.0'
+
+    implementation 'com.google.code.gson:gson:2.8.8'
+
 }
 kapt {
     correctErrorTypes true

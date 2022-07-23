@@ -12,7 +12,10 @@
         <entry key="app/src/main/res/drawable/ic_copy.xml" value="0.238" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1859375" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_stream.xml" value="0.27760416666666665" />
+        <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.16354166666666667" />
+        <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.2109375" />
       </map>
     </option>
   </component>

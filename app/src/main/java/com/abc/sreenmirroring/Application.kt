@@ -1,6 +1,7 @@
 package com.abc.sreenmirroring
 
 import android.app.Application
+import com.abc.sreenmirroring.config.Preferences
 import com.abc.sreenmirroring.config.ReleaseTree
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
@@ -17,6 +18,7 @@ class Application: Application() {
         } else {
             Timber.plant(ReleaseTree())
         }
+        Preferences.init(this)
         initLogger()
     }
 
