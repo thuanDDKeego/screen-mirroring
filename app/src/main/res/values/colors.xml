@@ -9,8 +9,21 @@
     <color name="bgGray">#EEEEEE</color>
 
     <color name="transparent">#00000000</color>
+    <color name="bg_transparent_floatingView">#1AFFFFFF</color>
 
     <color name="aqua_main">#00AAFF</color>
+
+    //color draw view
+    <color name="draw_black">#000000</color>
+    <color name="draw_white">#FFFFFF</color>
+    <color name="draw_blue">#4040FF</color>
+    <color name="draw_red">#FF0000</color>
+    <color name="draw_yellow">#FFC700</color>
+    <color name="draw_green">#008000</color>
+    <color name="draw_pink">#FF90A3</color>
+    <color name="draw_orange">#FF9900</color>
+
+
 
     <color name="actionbarColor">#1c1e2b</color>
     <color name="black">#000000</color>
@@ -54,7 +67,6 @@
 
     <color name="pinkA01">#FF4E8A</color>
 
-    <color name="transparent">#00FFFFFF</color>
     <color name="bgTransparent">#1Affffff</color>
 
     //text color

@@ -1,13 +1,18 @@
 package com.abc.sreenmirroring.ui.home
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
+import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
+import com.abc.sreenmirroring.helper.isDrawOverlaysPermissionGranted
+import com.abc.sreenmirroring.helper.requestOverlaysPermission
+import com.abc.sreenmirroring.service.FloatToolService
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.sreenmirroring.ui.home.adapter.AdBannerAdapter
@@ -15,6 +20,7 @@ import com.abc.sreenmirroring.ui.settings.SettingActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
@@ -28,6 +34,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         job = setAutoScrollJob()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             showBrowserDialog()
@@ -48,11 +55,24 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         job.cancel()
                     }
                     MotionEvent.ACTION_UP -> {
-                        job = setAutoScrollJob()                       }
+                        job = setAutoScrollJob()
+                    }
                 }
                 return false
             }
-
+        })
+        binding.switchModeFloatingTool.setOnCheckedChangeListener(object :
+            CompoundButton.OnCheckedChangeListener {
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if (isChecked) {
+                    if (isDrawOverlaysPermissionGranted()) {
+                        Timber.d("Start float tools")
+                        FloatToolService.start(this@HomeActivity)
+                    } else requestOverlaysPermission()
+                } else {
+                    FloatToolService.stop(this@HomeActivity)
+                }
+            }
         })
     }
 
@@ -122,7 +142,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else {
             binding.imgStateStepBanner3.background =
                 resources.getDrawable(R.drawable.ic_state_on_viewpager_home)
-
         }
     }
 

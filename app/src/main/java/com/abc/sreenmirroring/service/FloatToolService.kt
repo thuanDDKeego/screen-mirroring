@@ -14,6 +14,7 @@ import android.os.IBinder
 import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
+import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.abc.sreenmirroring.R
@@ -304,13 +305,39 @@ open class FloatToolService : Service() {
     private fun setupDrawingToolView(action: ExpandableDrawingToolView.Action): ExpandableDrawingToolView.BuilderDrawingTool {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = FloatDrawingToolBinding.inflate(inflater)
-        binding.bgDrawingToolView.setOnClickListener {
-            action.backToBubble()
-        }
+//        //set action draw tools
+//        binding.llDrawToolsBox.visibility = View.VISIBLE
+//        binding.btnOpenPencil.setOnClickListener {
+//            binding.llDrawToolsBox.visibility = View.GONE
+//            binding.llPencilDraw.visibility = View.VISIBLE
+//            binding.btnOpenPencil.backgroundTintList =
+//                this.resources.getColorStateList(R.color.blueA01)
+//        }
+//        binding.btnBack.setOnClickListener {
+//            action.backToBubble()
+//        }
+//
+//        //set action pencil tools
+//        binding.btnAccept.setOnClickListener {
+//            binding.llPencilDraw.visibility = View.GONE
+//            binding.llDrawToolsBox.visibility = View.VISIBLE
+//        }
+//
+//        fun resetPencilChooseColor() {
+//            binding.imgChooseBlack.background = resources.getDrawable(R.drawable.ic_circle_black)
+//            binding.imgChooseWhite.background = resources.getDrawable(R.drawable.ic_circle_white)
+//            binding.imgChooseBlue.background = resources.getDrawable(R.drawable.ic_circle_blue)
+//            binding.imgChooseRed.background = resources.getDrawable(R.drawable.ic_circle_red)
+//            binding.imgChooseYellow.background = resources.getDrawable(R.drawable.ic_circle_yellow)
+//            binding.imgChoosePink.background = resources.getDrawable(R.drawable.ic_circle_pink)
+//            binding.imgChooseOrange.background = resources.getDrawable(R.drawable.ic_circle_orange)
+//        }
+
         return ExpandableDrawingToolView.BuilderDrawingTool()
             .with(this)
-            .setDrawingToolView(binding.root)
+            .setDrawingToolView(binding)
             .addDrawingToolViewListener(action)
+
     }
 
 
