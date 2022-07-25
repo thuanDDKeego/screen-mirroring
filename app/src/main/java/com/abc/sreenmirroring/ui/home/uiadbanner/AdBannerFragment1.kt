@@ -1,4 +1,4 @@
-package com.abc.sreenmirroring.ui.home
+package com.abc.sreenmirroring.ui.home.uiadbanner
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

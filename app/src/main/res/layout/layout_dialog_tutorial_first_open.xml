@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintBgDialogTutorial"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_gray_dialog">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_6dp"
+        android:background="@drawable/bg_border_radius_15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_16dp">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPagerTutorialDialog"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                app:layout_constraintBottom_toTopOf="@id/txtUpgrade"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClose"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/margin_12dp"
+                android:paddingVertical="@dimen/margin_8dp"
+                android:text="@string/previous"
+                android:textColor="@color/txt_gray"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/txtUpgrade"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtUpgrade" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtUpgrade"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_txt_ip_address"
+                android:paddingHorizontal="@dimen/margin_24dp"
+                android:paddingVertical="@dimen/margin_8dp"
+                android:text="@string/next"
+                android:textColor="@color/blueA01"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewPagerTutorialDialog" />
+
+            <ImageView
+                android:id="@+id/imgStateStep1"
+                android:layout_width="@dimen/margin_8dp"
+                android:layout_height="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_8dp"
+                android:src="@drawable/ic_state_off_tutorial_dialog"
+                app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+                app:layout_constraintEnd_toStartOf="@id/imgStateStep2"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgStateStep2"
+                android:layout_width="@dimen/margin_8dp"
+                android:layout_height="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_8dp"
+                android:src="@drawable/ic_state_off_tutorial_dialog"
+                app:layout_constraintBottom_toBottomOf="@id/txtUpgrade"
+                app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
+                app:layout_constraintStart_toEndOf="@id/imgStateStep1"
+                app:layout_constraintTop_toTopOf="@id/txtUpgrade" />
+
+            <ImageView
+                android:id="@+id/imgStateStep3"
+                android:layout_width="@dimen/margin_8dp"
+                android:layout_height="@dimen/margin_8dp"
+                android:src="@drawable/ic_state_off_tutorial_dialog"
+                app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+                app:layout_constraintEnd_toStartOf="@id/imgStateStep4"
+                app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
+
+            <ImageView
+                android:id="@+id/imgStateStep4"
+                android:layout_width="@dimen/margin_8dp"
+                android:layout_height="@dimen/margin_8dp"
+                android:layout_marginStart="@dimen/margin_8dp"
+                android:src="@drawable/ic_state_off_tutorial_dialog"
+                app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgStateStep3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
