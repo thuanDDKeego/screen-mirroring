@@ -6,28 +6,28 @@
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 
-    <style name="ContentText" >
+    <style name="ContentText">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_content</item>
     </style>
 
-    <style name="regularText" >
+    <style name="regularText">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_regular</item>
     </style>
 
-    <style name="regularBoldText" >
+    <style name="regularBoldText">
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textSize">@dimen/text_regular</item>
     </style>
 
 
-    <style name="TitleText" >
+    <style name="TitleText">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_title</item>
     </style>
 
-    <style name="BoldTitleText" >
+    <style name="BoldTitleText">
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textSize">@dimen/text_title</item>
     </style>
