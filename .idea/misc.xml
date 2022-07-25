@@ -40,6 +40,10 @@
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_pink.xml" value="0.2265" />
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_drawing_tool.xml" value="0.264" />
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_remove_icon.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/bg_dialog_reward_ad_open_browser.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/float_remove_icon_gradient_background.xml" value="0.1925" />
+        <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
       </map>
     </option>

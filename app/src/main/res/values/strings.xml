@@ -81,6 +81,8 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="save">Save</string>
     <string name="enter_a_new_pin_code">Enter a new pin code</string>
     <string name="change_pin_code">Change Pin Code</string>
+    <string name="video_starting_in_5s">Video starting in 5s</string>
+    <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
 
 
 </resources>

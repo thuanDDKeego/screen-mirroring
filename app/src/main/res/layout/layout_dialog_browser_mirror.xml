@@ -12,8 +12,8 @@
         android:layout_marginHorizontal="@dimen/margin_6dp"
         android:background="@drawable/bg_button_gradient_radius_15dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="@dimen/margin_8dp"
         app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,16 +24,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtTitleDialog"
-                style="@style/TitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_24dp"
-                android:text="@string/browser_mirror"
-                android:textColor="@color/txt_black"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llBackground"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_dialog_reward_ad_open_browser"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTitleDialog"
+                    style="@style/regularBoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_24dp"
+                    android:text="@string/browser_mirror_uppercase"
+                    android:textColor="@color/txt_black01"
+                    android:textSize="@dimen/text_title_24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtSubTitle"
+                    style="@style/regularBoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_24dp"
+                    android:text="Share screen to Chrome, PC... (Only Screen, no sound)"
+                    android:textColor="@color/txt_black01"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitleDialog" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -43,13 +66,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_24dp"
                 android:layout_marginVertical="@dimen/margin_42dp"
-                android:text="@string/watch_short_video_to_unlock_browser"
                 android:gravity="center"
+                android:text="@string/watch_short_video_to_unlock_browser"
                 android:textColor="@color/txt_gray"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtTitleDialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llBackground" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClose"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_30dp"
+                android:paddingHorizontal="@dimen/margin_12dp"
+                android:paddingVertical="@dimen/margin_8dp"
+                android:text="@string/close"
+                android:textColor="@color/txt_dark_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartVideoInTime"
@@ -57,45 +93,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_24dp"
-                android:layout_marginVertical="@dimen/margin_42dp"
-                android:text="start video in 5s"
-                android:gravity="center"
-                android:textColor="@color/blueA01"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtContentDialog"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginVertical="@dimen/margin_20dp"
                 android:drawableStart="@drawable/ic_play"
                 android:drawablePadding="@dimen/margin_8dp"
-                />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/regularText"
-                android:text="@string/close"
-                android:textColor="@color/txt_dark_gray"
-                app:layout_constraintTop_toBottomOf="@id/txtStartVideoInTime"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="@dimen/margin_30dp"
-                android:paddingVertical="@dimen/margin_8dp"
-                android:paddingHorizontal="@dimen/margin_12dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtUpgrade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/regularText"
-                android:text="@string/upgrade"
-                android:paddingVertical="@dimen/margin_8dp"
-                android:paddingHorizontal="@dimen/margin_12dp"
+                android:gravity="center"
+                android:text="@string/video_starting_in_5s"
                 android:textColor="@color/blueA01"
-                app:layout_constraintTop_toBottomOf="@id/txtStartVideoInTime"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="@dimen/margin_30dp"
-                android:background="@drawable/bg_txt_ip_address"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
