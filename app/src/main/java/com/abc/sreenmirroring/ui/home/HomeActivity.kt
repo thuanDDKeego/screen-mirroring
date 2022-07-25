@@ -19,7 +19,8 @@ import com.abc.sreenmirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.sreenmirroring.ui.settings.SettingActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -37,8 +38,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
-            // showRatingDialog()
-            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+            showBrowserDialog()
         }
         binding.constrantMirror.setOnClickListener {
             DeviceMirrorActivity.gotoActivity(this@HomeActivity)
@@ -148,14 +148,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
 
     private fun showBrowserDialog(autoShow: Boolean = true) {
-//        if (browserDialog) return
-//        browserDialog = true
+        if (browserDialog) return
+        browserDialog = true
         dialogBinding = LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBinding.txtClose.setOnClickListener {
             dialogBinding.root.visibility = View.INVISIBLE
         }
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(5000)
+        dialogBinding.txtStartVideoInTime.setOnClickListener {
             BrowserMirrorActivity.gotoActivity(this@HomeActivity)
         }
     }

@@ -24,7 +24,6 @@
     <color name="draw_orange">#FF9900</color>
 
 
-
     <color name="actionbarColor">#1c1e2b</color>
     <color name="black">#000000</color>
     <color name="blackAlpha20">#33000000</color>
@@ -70,6 +69,7 @@
     <color name="pinkA01">#FF4E8A</color>
 
     <color name="bgTransparent">#1Affffff</color>
+    <color name="bgTransparent70">#B3C8C8C8</color>
 
     //text color
     <color name="txt_white">#FFFFFF</color>
@@ -78,5 +78,6 @@
     <color name="txt_gray01">#9E9E9E</color>
     <color name="txt_dark_gray">#595959</color>
     <color name="txt_black">#000000</color>
+    <color name="txt_black01">#111111</color>
 
 </resources>
