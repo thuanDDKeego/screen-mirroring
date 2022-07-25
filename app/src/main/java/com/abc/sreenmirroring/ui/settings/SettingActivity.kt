@@ -5,14 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogChangePinCodeBinding
-import timber.log.Timber
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
+
 
     companion object {
         fun gotoActivity(activity: Activity) {

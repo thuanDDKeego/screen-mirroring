@@ -8,6 +8,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.content.ContextCompat
+import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.service.helper.IntentAction
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
@@ -113,8 +114,8 @@ class AppService : Service() {
                 .build()
         )
         settings.autoChangePinOnStart()
-        settings.enablePin = true
-        settings.pin = "123"
+        settings.enablePin = AppPreferences().isTurnOnPinCode == true
+        settings.pin = AppPreferences().pinCode.toString()
 
         appStateMachine = AppStateMachineImpl(this, settings as SettingsReadOnly, ::onEffect)
 
@@ -133,13 +134,14 @@ class AppService : Service() {
             }
 
             IntentAction.StartStream -> {
-                Timber.d("Start service ")
+                Timber.d("StartStream")
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
                     sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
                 appStateMachine?.sendEvent(AppStateMachine.Event.StartStream)
             }
 
             IntentAction.StopStream -> {
+                Timber.d("StopStream ")
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
                     sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
                 appStateMachine?.sendEvent(AppStateMachine.Event.StopStream)

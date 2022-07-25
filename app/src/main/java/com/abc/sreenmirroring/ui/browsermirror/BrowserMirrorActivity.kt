@@ -18,18 +18,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
+import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
+import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivityBrowserMirrorBinding
 import com.abc.sreenmirroring.service.AppService
 import com.abc.sreenmirroring.service.ServiceMessage
 import com.abc.sreenmirroring.service.helper.IntentAction
-import com.elvishew.xlog.LogLevel
-import com.elvishew.xlog.XLog
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FixableError
 import info.dvkr.screenstream.data.other.asString
-import info.dvkr.screenstream.data.other.getLog
 import info.dvkr.screenstream.data.other.setUnderlineSpan
 import info.dvkr.screenstream.data.settings.Settings
 import info.dvkr.screenstream.data.settings.SettingsImpl
@@ -69,7 +68,12 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
     override fun initViews() {
         binding.btnStopStream.visibility = View.GONE
-        binding.txtPinCode.text = "Pin: 1234"
+        if (AppPreferences().isTurnOnPinCode == true) {
+            binding.txtPinCode.text = AppPreferences().pinCode
+        } else {
+            binding.txtPinCode.visibility = View.GONE
+            binding.txtSecurity.visibility = View.GONE
+        }
         settings = SettingsImpl(
             BinaryPreferencesBuilder(applicationContext)
                 .supportInterProcess(true)
@@ -81,12 +85,11 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
     override fun initActions() {
         binding.btnStopStream.setOnClickListener {
-            val projectionManager =
-                getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-            val createScreenCaptureIntent = projectionManager.createScreenCaptureIntent()
-            startActivityForResult(
-                createScreenCaptureIntent, SCREEN_CAPTURE_REQUEST_CODE
-            )
+            if (isStopStream) {
+                startStreamScreen()
+            } else {
+                showDialogStopService()
+            }
         }
         binding.btnBack.setOnClickListener {
             onBackPressed()
@@ -101,6 +104,7 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
             .sendToAppService(this@BrowserMirrorActivity)
 
         serviceMessageLiveData.observe(this) { serviceMessage ->
+            Timber.d("onServiceStateMessage ${serviceMessage}")
             when (serviceMessage) {
                 is ServiceMessage.ServiceState -> onServiceStateMessage(serviceMessage)
                 else -> {}
@@ -210,7 +214,29 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         }
     }
 
-    private fun checkPermission(serviceMessage: ServiceMessage.ServiceState) {
+    private fun showError(appError: AppError?) {
+        Timber.d("showError $appError")
+        when (appError) {
+            is FixableError.AddressInUseException -> setNewPortAndReStart()
+            else -> {}
+        }
+    }
+
+    private fun startStreamScreen() {
+        IntentAction.StartStream.sendToAppService(this@BrowserMirrorActivity)
+        isStopStream = false
+        binding.btnStopStream.text = getString(R.string.stop_stream)
+    }
+
+    private fun stopStreamScreen() {
+        IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
+        isStopStream = true
+        binding.btnStopStream.text = "Start Stream"
+//        NotificationManagerCompat.from(this).cancelAll();
+//        finish()
+    }
+
+    private fun onServiceStateMessage(serviceMessage: ServiceMessage.ServiceState) {
         Timber.d("checkPermission $isCheckedPermission")
         if (serviceMessage.isWaitingForPermission && !isCheckedPermission) {
             isCastPermissionsPending = true
@@ -232,29 +258,6 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         } else {
             isCastPermissionsPending = false
         }
-    }
-
-    private fun showError(appError: AppError?) {
-        when (appError) {
-            is FixableError.AddressInUseException -> setNewPortAndReStart()
-            else -> {}
-        }
-    }
-
-    private fun startStreamScreen() {
-        IntentAction.StartStream.sendToAppService(this@BrowserMirrorActivity)
-    }
-
-    private fun stopStreamScreen() {
-        IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
-        isStopStream = true
-        NotificationManagerCompat.from(this).cancelAll();
-        finish()
-    }
-
-    private fun onServiceStateMessage(serviceMessage: ServiceMessage.ServiceState) {
-        Timber.d("onServiceStateMessage ${serviceMessage}")
-        checkPermission(serviceMessage)
         if (!isStopStream && serviceMessage.appError == null && !serviceMessage.isStreaming && !serviceMessage.isWaitingForPermission && !serviceMessage.isBusy) {
             startStreamScreen()
         }
@@ -286,6 +289,14 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         }
 
         showError(serviceMessage.appError)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Timber.d("onBackPressed $isStopStream")
+//        if (isStopStream) {
+//            IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
+//        }
     }
 
     private fun showNotification() {
