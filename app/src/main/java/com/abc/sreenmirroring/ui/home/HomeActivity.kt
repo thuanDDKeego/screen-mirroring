@@ -175,8 +175,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         dialogTutorialBinding.apply {
             viewPagerTutorialDialog.adapter = tutorialAdapter
             constraintBgDialogTutorial.setOnClickListener {}
-            imgStateStep1.background =
-                resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
+            updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+
             viewPagerTutorialDialog.addOnPageChangeListener(object :
                 ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
