@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16dp"
         android:text="@string/browser_mirror"
-        android:textColor="@color/blackA02"
+        android:textColor="@color/blackA04"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="@id/btnBack" />
@@ -34,10 +34,11 @@
         android:layout_marginHorizontal="@dimen/margin_24dp"
         android:layout_marginVertical="@dimen/margin_12dp"
         android:background="@drawable/bg_border_radius_5dp"
-        android:backgroundTint="@color/blueA01"
+        android:backgroundTint="@color/blueA02"
         android:gravity="center"
         android:paddingVertical="@dimen/margin_8dp"
         android:text="@string/dont_leave_this_page_before_connected"
+        android:textColor="@color/blueA01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
@@ -48,7 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
-        android:gravity="center"
         android:text="@string/connect_your_devices_to_the_same_wifi_and_turn_off_vpn"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,9 +61,9 @@
         style="@style/ContentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_54dp"
         android:gravity="left"
         android:text="SuperTech"
+        android:layout_marginHorizontal="@dimen/margin_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtGuildConnectSameWifi"
@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtWifiName"
-        android:layout_marginVertical="@dimen/margin_54dp"
+        android:layout_marginVertical="@dimen/margin_30dp"
         android:drawablePadding="8dp"
         android:textColor="@color/black" />
     <androidx.appcompat.widget.AppCompatTextView
@@ -100,16 +100,16 @@
         android:textColor="@color/grayA07" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtIpAdress"
+        android:id="@+id/txtIpAddress"
         style="@style/regularText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="left"
         android:paddingVertical="@dimen/margin_12dp"
+        android:paddingLeft="@dimen/margin_20dp"
         android:layout_marginHorizontal="@dimen/margin_24dp"
         android:layout_marginVertical="@dimen/margin_12dp"
         android:background="@drawable/bg_txt_ip_address"
-        android:text="http://192.168.1.13:5621"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLinkDescripion"
@@ -117,13 +117,35 @@
         android:textColor="@color/black" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/medium_icon_size"
-        android:layout_height="@dimen/medium_icon_size"
-        app:layout_constraintTop_toTopOf="@id/txtIpAdress"
-        app:layout_constraintBottom_toBottomOf="@id/txtIpAdress"
-        app:layout_constraintEnd_toEndOf="@id/txtIpAdress"
+        android:layout_width="@dimen/medium_icon_size_2"
+        android:layout_height="@dimen/medium_icon_size_2"
+        app:layout_constraintTop_toTopOf="@id/txtIpAddress"
+        app:layout_constraintBottom_toBottomOf="@id/txtIpAddress"
+        app:layout_constraintEnd_toEndOf="@id/txtIpAddress"
         android:src="@drawable/ic_copy"
         android:layout_marginEnd="@dimen/margin_24dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtPinCode"
+        style="@style/BoldTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_30dp"
+        android:text="Pin: 0000"
+        android:textColor="@color/blackA04"
+        app:layout_constraintStart_toStartOf="@id/txtIpAddress"
+        app:layout_constraintTop_toBottomOf="@id/txtIpAddress" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSecurity"
+        style="@style/regularText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_6dp"
+        android:text="@string/security_your_screen_mirroring"
+        android:textColor="@color/blackA04"
+        app:layout_constraintStart_toStartOf="@id/txtPinCode"
+        app:layout_constraintTop_toBottomOf="@id/txtPinCode" />
 
     <Button
         android:id="@+id/btnStopStream"
@@ -131,11 +153,13 @@
         android:layout_height="wrap_content"
         android:text="@string/stop_stream"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/txtIpAdress"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blueA01"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/bg_border_radius_15dp"
-        android:layout_margin="@dimen/margin_54dp"/>
+        android:layout_marginHorizontal="@dimen/margin_24dp"
+        android:layout_marginBottom="@dimen/margin_64dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

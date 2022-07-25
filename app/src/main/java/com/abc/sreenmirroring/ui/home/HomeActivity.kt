@@ -37,7 +37,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
-            showBrowserDialog()
+            // showRatingDialog()
+            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
         }
         binding.constrantMirror.setOnClickListener {
             DeviceMirrorActivity.gotoActivity(this@HomeActivity)
