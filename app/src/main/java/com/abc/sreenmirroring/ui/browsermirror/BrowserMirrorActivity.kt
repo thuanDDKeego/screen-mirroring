@@ -1,20 +1,12 @@
 package com.abc.sreenmirroring.ui.browsermirror
 
 import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.*
-import android.media.RingtoneManager
 import android.media.projection.MediaProjectionManager
-import android.os.Build
 import android.os.IBinder
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
@@ -129,7 +121,7 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        NotificationManagerCompat.from(this).cancelAll();
+        NotificationManagerCompat.from(this).cancelAll()
     }
 
     private fun showDialogStopService() {
@@ -293,10 +285,9 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Timber.d("onBackPressed $isStopStream")
-//        if (isStopStream) {
-//            IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
-//        }
+        if (isStopStream) {
+            IntentAction.Exit.sendToAppService(this@BrowserMirrorActivity)
+        }
     }
 
     private fun showNotification() {
