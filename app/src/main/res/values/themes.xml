@@ -23,6 +23,9 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <style name="OnboardTheme" parent="Theme.Sreenmirroringcasttv.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_onboard_screen</item>
+    </style>
 
 
     <style name="Theme.Sreenmirroringcasttv.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
