@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_ver" translatable="false">1.0.0</string>
     <string name="app_name">Screen Mirror</string>
 
     <string name="action_settings">Settings</string>
@@ -12,7 +13,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="mirror">Mirror</string>
     <string name="wifi_not_connected">Wifi not connected</string>
-    <string name="browser_mirror">Browser mirror</string>
+    <string name="browser_mirror">Browser Mirror</string>
     <string name="floating_tool">Floating tool</string>
     <string name="connect_with_browser">Connect with Browser</string>
     <string name="on_mode">On mode</string>
@@ -83,6 +84,9 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="change_pin_code">Change Pin Code</string>
     <string name="video_starting_in_5s">Video starting in 5s</string>
     <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
+    <string name="help">Help</string>
+    <string name="general">General</string>
+    <string name="version">Version</string>
 
 
 </resources>
