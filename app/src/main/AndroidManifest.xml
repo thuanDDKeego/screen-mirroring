@@ -12,6 +12,10 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="Settings.ACTION_MANAGE_OVERLAY_PERMISSION"/>
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -52,6 +56,15 @@
             android:name=".ui.browsermirror.BrowserMirrorActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.MirrorService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.FloatToolService"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity
             android:name=".ui.home.HomeActivity"

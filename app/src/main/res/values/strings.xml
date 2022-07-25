@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">sreen-mirroring-cast-tv</string>
+    <string name="app_name">Screen Mirror</string>
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="previous"><u>Previous</u></string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
@@ -27,7 +28,7 @@
     <string name="faq">FAQ</string>
     <string name="connected_devices">Connected devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-        //tutorial step
+    //tutorial step
     <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN</string>
     <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
     <string name="tutorial_guild3">3. Click to the “Mirror” button, enable the wireless display function on your phone and wait for device searching TVs</string>
