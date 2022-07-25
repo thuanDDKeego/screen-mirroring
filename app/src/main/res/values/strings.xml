@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_ver" translatable="false">1.0.0</string>
     <string name="app_name">Screen Mirror</string>
 
     <string name="action_settings">Settings</string>
@@ -13,7 +14,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="mirror">Mirror</string>
     <string name="wifi_not_connected">Wifi not connected</string>
-    <string name="browser_mirror">Browser mirror</string>
+    <string name="browser_mirror">Browser Mirror</string>
     <string name="floating_tool">Floating tool</string>
     <string name="connect_with_browser">Connect with Browser</string>
     <string name="on_mode">On mode</string>
@@ -82,6 +83,19 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="save">Save</string>
     <string name="enter_a_new_pin_code">Enter a new pin code</string>
     <string name="change_pin_code">Change Pin Code</string>
+    <string name="video_starting_in_5s">Video starting in 5s</string>
+    <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
+    <string name="help">Help</string>
+    <string name="general">General</string>
+    <string name="version">Version</string>
 
+    //rating dialog
+    <string name="dont_ask_me_again">Don’t ask me again</string>
+    <string name="remind_a_later">Remind a later</string>
+    <string name="thanks_for_your_feedback">Thanks for your feedback</string>
+    <string name="please_leave_us_some_feedback">Please leave us some feedback</string>
+    <string name="oh_no">Oh, no</string>
+    <string name="we_like_you_too">We like you too</string>
+    <string name="enjoying_the_app">Enjoying the app?</string>
 
 </resources>

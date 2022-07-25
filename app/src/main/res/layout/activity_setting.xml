@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/baseSettingView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingActivity">
@@ -11,10 +12,10 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="19dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_arrow_back"
-        android:tint="@color/blackAlpha70"
+        android:tint="@color/line_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,22 +43,72 @@
         app:layout_constraintTop_toBottomOf="@id/txtTitle"
         app:layout_constraintVertical_bias="0.0">
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llUpgrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="horizontal"
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_upgrade" />
+
+                <TextView
+                    style="@style/regularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/upgrade"
+                    android:textColor="@color/txt_black" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llHelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_help" />
+
+                <TextView
+                    style="@style/regularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/help"
+                    android:textColor="@color/txt_black" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     style="@style/regularBoldText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="Browser Mirror"
+                    android:paddingVertical="@dimen/margin_8dp"
+                    android:text="@string/browser_mirror"
                     android:textColor="@color/txt_gray01" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -65,11 +116,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingVertical="10dp">
+                    android:paddingVertical="10dp"
+                    android:paddingStart="@dimen/margin_12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/ic_lock" />
 
                     <TextView
@@ -77,8 +129,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:maxLines="1"
                         android:layout_weight="1"
+                        android:maxLines="1"
                         android:paddingHorizontal="20dp"
                         android:text="Pin"
                         android:textColor="@color/txt_black" />
@@ -87,8 +139,7 @@
                         android:id="@+id/switchOnOffPinCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:theme="@style/ColorSwitchStyle"
-                        />
+                        android:theme="@style/ColorSwitchStyle" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -96,19 +147,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingVertical="10dp">
+                    android:paddingVertical="10dp"
+                    android:paddingStart="@dimen/margin_12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="25dp"
                         android:layout_height="37dp"
                         android:src="@drawable/ic_change_pin_code" />
+
                     <TextView
                         style="@style/regularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:maxLines="1"
                         android:layout_weight="1"
+                        android:maxLines="1"
                         android:paddingHorizontal="20dp"
                         android:text="@string/change_pin_code"
                         android:textColor="@color/txt_black" />
@@ -123,29 +176,47 @@
                         android:text="0000"
                         android:textColor="@color/txt_gray01" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llUpgrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="10dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_upgrade" />
+                android:orientation="vertical">
 
                 <TextView
-                    style="@style/regularText"
+                    style="@style/regularBoldText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/upgrade"
-                    android:textColor="@color/txt_black" />
+                    android:paddingVertical="@dimen/margin_8dp"
+                    android:text="@string/general"
+                    android:textColor="@color/txt_gray01" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="@dimen/margin_12dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_rate" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/rate"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -154,70 +225,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingVertical="10dp">
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_language" />
 
-                <TextView
-                    style="@style/regularText"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/language"
-                    android:textColor="@color/black" />
+                    android:orientation="vertical">
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/language"
+                        android:textColor="@color/black" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llPolicy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="10dp">
+                    <TextView
+                        style="@style/SmallText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="English"
+                        android:textColor="@color/txt_gray01" />
+                </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_policy" />
-
-                <TextView
-                    style="@style/regularText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/policy"
-                    android:textColor="@color/black" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llRate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="10dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_rate" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/rate"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -226,22 +265,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingVertical="10dp">
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_feedback" />
 
-                <TextView
-                    style="@style/regularText"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/feedback"
-                    android:textColor="@color/black" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/feedback"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        style="@style/SmallText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="Help us improve product"
+                        android:textColor="@color/txt_gray01" />
+                </LinearLayout>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -250,23 +306,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingVertical="10dp">
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_upload" />
 
-                <TextView
-                    style="@style/regularText"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/invite_friends"
-                    android:textColor="@color/black" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/invite_friends"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        style="@style/SmallText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="Share Mirror to everyone"
+                        android:textColor="@color/txt_gray01" />
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/regularBoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingVertical="@dimen/margin_8dp"
+                    android:text="@string/about"
+                    android:textColor="@color/txt_gray01" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="@dimen/margin_12dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_policy" />
+
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/policy"
+                        android:textColor="@color/black" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="@dimen/margin_12dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_policy" />
+
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/version"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/app_ver"
+                        android:textColor="@color/txt_gray01" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
