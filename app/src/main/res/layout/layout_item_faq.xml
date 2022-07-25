@@ -3,7 +3,6 @@
     android:id="@+id/llItemFAQ"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/margin_24dp"
     android:paddingVertical="@dimen/margin_16dp">
@@ -19,32 +18,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingEnd="@dimen/margin_24dp"
             android:text="@string/the_ip_address_may_change_every_time_you_connect"
-            android:textColor="@color/txt_black"
-            android:paddingEnd="@dimen/margin_24dp"/>
+            android:textColor="@color/txt_black" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgExpandCollapse"
             android:layout_width="@dimen/margin_16dp"
             android:layout_height="@dimen/margin_16dp"
-            android:src="@drawable/ic_expand"
             android:layout_marginTop="@dimen/margin_2dp"
-            />
+            android:src="@drawable/ic_expand" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/expandTextView"
         style="@style/regularText"
-        android:textColor="@color/txt_dark_gray"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:textColor="@color/txt_dark_gray"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line_gray"
         android:layout_marginTop="@dimen/margin_24dp"
-        />
-
+        android:background="@color/line_gray" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
