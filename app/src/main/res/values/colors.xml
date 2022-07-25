@@ -69,6 +69,7 @@
     <color name="pinkA01">#FF4E8A</color>
 
     <color name="bgTransparent">#1Affffff</color>
+    <color name="bgTransparent70">#B3C8C8C8</color>
 
     //text color
     <color name="txt_white">#FFFFFF</color>

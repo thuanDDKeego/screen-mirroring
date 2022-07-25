@@ -17,7 +17,6 @@ import com.abc.sreenmirroring.databinding.LayoutDialogChangePinCodeBinding
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
-
     companion object {
         fun gotoActivity(activity: Activity) {
             val intent = Intent(activity, SettingActivity::class.java)
@@ -36,6 +35,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences().isTurnOnPinCode = isChecked
         }
+
         binding.llChangePinCode.setOnClickListener {
             if (AppPreferences().isTurnOnPinCode == true) {
                 val dialog =
@@ -51,6 +51,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     dialog.root.visibility = View.INVISIBLE
                 }
             }
+        }
+        binding.llRate.setOnClickListener {
+            showRatingDialog(false)
         }
         binding.llFeedback.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
@@ -110,4 +113,5 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         info.append("Free memory:" + "%.2f".format(availMemory) + "\n")
         return info.toString()
     }
+
 }

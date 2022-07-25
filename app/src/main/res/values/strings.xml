@@ -88,5 +88,13 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="general">General</string>
     <string name="version">Version</string>
 
+    //rating dialog
+    <string name="dont_ask_me_again">Don’t ask me again</string>
+    <string name="remind_a_later">Remind a later</string>
+    <string name="thanks_for_your_feedback">Thanks for your feedback</string>
+    <string name="please_leave_us_some_feedback">Please leave us some feedback</string>
+    <string name="oh_no">Oh, no</string>
+    <string name="we_like_you_too">We like you too</string>
+    <string name="enjoying_the_app">Enjoying the app?</string>
 
 </resources>
