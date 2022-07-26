@@ -61,7 +61,7 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
     override fun initViews() {
         binding.btnStopStream.visibility = View.GONE
         if (AppPreferences().isTurnOnPinCode == true) {
-            binding.txtPinCode.text = AppPreferences().pinCode
+            binding.txtPinCode.text = "Pin: ${AppPreferences().pinCode}"
         } else {
             binding.txtPinCode.visibility = View.GONE
             binding.txtSecurity.visibility = View.GONE
@@ -223,9 +223,9 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
     private fun stopStreamScreen() {
         IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
         isStopStream = true
-        binding.btnStopStream.text = "Start Stream"
-//        NotificationManagerCompat.from(this).cancelAll();
-//        finish()
+        binding.btnStopStream.text = getString(R.string.start_stream)
+        NotificationManagerCompat.from(this).cancelAll()
+        finish()
     }
 
     private fun onServiceStateMessage(serviceMessage: ServiceMessage.ServiceState) {
@@ -281,13 +281,6 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         }
 
         showError(serviceMessage.appError)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (isStopStream) {
-            IntentAction.Exit.sendToAppService(this@BrowserMirrorActivity)
-        }
     }
 
     private fun showNotification() {

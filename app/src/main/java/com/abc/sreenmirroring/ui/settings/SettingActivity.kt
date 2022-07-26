@@ -14,6 +14,8 @@ import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogChangePinCodeBinding
+import com.abc.sreenmirroring.service.helper.IntentAction
+import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
@@ -32,8 +34,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     }
 
     override fun initActions() {
+        binding.llHelp.setOnClickListener {
+            TutorialActivity.gotoActivity(this@SettingActivity)
+        }
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences().isTurnOnPinCode = isChecked
+            IntentAction.Exit.sendToAppService(this@SettingActivity)
         }
 
         binding.llChangePinCode.setOnClickListener {
@@ -45,6 +51,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     binding.txtPinCode.text = AppPreferences().pinCode
                     dialog.root.visibility = View.INVISIBLE
                     hideKeyboard(this)
+                    IntentAction.Exit.sendToAppService(this@SettingActivity)
                 }
                 dialog.bgDialog.setOnClickListener {
                     hideKeyboard(this)

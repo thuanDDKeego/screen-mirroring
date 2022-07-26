@@ -98,5 +98,6 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="oh_no">Oh, no</string>
     <string name="we_like_you_too">We like you too</string>
     <string name="enjoying_the_app">Enjoying the app?</string>
+    <string name="start_stream">Start Stream</string>
 
 </resources>
