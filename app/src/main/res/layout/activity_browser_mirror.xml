@@ -49,29 +49,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
+        android:layout_marginTop="@dimen/margin_30dp"
         android:text="@string/connect_your_devices_to_the_same_wifi_and_turn_off_vpn"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildDoNotLeavePage"
-        android:layout_marginTop="@dimen/margin_30dp"/>
+        app:layout_constraintTop_toBottomOf="@id/txtGuildDoNotLeavePage" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtWifiName"
         style="@style/ContentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="SuperTech"
         android:layout_marginHorizontal="@dimen/margin_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildConnectSameWifi"
         android:layout_marginVertical="@dimen/margin_12dp"
         android:drawableStart="@drawable/ic_wifi"
-        android:drawableTint="@color/blueA01"
         android:drawablePadding="8dp"
-        android:textColor="@color/black" />
+        android:drawableTint="@color/blueA01"
+        android:gravity="left"
+        android:text="Wifi Name"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtGuildConnectSameWifi" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtGuildOpenThisLink"
@@ -79,51 +79,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
-        android:text="@string/open_this_link_on_other_device_to_mirror"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtWifiName"
         android:layout_marginVertical="@dimen/margin_30dp"
         android:drawablePadding="8dp"
-        android:textColor="@color/black" />
+        android:text="@string/open_this_link_on_other_device_to_mirror"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtWifiName" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtGuildOpenThisLinkDescripion"
         style="@style/SmallText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
+        android:drawablePadding="8dp"
         android:text="@string/the_ip_address_may_change_every_time_you_connect"
+        android:textColor="@color/grayA07"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLink"
-        android:drawablePadding="8dp"
-        android:textColor="@color/grayA07" />
+        app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLink" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtIpAddress"
         style="@style/regularText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingVertical="@dimen/margin_12dp"
-        android:paddingLeft="@dimen/margin_20dp"
         android:layout_marginHorizontal="@dimen/margin_24dp"
         android:layout_marginVertical="@dimen/margin_12dp"
         android:background="@drawable/bg_txt_ip_address"
+        android:drawablePadding="8dp"
+        android:gravity="left"
+        android:paddingVertical="@dimen/margin_12dp"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLinkDescripion"
-        android:drawablePadding="8dp"
-        android:textColor="@color/black" />
+        app:layout_constraintTop_toBottomOf="@id/txtGuildOpenThisLinkDescripion" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/medium_icon_size_2"
         android:layout_height="@dimen/medium_icon_size_2"
-        app:layout_constraintTop_toTopOf="@id/txtIpAddress"
+        android:layout_marginEnd="@dimen/margin_24dp"
+        android:src="@drawable/ic_copy"
         app:layout_constraintBottom_toBottomOf="@id/txtIpAddress"
         app:layout_constraintEnd_toEndOf="@id/txtIpAddress"
-        android:src="@drawable/ic_copy"
-        android:layout_marginEnd="@dimen/margin_24dp"/>
+        app:layout_constraintTop_toTopOf="@id/txtIpAddress" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtPinCode"
@@ -151,15 +152,15 @@
         android:id="@+id/btnStopStream"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24dp"
+        android:layout_marginBottom="@dimen/margin_64dp"
+        android:background="@drawable/bg_border_radius_15dp"
+        android:backgroundTint="@color/blueA01"
         android:text="@string/stop_stream"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:backgroundTint="@color/blueA01"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bg_border_radius_15dp"
-        android:layout_marginHorizontal="@dimen/margin_24dp"
-        android:layout_marginBottom="@dimen/margin_64dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
