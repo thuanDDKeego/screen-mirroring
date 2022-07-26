@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.abc.sreenmirroring.ui.home.uitutorialdialog.TutorialDialogFragment1
 import com.abc.sreenmirroring.ui.home.uitutorialdialog.TutorialDialogFragment2
 import com.abc.sreenmirroring.ui.home.uitutorialdialog.TutorialDialogFragment3
-import com.abc.sreenmirroring.ui.home.uitutorialdialog.TutorialDialogFragment4
 
 class TutorialDialogAdapter(val context: Context, fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -19,13 +18,9 @@ class TutorialDialogAdapter(val context: Context, fragmentManager: FragmentManag
             1 -> {
                 TutorialDialogFragment2()
             }
-            2 -> {
+            else -> {
                 TutorialDialogFragment3()
             }
-            else -> {
-                TutorialDialogFragment4()
-            }
-
         }
     }
 
@@ -33,6 +28,6 @@ class TutorialDialogAdapter(val context: Context, fragmentManager: FragmentManag
         return ""
     }
 
-    override fun getCount(): Int = 4
+    override fun getCount(): Int = 3
 
 }
