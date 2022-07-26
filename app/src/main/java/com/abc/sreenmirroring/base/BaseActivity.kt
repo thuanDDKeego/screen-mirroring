@@ -50,13 +50,12 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         dialogRatingBinding.imgStar.visibility = View.VISIBLE
     }
 
-    protected fun dismissRatingDialog() {
+    private fun dismissRatingDialog() {
         if (mRateDialogShowing) {
             val view = findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mRateDialogShowing = false
         }
-
     }
 
     private fun Activity.openAppInStore() {

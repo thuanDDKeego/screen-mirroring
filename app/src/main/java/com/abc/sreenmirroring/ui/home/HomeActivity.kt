@@ -3,7 +3,6 @@ package com.abc.sreenmirroring.ui.home
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
@@ -25,7 +24,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-    private var browserDialog = false
+    private var browserDialogShowing = false
     private lateinit var dialogBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var job: Job
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -38,7 +37,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
-            showBrowserDialog()
+//            showBrowserDialog()
+            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
         }
         binding.constrantMirror.setOnClickListener {
             DeviceMirrorActivity.gotoActivity(this@HomeActivity)
@@ -62,19 +62,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 return false
             }
         })
-        binding.switchModeFloatingTool.setOnCheckedChangeListener(object :
-            CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                if (isChecked) {
-                    if (isDrawOverlaysPermissionGranted()) {
-                        Timber.d("Start float tools")
-                        FloatToolService.start(this@HomeActivity)
-                    } else requestOverlaysPermission()
-                } else {
-                    FloatToolService.stop(this@HomeActivity)
-                }
+        binding.switchModeFloatingTool.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                if (isDrawOverlaysPermissionGranted()) {
+                    Timber.d("Start float tools")
+                    FloatToolService.start(this@HomeActivity)
+                } else requestOverlaysPermission()
+            } else {
+                FloatToolService.stop(this@HomeActivity)
             }
-        })
+        }
     }
 
     private fun setAutoScrollJob(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
@@ -146,16 +143,23 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    private fun dismissBrowserDialog() {
+        if (browserDialogShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            browserDialogShowing = false
+        }
+    }
 
-    private fun showBrowserDialog(autoShow: Boolean = true) {
-        if (browserDialog) return
-        browserDialog = true
+    private fun showBrowserDialog() {
+        if (browserDialogShowing) return
+        browserDialogShowing = true
         dialogBinding = LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBinding.txtClose.setOnClickListener {
-            dialogBinding.root.visibility = View.INVISIBLE
+            dismissBrowserDialog()
         }
         dialogBinding.txtStartVideoInTime.setOnClickListener {
             BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+            dismissBrowserDialog()
         }
     }
 }

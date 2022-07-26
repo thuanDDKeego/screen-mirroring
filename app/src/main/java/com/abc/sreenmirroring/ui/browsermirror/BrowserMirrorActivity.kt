@@ -283,13 +283,6 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         showError(serviceMessage.appError)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (isStopStream) {
-            IntentAction.Exit.sendToAppService(this@BrowserMirrorActivity)
-        }
-    }
-
     private fun showNotification() {
 //        val intent = Intent(this, App::class.java)
 //
