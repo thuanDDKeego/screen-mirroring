@@ -32,6 +32,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun initViews() {
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
         binding.txtPinCode.text = AppPreferences().pinCode
+        binding.txtLanguage.text = dLocale?.displayName
     }
 
     override fun initActions() {
