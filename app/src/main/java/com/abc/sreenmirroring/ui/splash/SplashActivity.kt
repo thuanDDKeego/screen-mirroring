@@ -17,7 +17,6 @@ class SplashActivity : AppCompatActivity() {
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             delayTime = 3000L
-            AppPreferences().isTheFirstTimeUseApp = false
         }
         job = CoroutineScope(Dispatchers.Main).launch {
             delay(delayTime)
