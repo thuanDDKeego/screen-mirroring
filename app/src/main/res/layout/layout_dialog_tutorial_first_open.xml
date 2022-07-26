@@ -23,14 +23,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_16dp">
+            android:paddingTop="@dimen/margin_32dp">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerTutorialDialog"
                 android:layout_width="0dp"
                 android:layout_height="350dp"
-                android:layout_marginVertical="@dimen/margin_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/txtOk"
                 app:layout_constraintEnd_toStartOf="@+id/btnNext"
                 app:layout_constraintStart_toEndOf="@+id/btnPrevious"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,9 +75,9 @@
 
             <ImageView
                 android:id="@+id/imgStateStep1"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
-                android:layout_marginEnd="@dimen/margin_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3dp"
                 android:src="@drawable/ic_state_off_tutorial_dialog"
                 app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
                 app:layout_constraintEnd_toStartOf="@id/imgStateStep2"
@@ -87,9 +86,9 @@
 
             <ImageView
                 android:id="@+id/imgStateStep2"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
-                android:layout_marginEnd="@dimen/margin_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3dp"
                 android:src="@drawable/ic_state_off_tutorial_dialog"
                 app:layout_constraintBottom_toBottomOf="@id/txtOk"
                 app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
@@ -98,8 +97,9 @@
 
             <ImageView
                 android:id="@+id/imgStateStep3"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3dp"
                 android:src="@drawable/ic_state_off_tutorial_dialog"
                 app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
                 app:layout_constraintEnd_toEndOf="parent"

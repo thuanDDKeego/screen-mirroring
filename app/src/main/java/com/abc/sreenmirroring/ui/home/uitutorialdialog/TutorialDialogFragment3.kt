@@ -14,6 +14,6 @@ class TutorialDialogFragment3 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutorial_dialog1, container, false)
+        return inflater.inflate(R.layout.fragment_tutorial_dialog3, container, false)
     }
 }

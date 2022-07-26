@@ -19,17 +19,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <VideoView
-        android:id="@+id/videoViewTutorial"
+    <ImageView
+        android:id="@+id/imageViewTutorial"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildTutorial"
-        app:layout_constraintBottom_toTopOf="@id/btnGo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="@dimen/margin_12dp"
-        app:layout_constraintDimensionRatio="H,1:1"
-        />
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/btnGo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtGuildTutorial" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtSkipTutorial"
@@ -53,15 +52,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGo"
+        style="@style/regularBoldText"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/small_img_icon_size"
         android:background="@drawable/bg_border_radius_15dp"
         android:backgroundTint="@color/blueA01"
         android:text="@string/go"
-        style="@style/regularBoldText"
         android:textColor="@color/white"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,6 +49,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                     requireActivity().resources.getString(R.string.tutorial_guild1)
                 binding.txtSkipTutorial.text = requireActivity().resources.getString(R.string.skip)
                 binding.btnNext.visibility = View.VISIBLE
+                binding.imageViewTutorial.setImageResource(R.drawable.img_tutorial_guild1)
             }
             1 -> {
                 binding.txtGuildTutorial.text =
@@ -56,6 +57,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 binding.txtSkipTutorial.text =
                     requireActivity().resources.getString(R.string.previous)
                 binding.btnNext.visibility = View.VISIBLE
+                binding.imageViewTutorial.setImageResource(R.drawable.img_tutorial_guild2)
             }
             2 -> {
                 binding.txtGuildTutorial.text =
@@ -63,6 +65,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 binding.txtSkipTutorial.text =
                     requireActivity().resources.getString(R.string.previous)
                 binding.btnNext.visibility = View.VISIBLE
+                binding.imageViewTutorial.setImageResource(R.drawable.img_tutorial_guild3)
             }
             else -> {
                 binding.txtGuildTutorial.text =
@@ -73,5 +76,4 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
             }
         }
     }
-
 }
