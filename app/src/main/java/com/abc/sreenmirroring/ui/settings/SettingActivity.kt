@@ -43,7 +43,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llChangePinCode.setOnClickListener {
-            IntentAction.Exit.sendToAppService(this@SettingActivity)
             if (AppPreferences().isTurnOnPinCode == true) {
                 val dialog =
                     LayoutDialogChangePinCodeBinding.inflate(layoutInflater, binding.root, true)
@@ -52,6 +51,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     binding.txtPinCode.text = AppPreferences().pinCode
                     dialog.root.visibility = View.INVISIBLE
                     hideKeyboard(this)
+                    IntentAction.Exit.sendToAppService(this@SettingActivity)
                 }
                 dialog.bgDialog.setOnClickListener {
                     hideKeyboard(this)
