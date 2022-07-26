@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.databinding.FloatDrawingToolBinding
@@ -76,14 +77,42 @@ class ExpandableDrawingToolView(
                 llDrawToolsBox.visibility = View.VISIBLE
                 txtPenCilSize.text = binding.seekBarPencilSize.progress.toString()
                 btnOpenPencil.setOnClickListener {
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.blueA01),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    btnOpenEraser.setColorFilter(
+                        ContextCompat.getColor(context, R.color.line_gray),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    drawView.lineType = LineType.SOLID
+                }
+                btnChooseColor.setOnClickListener {
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.blueA01),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    btnOpenEraser.setColorFilter(
+                        ContextCompat.getColor(context, R.color.line_gray),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                     llDrawToolsBox.visibility = View.GONE
                     llPencilDraw.visibility = View.VISIBLE
-                    btnOpenPencil.backgroundTintList =
-                        context.resources.getColorStateList(R.color.blueA01)
+                    drawView.lineType = LineType.SOLID
+//                    btnOpenPencil.backgroundTintList =
+//                        context.resources.getColorStateList(R.color.blueA01)
                 }
                 btnOpenEraser.setOnClickListener {
                     llDrawToolsBox.visibility = View.GONE
                     llEraserOptions.visibility = View.VISIBLE
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.line_gray),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    btnOpenEraser.setColorFilter(
+                        ContextCompat.getColor(context, R.color.blueA01),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                     drawView.lineType = LineType.ERASER
                 }
                 btnUnDo.setOnClickListener {
@@ -154,16 +183,17 @@ class ExpandableDrawingToolView(
 
             //set eraser tools
             binding.apply {
+                txtEraserSize.text = seekBarEraserSize.progress.toString()
                 btnEraserAccept.setOnClickListener {
                     llEraserOptions.visibility = View.GONE
                     llDrawToolsBox.visibility = View.VISIBLE
-                    drawView.lineType = LineType.SOLID
+                    btnClearAll.setOnClickListener { drawView.clearCanvas(true) }
                 }
                 seekBarEraserSize.setOnSeekBarChangeListener(object :
                     SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                        binding.txtEraserSize.text = binding.seekBarEraserSize.progress.toString()
-                        binding.drawView.eraserSize = binding.seekBarEraserSize.progress.toFloat()
+                        txtEraserSize.text = binding.seekBarEraserSize.progress.toString()
+                        drawView.eraserSize = binding.seekBarEraserSize.progress.toFloat()
                     }
 
                     override fun onStartTrackingTouch(p0: SeekBar?) {
