@@ -22,12 +22,12 @@ import com.abc.sreenmirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.sreenmirroring.ui.settings.SettingActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-    private var browserDialog = false
     private var tutorialDialogIsShowing = false
     private var browserDialogShowing = false
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
@@ -38,8 +38,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initViews() {
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             AppPreferences().isTheFirstTimeUseApp = false
+            showTutorialDialog()
         }
-        showTutorialDialog()
         initViewPager()
         job = setAutoScrollJob()
     }
@@ -155,22 +155,30 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    private fun dismissBrowserDialog() {
+        if (browserDialogShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            browserDialogShowing = false
+        }
+    }
 
-    private fun showBrowserDialog(autoShow: Boolean = true) {
-//        if (browserDialog) return
-//        browserDialog = true
+    private fun showBrowserDialog() {
+        if (browserDialogShowing) return
+        browserDialogShowing = true
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBrowserBinding.txtClose.setOnClickListener {
             dialogBrowserBinding.root.visibility = View.INVISIBLE
         }
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(5000)
+        dialogBrowserBinding.txtStartVideoInTime.setOnClickListener {
             BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+            dismissBrowserDialog()
         }
+
     }
 
     private fun showTutorialDialog() {
+        tutorialDialogIsShowing = true
         dialogTutorialBinding =
             LayoutDialogTutorialFirstOpenBinding.inflate(layoutInflater, binding.root, true)
         var tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
@@ -196,25 +204,27 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             })
 
             imgStateStep1.setOnClickListener {
-                binding.viewPagerAdHome.currentItem = 0
+                viewPagerTutorialDialog.currentItem = 0
                 updateTabTutorialDialogPager(dialogTutorialBinding, 0)
             }
 
             imgStateStep2.setOnClickListener {
-                binding.viewPagerAdHome.currentItem = 1
+                viewPagerTutorialDialog.currentItem = 1
                 updateTabTutorialDialogPager(dialogTutorialBinding, 1)
             }
 
             imgStateStep3.setOnClickListener {
-                binding.viewPagerAdHome.currentItem = 2
+                viewPagerTutorialDialog.currentItem = 2
                 updateTabTutorialDialogPager(dialogTutorialBinding, 2)
             }
-            imgStateStep4.setOnClickListener {
-                binding.viewPagerAdHome.currentItem = 3
-                updateTabTutorialDialogPager(dialogTutorialBinding, 3)
+            btnPrevious.setOnClickListener {
+                viewPagerTutorialDialog.setCurrentItem(
+                    viewPagerTutorialDialog.currentItem - 1,
+                    true
+                )
             }
-            txtClose.setOnClickListener {
-                viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem - 1
+            txtOk.setOnClickListener {
+                dismissTutorialDialog()
             }
         }
     }
@@ -225,43 +235,38 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     ) {
 
         binding.apply {
-            imgStateStep1.background =
-                resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep2.background =
-                resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep3.background =
-                resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep4.background =
-                resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
+            imgStateStep1.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+            imgStateStep2.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+            imgStateStep3.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
             if (position == 0) {
-                imgStateStep1.background =
-                    resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
+                imgStateStep1.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
             } else if (position == 1) {
-                imgStateStep2.background =
-                    resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
-            } else if (position == 2) {
-                imgStateStep3.background =
-                    resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
+                imgStateStep2.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
             } else {
-                imgStateStep4.background =
-                    resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
+                imgStateStep3.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
             }
             if (position != 0) {
-                txtClose.visibility = View.VISIBLE
+                btnPrevious.visibility = View.VISIBLE
             } else {
-                txtClose.visibility = View.INVISIBLE
+                btnPrevious.visibility = View.INVISIBLE
             }
-            if (position < 3) {
-                txtUpgrade.text = this@HomeActivity.getString(R.string.next)
-                txtUpgrade.setOnClickListener {
+            if (position < 2) {
+                btnNext.setOnClickListener {
                     viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem + 1
                 }
+                txtOk.visibility = View.INVISIBLE
+                btnNext.visibility = View.VISIBLE
             } else {
-                txtUpgrade.text = this@HomeActivity.getString(R.string.go)
-                txtUpgrade.setOnClickListener {
-                    binding.root.visibility = View.GONE
-                }
+                btnNext.visibility = View.INVISIBLE
+                txtOk.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun dismissTutorialDialog() {
+        if (tutorialDialogIsShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            tutorialDialogIsShowing = false
         }
     }
 }
