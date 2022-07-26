@@ -2,6 +2,7 @@ package com.abc.sreenmirroring.base
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -19,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
@@ -26,6 +28,19 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     var mRateDialogShowing = false
     open var isFullScreen: Boolean = false
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
+
+    companion object {
+        var dLocale: Locale? = Locale(Locale.getDefault().language.toString())
+    }
+
+    init {
+        if (dLocale != Locale("")) {
+            Locale.setDefault(dLocale)
+            val configuration = Configuration()
+            configuration.setLocale(dLocale)
+            this.applyOverrideConfiguration(configuration)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

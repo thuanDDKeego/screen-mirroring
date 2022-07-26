@@ -2,35 +2,34 @@
     <string name="app_ver" translatable="false">1.0.0</string>
     <string name="app_name">Screen Mirror</string>
 
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
+    <string name="action_settings">Cài Đặt</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="previous_with_underline"><u>Previous</u></string>
 
     <string name="mirror">Mirror</string>
-    <string name="wifi_not_connected">Wifi not connected</string>
+    <string name="wifi_not_connected">Không kết nối được với wifi</string>
     <string name="browser_mirror">Browser Mirror</string>
     <string name="floating_tool">Floating tool</string>
     <string name="connect_with_browser">Connect with Browser</string>
     <string name="on_mode">On mode</string>
     <string name="off_mode">Off mode</string>
-    <string name="stop_stream">Stop stream</string>
-    <string name="dont_leave_this_page_before_connected">Don’t leave this page before connected</string>
-    <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Connect your devices to the same Wifi and turn off VPN.</string>
-    <string name="open_this_link_on_other_device_to_mirror">Open this link on other device to mirror</string>
-    <string name="the_ip_address_may_change_every_time_you_connect">The IP address may change every time you connect. Thus, please make sure each number is entered correctly in the browser address bar.</string>
+    <string name="stop_stream">Dừng trình chiếu</string>
+    <string name="dont_leave_this_page_before_connected">Đừng rời khỏi trang này trước khi kết nối</string>
+    <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Kết nối các thiết bị của bạn với cùng một Wifi và tắt VPN.</string>
+    <string name="open_this_link_on_other_device_to_mirror">Mở liên kết này trên thiết bị khác để trình chiếu</string>
+    <string name="the_ip_address_may_change_every_time_you_connect">Địa chỉ IP có thể thay đổi mỗi khi bạn kết nối. Do đó, hãy đảm bảo rằng mỗi số được nhập chính xác vào thanh địa chỉ của trình duyệt.</string>
 
     //tutorial screen
-    <string name="tutorial">Tutorial</string>
+    <string name="tutorial">Hướng Dẫn</string>
     <string name="faq">FAQ</string>
-    <string name="connected_devices">Connected devices</string>
+    <string name="connected_devices">Các thiết bị được hỗ trợ</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
-    <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN</string>
-    <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
-    <string name="tutorial_guild3">3. Click to the “Mirror” button, enable the wireless display function on your phone and wait for device searching TVs</string>
-    <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
+    <string name="tutorial_guild1">1. Đảm bảo rằng điện thoại và TV của bạn (các thiết bị thích ứng khác) được kết nối với cùng một Wifi và tắt VPN.</string>
+    <string name="tutorial_guild2">2. Bật chức năng "Hiển thị" trên TV của bạn. Bạn cần kích hoạt nó theo cách thủ công trên một số thiết bị, hãy vào phần cài đặt hệ thống để kiểm tra.</string>
+    <string name="tutorial_guild3">3. Nhấp vào nút “Mirror”, bật chức năng hiển thị không dây trên điện thoại của bạn và đợi TV tìm kiếm thiết bị.</string>
+    <string name="tutorial_guild4">4. Nếu hoàn thành tất cả các bước, bạn vẫn không thể kết nối hai thiết bị của mình. Sau đó, vui lòng kiểm tra các thiết bị được kết nối.</string>
     <string name="skip">Skip</string>
     <string name="go">Go</string>
     <string name="ok">Ok</string>
@@ -50,13 +49,13 @@
     <string name="upgrade">Upgrade</string>
 
     //setting
-    <string name="setting">Setting</string>
-    <string name="language">Language</string>
-    <string name="about">About</string>
-    <string name="policy">Policy</string>
-    <string name="rate">Rate</string>
-    <string name="invite_friends">Invite Friends</string>
-    <string name="feedback">Feedback</string>
+    <string name="setting">Cài đặt</string>
+    <string name="language">Ngôn Ngữ</string>
+    <string name="about">Về Chúng Tôi</string>
+    <string name="policy">Chính Sách</string>
+    <string name="rate">Đánh giá</string>
+    <string name="invite_friends">Mời Bạn Bè</string>
+    <string name="feedback">Phản hồi</string>
 
 
     //faq item

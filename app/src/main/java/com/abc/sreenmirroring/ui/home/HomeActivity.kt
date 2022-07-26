@@ -1,6 +1,8 @@
 package com.abc.sreenmirroring.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.CompoundButton
@@ -33,6 +35,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var job: Job
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, HomeActivity::class.java)
+        }
+    }
+
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     override fun initViews() {
