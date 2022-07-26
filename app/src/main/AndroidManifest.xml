@@ -55,6 +55,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.selectLanguage.SelectLanguageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.MirrorService"
             android:enabled="true"

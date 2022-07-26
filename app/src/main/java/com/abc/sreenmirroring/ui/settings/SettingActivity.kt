@@ -15,6 +15,7 @@ import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogChangePinCodeBinding
 import com.abc.sreenmirroring.service.helper.IntentAction
+import com.abc.sreenmirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
@@ -31,6 +32,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun initViews() {
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
         binding.txtPinCode.text = AppPreferences().pinCode
+        binding.txtLanguage.text = dLocale?.displayName
     }
 
     override fun initActions() {
@@ -65,6 +67,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.llRate.setOnClickListener {
             showRatingDialog(false)
+        }
+        binding.llLanguage.setOnClickListener {
+            startActivity(SelectLanguageActivity.newIntent(this))
         }
         binding.llFeedback.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
