@@ -37,6 +37,7 @@
     <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
     <string name="skip">Skip</string>
     <string name="go">Go</string>
+    <string name="ok">Ok</string>
 
     //checking wifi screen
     <string name="checking_wifi">Checking wifi</string>

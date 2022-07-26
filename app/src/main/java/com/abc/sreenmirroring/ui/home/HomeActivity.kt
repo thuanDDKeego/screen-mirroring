@@ -207,12 +207,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 binding.viewPagerAdHome.currentItem = 2
                 updateTabTutorialDialogPager(dialogTutorialBinding, 2)
             }
-            imgStateStep4.setOnClickListener {
-                binding.viewPagerAdHome.currentItem = 3
-                updateTabTutorialDialogPager(dialogTutorialBinding, 3)
+            btnPrevious.setOnClickListener {
+                viewPagerTutorialDialog.setCurrentItem(
+                    viewPagerTutorialDialog.currentItem - 1,
+                    true
+                )
             }
-            txtClose.setOnClickListener {
-                viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem - 1
+            txtOk.setOnClickListener {
+                binding.root.visibility = View.GONE
             }
         }
     }
@@ -229,36 +231,29 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
             imgStateStep3.background =
                 resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep4.background =
-                resources.getDrawable(R.drawable.ic_state_off_tutorial_dialog)
             if (position == 0) {
                 imgStateStep1.background =
                     resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
             } else if (position == 1) {
                 imgStateStep2.background =
                     resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
-            } else if (position == 2) {
-                imgStateStep3.background =
-                    resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
             } else {
-                imgStateStep4.background =
+                imgStateStep3.background =
                     resources.getDrawable(R.drawable.ic_state_on_tutorial_dialog)
             }
             if (position != 0) {
-                txtClose.visibility = View.VISIBLE
+                btnPrevious.visibility = View.VISIBLE
             } else {
-                txtClose.visibility = View.INVISIBLE
+                btnPrevious.visibility = View.INVISIBLE
             }
             if (position < 3) {
-                txtUpgrade.text = this@HomeActivity.getString(R.string.next)
-                txtUpgrade.setOnClickListener {
+                btnNext.setOnClickListener {
                     viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem + 1
                 }
+                txtOk.visibility = View.GONE
             } else {
-                txtUpgrade.text = this@HomeActivity.getString(R.string.go)
-                txtUpgrade.setOnClickListener {
-                    binding.root.visibility = View.GONE
-                }
+                btnNext.visibility = View.INVISIBLE
+                txtOk.visibility = View.VISIBLE
             }
         }
     }
