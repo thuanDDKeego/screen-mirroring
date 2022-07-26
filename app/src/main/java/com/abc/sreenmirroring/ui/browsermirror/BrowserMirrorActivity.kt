@@ -3,6 +3,7 @@ package com.abc.sreenmirroring.ui.browsermirror
 import android.app.Activity
 import android.content.*
 import android.media.projection.MediaProjectionManager
+import android.net.wifi.WifiManager
 import android.os.IBinder
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
@@ -66,6 +68,7 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
             binding.txtPinCode.visibility = View.GONE
             binding.txtSecurity.visibility = View.GONE
         }
+        binding.txtWifiName.text = getWifiName()
         settings = SettingsImpl(
             BinaryPreferencesBuilder(applicationContext)
                 .supportInterProcess(true)
@@ -122,6 +125,12 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         NotificationManagerCompat.from(this).cancelAll()
+    }
+
+    private fun getWifiName(): String {
+        val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        val info = wifiManager.connectionInfo
+        return info.ssid.replace("\"", "")
     }
 
     private fun showDialogStopService() {
