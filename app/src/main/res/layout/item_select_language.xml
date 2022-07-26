@@ -20,7 +20,7 @@
         style="@style/regularText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_8dp"
+        android:layout_marginStart="@dimen/margin_8dp"
         android:paddingVertical="@dimen/margin_8dp"
         android:text="English"
         app:layout_constraintStart_toEndOf="@+id/btnCheckBox"

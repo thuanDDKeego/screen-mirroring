@@ -9,7 +9,9 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import com.abc.sreenmirroring.BuildConfig
+import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
@@ -48,12 +50,27 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             if (AppPreferences().isTurnOnPinCode == true) {
                 val dialog =
                     LayoutDialogChangePinCodeBinding.inflate(layoutInflater, binding.root, true)
+                showKeyboard(this)
+                dialog.pinView.doOnTextChanged { text, start, before, count ->
+                    if (text?.length == 4) {
+                        dialog.btnSaveNewPinCode.isEnabled = true
+                        dialog.btnSaveNewPinCode.backgroundTintList =
+                            this.getColorStateList(R.color.blueA01)
+                    } else {
+                        dialog.btnSaveNewPinCode.isEnabled = false
+                        dialog.btnSaveNewPinCode.backgroundTintList =
+                            this.getColorStateList(R.color.grayA01)
+                    }
+                }
                 dialog.btnSaveNewPinCode.setOnClickListener {
+                    hideKeyboard(this)
                     AppPreferences().pinCode = dialog.pinView.text.toString()
                     binding.txtPinCode.text = AppPreferences().pinCode
                     dialog.root.visibility = View.INVISIBLE
-                    hideKeyboard(this)
                     IntentAction.Exit.sendToAppService(this@SettingActivity)
+                }
+                dialog.cardDialog.setOnClickListener {
+                    hideKeyboard(this)
                 }
                 dialog.bgDialog.setOnClickListener {
                     hideKeyboard(this)
@@ -102,9 +119,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     }
 
+    private fun showKeyboard(context: Context) {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
     private fun hideKeyboard(context: Context) {
         val inputManager =
-            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         val v = (context as Activity).currentFocus ?: return
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }

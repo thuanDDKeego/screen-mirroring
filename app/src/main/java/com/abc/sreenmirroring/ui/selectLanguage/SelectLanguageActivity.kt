@@ -33,7 +33,6 @@ class SelectLanguageActivity : BaseActivity<ActivitySelectLanguageBinding>() {
     override fun initBinding() = ActivitySelectLanguageBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        Timber.d("check dLocale ${dLocale}")
         selectLanguageAdapter.itemClicked = {
             onSelectItem(it)
         }
@@ -49,7 +48,6 @@ class SelectLanguageActivity : BaseActivity<ActivitySelectLanguageBinding>() {
 
     private fun onChangeLanguage() {
         dLocale = localeSelected
-        Timber.d("onChangeLanguage $dLocale")
         startActivity(HomeActivity.newIntent(this))
         finish()
     }
