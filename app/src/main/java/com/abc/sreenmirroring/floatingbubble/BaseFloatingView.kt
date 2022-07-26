@@ -64,7 +64,6 @@ open class BaseFloatingView(context: Context) {
                     WindowManager.LayoutParams.TYPE_PHONE
                 }
             }
-
         }
     }
 
