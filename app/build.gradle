@@ -71,6 +71,11 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'io.github.chaosleung:pinview:1.4.4'
 
+    // recyclerview
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    // For control over item selection of both touch and mouse driven selection
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
