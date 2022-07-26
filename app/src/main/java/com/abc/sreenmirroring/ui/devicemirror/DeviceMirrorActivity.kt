@@ -48,11 +48,14 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initActions() {
-        binding.btnSelectDevice.setOnClickListener {
-            selectDeviceMirror()
-        }
-        binding.btnGoToWifiSetting.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS));
+        binding.apply {
+            btnSelectDevice.setOnClickListener {
+                selectDeviceMirror()
+            }
+            btnGoToWifiSetting.setOnClickListener {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+            btnBack.setOnClickListener { onBackPressed() }
         }
     }
 

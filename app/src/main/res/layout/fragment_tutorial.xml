@@ -4,63 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/margin_24dp"
-    android:paddingBottom="@dimen/margin_16dp"
     tools:context=".ui.tutorial.TutorialFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtGuildTutorial"
-        style="@style/regularText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/tutorial_guild1"
-        android:textColor="@color/txt_black"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerTutorial"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingHorizontal="@dimen/margin_24dp"
+        app:layout_constraintBottom_toTopOf="@id/imgStateStep2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
-        android:id="@+id/imageViewTutorial"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_12dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/btnGo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildTutorial" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtSkipTutorial"
-        style="@style/regularText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/skip"
-        android:textColor="@color/txt_gray"
-        app:layout_constraintBottom_toBottomOf="@id/btnNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnNext" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnNext"
-        android:layout_width="@dimen/small_img_icon_size"
-        android:layout_height="@dimen/small_img_icon_size"
-        android:src="@drawable/ic_next"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnGo"
-        style="@style/regularBoldText"
+        android:id="@+id/imgStateStep1"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/small_img_icon_size"
-        android:background="@drawable/bg_border_radius_15dp"
-        android:backgroundTint="@color/blueA01"
-        android:text="@string/go"
-        android:textColor="@color/white"
-        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+        app:layout_constraintEnd_toStartOf="@id/imgStateStep2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgStateStep2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_24dp"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
+        app:layout_constraintStart_toEndOf="@id/imgStateStep1"
+        app:layout_constraintTop_toBottomOf="@id/viewPagerTutorialDialog" />
+
+    <ImageView
+        android:id="@+id/imgStateStep3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
