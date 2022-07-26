@@ -57,6 +57,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     hideKeyboard(this)
                     dialog.root.visibility = View.INVISIBLE
                 }
+                dialog.btnClose.setOnClickListener {
+                    hideKeyboard(this)
+                    dialog.root.visibility = View.INVISIBLE
+                }
             }
         }
         binding.llRate.setOnClickListener {
