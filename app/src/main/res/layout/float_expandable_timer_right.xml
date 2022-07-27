@@ -98,6 +98,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnTimerBubble" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtNotiTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:background="@drawable/bg_border_radius_5dp"
+        android:backgroundTint="#4D00AAFF"
+        android:paddingHorizontal="@dimen/margin_16dp"
+        android:paddingVertical="@dimen/margin_8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelinePosition"

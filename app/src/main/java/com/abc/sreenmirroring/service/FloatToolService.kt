@@ -15,8 +15,10 @@ import android.os.IBinder
 import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
+import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.databinding.*
 import com.abc.sreenmirroring.floatingbubble.ExpandableDrawingToolView
@@ -25,6 +27,10 @@ import com.abc.sreenmirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.sreenmirroring.floatingbubble.FloatingBubble
 import com.abc.sreenmirroring.helper.*
 import com.abc.sreenmirroring.utils.NotificationUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -320,11 +326,30 @@ open class FloatToolService : Service() {
             FloatExpandableTimerRightBinding.inflate(inflater).apply {
                 guidelinePosition.setGuidelineBegin(guidelineMargin)
                 btnTimerBubble.setOnClickListener { action.backToBubble() }
-                txt2Second.setOnClickListener {
-                    val mNotificationTime =
-                        Calendar.getInstance().timeInMillis + 1000 //Set after 5 seconds from the current time.
-                    NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+                bgScreenBubble.setOnClickListener {
                     action.backToBubble()
+                }
+                txt2Second.setOnClickListener {
+                    setTimerNotification(2, action, this, false)
+                }
+                txt5Second.setOnClickListener {
+                    setTimerNotification(5, action, this, false)
+
+                }
+                txt10Second.setOnClickListener {
+                    setTimerNotification(10, action, this, false)
+
+                }
+                txt15Second.setOnClickListener {
+                    setTimerNotification(15, action, this, false)
+
+                }
+                txt20Second.setOnClickListener {
+                    setTimerNotification(20, action, this, false)
+
+                }
+                txt30Second.setOnClickListener {
+                    setTimerNotification(30, action, this, false)
                 }
 
             }
@@ -332,12 +357,32 @@ open class FloatToolService : Service() {
             FloatExpandableTimerLeftBinding.inflate(inflater).apply {
                 guidelinePosition.setGuidelineBegin(guidelineMargin)
                 btnTimerBubble.setOnClickListener { action.backToBubble() }
-                txt2Second.setOnClickListener {
-                    val mNotificationTime =
-                        Calendar.getInstance().timeInMillis + 1000 //Set after 5 seconds from the current time.
-                    NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+                bgScreenBubble.setOnClickListener {
                     action.backToBubble()
                 }
+                txt2Second.setOnClickListener {
+                    setTimerNotification(2, action, this, true)
+                }
+                txt5Second.setOnClickListener {
+                    setTimerNotification(5, action, this, true)
+
+                }
+                txt10Second.setOnClickListener {
+                    setTimerNotification(10, action, this, true)
+
+                }
+                txt15Second.setOnClickListener {
+                    setTimerNotification(15, action, this, true)
+
+                }
+                txt20Second.setOnClickListener {
+                    setTimerNotification(20, action, this, true)
+
+                }
+                txt30Second.setOnClickListener {
+                    setTimerNotification(30, action, this, true)
+                }
+
             }
         }
         return ExpandableTimerNotification.BuilderTimerNoti()
@@ -354,6 +399,44 @@ open class FloatToolService : Service() {
             .setDrawingToolView(binding)
             .addDrawingToolViewListener(action)
 
+    }
+
+    private fun setTimerNotification(
+        mimutes: Int,
+        action: ExpandableTimerNotification.Action,
+        binding: ViewBinding,
+        isLeft: Boolean
+    ) {
+        val mNotificationTime =
+            Calendar.getInstance().timeInMillis + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
+        NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+        if (isLeft) {
+            binding as FloatExpandableTimerLeftBinding
+            binding.txtNotiTimer.visibility = View.VISIBLE
+            binding.btnTimerBubble.visibility = View.GONE
+            binding.txt2Second.visibility = View.GONE
+            binding.txt5Second.visibility = View.GONE
+            binding.txt10Second.visibility = View.GONE
+            binding.txt15Second.visibility = View.GONE
+            binding.txt20Second.visibility = View.GONE
+            binding.txt30Second.visibility = View.GONE
+            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+        } else {
+            binding as FloatExpandableTimerRightBinding
+            binding.txtNotiTimer.visibility = View.VISIBLE
+            binding.btnTimerBubble.visibility = View.GONE
+            binding.txt2Second.visibility = View.GONE
+            binding.txt5Second.visibility = View.GONE
+            binding.txt10Second.visibility = View.GONE
+            binding.txt15Second.visibility = View.GONE
+            binding.txt20Second.visibility = View.GONE
+            binding.txt30Second.visibility = View.GONE
+            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000L)
+            action.backToBubble()
+        }
     }
 
 
