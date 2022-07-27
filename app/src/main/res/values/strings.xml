@@ -9,6 +9,7 @@
     <string name="previous_with_underline"><u>Previous</u></string>
 
     <string name="mirror">Mirror</string>
+    <string name="wifi_connected">Wifi connected</string>
     <string name="wifi_not_connected">Wifi not connected</string>
     <string name="browser_mirror">Browser Mirror</string>
     <string name="floating_tool">Floating tool</string>

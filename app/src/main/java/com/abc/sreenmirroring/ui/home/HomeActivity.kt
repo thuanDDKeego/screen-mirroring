@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
@@ -24,8 +25,7 @@ import com.abc.sreenmirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.sreenmirroring.ui.settings.SettingActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -51,6 +51,33 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         initViewPager()
         job = setAutoScrollJob()
+        observerWifiState(object : onWifiChangeStateConnection {
+            override fun onWifiUnavailable() {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.txtWifiState.text =
+                        this@HomeActivity.getString(R.string.wifi_not_connected)
+                    binding.imgWifiState.setColorFilter(
+                        ContextCompat.getColor(
+                            this@HomeActivity,
+                            R.color.txt_dark_gray
+                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                }
+            }
+
+            override fun onWifiAvailable() {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.txtWifiState.text =
+                        this@HomeActivity.getString(R.string.wifi_connected)
+                    binding.imgWifiState.setColorFilter(
+                        ContextCompat.getColor(
+                            this@HomeActivity,
+                            R.color.txt_white
+                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                }
+            }
+        })
     }
 
     @SuppressLint("ClickableViewAccessibility")

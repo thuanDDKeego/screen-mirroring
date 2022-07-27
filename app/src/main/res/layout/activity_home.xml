@@ -40,45 +40,65 @@
             android:layout_height="match_parent"
             android:paddingBottom="@dimen/margin_50dp">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerAdHome"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewAdBanner"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginHorizontal="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_12dp"
-                android:background="@drawable/bg_border_radius_15dp"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_4dp"
                 android:backgroundTint="@color/grayA01"
+                app:cardCornerRadius="@dimen/margin_10dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imgStateStepBanner1"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
-                android:layout_marginEnd="@dimen/margin_8dp"
-                android:src="@drawable/ic_state_off_viewpager_home"
-                app:layout_constraintBottom_toBottomOf="@id/imgStateStepBanner2"
-                app:layout_constraintEnd_toStartOf="@id/imgStateStepBanner2" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imgStateStepBanner2"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
-                android:layout_marginBottom="@dimen/margin_10dp"
-                android:src="@drawable/ic_state_off_viewpager_home"
-                app:layout_constraintBottom_toBottomOf="@id/viewPagerAdHome"
-                app:layout_constraintEnd_toEndOf="@id/viewPagerAdHome"
-                app:layout_constraintStart_toStartOf="@id/viewPagerAdHome" />
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPagerAdHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_border_radius_15dp"
+                        android:backgroundTint="@color/grayA01"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imgStateStepBanner3"
-                android:layout_width="@dimen/margin_8dp"
-                android:layout_height="@dimen/margin_8dp"
-                android:layout_marginStart="@dimen/margin_8dp"
-                android:src="@drawable/ic_state_off_viewpager_home"
-                app:layout_constraintBottom_toBottomOf="@id/imgStateStepBanner2"
-                app:layout_constraintStart_toEndOf="@id/imgStateStepBanner2" />
+
+                    <ImageView
+                        android:id="@+id/imgStateStepBanner1"
+                        android:layout_width="@dimen/margin_8dp"
+                        android:layout_height="@dimen/margin_8dp"
+                        android:layout_marginEnd="@dimen/margin_8dp"
+                        android:src="@drawable/ic_state_off_viewpager_home"
+                        app:layout_constraintBottom_toBottomOf="@id/imgStateStepBanner2"
+                        app:layout_constraintEnd_toStartOf="@id/imgStateStepBanner2" />
+
+                    <ImageView
+                        android:id="@+id/imgStateStepBanner2"
+                        android:layout_width="@dimen/margin_8dp"
+                        android:layout_height="@dimen/margin_8dp"
+                        android:layout_marginBottom="@dimen/margin_10dp"
+                        android:src="@drawable/ic_state_off_viewpager_home"
+                        app:layout_constraintBottom_toBottomOf="@id/viewPagerAdHome"
+                        app:layout_constraintEnd_toEndOf="@id/viewPagerAdHome"
+                        app:layout_constraintStart_toStartOf="@id/viewPagerAdHome" />
+
+                    <ImageView
+                        android:id="@+id/imgStateStepBanner3"
+                        android:layout_width="@dimen/margin_8dp"
+                        android:layout_height="@dimen/margin_8dp"
+                        android:layout_marginStart="@dimen/margin_8dp"
+                        android:src="@drawable/ic_state_off_viewpager_home"
+                        app:layout_constraintBottom_toBottomOf="@id/imgStateStepBanner2"
+                        app:layout_constraintStart_toEndOf="@id/imgStateStepBanner2" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,11 +106,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_12dp"
                 android:background="@mipmap/bg_banner_mirror"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewPagerAdHome">
+                app:layout_constraintTop_toBottomOf="@id/cardViewAdBanner">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtMirror"
@@ -113,18 +133,27 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/txtMirror" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgWifiState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_wifi"
+                    app:layout_constraintBottom_toBottomOf="@id/txtWifiState"
+                    app:layout_constraintStart_toStartOf="@id/txtMirror"
+                    app:layout_constraintTop_toTopOf="@id/txtWifiState" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtWifiState"
                     style="@style/regularText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_8dp"
                     android:layout_marginTop="@dimen/margin_8dp"
                     android:layout_marginBottom="@dimen/margin_54dp"
-                    android:drawableStart="@drawable/ic_wifi"
-                    android:drawablePadding="@dimen/margin_8dp"
                     android:text="@string/wifi_not_connected"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txtMirror"
+                    app:layout_constraintStart_toEndOf="@id/imgWifiState"
                     app:layout_constraintTop_toBottomOf="@id/txtMirror" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@ package com.abc.sreenmirroring.base
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
+import android.net.*
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -84,6 +84,35 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             }
         } catch (e: java.lang.Exception) {
         }
+    }
+
+    protected fun observerWifiState(onWifiChangeStateConnection: onWifiChangeStateConnection) {
+        val connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        if (networkInfo?.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
+            onWifiChangeStateConnection.onWifiUnavailable()
+        }
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .build()
+        val networkCallback = object : ConnectivityManager.NetworkCallback() {
+            // network is available for use
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                onWifiChangeStateConnection.onWifiAvailable()
+            }
+
+            // lost network connection
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                onWifiChangeStateConnection.onWifiUnavailable()
+            }
+        }
+        val connectivityManager =
+            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+        connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
     private var mAutoShowRating = false
@@ -169,4 +198,9 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     abstract fun initBinding(): V
     abstract fun initViews()
     abstract fun initActions()
+
+    interface onWifiChangeStateConnection {
+        fun onWifiUnavailable()
+        fun onWifiAvailable()
+    }
 }
