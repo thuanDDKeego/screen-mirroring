@@ -22,8 +22,8 @@ class ExpandableMenuView(
         fun popToBubble() {}
         fun onOpenExpandableView() {}
         fun onCloseExpandableView() {}
-
-        fun navigateToDrawingToolView(){}
+        fun navigateToTimerNoti() {}
+        fun navigateToDrawingToolView() {}
     }
 
     // public --------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ class ExpandableMenuView(
             return this
         }
 
-        override fun addExpandableViewListener(action: ExpandableMenuView.Action): BuilderMenu {
+        override fun addExpandableViewListener(action: Action): BuilderMenu {
             this.listener = action
             return this
         }
@@ -105,7 +105,7 @@ class ExpandableMenuView(
 
         fun setExpandableView(view: View): IExpandableMenuViewBuilder
 
-        fun addExpandableViewListener(action: ExpandableMenuView.Action): IExpandableMenuViewBuilder
+        fun addExpandableViewListener(action: Action): IExpandableMenuViewBuilder
 
         fun setDimAmount(dimAmount: Float): IExpandableMenuViewBuilder
 

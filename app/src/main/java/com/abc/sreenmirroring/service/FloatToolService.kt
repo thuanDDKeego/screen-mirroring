@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
+import android.icu.util.Calendar
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -17,14 +18,19 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.R
-import com.abc.sreenmirroring.databinding.FloatDrawingToolBinding
-import com.abc.sreenmirroring.databinding.FloatExpandableMenuLeftBinding
-import com.abc.sreenmirroring.databinding.FloatExpandableMenuRightBinding
+import com.abc.sreenmirroring.databinding.*
 import com.abc.sreenmirroring.floatingbubble.ExpandableDrawingToolView
 import com.abc.sreenmirroring.floatingbubble.ExpandableMenuView
+import com.abc.sreenmirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.sreenmirroring.floatingbubble.FloatingBubble
 import com.abc.sreenmirroring.helper.*
+import com.abc.sreenmirroring.utils.NotificationUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -81,6 +87,7 @@ open class FloatToolService : Service() {
 
     private var expandableMenuView: ExpandableMenuView? = null
     private var drawingToolView: ExpandableDrawingToolView? = null
+    private var timerNotiView: ExpandableTimerNotification? = null
 
     private val mBinder: IBinder = LocalBinder()
 
@@ -255,19 +262,19 @@ open class FloatToolService : Service() {
         }
 
         val binding = if (xBubble > 0) {
-            FloatExpandableMenuLeftBinding.inflate(inflater).apply {
-                btnBubble.setOnClickListener { action.popToBubble() }
-                bgScreenBubble.setOnClickListener { action.popToBubble() }
-                guidelinePosition.setGuidelineBegin(guidelineMargin)
-
-                btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
-            }
-        } else {
             FloatExpandableMenuRightBinding.inflate(inflater).apply {
                 btnBubble.setOnClickListener { action.popToBubble() }
                 bgScreenBubble.setOnClickListener { action.popToBubble() }
                 guidelinePosition.setGuidelineBegin(guidelineMargin)
-
+                btnTime.setOnClickListener { action.navigateToTimerNoti() }
+                btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
+            }
+        } else {
+            FloatExpandableMenuLeftBinding.inflate(inflater).apply {
+                btnBubble.setOnClickListener { action.popToBubble() }
+                bgScreenBubble.setOnClickListener { action.popToBubble() }
+                guidelinePosition.setGuidelineBegin(guidelineMargin)
+                btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
             }
         }
@@ -302,37 +309,91 @@ open class FloatToolService : Service() {
             .build()
     }
 
+    fun updateTimerNotiView() {
+        timerNotiView = setupTimerNotiView(customExpandableTimerNotiViewListener)
+            .build()
+    }
+
+    private fun setupTimerNotiView(action: ExpandableTimerNotification.Action): ExpandableTimerNotification.BuilderTimerNoti {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val guidelineMargin: Int = when {
+            xBubble == 0 -> screenHalfHeight - (36.toPx + 12.toPx)
+            xBubble > 0 -> screenHalfHeight + currentPointBubble.y - (36.toPx)
+            else -> screenHalfHeight + currentPointBubble.y - (36.toPx)
+        }
+
+        val binding = if (xBubble > 0) {
+            FloatExpandableTimerRightBinding.inflate(inflater).apply {
+                guidelinePosition.setGuidelineBegin(guidelineMargin)
+                btnTimerBubble.setOnClickListener { action.backToBubble() }
+                bgScreenBubble.setOnClickListener {
+                    action.backToBubble()
+                }
+                txt2Second.setOnClickListener {
+                    setTimerNotification(2, action, this, false)
+                }
+                txt5Second.setOnClickListener {
+                    setTimerNotification(5, action, this, false)
+
+                }
+                txt10Second.setOnClickListener {
+                    setTimerNotification(10, action, this, false)
+
+                }
+                txt15Second.setOnClickListener {
+                    setTimerNotification(15, action, this, false)
+
+                }
+                txt20Second.setOnClickListener {
+                    setTimerNotification(20, action, this, false)
+
+                }
+                txt30Second.setOnClickListener {
+                    setTimerNotification(30, action, this, false)
+                }
+
+            }
+        } else {
+            FloatExpandableTimerLeftBinding.inflate(inflater).apply {
+                guidelinePosition.setGuidelineBegin(guidelineMargin)
+                btnTimerBubble.setOnClickListener { action.backToBubble() }
+                bgScreenBubble.setOnClickListener {
+                    action.backToBubble()
+                }
+                txt2Second.setOnClickListener {
+                    setTimerNotification(2, action, this, true)
+                }
+                txt5Second.setOnClickListener {
+                    setTimerNotification(5, action, this, true)
+
+                }
+                txt10Second.setOnClickListener {
+                    setTimerNotification(10, action, this, true)
+
+                }
+                txt15Second.setOnClickListener {
+                    setTimerNotification(15, action, this, true)
+
+                }
+                txt20Second.setOnClickListener {
+                    setTimerNotification(20, action, this, true)
+
+                }
+                txt30Second.setOnClickListener {
+                    setTimerNotification(30, action, this, true)
+                }
+
+            }
+        }
+        return ExpandableTimerNotification.BuilderTimerNoti()
+            .with(this)
+            .setDrawingToolView(binding)
+            .addDrawingToolViewListener(action)
+    }
+
     private fun setupDrawingToolView(action: ExpandableDrawingToolView.Action): ExpandableDrawingToolView.BuilderDrawingTool {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = FloatDrawingToolBinding.inflate(inflater)
-//        //set action draw tools
-//        binding.llDrawToolsBox.visibility = View.VISIBLE
-//        binding.btnOpenPencil.setOnClickListener {
-//            binding.llDrawToolsBox.visibility = View.GONE
-//            binding.llPencilDraw.visibility = View.VISIBLE
-//            binding.btnOpenPencil.backgroundTintList =
-//                this.resources.getColorStateList(R.color.blueA01)
-//        }
-//        binding.btnBack.setOnClickListener {
-//            action.backToBubble()
-//        }
-//
-//        //set action pencil tools
-//        binding.btnAccept.setOnClickListener {
-//            binding.llPencilDraw.visibility = View.GONE
-//            binding.llDrawToolsBox.visibility = View.VISIBLE
-//        }
-//
-//        fun resetPencilChooseColor() {
-//            binding.imgChooseBlack.background = resources.getDrawable(R.drawable.ic_circle_black)
-//            binding.imgChooseWhite.background = resources.getDrawable(R.drawable.ic_circle_white)
-//            binding.imgChooseBlue.background = resources.getDrawable(R.drawable.ic_circle_blue)
-//            binding.imgChooseRed.background = resources.getDrawable(R.drawable.ic_circle_red)
-//            binding.imgChooseYellow.background = resources.getDrawable(R.drawable.ic_circle_yellow)
-//            binding.imgChoosePink.background = resources.getDrawable(R.drawable.ic_circle_pink)
-//            binding.imgChooseOrange.background = resources.getDrawable(R.drawable.ic_circle_orange)
-//        }
-
         return ExpandableDrawingToolView.BuilderDrawingTool()
             .with(this)
             .setDrawingToolView(binding)
@@ -340,10 +401,57 @@ open class FloatToolService : Service() {
 
     }
 
+    private fun setTimerNotification(
+        mimutes: Int,
+        action: ExpandableTimerNotification.Action,
+        binding: ViewBinding,
+        isLeft: Boolean
+    ) {
+        val mNotificationTime =
+            Calendar.getInstance().timeInMillis + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
+        NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+        if (isLeft) {
+            binding as FloatExpandableTimerLeftBinding
+            binding.txtNotiTimer.visibility = View.VISIBLE
+            binding.btnTimerBubble.visibility = View.GONE
+            binding.txt2Second.visibility = View.GONE
+            binding.txt5Second.visibility = View.GONE
+            binding.txt10Second.visibility = View.GONE
+            binding.txt15Second.visibility = View.GONE
+            binding.txt20Second.visibility = View.GONE
+            binding.txt30Second.visibility = View.GONE
+            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+        } else {
+            binding as FloatExpandableTimerRightBinding
+            binding.txtNotiTimer.visibility = View.VISIBLE
+            binding.btnTimerBubble.visibility = View.GONE
+            binding.txt2Second.visibility = View.GONE
+            binding.txt5Second.visibility = View.GONE
+            binding.txt10Second.visibility = View.GONE
+            binding.txt15Second.visibility = View.GONE
+            binding.txt20Second.visibility = View.GONE
+            binding.txt30Second.visibility = View.GONE
+            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000L)
+            action.backToBubble()
+        }
+    }
+
 
     // private func --------------------------------------------------------------------------------
 
-    private val customExpandableDrawingToolViewListener =
+    private val customExpandableTimerNotiViewListener =
+        object : ExpandableTimerNotification.Action {
+            override fun backToBubble() {
+                tryRemoveTimerNotiView()
+                tryShowBubbles()
+            }
+        }
+
+    private
+    val customExpandableDrawingToolViewListener =
         object : ExpandableDrawingToolView.Action {
             override fun backToBubble() {
                 tryRemoveDrawingToolView()
@@ -356,6 +464,13 @@ open class FloatToolService : Service() {
         override fun popToBubble() {
             tryRemoveExpandableView()
             tryShowBubbles()
+        }
+
+        override fun navigateToTimerNoti() {
+            Timber.d("navigateToTimerNotification")
+            updateTimerNotiView()
+            tryNavigateToTimerNotiView()
+
         }
 
         override fun navigateToDrawingToolView() {
@@ -402,6 +517,18 @@ open class FloatToolService : Service() {
             }
     }
 
+    private fun tryNavigateToTimerNotiView() {
+        tryShowTimerNotiView()
+            .onComplete {
+                tryRemoveExpandableView()
+            }.onError {
+                tryShowBubbles()
+                    .onError {
+                        throw NullViewException("you DID NOT override expandable view")
+                    }
+            }
+    }
+
 
     private fun tryStopService() {
 
@@ -419,8 +546,17 @@ open class FloatToolService : Service() {
         drawingToolView?.remove()
     }
 
+
     private fun tryShowDrawingToolView() = logIfError {
         drawingToolView?.show()
+    }
+
+    private fun tryShowTimerNotiView() = logIfError {
+        timerNotiView?.show()
+    }
+
+    private fun tryRemoveTimerNotiView() = logIfError {
+        timerNotiView?.remove()
     }
 
     private fun tryRemoveExpandableView() = logIfError {
