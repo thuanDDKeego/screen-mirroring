@@ -17,6 +17,7 @@ import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogChangePinCodeBinding
 import com.abc.sreenmirroring.service.helper.IntentAction
+import com.abc.sreenmirroring.ui.policy.PolicyActivity
 import com.abc.sreenmirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 
@@ -96,9 +97,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@sofigo.net"))
             intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback")
             intent.putExtra(Intent.EXTRA_TEXT, "\n" + getExtraInfo(this))
-            if (intent.resolveActivity(this.packageManager) != null) {
-                startActivity(intent)
-            }
+            startActivity(intent)
         }
         binding.llInviteFriendItem.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -112,6 +111,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+        }
+        binding.llPolicy.setOnClickListener {
+            PolicyActivity.gotoActivity(this@SettingActivity)
         }
         binding.btnBack.setOnClickListener {
             onBackPressed()

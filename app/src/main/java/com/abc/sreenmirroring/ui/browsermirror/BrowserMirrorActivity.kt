@@ -194,17 +194,15 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     }
 
     private fun startStreamScreen() {
-        Timber.d("startStreamScreen")
         IntentAction.StartStream.sendToAppService(this@BrowserMirrorActivity)
         isStopStream = false
     }
 
     private fun stopStreamScreen() {
-        Timber.d("stopStreamScreen")
         IntentAction.StopStream.sendToAppService(this@BrowserMirrorActivity)
         isStopStream = true
-        NotificationManagerCompat.from(this).cancelAll()
-        finish()
+//        NotificationManagerCompat.from(this).cancelAll()
+//        finish()
     }
 
     private fun onServiceStateMessage(serviceMessage: ServiceMessage.ServiceState) {
@@ -273,6 +271,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             cardDialog.setOnClickListener {}
             txtOk.setOnClickListener {
                 stopStreamScreen()
+                dismissDisconnectDialog()
             }
             txtCancel.setOnClickListener {
                 dismissDisconnectDialog()
