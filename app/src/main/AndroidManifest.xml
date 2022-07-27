@@ -75,6 +75,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service
+            android:name=".service.CameraPreviewService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true"

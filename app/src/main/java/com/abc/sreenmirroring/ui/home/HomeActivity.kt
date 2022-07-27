@@ -17,6 +17,7 @@ import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.sreenmirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.sreenmirroring.helper.requestOverlaysPermission
+import com.abc.sreenmirroring.service.CameraPreviewService
 import com.abc.sreenmirroring.service.FloatToolService
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
@@ -121,6 +122,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
         })
+
+        binding.btnTest.setOnClickListener {
+            startService(Intent(this@HomeActivity, CameraPreviewService::class.java))
+        }
     }
 
     private fun setAutoScrollJob(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
