@@ -65,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_24dp"
-                android:layout_marginVertical="@dimen/margin_42dp"
+                android:layout_marginTop="@dimen/margin_12dp"
                 android:gravity="center"
                 android:text="@string/watch_short_video_to_unlock_browser"
                 android:textColor="@color/txt_gray"

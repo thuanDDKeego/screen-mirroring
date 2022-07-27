@@ -205,7 +205,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBrowserBinding.txtClose.setOnClickListener {
-            dialogBrowserBinding.root.visibility = View.INVISIBLE
+            dismissBrowserDialog()
         }
         dialogBrowserBinding.txtStartVideoInTime.setOnClickListener {
             BrowserMirrorActivity.gotoActivity(this@HomeActivity)
