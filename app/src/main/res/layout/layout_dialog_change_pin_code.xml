@@ -45,7 +45,7 @@
                 android:id="@+id/btnClose"
                 android:layout_width="@dimen/margin_32dp"
                 android:layout_height="@dimen/margin_32dp"
-                android:padding="@dimen/marin_4dp"
+                android:padding="@dimen/margin_4dp"
                 android:tint="@color/blueA01"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
