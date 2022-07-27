@@ -6,6 +6,7 @@ import android.content.*
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivityBrowserMirrorBinding
+import com.abc.sreenmirroring.databinding.LayoutDialogDisconnectBrowserMirrorBinding
 import com.abc.sreenmirroring.service.ServiceMessage
 import com.abc.sreenmirroring.service.helper.IntentAction
 import com.elvishew.xlog.XLog
@@ -76,13 +78,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     }
 
     override fun initActions() {
-        binding.btnStopStream.setOnClickListener {
-            if (isStopStream) {
-                startStreamScreen()
-            } else {
-                showDialogStopService()
-            }
-        }
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
@@ -144,7 +139,9 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                     visibility = View.VISIBLE
                     isEnabled = !serviceMessage.isBusy
                     if (serviceMessage.isStreaming) {
-                        setOnClickListener { stopStreamScreen() }
+                        setOnClickListener {
+                            showDisconnectDialog()
+                        }
                         text = getString(R.string.stop_stream)
                     } else {
                         setOnClickListener { startStreamScreen() }
@@ -260,4 +257,34 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         }
     }
 
+    //disconnect dialog
+    private lateinit var dialogDisconnectBinding: LayoutDialogDisconnectBrowserMirrorBinding
+    private var mDialogDisconnectIsShowing: Boolean = false
+    private fun showDisconnectDialog() {
+        if (mDialogDisconnectIsShowing) return
+        mDialogDisconnectIsShowing = true
+        val view = findViewById<View>(android.R.id.content) as ViewGroup
+        dialogDisconnectBinding =
+            LayoutDialogDisconnectBrowserMirrorBinding.inflate(layoutInflater, view, true)
+        dialogDisconnectBinding.apply {
+            constraintBgDialogDisconnect.setOnClickListener {
+                dismissDisconnectDialog()
+            }
+            cardDialog.setOnClickListener {}
+            txtOk.setOnClickListener {
+                stopStreamScreen()
+            }
+            txtCancel.setOnClickListener {
+                dismissDisconnectDialog()
+            }
+        }
+    }
+
+    private fun dismissDisconnectDialog() {
+        if (mDialogDisconnectIsShowing) {
+            val view = findViewById<View>(android.R.id.content) as ViewGroup
+            view.removeViewAt(view.childCount - 1)
+            mDialogDisconnectIsShowing = false
+        }
+    }
 }
