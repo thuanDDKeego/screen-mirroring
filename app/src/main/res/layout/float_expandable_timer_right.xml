@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_24dp"
         android:background="@drawable/bg_border_radius_5dp"
-        android:backgroundTint="#4D00AAFF"
+        android:backgroundTint="#9900AAFF"
         android:paddingHorizontal="@dimen/margin_16dp"
         android:paddingVertical="@dimen/margin_8dp"
         android:visibility="gone"
