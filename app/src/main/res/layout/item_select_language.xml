@@ -10,7 +10,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_gravity="center_vertical"
-        android:padding="@dimen/marin_4dp"
+        android:padding="@dimen/margin_4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_unselect" />
