@@ -39,8 +39,6 @@ import timber.log.Timber
 class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 
     private lateinit var settings: Settings
-    private lateinit var dialogDisconnectBinding: LayoutDialogDisconnectBrowserMirrorBinding
-    private var mDialogDisconnectIsShowing: Boolean = false
 
     private var isCastPermissionGranted: Boolean = false
     private var isCheckedPermission: Boolean = false
@@ -296,27 +294,6 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
         showError(serviceMessage.appError)
     }
 
-    private fun showDisconnectDialog() {
-        if (mDialogDisconnectIsShowing) return
-        mDialogDisconnectIsShowing = true
-        val view = findViewById<View>(android.R.id.content) as ViewGroup
-        dialogDisconnectBinding =
-            LayoutDialogDisconnectBrowserMirrorBinding.inflate(layoutInflater, view, true)
-        dialogDisconnectBinding.txtOk.setOnClickListener {
-            stopStreamScreen()
-        }
-        dialogDisconnectBinding.txtCancel.setOnClickListener {
-            dismissDisconnectDialog()
-        }
-    }
-
-    private fun dismissDisconnectDialog() {
-        if (mDialogDisconnectIsShowing) {
-            val view = findViewById<View>(android.R.id.content) as ViewGroup
-            view.removeViewAt(view.childCount - 1)
-            mDialogDisconnectIsShowing = false
-        }
-    }
 
     private fun showNotification() {
 //        val intent = Intent(this, App::class.java)
@@ -351,6 +328,32 @@ class BrowserMirrorActivity : BaseActivity<ActivityBrowserMirrorBinding>() {
 //        }
 //
 //        notificationManager.notify(2, notificationBuilder.build())
+    }
+
+
+    //disconnect dialog
+    private lateinit var dialogDisconnectBinding: LayoutDialogDisconnectBrowserMirrorBinding
+    private var mDialogDisconnectIsShowing: Boolean = false
+    private fun showDisconnectDialog() {
+        if (mDialogDisconnectIsShowing) return
+        mDialogDisconnectIsShowing = true
+        val view = findViewById<View>(android.R.id.content) as ViewGroup
+        dialogDisconnectBinding =
+            LayoutDialogDisconnectBrowserMirrorBinding.inflate(layoutInflater, view, true)
+        dialogDisconnectBinding.txtOk.setOnClickListener {
+            stopStreamScreen()
+        }
+        dialogDisconnectBinding.txtCancel.setOnClickListener {
+            dismissDisconnectDialog()
+        }
+    }
+
+    private fun dismissDisconnectDialog() {
+        if (mDialogDisconnectIsShowing) {
+            val view = findViewById<View>(android.R.id.content) as ViewGroup
+            view.removeViewAt(view.childCount - 1)
+            mDialogDisconnectIsShowing = false
+        }
     }
 
 
