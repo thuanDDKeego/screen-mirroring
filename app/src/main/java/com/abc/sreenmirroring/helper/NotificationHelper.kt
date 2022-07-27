@@ -102,7 +102,7 @@ class NotificationHelper(context: Context) {
             .setCategory(Notification.CATEGORY_ERROR)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setLargeIcon(
-                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_tick)?.toBitmap()
+                AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
             )
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
@@ -130,7 +130,7 @@ class NotificationHelper(context: Context) {
         else
             builder.addAction(
                 NotificationCompat.Action(
-                    R.drawable.ic_tick,
+                    R.drawable.logo,
                     applicationContext.getString(R.string.app_name),
                     PendingIntent.getService(
                         applicationContext, 5,
@@ -163,7 +163,7 @@ class NotificationHelper(context: Context) {
             .setCategory(Notification.CATEGORY_SERVICE)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setLargeIcon(
-                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_tick)?.toBitmap()
+                AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
             )
             .setContentIntent(
                 PendingIntent.getActivity(
@@ -186,12 +186,12 @@ class NotificationHelper(context: Context) {
         return when (notificationType) {
             NotificationType.START -> builder
                 .setContentTitle(applicationContext.getString(R.string.app_name))
-                .setContentText(applicationContext.getString(R.string.app_name))
-                .setSmallIcon(R.drawable.ic_tick)
+                .setContentText("Press START to begin stream")
+                .setSmallIcon(R.drawable.logo)
                 .addAction(
                     NotificationCompat.Action(
-                        R.drawable.ic_tick,
-                        applicationContext.getString(R.string.app_name),
+                        R.drawable.ic_close,
+                        "Start",
                         PendingIntent.getActivity(
                             applicationContext, 1,
                             IntentAction.StartStream.toAppActivityIntent(applicationContext),
@@ -201,8 +201,8 @@ class NotificationHelper(context: Context) {
                 )
                 .addAction(
                     NotificationCompat.Action(
-                        R.drawable.ic_tick,
-                        applicationContext.getString(R.string.app_name),
+                        R.drawable.ic_close,
+                        "Exit",
                         PendingIntent.getService(
                             applicationContext, 3,
                             IntentAction.Exit.toAppServiceIntent(applicationContext),
@@ -214,12 +214,12 @@ class NotificationHelper(context: Context) {
 
             NotificationType.STOP -> builder
                 .setContentTitle(applicationContext.getString(R.string.app_name))
-                .setContentText(applicationContext.getString(R.string.app_name))
-                .setSmallIcon(R.drawable.ic_tick)
+                .setContentText("Press STOP to end stream")
+                .setSmallIcon(R.drawable.logo)
                 .addAction(
                     NotificationCompat.Action(
-                        R.drawable.ic_tick,
-                        applicationContext.getString(R.string.app_name),
+                        R.drawable.logo,
+                        "STOP",
                         PendingIntent.getService(
                             applicationContext, 2,
                             IntentAction.StopStream.toAppServiceIntent(applicationContext),
