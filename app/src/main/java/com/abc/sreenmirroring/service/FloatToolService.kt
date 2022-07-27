@@ -18,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.databinding.*
@@ -41,6 +42,8 @@ open class FloatToolService : Service() {
         var channelId = "bubble_service"
         var channelName = "floating bubble"
         var notificationId = 101
+
+        private var colorState = MutableLiveData(R.color.draw_black)
 
         fun start(context: Context) {
             when {
@@ -396,6 +399,7 @@ open class FloatToolService : Service() {
         val binding = FloatDrawingToolBinding.inflate(inflater)
         return ExpandableDrawingToolView.BuilderDrawingTool()
             .with(this)
+            .setColorSate(colorState)
             .setDrawingToolView(binding)
             .addDrawingToolViewListener(action)
 

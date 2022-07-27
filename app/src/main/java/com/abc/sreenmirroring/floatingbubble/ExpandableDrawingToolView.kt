@@ -9,12 +9,14 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.databinding.FloatDrawingToolBinding
 import com.abc.sreenmirroring.draw.draw_option.data.LineType
 import com.abc.sreenmirroring.helper.logIfError
 import com.abc.sreenmirroring.helper.onComplete
+import timber.log.Timber
 
 class ExpandableDrawingToolView(
     private val builder: BuilderDrawingTool,
@@ -63,9 +65,15 @@ class ExpandableDrawingToolView(
         var rootView: View? = null
         var listener = object : Action {}
         var dim = 0f
+        var colorPencilState = MutableLiveData(R.color.draw_black)
 
         override fun with(context: Context): BuilderDrawingTool {
             this.context = context
+            return this
+        }
+
+        override fun setColorSate(colorState: MutableLiveData<Int>): BuilderDrawingTool {
+            colorPencilState = colorState
             return this
         }
 
@@ -75,10 +83,22 @@ class ExpandableDrawingToolView(
             val binding = floatingViewBinding as FloatDrawingToolBinding
             binding.apply {
                 llDrawToolsBox.visibility = View.VISIBLE
+                Timber.d("====${colorPencilState.value ?: -1} ${R.color.draw_black}")
+                drawView.brushColor = Color.RED
+                btnOpenPencil.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        colorPencilState.value ?: R.color.draw_black
+                    ),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
                 txtPenCilSize.text = binding.seekBarPencilSize.progress.toString()
                 btnOpenPencil.setOnClickListener {
                     btnOpenPencil.setColorFilter(
-                        ContextCompat.getColor(context, R.color.blueA01),
+                        ContextCompat.getColor(
+                            context,
+                            colorPencilState.value ?: R.color.draw_black
+                        ),
                         android.graphics.PorterDuff.Mode.SRC_IN
                     )
                     btnOpenEraser.setColorFilter(
@@ -89,7 +109,10 @@ class ExpandableDrawingToolView(
                 }
                 btnChooseColor.setOnClickListener {
                     btnOpenPencil.setColorFilter(
-                        ContextCompat.getColor(context, R.color.blueA01),
+                        ContextCompat.getColor(
+                            context,
+                            colorPencilState.value ?: R.color.draw_black
+                        ),
                         android.graphics.PorterDuff.Mode.SRC_IN
                     )
                     btnOpenEraser.setColorFilter(
@@ -131,36 +154,71 @@ class ExpandableDrawingToolView(
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_black)
                     drawView.brushColor = Color.BLACK
+                    colorPencilState.value = R.color.draw_black
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_black),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChooseWhite.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_white)
                     drawView.brushColor = Color.WHITE
+                    colorPencilState.value = R.color.draw_white
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_white),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChooseBlue.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_blue)
                     drawView.brushColor = context.resources.getColor(R.color.draw_blue)
+                    colorPencilState.value = R.color.draw_blue
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_blue),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChooseRed.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_red)
                     drawView.brushColor = context.resources.getColor(R.color.draw_red)
+                    colorPencilState.value = R.color.draw_red
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_red),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChooseYellow.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_yellow)
                     drawView.brushColor = context.resources.getColor(R.color.draw_yellow)
+                    colorPencilState.value = R.color.draw_yellow
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_yellow),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChoosePink.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_pink)
                     drawView.brushColor = context.resources.getColor(R.color.draw_pink)
+                    colorPencilState.value = R.color.draw_pink
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_pink),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 imgChooseOrange.setOnClickListener {
                     resetPencilChooseColor(this)
                     (it as ImageView).setImageResource(R.drawable.ic_circle_choosed_orange)
                     drawView.brushColor = context.resources.getColor(R.color.draw_orange)
+                    colorPencilState.value = R.color.draw_orange
+                    btnOpenPencil.setColorFilter(
+                        ContextCompat.getColor(context, R.color.draw_orange),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
                 btnAccept.setOnClickListener {
                     binding.llPencilDraw.visibility = View.GONE
@@ -213,7 +271,8 @@ class ExpandableDrawingToolView(
             initDrawCallback(binding)
             binding.drawView.apply {
                 lineType = LineType.SOLID
-                brushColor = Color.BLACK
+                brushColor =
+                    context.resources.getColor(colorPencilState.value ?: R.color.draw_black)
                 brushSize = 30f
             }
         }
@@ -266,6 +325,8 @@ class ExpandableDrawingToolView(
     interface IExpandableDrawingToolViewBuilder {
 
         fun with(context: Context): IExpandableDrawingToolViewBuilder
+
+        fun setColorSate(colorState: MutableLiveData<Int>): IExpandableDrawingToolViewBuilder
 
         fun setDrawingToolView(binding: ViewBinding): IExpandableDrawingToolViewBuilder
 

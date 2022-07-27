@@ -79,6 +79,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
         })
+        //set swift mode with floating tools state
+        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -115,9 +117,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     if (isDrawOverlaysPermissionGranted()) {
                         Timber.d("Start float tools")
                         FloatToolService.start(this@HomeActivity)
+                        binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
                     } else requestOverlaysPermission()
                 } else {
                     FloatToolService.stop(this@HomeActivity)
+                    binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
                 }
             }
         })
@@ -204,12 +208,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         browserDialogShowing = true
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
-        dialogBrowserBinding.txtClose.setOnClickListener {
-            dismissBrowserDialog()
-        }
-        dialogBrowserBinding.txtStartVideoInTime.setOnClickListener {
-            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-            dismissBrowserDialog()
+        dialogBrowserBinding.apply {
+            txtClose.setOnClickListener {
+                dismissBrowserDialog()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
+
+            txtStartVideoInTime.setOnClickListener {
+                BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                dismissBrowserDialog()
+            }
         }
 
     }
