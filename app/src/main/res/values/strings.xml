@@ -21,6 +21,7 @@
     <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Connect your devices to the same Wifi and turn off VPN.</string>
     <string name="open_this_link_on_other_device_to_mirror">Open this link on other device to mirror</string>
     <string name="the_ip_address_may_change_every_time_you_connect">The IP address may change every time you connect. Thus, please make sure each number is entered correctly in the browser address bar.</string>
+    <string name="stream_fragment_copied">Copied</string>
 
     //tutorial screen
     <string name="tutorial">Tutorial</string>

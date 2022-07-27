@@ -11,14 +11,16 @@
     <string name="wifi_not_connected">Không kết nối được với wifi</string>
     <string name="browser_mirror">Browser Mirror</string>
     <string name="floating_tool">Floating tool</string>
-    <string name="connect_with_browser">Connect with Browser</string>
-    <string name="on_mode">On mode</string>
-    <string name="off_mode">Off mode</string>
+    <string name="connect_with_browser">Kết nối với Trình duyệt</string>
+    <string name="on_mode">Chế độ bật</string>
+    <string name="off_mode">Chế độ tắt</string>
     <string name="stop_stream">Dừng trình chiếu</string>
+    <string name="start_stream">Bắt đầu trình chiếu</string>
     <string name="dont_leave_this_page_before_connected">Đừng rời khỏi trang này trước khi kết nối</string>
     <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Kết nối các thiết bị của bạn với cùng một Wifi và tắt VPN.</string>
     <string name="open_this_link_on_other_device_to_mirror">Mở liên kết này trên thiết bị khác để trình chiếu</string>
     <string name="the_ip_address_may_change_every_time_you_connect">Địa chỉ IP có thể thay đổi mỗi khi bạn kết nối. Do đó, hãy đảm bảo rằng mỗi số được nhập chính xác vào thanh địa chỉ của trình duyệt.</string>
+    <string name="stream_fragment_copied">Đã sao chép</string>
 
     //tutorial screen
     <string name="tutorial">Hướng Dẫn</string>
@@ -35,18 +37,18 @@
     <string name="ok">Ok</string>
 
     //checking wifi screen
-    <string name="checking_wifi">Checking wifi</string>
-    <string name="checking_network_title">Checking\nNetwork</string>
-    <string name="check_signal_transmission">Check signal transmission</string>
-    <string name="test_connection_speed">Test connection speed</string>
-    <string name="check_the_connection_distance">Check the connection distance</string>
-    <string name="select_device">Select device</string>
+    <string name="checking_wifi">Kiểm tra wifi</string>
+    <string name="checking_network_title">Kiểm tra\nMạng</string>
+    <string name="check_signal_transmission">Kiểm tra việc truyền tín hiệu</string>
+    <string name="test_connection_speed">Kiểm tra tốc độ kết nối</string>
+    <string name="check_the_connection_distance">Kiểm tra khoảng cách kết nối</string>
+    <string name="select_device">Chọn thiết bị</string>
 
     //dialog
-    <string name="open_wifi_setting">Open wifi setting</string>
-    <string name="watch_short_video_to_unlock_browser">Watch short video to unlock browser mirror for free or upgrade to open life time.</string>
-    <string name="close">Close</string>
-    <string name="upgrade">Upgrade</string>
+    <string name="open_wifi_setting">Mở cài đặt Wifi</string>
+    <string name="watch_short_video_to_unlock_browser">Xem video ngắn để mở khóa nhân bản trình duyệt miễn phí hoặc nâng cấp để mở thời gian sử dụng.</string>
+    <string name="close">Đóng</string>
+    <string name="upgrade">Nâng cấp</string>
 
     //setting
     <string name="setting">Cài đặt</string>
@@ -59,40 +61,39 @@
 
 
     //faq item
-    <string name="faq_item_title1">My smartphone can’t find any device for coupling with.</string>
-    <string name="faq_item_description1">- Ensure the same Wifi connection\n- Turn off VPN\n- Shorten the distance between devices\n- Check supported devices</string>
+    <string name="faq_item_title1">Điện thoại thông minh của tôi không thể tìm thấy bất kỳ thiết bị nào để ghép nối.</string>
+    <string name="faq_item_description1">- Đảm bảo cùng một kết nối Wifi\n- Tắt VPN\n- Rút ngắn khoảng cách giữa các thiết bị\n- Kiểm tra các thiết bị được hỗ trợ</string>
 
-    <string name="faq_item_title2">My smartphone gets stuck “connecting” to couple with TV.</string>
-    <string name="faq_item_description2">- Restart the smartphone’s wifi and reconnect to devices.\n- Turn off the TV and unplug it for 1 minute then turn it on again.\n- Shorten the distance between your phone and the TV.</string>
+    <string name="faq_item_title2">Điện thoại thông minh của tôi bị kẹt "kết nối" với cặp đôi với TV.</string>
+    <string name="faq_item_description2">- Khởi động lại wifi của điện thoại thông minh và kết nối lại với các thiết bị.\n- Tắt TV và rút phích cắm trong 1 phút sau đó bật lại.\n- Rút ngắn khoảng cách giữa điện thoại và TV.</string>
 
-    <string name="faq_item_title3">My devices could connect before, but those do not work now?</string>
-    <string name="faq_item_description3">If your devices could connect previously, those can be definitely connected again.
-You may check VPN, the same Wifi, and the distance. You even deal with the problems by restarting your devices.</string>
+    <string name="faq_item_title3">Các thiết bị của tôi trước đây có thể kết nối, nhưng những thiết bị đó hiện không hoạt động?</string>
+    <string name="faq_item_description3">Nếu các thiết bị của bạn có thể kết nối trước đó, thì những thiết bị đó chắc chắn có thể được kết nối lại.
+Bạn có thể kiểm tra VPN, cùng một Wifi và khoảng cách. Bạn thậm chí còn giải quyết các vấn đề bằng cách khởi động lại thiết bị của mình.</string>
 
-    <string name="faq_item_title4">It shows that my device is not supported. What should we do?</string>
-    <string name="faq_item_description4">This means that your device does not support the screen mirroring function.\nYou could find supported devices to be able to mirror TV.</string>
+    <string name="faq_item_title4">Nó cho thấy rằng thiết bị của tôi không được hỗ trợ. Chúng ta nên làm gì?</string>
+    <string name="faq_item_description4">Điều này có nghĩa là thiết bị của bạn không hỗ trợ chức năng phản chiếu màn hình. \ NBạn có thể tìm các thiết bị được hỗ trợ để có thể phản chiếu TV.</string>
 
 
-    <string name="faq_item_title5">Is my personal information or mobile data completely secured?</string>
-    <string name="faq_item_description5">- We always ensure your information on your smartphone and connected devices are confidential. Thus, you can mirror to TV without worry.</string>
-    <string name="security_your_screen_mirroring">Security your screen mirroring</string>
-    <string name="save">Save</string>
-    <string name="enter_a_new_pin_code">Enter a new pin code</string>
-    <string name="change_pin_code">Change Pin Code</string>
-    <string name="video_starting_in_5s">Video starting in 5s</string>
+    <string name="faq_item_title5">Thông tin cá nhân hoặc dữ liệu di động của tôi có được bảo mật hoàn toàn không?</string>
+    <string name="faq_item_description5">- Chúng tôi luôn đảm bảo bí mật thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối. Vì vậy, bạn có thể phản chiếu lên TV mà không cần lo lắng.</string>
+    <string name="security_your_screen_mirroring">Bảo mật trình chiếu màn hình của bạn</string>
+    <string name="save">Lưu</string>
+    <string name="enter_a_new_pin_code">Nhập mã pin mới</string>
+    <string name="change_pin_code">Thay đổi mã pin</string>
+    <string name="video_starting_in_5s">Video bắt đầu sau 5 giây</string>
     <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
-    <string name="help">Help</string>
-    <string name="general">General</string>
+    <string name="help">Trợ giúp</string>
+    <string name="general">Chung</string>
     <string name="version">Version</string>
 
     //rating dialog
-    <string name="dont_ask_me_again">Don’t ask me again</string>
-    <string name="remind_a_later">Remind a later</string>
-    <string name="thanks_for_your_feedback">Thanks for your feedback</string>
-    <string name="please_leave_us_some_feedback">Please leave us some feedback</string>
-    <string name="oh_no">Oh, no</string>
-    <string name="we_like_you_too">We like you too</string>
-    <string name="enjoying_the_app">Enjoying the app?</string>
-    <string name="start_stream">Start Stream</string>
+    <string name="dont_ask_me_again">Đừng hỏi tôi nữa</string>
+    <string name="remind_a_later">Nhắc lại sau</string>
+    <string name="thanks_for_your_feedback">Cảm ơn phản hồi của bạn</string>
+    <string name="please_leave_us_some_feedback">Vui lòng để lại cho chúng tôi một số phản hồi</string>
+    <string name="oh_no">Ôi không!</string>
+    <string name="we_like_you_too">Chúng tôi cũng thích bạn</string>
+    <string name="enjoying_the_app">Bạn thích ứng dụng này?</string>
 
 </resources>

@@ -7,7 +7,7 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -74,7 +74,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                 .build()
         )
         viewModel = ViewModelProvider(this)[StreamViewModel::class.java]
-        Timber.d("start browser $intent")
     }
 
     override fun initActions() {
@@ -162,20 +161,8 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     private fun getWifiName(): String {
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val info = wifiManager.connectionInfo
+        Timber.d("getWifiName $info")
         return info.ssid.replace("\"", "")
-    }
-
-    private fun showDialogStopService() {
-        AlertDialog.Builder(this)
-            .setTitle("Want to disconnect?")
-            .setMessage("Connection will be interrupted.")
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                Timber.d("onPress Stop Stream")
-                stopStreamScreen()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
     }
 
     private fun setNewPortAndReStart() {
@@ -226,6 +213,8 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                                 binding.txtIpAddress.text
                             )
                         )
+                        Toast.makeText(this, R.string.stream_fragment_copied, Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
         }

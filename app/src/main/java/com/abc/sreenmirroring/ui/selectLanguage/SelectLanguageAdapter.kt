@@ -33,7 +33,7 @@ class SelectLanguageAdapter(
                     itemClicked?.invoke(this)
                 }
                 if (this.locale == dLocale.toString()) {
-                    binding.txtLanguage.setTextColor(R.color.txt_black01)
+                    binding.txtLanguage.setTextColor(R.color.txt_black)
                     binding.btnCheckBox.setImageResource(R.drawable.ic_selected)
                 }
             }
