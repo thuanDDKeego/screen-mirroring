@@ -58,7 +58,7 @@
         <entry key="app/src/main/res/drawable/ic_5stars.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.101" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
-        <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.14266304347826086" />
+        <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
         <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />

@@ -9,11 +9,11 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.content.ContextCompat
 import com.abc.sreenmirroring.config.AppPreferences
+import com.abc.sreenmirroring.helper.NotificationHelper
 import com.abc.sreenmirroring.service.helper.IntentAction
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FatalError
-import info.dvkr.screenstream.data.other.getLog
 import info.dvkr.screenstream.data.settings.Settings
 import info.dvkr.screenstream.data.settings.SettingsImpl
 import info.dvkr.screenstream.data.settings.SettingsReadOnly
@@ -21,7 +21,9 @@ import info.dvkr.screenstream.data.state.AppStateMachine
 import info.dvkr.screenstream.data.state.AppStateMachineImpl
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
@@ -31,19 +33,26 @@ class AppService : Service() {
     companion object {
         var isRunning: Boolean = false
 
-        fun getAppServiceIntent(context: Context): Intent = Intent(context.applicationContext, AppService::class.java)
+        fun getAppServiceIntent(context: Context): Intent =
+            Intent(context.applicationContext, AppService::class.java)
 
         fun startService(context: Context, intent: Intent) = context.startService(intent)
 
-        fun startForeground(context: Context, intent: Intent) = ContextCompat.startForegroundService(context, intent)
+        fun startForeground(context: Context, intent: Intent) =
+            ContextCompat.startForegroundService(context, intent)
     }
 
-    class AppServiceBinder(private val serviceMessageSharedFlow: MutableSharedFlow<ServiceMessage>) : Binder() {
-        fun getServiceMessageFlow(): SharedFlow<ServiceMessage> = serviceMessageSharedFlow.asSharedFlow()
+    class AppServiceBinder(private val serviceMessageSharedFlow: MutableSharedFlow<ServiceMessage>) :
+        Binder() {
+        fun getServiceMessageFlow(): SharedFlow<ServiceMessage> =
+            serviceMessageSharedFlow.asSharedFlow()
     }
 
     private val _serviceMessageSharedFlow =
-        MutableSharedFlow<ServiceMessage>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+        MutableSharedFlow<ServiceMessage>(
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
     private var appServiceBinder: AppServiceBinder? = AppServiceBinder(_serviceMessageSharedFlow)
 
     private fun sendMessageToActivities(serviceMessage: ServiceMessage) {
@@ -58,6 +67,7 @@ class AppService : Service() {
 
     private val isStreaming = AtomicBoolean(false)
     private val errorPrevious = AtomicReference<AppError?>(null)
+    private lateinit var notificationHelper: NotificationHelper
 
     override fun onBind(intent: Intent?): IBinder? {
         return appServiceBinder
@@ -71,34 +81,44 @@ class AppService : Service() {
     private suspend fun onEffect(effect: AppStateMachine.Effect) = coroutineScope.launch {
         if (effect !is AppStateMachine.Effect.Statistic)
 
-        when (effect) {
-            is AppStateMachine.Effect.ConnectionChanged -> Unit  // TODO Notify user about restart reason
+            when (effect) {
+                is AppStateMachine.Effect.ConnectionChanged -> Unit  // TODO Notify user about restart reason
 
-            is AppStateMachine.Effect.PublicState -> {
-                isStreaming.set(effect.isStreaming)
+                is AppStateMachine.Effect.PublicState -> {
+                    isStreaming.set(effect.isStreaming)
 
-                sendMessageToActivities(
-                    ServiceMessage.ServiceState(
-                        effect.isStreaming, effect.isBusy, effect.isWaitingForPermission,
-                        effect.netInterfaces, effect.appError
+                    sendMessageToActivities(
+                        ServiceMessage.ServiceState(
+                            effect.isStreaming, effect.isBusy, effect.isWaitingForPermission,
+                            effect.netInterfaces, effect.appError
+                        )
                     )
-                )
 
-                onError(effect.appError)
-            }
+                    if (effect.isStreaming)
+                        notificationHelper.showForegroundNotification(
+                            this@AppService, NotificationHelper.NotificationType.STOP
+                        )
+                    else
+                        notificationHelper.showForegroundNotification(
+                            this@AppService, NotificationHelper.NotificationType.START
+                        )
+                    onError(effect.appError)
 
-            is AppStateMachine.Effect.Statistic ->
-                when (effect) {
-                    is AppStateMachine.Effect.Statistic.Clients -> {
-                        sendMessageToActivities(ServiceMessage.Clients(effect.clients))
-                    }
-
-                    is AppStateMachine.Effect.Statistic.Traffic ->
-                        sendMessageToActivities(ServiceMessage.TrafficHistory(effect.traffic))
-
-                    else -> throw IllegalArgumentException("Unexpected onEffect: $effect")
+                    onError(effect.appError)
                 }
-        }
+
+                is AppStateMachine.Effect.Statistic ->
+                    when (effect) {
+                        is AppStateMachine.Effect.Statistic.Clients -> {
+                            sendMessageToActivities(ServiceMessage.Clients(effect.clients))
+                        }
+
+                        is AppStateMachine.Effect.Statistic.Traffic ->
+                            sendMessageToActivities(ServiceMessage.TrafficHistory(effect.traffic))
+
+                        else -> throw IllegalArgumentException("Unexpected onEffect: $effect")
+                    }
+            }
     }.join()
 
     private lateinit var settings: Settings
@@ -107,6 +127,12 @@ class AppService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        notificationHelper = NotificationHelper(this)
+        notificationHelper.createNotificationChannel()
+        notificationHelper.showForegroundNotification(
+            this,
+            NotificationHelper.NotificationType.START
+        )
         settings = SettingsImpl(
             BinaryPreferencesBuilder(applicationContext)
                 .supportInterProcess(true)

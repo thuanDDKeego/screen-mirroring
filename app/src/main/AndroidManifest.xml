@@ -12,6 +12,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="Settings.ACTION_MANAGE_OVERLAY_PERMISSION" />
 
     <application
@@ -82,7 +83,9 @@
             android:exported="true" />
         <service
             android:name="com.abc.sreenmirroring.service.AppService"
-            android:enabled="true" />
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection"
+            tools:targetApi="q" />
     </application>
 
 </manifest>
