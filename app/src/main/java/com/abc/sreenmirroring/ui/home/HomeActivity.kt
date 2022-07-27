@@ -56,12 +56,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 CoroutineScope(Dispatchers.Main).launch {
                     binding.txtWifiState.text =
                         this@HomeActivity.getString(R.string.wifi_not_connected)
-                    binding.imgWifiState.setColorFilter(
-                        ContextCompat.getColor(
+                    binding.imgWifiState.setImageDrawable(
+                        ContextCompat.getDrawable(
                             this@HomeActivity,
-                            R.color.txt_dark_gray
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                            R.drawable.ic_wifi_disconnect
+                        )
                     )
+
                 }
             }
 
@@ -69,11 +70,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 CoroutineScope(Dispatchers.Main).launch {
                     binding.txtWifiState.text =
                         this@HomeActivity.getString(R.string.wifi_connected)
-                    binding.imgWifiState.setColorFilter(
-                        ContextCompat.getColor(
+                    binding.imgWifiState.setImageDrawable(
+                        ContextCompat.getDrawable(
                             this@HomeActivity,
-                            R.color.txt_white
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                            R.drawable.ic_wifi
+                        )
                     )
                 }
             }
