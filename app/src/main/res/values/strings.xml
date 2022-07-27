@@ -103,5 +103,13 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="want_to_disconnect">Want to disconnect?</string>
     <string name="connection_will_be_interruped">Connection will be interruped</string>
 
+    //timer
+    <string name="txt_2">2</string>
+    <string name="txt_5">5</string>
+    <string name="txt_10">10</string>
+    <string name="txt_15">15</string>
+    <string name="txt_20">20</string>
+    <string name="txt_30">30</string>
+
 
 </resources>
