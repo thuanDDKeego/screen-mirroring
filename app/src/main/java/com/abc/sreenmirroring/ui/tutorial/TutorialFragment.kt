@@ -1,6 +1,7 @@
 package com.abc.sreenmirroring.ui.tutorial
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.ViewPager
@@ -54,12 +55,12 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
             imgStateStep3.setOnClickListener {
                 updateTabTutorialDialogPager(2)
             }
-//            btnPrevious.setOnClickListener {
-//                viewPagerTutorial.setCurrentItem(
-//                    viewPagerTutorial.currentItem - 1,
-//                    true
-//                )
-//            }
+            btnPrevious.setOnClickListener {
+                viewPagerTutorial.setCurrentItem(
+                    viewPagerTutorial.currentItem - 1,
+                    true
+                )
+            }
         }
     }
 
@@ -87,19 +88,19 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
             } else {
                 imgStateStep3.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
             }
-//            if (position != 0) {
-//                btnPrevious.visibility = View.VISIBLE
-//            } else {
-//                btnPrevious.visibility = View.INVISIBLE
-//            }
-//            if (position < 2) {
-//                btnNext.setOnClickListener {
-//                    viewPagerTutorial.currentItem = viewPagerTutorial.currentItem + 1
-//                }
-//                btnNext.visibility = View.VISIBLE
-//            } else {
-//                btnNext.visibility = View.INVISIBLE
-//            }
+            if (position != 0) {
+                btnPrevious.visibility = View.VISIBLE
+            } else {
+                btnPrevious.visibility = View.INVISIBLE
+            }
+            if (position < 2) {
+                btnNext.setOnClickListener {
+                    viewPagerTutorial.currentItem = viewPagerTutorial.currentItem + 1
+                }
+                btnNext.visibility = View.VISIBLE
+            } else {
+                btnNext.visibility = View.INVISIBLE
+            }
         }
     }
 }

@@ -281,6 +281,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <Button
+                android:id="@+id/btnAds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_16dp"
+                android:background="@drawable/bg_border_radius_10dp"
+                android:paddingHorizontal="@dimen/margin_16dp"
+                android:text="Move to ads test"
+                app:layout_constraintStart_toStartOf="@id/constraintBrowserMirror"
+                app:layout_constraintTop_toBottomOf="@id/constraintBrowserMirror" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

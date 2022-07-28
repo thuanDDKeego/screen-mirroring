@@ -55,6 +55,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         setContentView(binding.root)
         initViews()
         initActions()
+        initAdmob()
     }
 
     private fun resetDialogView() {
@@ -198,7 +199,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     abstract fun initBinding(): V
     abstract fun initViews()
     abstract fun initActions()
-
+    open fun initAdmob() {}
     interface onWifiChangeStateConnection {
         fun onWifiUnavailable()
         fun onWifiAvailable()
