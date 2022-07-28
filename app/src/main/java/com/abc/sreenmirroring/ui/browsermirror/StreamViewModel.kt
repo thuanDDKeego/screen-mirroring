@@ -1,12 +1,17 @@
 package com.abc.sreenmirroring.ui.browsermirror
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.abc.sreenmirroring.service.ServiceMessage
 
-class StreamViewModel: ViewModel() {
-    private val serviceMessageLiveData = MutableLiveData<ServiceMessage>()
+class StreamViewModel : ViewModel() {
+    val serviceMessageLiveData = MutableLiveData<ServiceMessage>()
 
-    fun getServiceMessageLiveData(): LiveData<ServiceMessage> = serviceMessageLiveData
+    companion object {
+        private var instance: StreamViewModel? = null
+        fun getInstance() =
+            instance ?: synchronized(StreamViewModel::class.java) {
+                instance ?: StreamViewModel().also { instance = it }
+            }
+    }
 }

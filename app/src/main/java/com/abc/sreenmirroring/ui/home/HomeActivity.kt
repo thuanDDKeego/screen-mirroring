@@ -19,10 +19,14 @@ import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogTutorialFirstOpenBinding
+import com.abc.sreenmirroring.extentions.setTintColor
 import com.abc.sreenmirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.sreenmirroring.helper.requestOverlaysPermission
 import com.abc.sreenmirroring.service.FloatToolService
+import com.abc.sreenmirroring.service.ServiceMessage
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
+import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
+import com.abc.sreenmirroring.ui.browsermirror.StreamViewModel
 import com.abc.sreenmirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.sreenmirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.sreenmirroring.ui.home.adapter.TutorialDialogAdapter
@@ -46,6 +50,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @Inject
     lateinit var admobHelper: AdmobHelper
 
+    private var isStreamingBrowser: Boolean = false
+
     companion object {
         fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
@@ -63,6 +69,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.btnAds.setOnClickListener {
             startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
         }
+        observerConnectingBrowser()
         job = setAutoScrollJob()
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
@@ -99,7 +106,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
-            showBrowserDialog()
+            if (isStreamingBrowser) {
+                val intent = Intent(this, BrowserMirrorActivity::class.java)
+                startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
+            } else {
+                showBrowserDialog()
+            }
         }
         binding.constrantMirror.setOnClickListener {
             admobHelper.showAdInterstitial(this@HomeActivity, AdType.MIRROR_DEVICE) {
@@ -112,34 +124,47 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgHelp.setOnClickListener {
             TutorialActivity.gotoActivity(this@HomeActivity)
         }
-        binding.viewPagerAdHome.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                when (event?.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        job.cancel()
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        job = setAutoScrollJob()
-                    }
+        binding.viewPagerAdHome.setOnTouchListener { v, event ->
+            when (event?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    job.cancel()
                 }
-                return false
-            }
-        })
-        binding.switchModeFloatingTool.setOnCheckedChangeListener(object :
-            CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                if (isChecked) {
-                    if (isDrawOverlaysPermissionGranted()) {
-                        Timber.d("Start float tools")
-                        FloatToolService.start(this@HomeActivity)
-                        binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
-                    } else requestOverlaysPermission()
-                } else {
-                    FloatToolService.stop(this@HomeActivity)
-                    binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
+                MotionEvent.ACTION_UP -> {
+                    job = setAutoScrollJob()
                 }
             }
-        })
+            false
+        }
+        binding.switchModeFloatingTool.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                if (isDrawOverlaysPermissionGranted()) {
+                    Timber.d("Start float tools")
+                    FloatToolService.start(this@HomeActivity)
+                    binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
+                } else requestOverlaysPermission()
+            } else {
+                FloatToolService.stop(this@HomeActivity)
+                binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
+            }
+        }
+    }
+
+    private fun observerConnectingBrowser() {
+        StreamViewModel.getInstance().serviceMessageLiveData.observe(this) { serviceMessage ->
+            when (serviceMessage) {
+                is ServiceMessage.ServiceState -> {
+                    isStreamingBrowser = serviceMessage.isStreaming
+                    binding.imgStateOnOffConnectBrowser.setTintColor(if (serviceMessage.isStreaming) R.color.blueA01 else R.color.grayA01)
+                    binding.txtConnectBrowserState.text =
+                        if (serviceMessage.isStreaming) getString(
+                            R.string.connecting
+                        ) else getString(R.string.connect_with_browser)
+                }
+                else -> {
+                    isStreamingBrowser = false
+                }
+            }
+        }
     }
 
     override fun initAdmob() {
@@ -285,7 +310,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         tutorialDialogIsShowing = true
         dialogTutorialBinding =
             LayoutDialogTutorialFirstOpenBinding.inflate(layoutInflater, binding.root, true)
-        var tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
+        val tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
         dialogTutorialBinding.apply {
             viewPagerTutorialDialog.adapter = tutorialAdapter
             constraintBgDialogTutorial.setOnClickListener {}

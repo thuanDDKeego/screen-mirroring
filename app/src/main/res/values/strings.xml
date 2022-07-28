@@ -114,6 +114,7 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="txt_20">20</string>
     <string name="txt_30">30</string>
     <string name="time_noti">You will be announced in %1$s mis</string>
+    <string name="connecting">Connecting</string>
 
     <!--    ads-->
     <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
