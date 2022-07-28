@@ -8,6 +8,11 @@
     <string name="previous">Previous</string>
     <string name="previous_with_underline"><u>Previous</u></string>
 
+    //splash
+
+    <string name="share_your_image_and_video_to_big_screens">Share your image and video to BIG screens</string>
+
+
     <string name="mirror">Mirror</string>
     <string name="wifi_connected">Wifi connected</string>
     <string name="wifi_not_connected">Wifi not connected</string>
