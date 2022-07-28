@@ -17,6 +17,7 @@ import com.abc.sreenmirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.sreenmirroring.extentions.setTintColor
 import com.abc.sreenmirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.sreenmirroring.helper.requestOverlaysPermission
+import com.abc.sreenmirroring.service.CameraPreviewService
 import com.abc.sreenmirroring.service.FloatToolService
 import com.abc.sreenmirroring.service.ServiceMessage
 import com.abc.sreenmirroring.ui.browsermirror.BrowserMirrorActivity
@@ -130,6 +131,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 FloatToolService.stop(this@HomeActivity)
                 binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
             }
+        }
+        binding.btnTest.setOnClickListener {
+            if (isDrawOverlaysPermissionGranted()) {
+                CameraPreviewService.start(this@HomeActivity)
+            } else requestOverlaysPermission()
+        }
+        binding.btnTestStop.setOnClickListener {
+            CameraPreviewService.stop(this@HomeActivity)
         }
     }
 

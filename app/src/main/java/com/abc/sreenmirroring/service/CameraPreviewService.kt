@@ -1,39 +1,96 @@
 package com.abc.sreenmirroring.service
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import com.abc.sreenmirroring.R
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import com.abc.sreenmirroring.databinding.LayoutCameraPreviewBinding
+import com.abc.sreenmirroring.draw.CameraPreviewView
 
 
 class CameraPreviewService : Service() {
-    private var mWindowManager: WindowManager? = null
-    private var image: ImageView? = null
+
+    companion object {
+        private var mWindowManager: WindowManager? = null
+        private var cameraPreview: View? = null
+        private var cameraPreviewBinding: LayoutCameraPreviewBinding? = null
+
+        private lateinit var ctx: Context
+        var isRunning: Boolean = false
+
+        fun start(context: Context) {
+            ctx = context
+            when {
+                CameraPreviewService.isRunning -> {
+                    CameraPreviewService.stop(context)
+                }
+            }
+            val intentFloatToolService = getAppServiceIntent(context)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeground(context, intentFloatToolService)
+            } else {
+                startService(context, intentFloatToolService)
+            }
+        }
+
+        fun stop(context: Context) {
+            val intent = getAppServiceIntent(context)
+            context.stopService(intent)
+        }
+
+        private fun getAppServiceIntent(context: Context): Intent =
+            Intent(context.applicationContext, CameraPreviewService::class.java)
+
+        private fun startService(context: Context, intent: Intent) = context.startService(intent)
+
+        private fun startForeground(context: Context, intent: Intent) =
+            ContextCompat.startForegroundService(context, intent)
+    }
 
     override fun onCreate() {
         super.onCreate()
-        image = ImageView(this)
-        image?.setImageResource(R.mipmap.ic_launcher)
+        if (Build.VERSION.SDK_INT >= 26) {
+            val CHANNEL_ID = "my_channel_01"
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Channel human readable title",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
+                channel
+            )
+            val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("")
+                .setContentText("").build()
+            startForeground(1, notification)
+        }
+        cameraPreview = CameraPreviewView(this)
+        isRunning = true
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         val paramsF = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
         paramsF.gravity = Gravity.TOP or Gravity.LEFT
         paramsF.x = 0
         paramsF.y = 100
-        mWindowManager?.addView(image, paramsF)
+        mWindowManager?.addView(cameraPreview, paramsF)
         try {
-            image?.setOnTouchListener(object : View.OnTouchListener {
+            cameraPreview?.setOnTouchListener(object : View.OnTouchListener {
                 var paramsT = paramsF
                 private var initialX = 0
                 private var initialY = 0
@@ -51,7 +108,7 @@ class CameraPreviewService : Service() {
                         MotionEvent.ACTION_MOVE -> {
                             paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
                             paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
-                            mWindowManager!!.updateViewLayout(v, paramsF)
+                            mWindowManager?.updateViewLayout(v, paramsF)
                         }
                     }
                     return false

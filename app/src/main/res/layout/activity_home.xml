@@ -286,11 +286,25 @@
                 android:layout_height="@dimen/small_img_icon_size"
                 android:layout_marginHorizontal="@dimen/margin_12dp"
                 android:layout_marginVertical="@dimen/margin_16dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/ic_web"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.421"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintBrowserMirror" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnTestStop"
+                android:layout_width="@dimen/medium_img_icon_size"
+                android:layout_height="@dimen/small_img_icon_size"
+                android:layout_marginHorizontal="@dimen/margin_12dp"
+                android:layout_marginVertical="@dimen/margin_16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_wrench"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintBrowserMirror" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.13949275362318841" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_15dp.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.209" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.209" />
@@ -64,6 +65,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/layout_camera_preview.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_disconnect_browser_mirror.xml" value="0.25866546630859377" />
@@ -72,7 +74,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
