@@ -8,8 +8,6 @@ import android.os.IBinder
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.coroutineScope
 import androidx.viewbinding.ViewBinding
 import com.abc.sreenmirroring.service.AppService
@@ -44,8 +42,8 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
 
     lateinit var settings: Settings
 
-    private val serviceMessageLiveData = MutableLiveData<ServiceMessage>()
-    fun getServiceMessageLiveData(): LiveData<ServiceMessage> = serviceMessageLiveData
+    //    private val serviceMessageLiveData = MutableLiveData<ServiceMessage>()
+//    fun getServiceMessageLiveData(): LiveData<ServiceMessage> = serviceMessageLiveData
     private var serviceMessageFlowJob: Job? = null
     private var isBound: Boolean = false
 
@@ -57,7 +55,8 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
                     (service as AppService.AppServiceBinder).getServiceMessageFlow()
                         .onEach { serviceMessage ->
                             XLog.v(this.getLog("onServiceMessage", "$serviceMessage"))
-                            serviceMessageLiveData.value = serviceMessage
+                            StreamViewModel.getInstance().serviceMessageLiveData.value =
+                                serviceMessage
                         }
                         .catch { cause -> XLog.e(this.getLog("onServiceMessage"), cause) }
                         .collect()
@@ -101,7 +100,13 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        serviceMessageLiveData.observe(this) { message -> message?.let { onServiceMessage(it) } }
+        StreamViewModel.getInstance().serviceMessageLiveData.observe(this) { message ->
+            message?.let {
+                onServiceMessage(
+                    it
+                )
+            }
+        }
         bindService(
             AppService.getAppServiceIntent(this),
             serviceConnection,
