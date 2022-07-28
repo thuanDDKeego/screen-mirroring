@@ -4,18 +4,21 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.abc.sreenmirroring.ui.home.HomeActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
+import timber.log.Timber
 import java.util.*
 
 
@@ -92,11 +95,12 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
                 return
             }
         }
+        Timber.d("activity name ${currentActivity?.javaClass?.name}")
         showAdIfAvailable()
     }
 
     /** Request an ad  */
-    fun fetchAd() {
+    fun fetchAd(onLoadedCallback: (() -> Unit)? = null) {
         // Have unused ad, no need to fetch another.
         if (isAdAvailable) {
             return
@@ -110,6 +114,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
             override fun onAdLoaded(ad: AppOpenAd) {
                 appOpenAd = ad
                 loadTime = Date().time
+                onLoadedCallback?.invoke()
             }
 
             /**
@@ -119,6 +124,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
              */
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 // Handle the error.
+                onLoadedCallback?.invoke()
             }
         }
         val request: AdRequest = AdRequest.Builder().build()
@@ -126,6 +132,40 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
             myApplication, appOpenAdId, request,
             AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback as AppOpenAdLoadCallback
         )
+    }
+
+    fun showAdAtSplash(activity: Activity) {
+        val fullScreenContentCallback: FullScreenContentCallback =
+            object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    // Set the reference to null so isAdAvailable() returns false.
+                    appOpenAd = null
+                    isShowingAd = false
+                    fetchAd()
+                    activity.startActivity(Intent(activity, HomeActivity::class.java))
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    activity.startActivity(Intent(activity, HomeActivity::class.java))
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    isShowingAd = true
+                }
+            }
+        if (!isShowingAd && isAdAvailable) {
+            appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
+            if (currentActivity != null) {
+                appOpenAd?.show(currentActivity!!)
+            }
+        } else {
+            fetchAd {
+                appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
+                if (currentActivity != null) {
+                    appOpenAd?.show(currentActivity!!)
+                }
+            }
+        }
     }
 
     /** Shows the ad if one isn't already showing.  */
@@ -164,6 +204,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
     }
 
     override fun onActivityStarted(activity: Activity) {
+        currentActivity = activity
     }
 
     override fun onActivityResumed(activity: Activity) {

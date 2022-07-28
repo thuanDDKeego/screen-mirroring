@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintBgDialogDisconnect"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_gray_dialog">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_6dp"
+        android:background="@drawable/bg_button_gradient_radius_15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitleDialog"
+                style="@style/BoldTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_24dp"
+                android:text="@string/browser_mirror"
+                android:textColor="@color/txt_black01" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtContentDialog"
+                style="@style/ContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_6dp"
+                android:gravity="center"
+                android:text="@string/failed_to_unlock_watching_again"
+                android:textColor="@color/txt_gray" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/medium_img_icon_size"
+                android:layout_height="@dimen/medium_img_icon_size"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:src="@drawable/ic_wifi_blue_disconnect"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRetry"
+                style="@style/regularBoldText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_64dp"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:background="@drawable/bg_border_radius_10dp"
+                android:backgroundTint="@color/blueA01"
+                android:gravity="center"
+                android:paddingVertical="@dimen/margin_12dp"
+                android:text="@string/retry"
+                android:textColor="@color/txt_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCancel"
+                style="@style/regularBoldText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_64dp"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginBottom="@dimen/margin_40dp"
+                android:background="@drawable/bg_txt_ip_address"
+                android:gravity="center"
+                android:paddingVertical="@dimen/margin_12dp"
+                android:text="@string/cancel"
+                android:textColor="@color/blueA01" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

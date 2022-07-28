@@ -37,6 +37,7 @@
     <string name="go">Go</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 
     //checking wifi screen
     <string name="checking_wifi">Checking wifi</string>
@@ -103,6 +104,7 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     //disconnect mirroring dialog
     <string name="want_to_disconnect">Want to disconnect?</string>
     <string name="connection_will_be_interruped">Connection will be interruped</string>
+    <string name="failed_to_unlock_watching_again">Failed to unlock.\nWatching ad again to browser mirror</string>
 
     //timer
     <string name="txt_2">2</string>

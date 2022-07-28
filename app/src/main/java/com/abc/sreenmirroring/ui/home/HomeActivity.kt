@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.home
 
+import AdType
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -11,10 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.AdsActivity
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
+import com.abc.sreenmirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.sreenmirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.sreenmirroring.helper.requestOverlaysPermission
@@ -28,14 +31,19 @@ import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var tutorialDialogIsShowing = false
     private var browserDialogShowing = false
+    private var browserDialogErrorShowing = false
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
+    private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var job: Job
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -131,6 +139,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         })
     }
 
+    override fun initAdmob() {
+        admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
+
+    }
+
     private fun setAutoScrollJob(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
         while (true) {
             delay(time)
@@ -220,12 +233,49 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
-                BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                dismissBrowserDialog()
+                admobHelper.showRewardedAds(
+                    this@HomeActivity,
+                    AdType.BROWSER_MIRROR_REWARD
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                        dismissBrowserDialog()
+                    } else {
+                        dismissBrowserDialog()
+                        showBrowserErrorDialog()
+                    }
+                }
+
             }
         }
-
     }
+
+    private fun dismissBrowserErrorDialog() {
+        if (browserDialogErrorShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            browserDialogErrorShowing = false
+        }
+    }
+
+    private fun showBrowserErrorDialog() {
+        if (browserDialogErrorShowing) return
+        browserDialogErrorShowing = true
+        dialogBrowserErrorBinding =
+            LayoutDialogLoadRewardAdErrorBrowserBinding.inflate(layoutInflater, binding.root, true)
+        dialogBrowserErrorBinding.apply {
+            txtCancel.setOnClickListener {
+                dismissBrowserErrorDialog()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgDialogDisconnect.setOnClickListener { dismissBrowserDialog() }
+
+            txtRetry.setOnClickListener {
+                dismissBrowserErrorDialog()
+                showBrowserDialog()
+            }
+        }
+    }
+
 
     private fun showTutorialDialog() {
         tutorialDialogIsShowing = true
