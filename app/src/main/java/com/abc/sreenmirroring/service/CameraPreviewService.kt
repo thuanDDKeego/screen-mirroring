@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.service
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -23,7 +24,7 @@ class CameraPreviewService : Service() {
 
     companion object {
         private var mWindowManager: WindowManager? = null
-        private var cameraPreview: View? = null
+        private lateinit var cameraPreview: CameraPreviewView
         private var cameraPreviewBinding: LayoutCameraPreviewBinding? = null
 
         private lateinit var ctx: Context
@@ -76,6 +77,11 @@ class CameraPreviewService : Service() {
             startForeground(1, notification)
         }
         cameraPreview = CameraPreviewView(this)
+        cameraPreview.eventCloseCamera = {
+            stop(ctx)
+            mWindowManager?.removeView(cameraPreview)
+        }
+
         isRunning = true
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         val paramsF = WindowManager.LayoutParams(
@@ -90,12 +96,14 @@ class CameraPreviewService : Service() {
         paramsF.y = 100
         mWindowManager?.addView(cameraPreview, paramsF)
         try {
-            cameraPreview?.setOnTouchListener(object : View.OnTouchListener {
+            cameraPreview.setOnTouchListener(object : View.OnTouchListener {
                 var paramsT = paramsF
                 private var initialX = 0
                 private var initialY = 0
                 private var initialTouchX = 0f
                 private var initialTouchY = 0f
+
+                @SuppressLint("ClickableViewAccessibility")
                 override fun onTouch(v: View?, event: MotionEvent): Boolean {
                     when (event.action) {
                         MotionEvent.ACTION_DOWN -> {

@@ -20,8 +20,10 @@ import java.util.concurrent.ExecutionException
 
 
 class CameraPreviewView : ConstraintLayout, LifecycleOwner {
-    private lateinit var previewView: PreviewView
+    var eventCloseCamera: (() -> Unit?)? = null
     private lateinit var binding: LayoutCameraPreviewBinding
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
     private val mLifecycleRegistry: LifecycleRegistry by lazy { LifecycleRegistry(this) }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -43,19 +45,30 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
     private fun initView() {
         mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         val view = inflate(context, R.layout.layout_camera_preview, this)
-        previewView = view.findViewById(R.id.preview_view)
-
+        binding = LayoutCameraPreviewBinding.bind(view)
+        binding.btnSwitchCamera.setOnClickListener {
+            lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+                CameraSelector.LENS_FACING_BACK
+            } else {
+                CameraSelector.LENS_FACING_FRONT
+            }
+            bindPreview()
+        }
+        binding.btnCloseCamera.setOnClickListener {
+            eventCloseCamera?.invoke()
+        }
         setCameraProviderListener()
     }
 
-    private fun bindPreview(cameraProvider: ProcessCameraProvider) {
-        previewView.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
+    private fun bindPreview() {
+        cameraProvider.unbindAll()
+        binding.previewView.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
         val preview = Preview.Builder().setTargetAspectRatio(AspectRatio.RATIO_4_3)
-            .setTargetRotation(previewView.display.rotation)
+            .setTargetRotation(binding.previewView.display.rotation)
             .build()
         val cameraSelector =
-            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
-        preview.setSurfaceProvider(previewView.surfaceProvider)
+            CameraSelector.Builder().requireLensFacing(lensFacing).build()
+        preview.setSurfaceProvider(binding.previewView.surfaceProvider)
         val useCaseGroup = UseCaseGroup.Builder()
             .addUseCase(preview)
             .build()
@@ -68,8 +81,8 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
             ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener({
             try {
-                val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                bindPreview(cameraProvider)
+                cameraProvider = cameraProviderFuture.get()
+                bindPreview()
             } catch (e: ExecutionException) {
                 // No errors need to be handled for this Future
                 // This should never be reached
