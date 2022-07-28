@@ -88,12 +88,14 @@ class AdmobHelper {
         } else {
             Timber.d("====show ${adsInterstitial[type]}")
             if (adsInterstitial[type] != null) {
+                Timber.d("adsInterstitial ${adsInterstitial[type]}")
                 adsInterstitial[type]?.fullScreenContentCallback =
                     object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             super.onAdDismissedFullScreenContent()
                             callback()
                             adsInterstitial[type] = null
+                            Timber.d("adsInterstitial ${adsInterstitial[type]}")
                             loadAdInterstitial(context, type) {}
                         }
 
@@ -101,6 +103,7 @@ class AdmobHelper {
                             super.onAdFailedToShowFullScreenContent(p0)
                             callback()
                             adsInterstitial[type] = null
+                            Timber.d("adsInterstitial ${adsInterstitial[type]}")
                             loadAdInterstitial(context, type) {}
 
                         }
@@ -117,6 +120,7 @@ class AdmobHelper {
         nativeAd: NativeAd,
         adView: NativeAdView
     ) {
+        Timber.d("nativeAd ${nativeAd}")
         adView.mediaView = adView.findViewById(R.id.ad_media)
         if (adView.mediaView != null) {
             adView.mediaView?.postDelayed({

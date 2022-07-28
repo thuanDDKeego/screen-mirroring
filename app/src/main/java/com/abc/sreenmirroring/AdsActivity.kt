@@ -20,7 +20,7 @@ class AdsActivity : BaseActivity<ActivityAdsBinding>() {
     override fun initActions() {
         binding.btnInterstitialAd.setOnClickListener {
             Timber.d("====showAdmob")
-            admobHelper.showAdInterstitial(this, AdType.GALLERY_INTERSTITIAL) {}
+            admobHelper.showAdInterstitial(this, AdType.BACK_FROM_TUTORIAL_INTERSTITIAL) {}
         }
         binding.btnRewardIntersitialAd.setOnClickListener {
             Timber.d("====showAdmob")
@@ -29,7 +29,7 @@ class AdsActivity : BaseActivity<ActivityAdsBinding>() {
     }
 
     override fun initAdmob() {
-        admobHelper.loadAdInterstitial(this, AdType.GALLERY_INTERSTITIAL) {}
+        admobHelper.loadAdInterstitial(this, AdType.BACK_FROM_TUTORIAL_INTERSTITIAL) {}
         admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
         admobHelper.showNativeAdmob(this, AdType.HOME_NATIVE, binding.admobNativeView.nativeAdView)
         //ad banner

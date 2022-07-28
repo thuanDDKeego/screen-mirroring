@@ -42,6 +42,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var job: Job
+
     @Inject
     lateinit var admobHelper: AdmobHelper
 
@@ -101,7 +102,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             showBrowserDialog()
         }
         binding.constrantMirror.setOnClickListener {
-            DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+            admobHelper.showAdInterstitial(this@HomeActivity, AdType.MIRROR_DEVICE) {
+                DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+            }
         }
         binding.imgSetting.setOnClickListener {
             SettingActivity.gotoActivity(this@HomeActivity)
@@ -141,6 +144,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initAdmob() {
         admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
+        admobHelper.loadAdInterstitial(this, AdType.MIRROR_DEVICE) {}
 
     }
 

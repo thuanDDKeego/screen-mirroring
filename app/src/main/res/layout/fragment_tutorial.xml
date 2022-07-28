@@ -10,14 +10,13 @@
         android:id="@+id/viewPagerTutorial"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingHorizontal="@dimen/margin_24dp"
         app:layout_constraintBottom_toTopOf="@id/imgStateStep2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgStateStep1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +27,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgStateStep2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +39,7 @@
         app:layout_constraintStart_toEndOf="@id/imgStateStep1"
         app:layout_constraintTop_toBottomOf="@id/viewPagerTutorialDialog" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgStateStep3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,5 +48,25 @@
         app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_24dp"
+        android:src="@drawable/ic_previous_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_24dp"
+        android:src="@drawable/ic_next_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
