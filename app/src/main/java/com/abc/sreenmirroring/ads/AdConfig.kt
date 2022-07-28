@@ -37,6 +37,4 @@ enum class AdType(var adsId: Int) {
     SHARE_NATIVE(AdConfig.AD_MOB_SHARE_BOTTOM_NATIVE),
 
     APP_OPEN(AdConfig.AD_MOB_AD_OPEN);
-
-
 }
