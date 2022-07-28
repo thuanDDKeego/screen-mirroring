@@ -24,7 +24,7 @@
     </style>
 
     <style name="OnboardTheme" parent="Theme.Sreenmirroringcasttv.NoActionBar">
-        <item name="android:windowBackground">@drawable/bg_onboard_screen</item>
+        <item name="android:windowBackground">@mipmap/bg_onboard_screen</item>
     </style>
 
 

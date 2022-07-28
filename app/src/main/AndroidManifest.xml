@@ -96,6 +96,14 @@
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
+
+        <receiver
+            android:name=".notification.TimerReceiver"
+            android:enabled="true" />
+
+        <service
+            android:name=".service.NotificationService"
+            android:enabled="true" />
     </application>
 
 </manifest>

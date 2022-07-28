@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.1013189448441247" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_15dp.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.209" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.209" />
@@ -54,21 +53,18 @@
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_drawing_tool.xml" value="0.264" />
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_remove_icon.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.1685" />
-        <entry key="app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/bg_dialog_reward_ad_open_browser.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/bg_txt_ip_address.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/float_remove_icon_gradient_background.xml" value="0.1925" />
         <entry key="app/src/main/res/drawable/ic_5stars.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.101" />
+        <entry key="app/src/main/res/drawable/ic_on_off_state.xml" value="0.2065" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
-        <entry key="app/src/main/res/layout/activity_select_language.xml" value="0.13728470111448834" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/float_drawing_tool.xml" value="0.24947916666666667" />
-        <entry key="app/src/main/res/layout/item_select_language.xml" value="0.13728470111448834" />
-        <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_disconnect_browser_mirror.xml" value="0.25866546630859377" />
         <entry key="app/src/main/res/layout/layout_rate_dialog.xml" value="0.20885416666666667" />

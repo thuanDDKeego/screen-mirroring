@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivityBrowserMirrorBinding
@@ -28,6 +27,10 @@ import info.dvkr.screenstream.data.other.setUnderlineSpan
 import info.dvkr.screenstream.data.settings.Settings
 import info.dvkr.screenstream.data.settings.SettingsImpl
 import info.dvkr.screenstream.data.settings.SettingsReadOnly
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -38,8 +41,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     private val clipboard: ClipboardManager? by lazy {
         ContextCompat.getSystemService(this, ClipboardManager::class.java)
     }
-
-    var viewModel: StreamViewModel? = null
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -53,12 +54,16 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         fun getStartIntent(context: Context): Intent =
             getAppActivityIntent(context)
 
-        private const val SCREEN_CAPTURE_REQUEST_CODE = 10
+        const val START_WHEN_RUNNING_REQUEST_CODE = 10
     }
 
     override fun initBinding() = ActivityBrowserMirrorBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            startStreamScreen()
+        }
         binding.btnStopStream.visibility = View.GONE
         if (AppPreferences().isTurnOnPinCode == true) {
             binding.txtPinCode.text = "Pin: ${AppPreferences().pinCode}"
@@ -73,7 +78,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                 .exceptionHandler { ex -> Timber.e(ex) }
                 .build()
         )
-        viewModel = ViewModelProvider(this)[StreamViewModel::class.java]
     }
 
     override fun initActions() {
@@ -105,7 +109,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
 
     override fun onStart() {
         super.onStart()
-        this.getServiceMessageLiveData().observe(this) { serviceMessage ->
+        StreamViewModel.getInstance().serviceMessageLiveData.observe(this) { serviceMessage ->
             Timber.d("onStart $serviceMessage")
             when (serviceMessage) {
                 is ServiceMessage.ServiceState -> onServiceStateMessage(serviceMessage)
