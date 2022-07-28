@@ -27,12 +27,16 @@
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".AdsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,12 +59,10 @@
             android:name=".ui.browsermirror.BrowserMirrorActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.selectLanguage.SelectLanguageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.policy.PolicyActivity"
             android:exported="false"
@@ -87,7 +89,7 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name="com.abc.sreenmirroring.service.AppService"
+            android:name=".service.AppService"
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
@@ -99,6 +101,10 @@
         <service
             android:name=".service.NotificationService"
             android:enabled="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ad_app_id" />
     </application>
 
 </manifest>

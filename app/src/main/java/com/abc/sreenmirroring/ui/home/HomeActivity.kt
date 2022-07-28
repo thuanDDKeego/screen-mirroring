@@ -9,6 +9,7 @@ import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
+import com.abc.sreenmirroring.AdsActivity
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
@@ -50,6 +51,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             showTutorialDialog()
         }
         initViewPager()
+        binding.btnAds.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
+        }
         job = setAutoScrollJob()
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {

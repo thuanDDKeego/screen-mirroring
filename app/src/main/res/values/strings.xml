@@ -113,5 +113,28 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="txt_30">30</string>
     <string name="time_noti">You will be announced in %1$s mis</string>
 
+    <!--    ads-->
+    <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="ad_interstitial_splash">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_gallery">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_export">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_share">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="ad_rewarded_effect">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_filter">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_music">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_sticker">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_watermark">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string name="ad_native_home_bottom">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_gallery_bottom">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_share_bottom">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="ad_app_open">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ad_edit_video_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <!---->
+    <string name="sponsored">Sponsored</string>
+
 
 </resources>
