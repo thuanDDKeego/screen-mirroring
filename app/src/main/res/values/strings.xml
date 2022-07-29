@@ -37,6 +37,7 @@
     <string name="go">Go</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 
     //checking wifi screen
     <string name="checking_wifi">Checking wifi</string>
@@ -103,6 +104,7 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     //disconnect mirroring dialog
     <string name="want_to_disconnect">Want to disconnect?</string>
     <string name="connection_will_be_interruped">Connection will be interruped</string>
+    <string name="failed_to_unlock_watching_again">Failed to unlock.\nWatching ad again to browser mirror</string>
 
     //timer
     <string name="txt_2">2</string>
@@ -113,6 +115,29 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="txt_30">30</string>
     <string name="time_noti">You will be announced in %1$s mis</string>
     <string name="connecting">Connecting</string>
+
+    <!--    ads-->
+    <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="ad_interstitial_splash">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_gallery">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_export">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_share">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="ad_rewarded_effect">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_filter">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_music">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_sticker">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_rewarded_watermark">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string name="ad_native_home_bottom">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_gallery_bottom">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_share_bottom">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="ad_app_open">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ad_edit_video_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <!---->
+    <string name="sponsored">Sponsored</string>
 
 
 </resources>

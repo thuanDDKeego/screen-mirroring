@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.tutorial
 
+import AdType
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
@@ -7,14 +8,19 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityTutorialBinding
 import com.abc.sreenmirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     AdapterView.OnItemSelectedListener {
+
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -25,6 +31,12 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
 
     override fun initBinding() = ActivityTutorialBinding.inflate(layoutInflater)
 
+    override fun initAdmob() {
+        admobHelper.loadAdInterstitial(
+            this@TutorialActivity,
+            AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
+        ) {}
+    }
 
     override fun initViews() {
         initViewPager()
@@ -98,7 +110,12 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
-            super.onBackPressed()
+            admobHelper.showAdInterstitial(
+                this@TutorialActivity,
+                AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
+            ) {
+                super.onBackPressed()
+            }
         }
     }
 

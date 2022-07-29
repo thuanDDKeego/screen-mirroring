@@ -1,19 +1,24 @@
 package com.abc.sreenmirroring.ui.home
 
+import AdType
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
+import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
+import com.abc.sreenmirroring.AdsActivity
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivityHomeBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogBrowserMirrorBinding
+import com.abc.sreenmirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.sreenmirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.sreenmirroring.extentions.setTintColor
 import com.abc.sreenmirroring.helper.MY_PERMISSIONS_REQUEST_CAMERA
@@ -33,14 +38,20 @@ import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var tutorialDialogIsShowing = false
     private var browserDialogShowing = false
+    private var browserDialogErrorShowing = false
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
+    private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var job: Job
+
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     private var isStreamingBrowser: Boolean = false
 
@@ -58,6 +69,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             showTutorialDialog()
         }
         initViewPager()
+        binding.btnAds.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
+        }
         observerConnectingBrowser()
         job = setAutoScrollJob()
         observerWifiState(object : onWifiChangeStateConnection {
@@ -103,7 +117,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.constrantMirror.setOnClickListener {
-            DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+            admobHelper.showAdInterstitial(this@HomeActivity, AdType.MIRROR_DEVICE) {
+                DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+            }
         }
         binding.imgSetting.setOnClickListener {
             SettingActivity.gotoActivity(this@HomeActivity)
@@ -171,6 +187,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
         }
+    }
+
+    override fun initAdmob() {
+        admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
+        admobHelper.loadAdInterstitial(this, AdType.MIRROR_DEVICE) {}
+
     }
 
     private fun setAutoScrollJob(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
@@ -262,12 +284,49 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
-                BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                dismissBrowserDialog()
+                admobHelper.showRewardedAds(
+                    this@HomeActivity,
+                    AdType.BROWSER_MIRROR_REWARD
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                        dismissBrowserDialog()
+                    } else {
+                        dismissBrowserDialog()
+                        showBrowserErrorDialog()
+                    }
+                }
+
             }
         }
-
     }
+
+    private fun dismissBrowserErrorDialog() {
+        if (browserDialogErrorShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            browserDialogErrorShowing = false
+        }
+    }
+
+    private fun showBrowserErrorDialog() {
+        if (browserDialogErrorShowing) return
+        browserDialogErrorShowing = true
+        dialogBrowserErrorBinding =
+            LayoutDialogLoadRewardAdErrorBrowserBinding.inflate(layoutInflater, binding.root, true)
+        dialogBrowserErrorBinding.apply {
+            txtCancel.setOnClickListener {
+                dismissBrowserErrorDialog()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgDialogDisconnect.setOnClickListener { dismissBrowserDialog() }
+
+            txtRetry.setOnClickListener {
+                dismissBrowserErrorDialog()
+                showBrowserDialog()
+            }
+        }
+    }
+
 
     private fun showTutorialDialog() {
         tutorialDialogIsShowing = true

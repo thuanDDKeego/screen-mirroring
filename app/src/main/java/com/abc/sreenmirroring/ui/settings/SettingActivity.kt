@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import com.abc.sreenmirroring.BuildConfig
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.config.AppPreferences
 import com.abc.sreenmirroring.databinding.ActivitySettingBinding
@@ -20,8 +21,13 @@ import com.abc.sreenmirroring.service.helper.IntentAction
 import com.abc.sreenmirroring.ui.policy.PolicyActivity
 import com.abc.sreenmirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.sreenmirroring.ui.tutorial.TutorialActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -36,6 +42,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
+    }
+
+    override fun initAdmob() {
+        admobHelper.loadAdBanner(binding.adBannerSetting.adView)
     }
 
     override fun initActions() {
