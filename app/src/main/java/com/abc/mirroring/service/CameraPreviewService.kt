@@ -7,10 +7,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.Path
 import android.graphics.PixelFormat
-import android.graphics.RectF
-import android.graphics.Region
 import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
@@ -20,7 +17,6 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.draw.CameraPreviewView
-import timber.log.Timber
 
 class CameraPreviewService : Service() {
 
@@ -101,7 +97,6 @@ class CameraPreviewService : Service() {
         paramsF.x = 0
         paramsF.y = 100
         mWindowManager?.addView(cameraPreview, paramsF)
-        updateBoundRegion()
         try {
             cameraPreview.setOnTouchListener(object : View.OnTouchListener {
                 var paramsT = paramsF
@@ -125,33 +120,11 @@ class CameraPreviewService : Service() {
                             initialY = paramsF.y
                             initialTouchX = event.rawX
                             initialTouchY = event.rawY
-                            mIsScale = mScaleRegion.contains(event.x.toInt(), event.y.toInt())
-
-                            // calculate center of preview
-//                            centerX =
-//                                ((cameraPreview.left + cameraPreview.right) / 2f).toInt()
-//                            centerY =
-//                                ((cameraPreview.top + cameraPreview.bottom) / 2f).toInt()
-//                            // recalculate coordinates of starting point
-//                            startX = (event.rawX + centerX).toInt()
-//                            startY = (event.rawY + centerY).toInt()
-//
-//                            // get starting distance and scale
-//                            startR =
-//                                hypot(
-//                                    (event.rawX - startX).toDouble(),
-//                                    (event.rawY - startY).toDouble()
-//                                ).toFloat().toInt()
-//                            startScale = cameraPreview.scaleX.toInt()
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            mIsScale = false
                         }
                         MotionEvent.ACTION_MOVE -> {
                             paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
                             paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
                             mWindowManager?.updateViewLayout(v, paramsF)
-                            Timber.d("cameraPreview: ${cameraPreview.width} -- ${cameraPreview.height}")
                         }
                     }
                     return false
@@ -164,32 +137,5 @@ class CameraPreviewService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    private fun setBoundRegion(region: Region, path: Path) {
-        val boundRecF = RectF()
-        path.computeBounds(boundRecF, true)
-        region.setPath(
-            path,
-            Region(
-                boundRecF.left.toInt(),
-                boundRecF.top.toInt(),
-                boundRecF.right.toInt(),
-                boundRecF.bottom.toInt()
-            )
-        )
-    }
-
-    private fun updateBoundRegion() {
-        Path().apply {
-            addRect(
-                (cameraPreview.width - 100).toFloat(),
-                (cameraPreview.height - 100).toFloat(),
-                cameraPreview.width.toFloat(),
-                cameraPreview.height.toFloat(),
-                Path.Direction.CCW
-            )
-            setBoundRegion(mScaleRegion, this)
-        }
     }
 }
