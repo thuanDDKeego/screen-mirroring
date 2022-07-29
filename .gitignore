@@ -251,6 +251,5 @@ fabric.properties
 .safedk/plugin.properties
 .safedk/hashes.safedk
 .plugin.properties
-google-services.json
 ktlint.xml
 misc.xml

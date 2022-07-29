@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "285883806590",
+    "project_id": "fir-test-for-mirror",
+    "storage_bucket": "fir-test-for-mirror.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285883806590:android:9426ed3bcf72b24415792f",
+        "android_client_info": {
+          "package_name": "com.abc.mirroring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285883806590-brusgqlh40j9v4nah8l86mrgpvg3uofs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmD4uuJXTLGZTs1piVAxkIpjvxZ_mEIzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285883806590-brusgqlh40j9v4nah8l86mrgpvg3uofs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
