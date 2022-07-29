@@ -487,13 +487,10 @@ open class FloatToolService : Service() {
         }
 
         override fun onCameraPreview() {
-            Timber.d("")
+            Timber.d("onCameraPreview ${isHaveCameraPermission()}")
             if (isHaveCameraPermission()) {
-                if (CameraPreviewService.isRunning) {
-                    CameraPreviewService.stop(context)
-                } else {
-                    CameraPreviewService.start(context)
-                }
+                Timber.d("onCameraPreview .isRunning ${CameraPreviewService.isRunning}")
+                CameraPreviewService.start(context)
             } else {
                 requestCameraPermission(ctx as Activity)
             }

@@ -23,32 +23,32 @@ import com.abc.sreenmirroring.draw.CameraPreviewView
 
 
 class CameraPreviewService : Service() {
-    private var mWindowManager: WindowManager? = null
-    private lateinit var cameraPreview: CameraPreviewView
+
     private var mScaleRegion = Region()
     private var mIsScale = false
 
     companion object {
+        private var mWindowManager: WindowManager? = null
+        private lateinit var cameraPreview: CameraPreviewView
 
         private lateinit var ctx: Context
         var isRunning: Boolean = false
 
         fun start(context: Context) {
             ctx = context
-            when {
-                isRunning -> {
-                    stop(context)
+            if (!isRunning) {
+                val intentFloatToolService = getAppServiceIntent(context)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForeground(context, intentFloatToolService)
+                } else {
+                    startService(context, intentFloatToolService)
                 }
-            }
-            val intentFloatToolService = getAppServiceIntent(context)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(context, intentFloatToolService)
-            } else {
-                startService(context, intentFloatToolService)
             }
         }
 
         fun stop(context: Context) {
+            isRunning = false
+            mWindowManager?.removeView(cameraPreview)
             val intent = getAppServiceIntent(context)
             context.stopService(intent)
         }
@@ -82,7 +82,6 @@ class CameraPreviewService : Service() {
         cameraPreview = CameraPreviewView(this)
         cameraPreview.eventCloseCamera = {
             stop(ctx)
-            mWindowManager?.removeView(cameraPreview)
         }
 
         isRunning = true
