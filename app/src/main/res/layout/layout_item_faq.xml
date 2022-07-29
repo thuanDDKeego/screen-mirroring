@@ -35,7 +35,6 @@
         style="@style/regularText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="3"
         android:textColor="@color/txt_dark_gray"
         android:visibility="gone" />
 

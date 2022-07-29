@@ -26,6 +26,7 @@ class TutorialViewModel @Inject constructor() : ViewModel() {
                     R.string.faq_item_description1
                 )
             ),
+            FAQItem("",""),
             FAQItem(
                 context.getString(R.string.faq_item_title2),
                 context.getString(R.string.faq_item_description2)
@@ -50,17 +51,17 @@ class TutorialViewModel @Inject constructor() : ViewModel() {
             DeviceItem(
                 context.getString(R.string.dlna),
                 context.getString(R.string.dlna_content),
-                R.drawable.img_dlna_device
+                R.drawable.img_dlna
+            ),
+            DeviceItem(
+                context.getString(R.string.chrome_cast),
+                context.getString(R.string.chrome_cast_content),
+                R.drawable.img_chromecast
             ),
             DeviceItem(
                 context.getString(R.string.xbox),
                 context.getString(R.string.xbox_content),
                 R.drawable.img_xbox
-            ),
-            DeviceItem(
-                context.getString(R.string.dlna),
-                context.getString(R.string.dlna_content),
-                R.drawable.img_dlna_device
             ),
             DeviceItem(
                 context.getString(R.string.fire_tv),
@@ -80,9 +81,8 @@ class TutorialViewModel @Inject constructor() : ViewModel() {
             DeviceItem(
                 context.getString(R.string.lg_web_os),
                 context.getString(R.string.lg_web_os_content),
-                R.drawable.img_web_os
+                R.drawable.img_webos
             )
         )
     }
-
 }

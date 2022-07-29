@@ -159,9 +159,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
             }
         }
-        binding.testCrash.setOnClickListener {
-            throw RuntimeException("Test Crash")
-        }
+//        binding.testCrash.setOnClickListener {
+//            throw RuntimeException("Test Crash")
+//        }
     }
 
     override fun onRequestPermissionsResult(

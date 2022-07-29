@@ -1,5 +1,6 @@
 package com.abc.mirroring.ui.tutorial.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,10 +19,10 @@ class DeviceItemAdapter(
         return BaseViewHolder(itemBinding)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         with(holder) {
             with(listDeviceItem[position]) {
-                var expanded = false
                 itemBinding.txtCategoryTitle.text = this.categoryTitle
                 itemBinding.txtCategoryContent.text = this.categoryContent
                 itemBinding.imgDevice.setImageDrawable(context.getDrawable(this.imgDevice))
