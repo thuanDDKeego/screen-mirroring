@@ -20,16 +20,14 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.draw.CameraPreviewView
-
+import timber.log.Timber
 
 class CameraPreviewService : Service() {
-
-    private var mScaleRegion = Region()
-    private var mIsScale = false
 
     companion object {
         private var mWindowManager: WindowManager? = null
         private lateinit var cameraPreview: CameraPreviewView
+        var notificationId = 102
 
         private lateinit var ctx: Context
         var isRunning: Boolean = false
@@ -62,6 +60,11 @@ class CameraPreviewService : Service() {
             ContextCompat.startForegroundService(context, intent)
     }
 
+    private var initialX = 0
+    private var initialY = 0
+    private var initialTouchX = 0f
+    private var initialTouchY = 0f
+
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= 26) {
@@ -77,7 +80,8 @@ class CameraPreviewService : Service() {
             val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("")
                 .setContentText("").build()
-            startForeground(1, notification)
+
+            startForeground(notificationId, notification)
         }
         cameraPreview = CameraPreviewView(this)
         cameraPreview.eventCloseCamera = {
@@ -144,27 +148,10 @@ class CameraPreviewService : Service() {
                             mIsScale = false
                         }
                         MotionEvent.ACTION_MOVE -> {
-                            if (mIsScale) {
-                                // calculate new distance
-//                                val newR =
-//                                    Math.hypot(
-//                                        (event.rawX - startX).toDouble(),
-//                                        (event.rawY - startY).toDouble()
-//                                    ).toFloat()
-//
-//                                Timber.d("newR $newR -- startR $startR")
-//                                // set new scale
-//                                val newScale = startR / newR * startScale
-//                                cameraPreview.scaleX = newScale
-//                                cameraPreview.scaleY = newScale
-//                                mWindowManager?.updateViewLayout(v, paramsF)
-
-                            } else {
-                                paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
-                                paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
-                                mWindowManager?.updateViewLayout(v, paramsF)
-                            }
-                            updateBoundRegion()
+                            paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
+                            paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
+                            mWindowManager?.updateViewLayout(v, paramsF)
+                            Timber.d("cameraPreview: ${cameraPreview.width} -- ${cameraPreview.height}")
                         }
                     }
                     return false
