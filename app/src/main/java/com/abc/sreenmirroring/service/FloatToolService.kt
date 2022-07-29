@@ -1,9 +1,6 @@
 package com.abc.sreenmirroring.service
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -42,10 +39,11 @@ open class FloatToolService : Service() {
         var channelId = "bubble_service"
         var channelName = "floating bubble"
         var notificationId = 101
-
+        lateinit var ctx: Context
         private var colorState = MutableLiveData(R.color.draw_black)
 
         fun start(context: Context) {
+            ctx = context
             when {
                 isRunning -> {
                     stop(context)
@@ -75,6 +73,7 @@ open class FloatToolService : Service() {
 
     internal class LocalBinder : Binder()
 
+    private lateinit var context: Context
     private var height = 0
     private var width = 0
     private var xBubble = 0
@@ -101,6 +100,7 @@ open class FloatToolService : Service() {
     override fun onCreate() {
         super.onCreate()
         Timber.d("onCreate")
+        context = this
         isRunning = true
         screenSize = ScreenInfo.getScreenSize(this)
         startX = screenHalfWidth - (36.toPx / 2)
@@ -264,6 +264,7 @@ open class FloatToolService : Service() {
             else -> screenHalfHeight + currentPointBubble.y - (36.toPx)
         }
 
+        val context = applicationContext
         val binding = if (xBubble > 0) {
             FloatExpandableMenuRightBinding.inflate(inflater).apply {
                 btnBubble.setOnClickListener { action.popToBubble() }
@@ -271,6 +272,7 @@ open class FloatToolService : Service() {
                 guidelinePosition.setGuidelineBegin(guidelineMargin)
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
+                btnCamera.setOnClickListener { action.onCameraPreview() }
             }
         } else {
             FloatExpandableMenuLeftBinding.inflate(inflater).apply {
@@ -279,6 +281,7 @@ open class FloatToolService : Service() {
                 guidelinePosition.setGuidelineBegin(guidelineMargin)
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
+                btnCamera.setOnClickListener { action.onCameraPreview() }
             }
         }
 
@@ -481,6 +484,16 @@ open class FloatToolService : Service() {
             Timber.d("navigateToDrawingToolView")
             updateDrawingToolView()
             tryNavigateToDrawingToolView()
+        }
+
+        override fun onCameraPreview() {
+            Timber.d("onCameraPreview ${isHaveCameraPermission()}")
+            if (isHaveCameraPermission()) {
+                Timber.d("onCameraPreview .isRunning ${CameraPreviewService.isRunning}")
+                CameraPreviewService.start(context)
+            } else {
+                requestCameraPermission(ctx as Activity)
+            }
         }
     }
 
