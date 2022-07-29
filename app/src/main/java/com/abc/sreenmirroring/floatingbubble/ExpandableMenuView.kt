@@ -24,6 +24,7 @@ class ExpandableMenuView(
         fun onCloseExpandableView() {}
         fun navigateToTimerNoti() {}
         fun navigateToDrawingToolView() {}
+        fun onCameraPreview() {}
     }
 
     // public --------------------------------------------------------------------------------------
