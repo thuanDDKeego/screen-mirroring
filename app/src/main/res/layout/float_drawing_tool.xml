@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/transparent">
 
-    <com.abc.sreenmirroring.draw.DrawView
+    <com.abc.mirroring.draw.DrawView
         android:id="@+id/drawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
