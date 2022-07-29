@@ -1,8 +1,6 @@
 package com.abc.mirroring.ui.selectLanguage
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +9,6 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.databinding.ActivitySelectLanguageBinding
 import com.abc.mirroring.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -53,28 +50,30 @@ class SelectLanguageActivity : BaseActivity<ActivitySelectLanguageBinding>() {
 
     private fun onSelectItem(item: SelectLanguageViewState) {
         localeSelected = Locale(item.locale)
-        showDialogConfirm()
+        onChangeLanguage()
+//        showDialogConfirm()
     }
 
     private fun onChangeLanguage() {
         dLocale = localeSelected
         startActivity(HomeActivity.newIntent(this))
         finish()
+        startActivity(newIntent(this))
     }
 
-    private fun showDialogConfirm() {
-        AlertDialog.Builder(this)
-            .setTitle("Language Change")
-            .setMessage("To change the language you need to restart the app. Do you want to continue?")
-            .setPositiveButton(android.R.string.yes,
-                DialogInterface.OnClickListener { dialog, which ->
-                    Timber.d("onPress Confirm")
-                    onChangeLanguage()
-                })
-            .setNegativeButton(android.R.string.no, null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
-    }
+//    private fun showDialogConfirm() {
+//        AlertDialog.Builder(this)
+//            .setTitle("Language Change")
+//            .setMessage("To change the language you need to restart the app. Do you want to continue?")
+//            .setPositiveButton(android.R.string.yes,
+//                DialogInterface.OnClickListener { dialog, which ->
+//                    Timber.d("onPress Confirm")
+//                    onChangeLanguage()
+//                })
+//            .setNegativeButton(android.R.string.no, null)
+//            .setIcon(android.R.drawable.ic_dialog_alert)
+//            .show()
+//    }
 
     override fun initActions() {
         binding.btnBack.setOnClickListener {

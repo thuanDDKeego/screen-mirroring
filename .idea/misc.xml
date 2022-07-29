@@ -60,9 +60,11 @@
         <entry key="app/src/main/res/drawable/ic_5stars.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_on_off_state.xml" value="0.2065" />
+        <entry key="app/src/main/res/drawable/ic_scale.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_version.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
         <entry key="app/src/main/res/layout/float_expandable_menu_left.xml" value="0.22552083333333334" />
@@ -73,6 +75,7 @@
         <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_disconnect_browser_mirror.xml" value="0.25866546630859377" />
+        <entry key="app/src/main/res/layout/layout_dialog_load_reward_ad_error_browser.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_rate_dialog.xml" value="0.20885416666666667" />
       </map>
     </option>

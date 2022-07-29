@@ -275,6 +275,7 @@
                     android:layout_marginTop="@dimen/margin_20dp"
                     android:backgroundTint="@color/blueA01"
                     android:button="@color/blueA01"
+                    android:theme="@style/ColorSwitchStyle"
                     app:layout_constraintEnd_toEndOf="@id/imgWrench"
                     app:layout_constraintStart_toEndOf="@id/txtStateModeFloatingView"
                     app:layout_constraintTop_toBottomOf="@id/imgWrench" />
