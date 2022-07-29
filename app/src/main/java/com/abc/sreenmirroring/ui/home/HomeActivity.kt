@@ -7,11 +7,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
-import com.abc.sreenmirroring.AdsActivity
 import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
@@ -69,9 +67,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             showTutorialDialog()
         }
         initViewPager()
-        binding.btnAds.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
-        }
+//        binding.btnAds.setOnClickListener {
+//            startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
+//        }
         observerConnectingBrowser()
         job = setAutoScrollJob()
         observerWifiState(object : onWifiChangeStateConnection {

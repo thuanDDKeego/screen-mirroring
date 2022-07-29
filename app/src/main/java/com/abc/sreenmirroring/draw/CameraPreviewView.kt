@@ -1,7 +1,9 @@
 package com.abc.sreenmirroring.draw
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -17,13 +19,14 @@ import com.abc.sreenmirroring.R
 import com.abc.sreenmirroring.databinding.LayoutCameraPreviewBinding
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutionException
+import kotlin.math.hypot
 
 
 class CameraPreviewView : ConstraintLayout, LifecycleOwner {
     var eventCloseCamera: (() -> Unit?)? = null
     private lateinit var binding: LayoutCameraPreviewBinding
     private lateinit var cameraProvider: ProcessCameraProvider
-    private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
+    private var lensFacing: Int = CameraSelector.LENS_FACING_FRONT
     private val mLifecycleRegistry: LifecycleRegistry by lazy { LifecycleRegistry(this) }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -42,10 +45,23 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
         initView()
     }
 
+    private var startX: Float = 0f
+    private var startY: Float = 0f
+    private var widthView: Int = 0
+    private var heightView: Int = 0
+
+    private fun updateSizeView() {
+        widthView = binding.previewView.layoutParams.width
+        heightView = binding.previewView.layoutParams.height
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun initView() {
         mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         val view = inflate(context, R.layout.layout_camera_preview, this)
         binding = LayoutCameraPreviewBinding.bind(view)
+        updateSizeView()
+
         binding.btnSwitchCamera.setOnClickListener {
             lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
                 CameraSelector.LENS_FACING_BACK
@@ -56,6 +72,30 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
         }
         binding.btnCloseCamera.setOnClickListener {
             eventCloseCamera?.invoke()
+        }
+        binding.btnScaleCamera.setOnTouchListener { v, e ->
+            when (e.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = e.rawX
+                    startY = e.rawY
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val newR = hypot(e.rawX - startX, e.rawY - startY)
+                    val sizeR = if ((e.rawX - startX) < 0) {
+                        -newR
+                    } else newR
+                    binding.previewView.layoutParams.width = widthView + sizeR.toInt()
+                    binding.previewView.layoutParams.height = heightView + sizeR.toInt()
+                    binding.previewView.invalidate()
+                    binding.previewView.requestLayout()
+                }
+                MotionEvent.ACTION_UP -> {
+                    binding.previewView.invalidate()
+                    binding.previewView.requestLayout()
+                    updateSizeView()
+                }
+            }
+            true
         }
         setCameraProviderListener()
     }

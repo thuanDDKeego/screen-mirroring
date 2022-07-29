@@ -7,10 +7,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.Path
 import android.graphics.PixelFormat
-import android.graphics.RectF
-import android.graphics.Region
 import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
@@ -20,16 +17,15 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.abc.sreenmirroring.draw.CameraPreviewView
+import timber.log.Timber
 
 
 class CameraPreviewService : Service() {
 
-    private var mScaleRegion = Region()
-    private var mIsScale = false
-
     companion object {
         private var mWindowManager: WindowManager? = null
         private lateinit var cameraPreview: CameraPreviewView
+        var notificationId = 102
 
         private lateinit var ctx: Context
         var isRunning: Boolean = false
@@ -62,6 +58,11 @@ class CameraPreviewService : Service() {
             ContextCompat.startForegroundService(context, intent)
     }
 
+    private var initialX = 0
+    private var initialY = 0
+    private var initialTouchX = 0f
+    private var initialTouchY = 0f
+
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= 26) {
@@ -77,7 +78,8 @@ class CameraPreviewService : Service() {
             val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("")
                 .setContentText("").build()
-            startForeground(1, notification)
+
+            startForeground(notificationId, notification)
         }
         cameraPreview = CameraPreviewView(this)
         cameraPreview.eventCloseCamera = {
@@ -97,22 +99,8 @@ class CameraPreviewService : Service() {
         paramsF.x = 0
         paramsF.y = 100
         mWindowManager?.addView(cameraPreview, paramsF)
-        updateBoundRegion()
         try {
             cameraPreview.setOnTouchListener(object : View.OnTouchListener {
-                var paramsT = paramsF
-                private var initialX = 0
-                private var initialY = 0
-                private var initialTouchX = 0f
-                private var initialTouchY = 0f
-
-                private var centerX = 0
-                private var centerY = 0
-                private var startX = 0
-                private var startY = 0
-                private var startR = 0
-                private var startScale = 0
-
                 @SuppressLint("ClickableViewAccessibility")
                 override fun onTouch(v: View?, event: MotionEvent): Boolean {
                     when (event.action) {
@@ -121,50 +109,12 @@ class CameraPreviewService : Service() {
                             initialY = paramsF.y
                             initialTouchX = event.rawX
                             initialTouchY = event.rawY
-                            mIsScale = mScaleRegion.contains(event.x.toInt(), event.y.toInt())
-
-                            // calculate center of preview
-//                            centerX =
-//                                ((cameraPreview.left + cameraPreview.right) / 2f).toInt()
-//                            centerY =
-//                                ((cameraPreview.top + cameraPreview.bottom) / 2f).toInt()
-//                            // recalculate coordinates of starting point
-//                            startX = (event.rawX + centerX).toInt()
-//                            startY = (event.rawY + centerY).toInt()
-//
-//                            // get starting distance and scale
-//                            startR =
-//                                hypot(
-//                                    (event.rawX - startX).toDouble(),
-//                                    (event.rawY - startY).toDouble()
-//                                ).toFloat().toInt()
-//                            startScale = cameraPreview.scaleX.toInt()
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            mIsScale = false
                         }
                         MotionEvent.ACTION_MOVE -> {
-                            if (mIsScale) {
-                                // calculate new distance
-//                                val newR =
-//                                    Math.hypot(
-//                                        (event.rawX - startX).toDouble(),
-//                                        (event.rawY - startY).toDouble()
-//                                    ).toFloat()
-//
-//                                Timber.d("newR $newR -- startR $startR")
-//                                // set new scale
-//                                val newScale = startR / newR * startScale
-//                                cameraPreview.scaleX = newScale
-//                                cameraPreview.scaleY = newScale
-//                                mWindowManager?.updateViewLayout(v, paramsF)
-
-                            } else {
-                                paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
-                                paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
-                                mWindowManager?.updateViewLayout(v, paramsF)
-                            }
-                            updateBoundRegion()
+                            paramsF.x = initialX + (event.rawX - initialTouchX).toInt()
+                            paramsF.y = initialY + (event.rawY - initialTouchY).toInt()
+                            mWindowManager?.updateViewLayout(v, paramsF)
+                            Timber.d("cameraPreview: ${cameraPreview.width} -- ${cameraPreview.height}")
                         }
                     }
                     return false
@@ -177,32 +127,5 @@ class CameraPreviewService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    private fun setBoundRegion(region: Region, path: Path) {
-        val boundRecF = RectF()
-        path.computeBounds(boundRecF, true)
-        region.setPath(
-            path,
-            Region(
-                boundRecF.left.toInt(),
-                boundRecF.top.toInt(),
-                boundRecF.right.toInt(),
-                boundRecF.bottom.toInt()
-            )
-        )
-    }
-
-    private fun updateBoundRegion() {
-        Path().apply {
-            addRect(
-                (cameraPreview.width - 100).toFloat(),
-                (cameraPreview.height - 100).toFloat(),
-                cameraPreview.width.toFloat(),
-                cameraPreview.height.toFloat(),
-                Path.Direction.CCW
-            )
-            setBoundRegion(mScaleRegion, this)
-        }
     }
 }
