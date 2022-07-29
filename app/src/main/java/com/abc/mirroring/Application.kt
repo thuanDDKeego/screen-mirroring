@@ -27,7 +27,7 @@ class Application : Application() {
         initLogger()
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
-        AppOpenManager.instance?.disableAddWithActivity(    SplashActivity::class.java)
+        AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
     }
 
     private fun initLogger() {
