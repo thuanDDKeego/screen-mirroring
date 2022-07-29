@@ -51,6 +51,7 @@
     <string name="test_connection_speed">Test connection speed</string>
     <string name="check_the_connection_distance">Check the connection distance</string>
     <string name="select_device">Select device</string>
+    <string name="download">Download</string>
 
     //dialog
     <string name="open_wifi_setting">Open wifi setting</string>
@@ -143,6 +144,22 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="ad_edit_video_banner">ca-app-pub-3940256099942544/6300978111</string>
     <!---->
     <string name="sponsored">Sponsored</string>
+
+    //device screen
+    <string name="dlna">DLNA</string>
+    <string name="dlna_content">Smart TVs with DLNA, Samsung, Hisense, Sony smart TVs, etc.</string>
+    <string name="chrome_cast">Chromecast</string>
+    <string name="chrome_cast_content">Chrome cast, smart TVs with in buit Chromecast and other Google Cast devices</string>
+    <string name="xbox">XBox</string>
+    <string name="xbox_content">XBox One and XBox 360 from Microsoft.</string>
+    <string name="fire_tv">Fire TV</string>
+    <string name="fire_tv_content">Fire TV and Fire stick from Amazon.</string>
+    <string name="roku">Roku</string>
+    <string name="roku_content">Roku, Roku Stick and Roku TVs</string>
+    <string name="apple_tv">Apple TV and Airplay</string>
+    <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
+    <string name="lg_web_os">LG WebOS</string>
+    <string name="lg_web_os_content">WebOS 2 and higher</string>
 
 
 </resources>

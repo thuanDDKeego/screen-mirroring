@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.13949275362318841" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_15dp.xml" value="0.2085" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.209" />
         <entry key="..\:/PROJECT/sreen-mirroring-cast-tv/app/src/main/res/drawable/bg_button_gradient_radius_15dp.xml" value="0.209" />
@@ -52,9 +53,7 @@
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/drawable/ic_circle_pink.xml" value="0.2265" />
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_drawing_tool.xml" value="0.264" />
         <entry key="..\:/android project/sreen-mirroring-cast-tv/app/src/main/res/layout/float_remove_icon.xml" value="0.22826086956521738" />
-        <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_home.xml" value="0.24351851851851852" />
-        <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/layout/activity_splash.xml" value="0.24351851851851852" />
-        <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1545" />
+        <entry key="..\:/projects/sreen-mirroring-cast-tv/app/src/main/res/layout/layout_item_device.xml" value="0.264" />
         <entry key="app/src/main/res/drawable/bg_border_radius_5dp.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/bg_dialog_reward_ad_open_browser.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/bg_txt_ip_address.xml" value="0.1475" />
@@ -62,20 +61,28 @@
         <entry key="app/src/main/res/drawable/ic_5stars.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_on_off_state.xml" value="0.2065" />
+        <entry key="app/src/main/res/drawable/ic_scale.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_version.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/float_expandable_menu_left.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_expandable_timer_left.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_expandable_timer_right.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_icon_main.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/layout_camera_preview.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_disconnect_browser_mirror.xml" value="0.25866546630859377" />
+        <entry key="app/src/main/res/layout/layout_dialog_load_reward_ad_error_browser.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_rate_dialog.xml" value="0.20885416666666667" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
