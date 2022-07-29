@@ -62,9 +62,13 @@
         <entry key="app/src/main/res/drawable/ic_on_off_state.xml" value="0.2065" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/float_expandable_menu_left.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_expandable_timer_left.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_expandable_timer_right.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_icon_main.xml" value="0.22552083333333334" />
         <entry key="app/src/main/res/layout/layout_camera_preview.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_dialog_browser_mirror.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_dialog_change_pin_code.xml" value="0.1" />
