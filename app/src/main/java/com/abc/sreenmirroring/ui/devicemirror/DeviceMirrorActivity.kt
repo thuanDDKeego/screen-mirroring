@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.devicemirror
 
+import AdType
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -8,17 +9,24 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseActivity
 import com.abc.sreenmirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.sreenmirroring.utils.Global
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     private lateinit var networkRequest: NetworkRequest
     private var connectedWifi = false
+
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -45,6 +53,15 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         val connectivityManager =
             getSystemService(ConnectivityManager::class.java) as ConnectivityManager
         connectivityManager.requestNetwork(networkRequest, networkCallback)
+    }
+
+    override fun initAdmob() {
+        admobHelper.showNativeAdmob(
+            this@DeviceMirrorActivity,
+            AdType.MIRROR_DEVICE_NATIVE,
+            binding.admobNativeView.nativeAdView,
+            true
+        )
     }
 
     override fun initActions() {

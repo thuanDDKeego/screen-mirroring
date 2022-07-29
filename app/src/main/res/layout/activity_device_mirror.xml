@@ -33,11 +33,11 @@
             android:textColor="@color/txt_black" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <View
-        android:id="@+id/viewBannerAd"
+    <include
+        android:id="@+id/admobNativeView"
+        layout="@layout/layout_admob_native_device_mirror"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150dp"
-        android:background="@color/grayA05"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llHeader" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="@dimen/margin_42dp"
         android:src="@drawable/ic_wifi_check_device"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewBannerAd" />
+        app:layout_constraintTop_toBottomOf="@id/admobNativeView" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtCheckingNetWorkTitle"

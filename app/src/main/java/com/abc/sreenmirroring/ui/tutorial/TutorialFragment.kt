@@ -1,20 +1,27 @@
 package com.abc.sreenmirroring.ui.tutorial
 
+import AdType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.abc.sreenmirroring.R
+import com.abc.sreenmirroring.ads.AdmobHelper
 import com.abc.sreenmirroring.base.BaseFragment
 import com.abc.sreenmirroring.databinding.FragmentTutorialBinding
 import com.abc.sreenmirroring.ui.tutorial.adapter.TutorialGuideAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
 
     private val viewModel by viewModels<TutorialViewModel>()
     private lateinit var adapter: TutorialGuideAdapter
 
+    @Inject
+    lateinit var admobHelper: AdmobHelper
     override fun initBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -62,6 +69,15 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 )
             }
         }
+    }
+
+    override fun showAds() {
+        admobHelper.showNativeAdmob(
+            requireActivity(),
+            AdType.TUTORIAL_NATIVE,
+            binding.nativeAdView.nativeAdView,
+            true
+        )
     }
 
     override fun initActions() {
