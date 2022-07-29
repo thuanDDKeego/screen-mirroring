@@ -33,9 +33,22 @@
         <item name="android:textSize">@dimen/text_title</item>
     </style>
 
+
+    <style name="Title24SpText">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/text_title_24sp</item>
+    </style>
+
+
+
     <style name="BoldTitleText">
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <style name="LargeText">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
     <style name="ExtraBoldLargeText">
