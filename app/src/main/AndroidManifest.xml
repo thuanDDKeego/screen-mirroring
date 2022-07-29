@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.abc.sreenmirroring">
+    package="com.abc.mirroring">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,7 +20,7 @@
     <uses-feature android:name="android.hardware.camera" />
     
     <application
-        android:name=".Application"
+        android:name="com.abc.mirroring.Application"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -31,10 +31,10 @@
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".AdsActivity"
+            android:name="com.abc.mirroring.AdsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.abc.mirroring.ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -45,70 +45,70 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.settings.SettingActivity"
+            android:name="com.abc.mirroring.ui.settings.SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.devicemirror.DeviceMirrorActivity"
+            android:name="com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.tutorial.TutorialActivity"
+            android:name="com.abc.mirroring.ui.tutorial.TutorialActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar" />
         <activity
-            android:name=".ui.browsermirror.BrowserMirrorActivity"
+            android:name="com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.selectLanguage.SelectLanguageActivity"
+            android:name="com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.policy.PolicyActivity"
+            android:name="com.abc.mirroring.ui.policy.PolicyActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".service.MirrorService"
+            android:name="com.abc.mirroring.service.MirrorService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".service.FloatToolService"
+            android:name="com.abc.mirroring.service.FloatToolService"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name=".service.CameraPreviewService"
+            android:name="com.abc.mirroring.service.CameraPreviewService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="com.abc.mirroring.ui.home.HomeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar" />
 
         <service
-            android:name=".service.MirrorService"
+            android:name="com.abc.mirroring.service.MirrorService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".service.AppService"
+            android:name="com.abc.mirroring.service.AppService"
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
 
         <receiver
-            android:name=".notification.TimerReceiver"
+            android:name="com.abc.mirroring.notification.TimerReceiver"
             android:enabled="true" />
 
         <service
-            android:name=".service.NotificationService"
+            android:name="com.abc.mirroring.service.NotificationService"
             android:enabled="true" />
 
         <meta-data
