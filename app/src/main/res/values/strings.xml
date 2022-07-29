@@ -140,5 +140,21 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <!---->
     <string name="sponsored">Sponsored</string>
 
+    //device screen
+    <string name="dlna">DLNA</string>
+    <string name="dlna_content">Smart TVs with DLNA, Samsung, Hisense, Sony smart TVs, etc.</string>
+    <string name="chrome_cast">Chromecast</string>
+    <string name="chrome_cast_content">Chrome cast, smart TVs with in buit Chromecast and other Google Cast devices</string>
+    <string name="xbox">XBox</string>
+    <string name="xbox_content">XBox One and XBox 360 from Microsoft.</string>
+    <string name="fire_tv">Fire TV</string>
+    <string name="fire_tv_content">Fire TV and Fire stick from Amazon.</string>
+    <string name="roku">Roku</string>
+    <string name="roku_content">Roku, Roku Stick and Roku TVs</string>
+    <string name="apple_tv">Apple TV and Airplay</string>
+    <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
+    <string name="lg_web_os">LG WebOS</string>
+    <string name="lg_web_os_content">WebOS 2 and higher</string>
+
 
 </resources>

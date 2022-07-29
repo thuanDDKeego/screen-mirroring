@@ -18,8 +18,8 @@ class SplashActivity : AppCompatActivity() {
             FirebaseTracking.logOnBoardingShowed()
         } else {
             FirebaseTracking.logSplashShowed()
+            AppOpenManager.instance?.showAdAtSplash(this@SplashActivity)
         }
-        AppOpenManager.instance?.showAdAtSplash(this@SplashActivity)
     }
 
     override fun onDestroy() {
