@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abc.mirroring.data.model.DeviceItem
-import com.abc.sreenmirroring.databinding.LayoutItemDeviceBinding
+import com.abc.mirroring.databinding.LayoutItemDeviceBinding
 
 class DeviceItemAdapter(
     private val context: Context,
