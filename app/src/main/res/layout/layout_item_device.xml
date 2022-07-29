@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llItemFAQ"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_24dp"
+    android:paddingVertical="@dimen/margin_16dp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCategoryTitle"
+            style="@style/BoldTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/margin_24dp"
+            android:text="@string/dlna"
+            android:textColor="@color/txt_black" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtCategoryContent"
+        style="@style/regularText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/txt_black"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgDevice"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:paddingHorizontal="@dimen/margin_24dp" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abc.mirroring.data.model.DeviceItem
-import com.abc.mirroring.databinding.LayoutItemDeviceBinding
+import com.abc.sreenmirroring.databinding.LayoutItemDeviceBinding
 
 class DeviceItemAdapter(
     private val context: Context,
@@ -22,7 +22,7 @@ class DeviceItemAdapter(
         with(holder) {
             with(listDeviceItem[position]) {
                 var expanded = false
-                itemBinding.txtCategoryDevice.text = this.categoryTitle
+                itemBinding.txtCategoryTitle.text = this.categoryTitle
                 itemBinding.txtCategoryContent.text = this.categoryContent
                 itemBinding.imgDevice.setImageDrawable(context.getDrawable(this.imgDevice))
             }
