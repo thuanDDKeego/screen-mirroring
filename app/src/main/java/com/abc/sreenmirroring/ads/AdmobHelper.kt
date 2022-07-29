@@ -7,8 +7,8 @@ import android.content.Context
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.NonNull
 import com.abc.sreenmirroring.R
 import com.google.android.gms.ads.*
@@ -118,10 +118,17 @@ class AdmobHelper {
     private fun populateUnifiedNativeAdView(
         context: Context,
         nativeAd: NativeAd,
-        adView: NativeAdView
+        adView: NativeAdView,
+        haveIcon: Boolean = false
     ) {
         Timber.d("nativeAd ${nativeAd}")
         adView.mediaView = adView.findViewById(R.id.ad_media)
+        if (haveIcon) {
+            adView.iconView = adView.findViewById(R.id.ad_icon)
+            if (adView.iconView != null) {
+                (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+            }
+        }
         if (adView.mediaView != null) {
             adView.mediaView?.postDelayed({
                 if (AppGlobal.BUILD_DEBUG) {
@@ -129,12 +136,12 @@ class AdmobHelper {
                         TypedValue.COMPLEX_UNIT_DIP, 120f,
                         context.resources?.displayMetrics
                     )
-                    if ((adView.mediaView?.width
-                            ?: 0) < sizeMin || (adView.mediaView?.height ?: 0) < sizeMin
-                    ) {
-                        Toast.makeText(context, "Size media native not valid", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+//                    if ((adView.mediaView?.width
+//                            ?: 0) < sizeMin || (adView.mediaView?.height ?: 0) < sizeMin
+//                    ) {
+//                        Toast.makeText(context, "Size media native not valid", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
                 }
             }, 1000)
         }
@@ -178,11 +185,16 @@ class AdmobHelper {
         adView.setNativeAd(nativeAd)
     }
 
-    fun showNativeAdmob(context: Context, adType: AdType, adView: NativeAdView) {
+    fun showNativeAdmob(
+        context: Context,
+        adType: AdType,
+        adView: NativeAdView,
+        haveIcon: Boolean = false
+    ) {
         val builder = AdLoader.Builder(context, context.getString(adType.adsId))
         builder.forNativeAd {
             Log.d("showNativeAdmob", "forNativeAd $it")
-            populateUnifiedNativeAdView(context, it, adView)
+            populateUnifiedNativeAdView(context, it, adView, haveIcon)
         }
         val videoOptions = VideoOptions.Builder()
             .setStartMuted(true)

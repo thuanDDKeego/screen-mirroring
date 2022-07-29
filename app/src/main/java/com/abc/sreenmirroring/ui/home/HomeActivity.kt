@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
@@ -63,6 +62,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initViews() {
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             AppPreferences().isTheFirstTimeUseApp = false
+            admobHelper.loadAdInterstitial(
+                this@HomeActivity,
+                AdType.HOME_ONBOARDING_INTERSTITIAL
+            ) {}
             showTutorialDialog()
         }
         initViewPager()
@@ -70,7 +73,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             startActivity(Intent(this@HomeActivity, AdsActivity::class.java))
         }
         observerConnectingBrowser()
-        job = setAutoScrollJob()
+        job = scrollToAds()
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -114,7 +117,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.constrantMirror.setOnClickListener {
-            admobHelper.showAdInterstitial(this@HomeActivity, AdType.MIRROR_DEVICE) {
+            admobHelper.showAdInterstitial(
+                this@HomeActivity,
+                AdType.GO_MIRROR_DEVICE_INTERSTITIAL
+            ) {
                 DeviceMirrorActivity.gotoActivity(this@HomeActivity)
             }
         }
@@ -130,7 +136,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     job.cancel()
                 }
                 MotionEvent.ACTION_UP -> {
-                    job = setAutoScrollJob()
+                    job = scrollToAds()
                 }
             }
             false
@@ -169,7 +175,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initAdmob() {
         admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
-        admobHelper.loadAdInterstitial(this, AdType.MIRROR_DEVICE) {}
+        admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
 
     }
 
@@ -181,6 +187,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             binding.viewPagerAdHome.setCurrentItem(nextStep, true)
             updateTabPager(nextStep)
         }
+    }
+
+    private fun scrollToAds(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
+        delay(time)
+        binding.viewPagerAdHome.setCurrentItem(1, true)
+        updateTabPager(1)
     }
 
     private fun initViewPager() {
@@ -353,7 +365,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
-                dismissTutorialDialog()
+                admobHelper.showAdInterstitial(
+                    this@HomeActivity,
+                    AdType.HOME_ONBOARDING_INTERSTITIAL
+                ) {
+                    dismissTutorialDialog()
+                }
             }
         }
     }
