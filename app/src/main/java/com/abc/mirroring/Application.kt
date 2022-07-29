@@ -4,7 +4,7 @@ import AdType
 import android.app.Application
 import com.abc.mirroring.config.Preferences
 import com.abc.mirroring.config.ReleaseTree
-import com.abc.sreenmirroring.ui.splash.SplashActivity
+import com.abc.mirroring.ui.splash.SplashActivity
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.google.android.gms.ads.AdActivity
@@ -27,7 +27,7 @@ class Application : Application() {
         initLogger()
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
-        AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
+        AppOpenManager.instance?.disableAddWithActivity(    SplashActivity::class.java)
     }
 
     private fun initLogger() {

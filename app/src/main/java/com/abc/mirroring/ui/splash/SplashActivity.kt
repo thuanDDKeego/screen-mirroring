@@ -10,7 +10,6 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySplashBinding
 import com.abc.mirroring.utils.FirebaseTracking
 import com.soft.slideshow.ads.AppOpenManager
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
