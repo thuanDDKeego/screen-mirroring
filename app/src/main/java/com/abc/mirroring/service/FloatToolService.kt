@@ -25,7 +25,9 @@ import com.abc.mirroring.floatingbubble.ExpandableMenuView
 import com.abc.mirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
+import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.NotificationUtils
+import com.soft.slideshow.ads.AppOpenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -274,6 +276,16 @@ open class FloatToolService : Service() {
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
+                btnHome.setOnClickListener {
+                    if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                        AppOpenManager.instance?.currentActivity?.finish()
+                    }
+                    action.popToBubble()
+                }
             }
         } else {
             FloatExpandableMenuLeftBinding.inflate(inflater).apply {
@@ -283,6 +295,16 @@ open class FloatToolService : Service() {
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
+                btnHome.setOnClickListener {
+                    if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                        AppOpenManager.instance?.currentActivity?.finish()
+                    }
+                    action.popToBubble()
+                }
             }
         }
 

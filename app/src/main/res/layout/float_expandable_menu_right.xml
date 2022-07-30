@@ -34,13 +34,13 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnScreenShot"
+        android:id="@+id/btnCamera"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="22dp"
         android:elevation="1dp"
-        android:src="@drawable/ic_float_snapshot"
+        android:src="@drawable/ic_float_camera_preview"
         app:layout_constraintEnd_toStartOf="@+id/btnBubble"
         app:layout_constraintTop_toTopOf="@+id/btnTime" />
 
@@ -53,16 +53,16 @@
         android:elevation="1dp"
         android:src="@drawable/ic_float_pen"
         app:layout_constraintEnd_toStartOf="@+id/btnBubble"
-        app:layout_constraintTop_toBottomOf="@+id/btnScreenShot" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnCamera"
+        android:id="@+id/btnHome"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="18dp"
         android:elevation="1dp"
-        android:src="@drawable/ic_float_camera_preview"
+        android:src="@drawable/ic_icons8_home"
         app:layout_constraintEnd_toEndOf="@+id/btnBubble"
         app:layout_constraintTop_toBottomOf="@+id/btnBubble" />
 

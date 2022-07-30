@@ -30,7 +30,8 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
     private var loadCallback: AppOpenAdLoadCallback? = null
     private lateinit var myApplication: Application
     private lateinit var appOpenAdId: String
-    private var currentActivity: Activity? = null
+    var currentActivity: Activity? = null
+    private var currentIsHomeActivity = false
     private var isShowingAd: Boolean = false
     private var loadTime: Long = 0
     private lateinit var disabledAppOpenList: MutableList<Class<*>>
@@ -79,6 +80,10 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         fetchAd()
         Log.d(LOG_TAG, "init")
+    }
+
+    fun currentIsHomeActivity(): Boolean {
+        return currentIsHomeActivity
     }
 
     fun disableAddWithActivity(activityClass: Class<*>) {
@@ -210,16 +215,23 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
 
     override fun onActivityStarted(activity: Activity) {
         currentActivity = activity
+        Timber.d("currentActivity: ${currentActivity?.javaClass?.name}")
     }
 
     override fun onActivityResumed(activity: Activity) {
         currentActivity = activity
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = true
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
     }
 
     override fun onActivityStopped(activity: Activity) {
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = false
+        }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -227,5 +239,10 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
 
     override fun onActivityDestroyed(activity: Activity) {
         currentActivity = null
+        Timber.d("currentActivity: ${currentActivity?.javaClass?.name}")
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = false
+        }
+
     }
 }

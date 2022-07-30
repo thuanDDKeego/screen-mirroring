@@ -17,7 +17,8 @@ import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
-    private lateinit var job: Job
+    private var jobTimeOut: Job? = null
+    private var jobLoadAd: Job? = null
     private val SPLASH_TIME_OUT = 8000L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,24 +34,25 @@ class SplashActivity : AppCompatActivity() {
             binding = ActivitySplashBinding.inflate(layoutInflater)
             setContentView(binding.root)
             FirebaseTracking.logSplashShowed()
-            job = CoroutineScope(Dispatchers.Main).launch {
+            jobTimeOut = CoroutineScope(Dispatchers.Main).launch {
                 delay(SPLASH_TIME_OUT)
                 startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
                 finish()
             }
             val startTime = System.currentTimeMillis()
             setupSplashView()
-            AppOpenManager.instance?.fetchAd {
-                var timeFromStart = System.currentTimeMillis() - startTime
-                CoroutineScope(Dispatchers.Main).launch {
-                    if (timeFromStart < 1600) {
-                        delay(1600L - timeFromStart)
-                    }
-                    AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
-                        job.cancel()
+            jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
+                AppOpenManager.instance?.fetchAd {
+                    var timeFromStart = System.currentTimeMillis() - startTime
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (timeFromStart < 1600) {
+                            delay(1600L - timeFromStart)
+                        }
+                        AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
+                            jobTimeOut?.cancel()
+                        }
                     }
                 }
-
             }
         }
     }
@@ -84,6 +86,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
+        jobTimeOut?.cancel()
+        jobLoadAd?.cancel()
     }
 }

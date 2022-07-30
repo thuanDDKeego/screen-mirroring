@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
@@ -48,8 +47,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
-    private lateinit var job: Job
-    private lateinit var countDownJob: Job
+    private var job: Job? = null
+    private var countDownJob: Job? = null
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -139,7 +138,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.viewPagerAdHome.setOnTouchListener { v, event ->
             when (event?.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    job.cancel()
+                    job?.cancel()
                 }
                 MotionEvent.ACTION_UP -> {
                     job = scrollToAds()
@@ -316,7 +315,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
-                job.cancel()
+                countDownJob?.cancel()
                 goToRewardAds()
             }
         }
@@ -474,7 +473,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
-        countDownJob.cancel()
+        Timber.d("destroy home")
+        job?.cancel()
+        countDownJob?.cancel()
     }
 }
