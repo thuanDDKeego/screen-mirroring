@@ -4,7 +4,7 @@ import AdType
 import android.app.Application
 import com.abc.mirroring.config.Preferences
 import com.abc.mirroring.config.ReleaseTree
-import com.abc.mirroring.ui.splash.SplashActivity
+import com.abc.sreenmirroring.ui.splash.SplashActivity
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.google.android.gms.ads.AdActivity
