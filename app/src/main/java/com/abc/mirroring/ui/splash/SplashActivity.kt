@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.splash
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
@@ -8,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySplashBinding
+import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.soft.slideshow.ads.AppOpenManager
 import kotlinx.coroutines.Job
@@ -22,6 +24,8 @@ class SplashActivity : AppCompatActivity() {
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         } else {
             binding = ActivitySplashBinding.inflate(layoutInflater)
             setContentView(binding.root)
