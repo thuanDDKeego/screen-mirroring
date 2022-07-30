@@ -34,7 +34,7 @@
             android:name="com.abc.mirroring.AdsActivity"
             android:exported="false" />
         <activity
-            android:name="com.abc.mirroring.ui.splash.SplashActivity"
+            android:name="com.abc.sreenmirroring.ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
