@@ -49,6 +49,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var job: Job
+    private lateinit var countDownJob: Job
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -296,6 +297,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBrowserBinding.apply {
+            txtStartVideoInTime.text =
+                getString(R.string.video_starting_in, "5")
+            countDownJob = CoroutineScope(Dispatchers.Main).launch {
+                for (i in 5 downTo 0) {
+                    delay(1000L)
+                    txtStartVideoInTime.text =
+                        getString(R.string.video_starting_in, i.toString())
+                    if (i == 0) {
+                        goToRewardAds()
+                    }
+                }
+            }
             txtClose.setOnClickListener {
                 dismissBrowserDialog()
             }
@@ -303,19 +316,33 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
-                admobHelper.showRewardedAds(
-                    this@HomeActivity,
-                    AdType.BROWSER_MIRROR_REWARD
-                ) { isSuccess ->
-                    if (isSuccess) {
-                        BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                        dismissBrowserDialog()
-                    } else {
-                        dismissBrowserDialog()
-                        showBrowserErrorDialog()
-                    }
-                }
+                job.cancel()
+                goToRewardAds()
+            }
+        }
+    }
 
+    private fun goToRewardAds() {
+        dialogBrowserBinding.apply {
+            txtStartVideoInTime.setTextColor(
+                ContextCompat.getColor(
+                    this@HomeActivity,
+                    R.color.txt_disable_gray
+                )
+            )
+            txtStartVideoInTime.setOnClickListener { }
+            progressBarLoadAds.visibility = View.VISIBLE
+            admobHelper.showRewardedAds(
+                this@HomeActivity,
+                AdType.BROWSER_MIRROR_REWARD
+            ) { isSuccess ->
+                if (isSuccess) {
+                    BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                    dismissBrowserDialog()
+                } else {
+                    dismissBrowserDialog()
+                    showBrowserErrorDialog()
+                }
             }
         }
     }
@@ -443,5 +470,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             binding.root.removeViewAt(binding.root.childCount - 1)
             tutorialDialogIsShowing = false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+        countDownJob.cancel()
     }
 }

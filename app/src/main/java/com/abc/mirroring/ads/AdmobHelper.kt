@@ -239,37 +239,40 @@ class AdmobHelper {
         if (AdConfig.TURN_OFF_ADS) {
             callback.invoke(true)
         } else {
-            if (adsRewarded[type] != null) {
-                var isSuccess = false
-                val adCallback = object : RewardedAdCallback() {
-                    override fun onRewardedAdOpened() {
-                        // Ad opened.
-                    }
-
-                    override fun onRewardedAdClosed() {
-                        // Ad closed.
-                        callback(isSuccess)
-                        adsRewarded[type] = null
-                        loadRewardedAds(context, type) {}
-                    }
-
-                    override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-                        // User earned reward.
-                        isSuccess = true
-                    }
-
-                    override fun onRewardedAdFailedToShow(adError: AdError) {
-                        // Ad failed to display.
-                        callback(isSuccess)
-                        adsRewarded[type] = null
-                    }
+//            if (adsRewarded[type] != null) {
+            var isSuccess = false
+            val adCallback = object : RewardedAdCallback() {
+                override fun onRewardedAdOpened() {
+                    // Ad opened.
                 }
+
+                override fun onRewardedAdClosed() {
+                    // Ad closed.
+                    callback(isSuccess)
+                    adsRewarded[type] = null
+                    loadRewardedAds(context, type) {}
+                }
+
+                override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                    // User earned reward.
+                    isSuccess = true
+                }
+
+                override fun onRewardedAdFailedToShow(adError: AdError) {
+                    // Ad failed to display.
+                    callback(isSuccess)
+                    adsRewarded[type] = null
+                }
+            }
+            loadRewardedAds(context, AdType.BROWSER_MIRROR_REWARD) {
                 adsRewarded[type]?.show(context as Activity, adCallback)
-            } else {
-                adsRewarded[type] = null
-                callback.invoke(false)
             }
         }
+//        else {
+//                loadRewardedAds(context, type){}
+//                adsRewarded[type] = null
+//                callback.invoke(false)
+//            }
     }
 
 //    companion object {

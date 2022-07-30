@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
@@ -51,7 +52,7 @@ open class FloatToolService : Service() {
             }
             val intentFloatToolService = getAppServiceIntent(context)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(context, intentFloatToolService)
+                startForegroundService(context, intentFloatToolService)
             } else {
                 startService(context, intentFloatToolService)
             }
@@ -415,7 +416,7 @@ open class FloatToolService : Service() {
         isLeft: Boolean
     ) {
         val mNotificationTime =
-            Calendar.getInstance().timeInMillis + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
+            System.currentTimeMillis() + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
         NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
         if (isLeft) {
             binding as FloatExpandableTimerLeftBinding

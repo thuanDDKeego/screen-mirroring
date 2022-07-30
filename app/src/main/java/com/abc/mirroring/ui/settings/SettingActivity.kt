@@ -116,7 +116,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                 action = Intent.ACTION_SEND
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "Hey using StoryGo in: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+                    "Hey using Screen Mirror in: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
                 )
                 type = "text/plain"
             }
