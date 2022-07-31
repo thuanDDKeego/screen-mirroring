@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.home.HomeActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -25,10 +26,12 @@ import java.util.*
 /** Prefetches App Open Ads.  */
 class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
     private var appOpenAd: AppOpenAd? = null
+    private val TIME_TO_DISABLE_OPEN_APP = 3000
     private var loadCallback: AppOpenAdLoadCallback? = null
     private lateinit var myApplication: Application
     private lateinit var appOpenAdId: String
-    private var currentActivity: Activity? = null
+    var currentActivity: Activity? = null
+    private var currentIsHomeActivity = false
     private var isShowingAd: Boolean = false
     private var loadTime: Long = 0
     private lateinit var disabledAppOpenList: MutableList<Class<*>>
@@ -79,6 +82,10 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
         Log.d(LOG_TAG, "init")
     }
 
+    fun currentIsHomeActivity(): Boolean {
+        return currentIsHomeActivity
+    }
+
     fun disableAddWithActivity(activityClass: Class<*>) {
         disabledAppOpenList.add(activityClass)
     }
@@ -100,7 +107,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
     }
 
     /** Request an ad  */
-    fun fetchAd(onLoadedCallback: (() -> Unit)? = null) {
+    fun fetchAd(onLoadedCallback: ((AppOpenAd?) -> Unit)? = null) {
         // Have unused ad, no need to fetch another.
         if (isAdAvailable) {
             return
@@ -114,7 +121,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
             override fun onAdLoaded(ad: AppOpenAd) {
                 appOpenAd = ad
                 loadTime = Date().time
-                onLoadedCallback?.invoke()
+                onLoadedCallback?.invoke(ad)
             }
 
             /**
@@ -124,7 +131,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
              */
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 // Handle the error.
-                onLoadedCallback?.invoke()
+                onLoadedCallback?.invoke(null)
             }
         }
         val request: AdRequest = AdRequest.Builder().build()
@@ -134,7 +141,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
         )
     }
 
-    fun showAdAtSplash(activity: Activity) {
+    fun showAdAtSplash(activity: Activity, callback: (() -> Unit)?) {
         val fullScreenContentCallback: FullScreenContentCallback =
             object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
@@ -143,10 +150,12 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
                     isShowingAd = false
                     fetchAd()
                     activity.startActivity(Intent(activity, HomeActivity::class.java))
+                    activity.finish()
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     activity.startActivity(Intent(activity, HomeActivity::class.java))
+                    activity.finish()
                 }
 
                 override fun onAdShowedFullScreenContent() {
@@ -154,17 +163,15 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
                 }
             }
         if (!isShowingAd && isAdAvailable) {
+            callback?.invoke()
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             if (currentActivity != null) {
+                AppPreferences().lastTimeAdOpenApp = System.currentTimeMillis()
                 appOpenAd?.show(currentActivity!!)
             }
         } else {
-            fetchAd {
-                appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
-                if (currentActivity != null) {
-                    appOpenAd?.show(currentActivity!!)
-                }
-            }
+            activity.startActivity(Intent(activity, HomeActivity::class.java))
+            activity.finish()
         }
     }
 
@@ -173,7 +180,9 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
         // Only show ad if there is not already an app open ad currently showing
         // and an ad is available.
         Log.d(LOG_TAG, "showAdIfAvailable $isShowingAd -- $isAdAvailable -- $currentActivity")
-        if (!isShowingAd && isAdAvailable) {
+        val currentTime = System.currentTimeMillis()
+        val timeFromTheLast = currentTime - AppPreferences().lastTimeAdOpenApp!!
+        if (!isShowingAd && isAdAvailable && timeFromTheLast >= TIME_TO_DISABLE_OPEN_APP) {
             Log.d(LOG_TAG, "Will show ad $currentActivity")
             val fullScreenContentCallback: FullScreenContentCallback =
                 object : FullScreenContentCallback() {
@@ -191,6 +200,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
                 }
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             if (currentActivity != null) {
+                AppPreferences().lastTimeAdOpenApp = currentTime
                 appOpenAd?.show(currentActivity!!)
             }
         } else {
@@ -205,16 +215,23 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
 
     override fun onActivityStarted(activity: Activity) {
         currentActivity = activity
+        Timber.d("currentActivity: ${currentActivity?.javaClass?.name}")
     }
 
     override fun onActivityResumed(activity: Activity) {
         currentActivity = activity
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = true
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
     }
 
     override fun onActivityStopped(activity: Activity) {
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = false
+        }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -222,5 +239,10 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
 
     override fun onActivityDestroyed(activity: Activity) {
         currentActivity = null
+        Timber.d("currentActivity: ${currentActivity?.javaClass?.name}")
+        if (activity.javaClass.name == (HomeActivity::class.java).name) {
+            currentIsHomeActivity = false
+        }
+
     }
 }

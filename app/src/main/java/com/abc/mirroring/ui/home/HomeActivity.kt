@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
@@ -48,7 +47,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
-    private lateinit var job: Job
+    private var job: Job? = null
+    private var countDownJob: Job? = null
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -138,7 +138,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.viewPagerAdHome.setOnTouchListener { v, event ->
             when (event?.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    job.cancel()
+                    job?.cancel()
                 }
                 MotionEvent.ACTION_UP -> {
                     job = scrollToAds()
@@ -296,6 +296,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
         dialogBrowserBinding.apply {
+            txtStartVideoInTime.text =
+                getString(R.string.video_starting_in, "5")
+            countDownJob = CoroutineScope(Dispatchers.Main).launch {
+                for (i in 5 downTo 0) {
+                    delay(1000L)
+                    txtStartVideoInTime.text =
+                        getString(R.string.video_starting_in, i.toString())
+                    if (i == 0) {
+                        goToRewardAds()
+                    }
+                }
+            }
             txtClose.setOnClickListener {
                 dismissBrowserDialog()
             }
@@ -303,19 +315,33 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
-                admobHelper.showRewardedAds(
-                    this@HomeActivity,
-                    AdType.BROWSER_MIRROR_REWARD
-                ) { isSuccess ->
-                    if (isSuccess) {
-                        BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                        dismissBrowserDialog()
-                    } else {
-                        dismissBrowserDialog()
-                        showBrowserErrorDialog()
-                    }
-                }
+                countDownJob?.cancel()
+                goToRewardAds()
+            }
+        }
+    }
 
+    private fun goToRewardAds() {
+        dialogBrowserBinding.apply {
+            txtStartVideoInTime.setTextColor(
+                ContextCompat.getColor(
+                    this@HomeActivity,
+                    R.color.txt_disable_gray
+                )
+            )
+            txtStartVideoInTime.setOnClickListener { }
+            progressBarLoadAds.visibility = View.VISIBLE
+            admobHelper.showRewardedAds(
+                this@HomeActivity,
+                AdType.BROWSER_MIRROR_REWARD
+            ) { isSuccess ->
+                if (isSuccess) {
+                    BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                    dismissBrowserDialog()
+                } else {
+                    dismissBrowserDialog()
+                    showBrowserErrorDialog()
+                }
             }
         }
     }
@@ -443,5 +469,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             binding.root.removeViewAt(binding.root.childCount - 1)
             tutorialDialogIsShowing = false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("destroy home")
+        job?.cancel()
+        countDownJob?.cancel()
     }
 }

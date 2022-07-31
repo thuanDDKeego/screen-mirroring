@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
@@ -24,7 +25,9 @@ import com.abc.mirroring.floatingbubble.ExpandableMenuView
 import com.abc.mirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
+import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.NotificationUtils
+import com.soft.slideshow.ads.AppOpenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,7 +54,7 @@ open class FloatToolService : Service() {
             }
             val intentFloatToolService = getAppServiceIntent(context)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(context, intentFloatToolService)
+                startForegroundService(context, intentFloatToolService)
             } else {
                 startService(context, intentFloatToolService)
             }
@@ -273,6 +276,16 @@ open class FloatToolService : Service() {
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
+                btnHome.setOnClickListener {
+                    if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                        AppOpenManager.instance?.currentActivity?.finish()
+                    }
+                    action.popToBubble()
+                }
             }
         } else {
             FloatExpandableMenuLeftBinding.inflate(inflater).apply {
@@ -282,6 +295,16 @@ open class FloatToolService : Service() {
                 btnTime.setOnClickListener { action.navigateToTimerNoti() }
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
+                btnHome.setOnClickListener {
+                    if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                        AppOpenManager.instance?.currentActivity?.finish()
+                    }
+                    action.popToBubble()
+                }
             }
         }
 
@@ -415,7 +438,7 @@ open class FloatToolService : Service() {
         isLeft: Boolean
     ) {
         val mNotificationTime =
-            Calendar.getInstance().timeInMillis + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
+            System.currentTimeMillis() + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
         NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
         if (isLeft) {
             binding as FloatExpandableTimerLeftBinding

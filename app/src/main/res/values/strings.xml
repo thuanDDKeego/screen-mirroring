@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_ver" translatable="false">1.0.0</string>
-    <string name="app_name">Screen Mirroring</string>
+    <string name="app_ver" translatable="false">V1.0.0</string>
+    <string name="app_name">Screen Mirror</string>
 
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -87,11 +87,11 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
 
     <string name="faq_item_title5">Is my personal information or mobile data completely secured?</string>
     <string name="faq_item_description5">- We always ensure your information on your smartphone and connected devices are confidential. Thus, you can mirror to TV without worry.</string>
-    <string name="security_your_screen_mirroring">Security your screen mirroring</string>
+    <string name="security_your_screen_mirroring">The pin code will secure your transmission. You can turn it off on the<![CDATA[<b><font color=#00AAFF>Setting</font></b>]]> to secure the pin code.</string>
     <string name="save">Save</string>
     <string name="enter_a_new_pin_code">Enter a new pin code</string>
     <string name="change_pin_code">Change Pin Code</string>
-    <string name="video_starting_in_5s">Video starting in 5s</string>
+    <string name="video_starting_in">Video starting in %1$ss</string>
     <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
     <string name="help">Help</string>
     <string name="general">General</string>
