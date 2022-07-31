@@ -14,10 +14,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
-import com.abc.mirroring.databinding.ActivityHomeBinding
-import com.abc.mirroring.databinding.LayoutDialogBrowserMirrorBinding
-import com.abc.mirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
-import com.abc.mirroring.databinding.LayoutDialogTutorialFirstOpenBinding
+import com.abc.mirroring.databinding.*
 import com.abc.mirroring.extentions.setTintColor
 import com.abc.mirroring.helper.MY_PERMISSIONS_REQUEST_CAMERA
 import com.abc.mirroring.helper.isDrawOverlaysPermissionGranted
@@ -44,9 +41,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var tutorialDialogIsShowing = false
     private var browserDialogShowing = false
     private var browserDialogErrorShowing = false
+    private var exitAppDialogShowing = false
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
+    private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private var job: Job? = null
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
@@ -382,7 +381,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-
     private fun showTutorialDialog() {
         tutorialDialogIsShowing = true
         dialogTutorialBinding =
@@ -440,6 +438,26 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    private fun dismissExitAppDialog() {
+        if (exitAppDialogShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            exitAppDialogShowing = false
+        }
+    }
+
+    private fun showExitAppDialog() {
+        if (exitAppDialogShowing) return
+        browserDialogErrorShowing = true
+        dialogExitAppBinding =
+            LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
+        dialogExitAppBinding.apply {
+            admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
+            btnExitApp.setOnClickListener {
+                super.onBackPressed()
+            }
+        }
+    }
+
     private fun updateTabTutorialDialogPager(
         binding: LayoutDialogTutorialFirstOpenBinding,
         position: Int
@@ -482,13 +500,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun onBackPressed() {
-        if(browserDialogShowing) {
+        if (browserDialogShowing) {
             dismissBrowserDialog()
-        } else if(browserDialogErrorShowing) {
+        } else if (browserDialogErrorShowing) {
             dismissBrowserErrorDialog()
-        }
-        else {
-            super.onBackPressed()
+        } else {
+            if(!exitAppDialogShowing){
+                showExitAppDialog()
+            }
         }
     }
 

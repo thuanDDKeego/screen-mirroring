@@ -14,6 +14,7 @@ object AdConfig {
     const val AD_MOB_WATERMARK_REWARDED_INTERSTITIAL = R.string.ad_rewarded_watermark
 
     const val AD_MOB_HOME_BOTTOM_NATIVE = R.string.ad_native_home_bottom
+    const val AD_MOB_EXIT_APP_NATIVE = R.string.ad_native_home_bottom
     const val AD_MOB_TUTORIAL_NATIVE = R.string.ad_native_gallery_bottom
     const val AD_MOB_FAQ_NATIVE = R.string.ad_native_gallery_bottom
     const val AD_MOB_CONNECT_DEVICE_NATIVE = R.string.ad_native_gallery_bottom
@@ -32,6 +33,7 @@ enum class AdType(var adsId: Int) {
     MIRROR_DEVICE_NATIVE(AdConfig.AD_MOB_BROWSER_DEVICE_NATIVE),
     BROWSER_MIRROR_REWARD(AdConfig.AD_MOB_EFFECT_REWARDED_INTERSTITIAL),
     HOME_NATIVE(AdConfig.AD_MOB_HOME_BOTTOM_NATIVE),
+    EXIT_APP_NATIVE(AdConfig.AD_MOB_EXIT_APP_NATIVE),
     TUTORIAL_NATIVE(AdConfig.AD_MOB_TUTORIAL_NATIVE),
     FAQ_NATIVE(AdConfig.AD_MOB_FAQ_NATIVE),
     CONNECT_DEVICE_NATIVE(AdConfig.AD_MOB_CONNECT_DEVICE_NATIVE),

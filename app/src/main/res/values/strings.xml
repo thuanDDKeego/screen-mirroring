@@ -145,6 +145,8 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="ad_edit_video_banner">ca-app-pub-3940256099942544/6300978111</string>
     <!---->
     <string name="sponsored">Sponsored</string>
+    <string name="exit">Exit</string>
+    <string name="click_to_exit">Click to Exit</string>
 
     //device screen
     <string name="dlna">DLNA</string>
