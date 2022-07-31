@@ -49,6 +49,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private var job: Job? = null
     private var countDownJob: Job? = null
+    private var rewardAdsJob: Job? = null
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -285,6 +286,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun dismissBrowserDialog() {
         if (browserDialogShowing) {
             binding.root.removeViewAt(binding.root.childCount - 1)
+            countDownJob?.cancel()
+            countDownJob = null
+            rewardAdsJob?.cancel()
+            rewardAdsJob = null
+            Timber.d("jobState ${countDownJob} ${rewardAdsJob}")
             browserDialogShowing = false
         }
     }
@@ -331,16 +337,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             )
             txtStartVideoInTime.setOnClickListener { }
             progressBarLoadAds.visibility = View.VISIBLE
-            admobHelper.showRewardedAds(
-                this@HomeActivity,
-                AdType.BROWSER_MIRROR_REWARD
-            ) { isSuccess ->
-                if (isSuccess) {
-                    BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                    dismissBrowserDialog()
-                } else {
-                    dismissBrowserDialog()
-                    showBrowserErrorDialog()
+            if (rewardAdsJob == null) {
+                rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
+                    admobHelper.showRewardedAds(
+                        this@HomeActivity,
+                        AdType.BROWSER_MIRROR_REWARD
+                    ) { isSuccess ->
+                        if (isSuccess) {
+                            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                            dismissBrowserDialog()
+                        } else {
+                            dismissBrowserDialog()
+                            showBrowserErrorDialog()
+                        }
+                    }
                 }
             }
         }
@@ -468,6 +478,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (tutorialDialogIsShowing) {
             binding.root.removeViewAt(binding.root.childCount - 1)
             tutorialDialogIsShowing = false
+        }
+    }
+
+    override fun onBackPressed() {
+        if(browserDialogShowing) {
+            dismissBrowserDialog()
+        } else if(browserDialogErrorShowing) {
+            dismissBrowserErrorDialog()
+        }
+        else {
+            super.onBackPressed()
         }
     }
 
