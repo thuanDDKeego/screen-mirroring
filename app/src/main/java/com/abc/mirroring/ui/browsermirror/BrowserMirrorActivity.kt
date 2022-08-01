@@ -19,14 +19,12 @@ import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.utils.FirebaseTracking
 import com.elvishew.xlog.XLog
-import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FixableError
 import info.dvkr.screenstream.data.other.asString
 import info.dvkr.screenstream.data.other.getLog
 import info.dvkr.screenstream.data.other.setUnderlineSpan
 import info.dvkr.screenstream.data.settings.Settings
-import info.dvkr.screenstream.data.settings.SettingsImpl
 import info.dvkr.screenstream.data.settings.SettingsReadOnly
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,12 +72,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             binding.txtSecurity.visibility = View.GONE
         }
         binding.txtWifiName.text = getWifiName()
-        settings = SettingsImpl(
-            BinaryPreferencesBuilder(applicationContext)
-                .supportInterProcess(true)
-                .exceptionHandler { ex -> Timber.e(ex) }
-                .build()
-        )
     }
 
     override fun initActions() {

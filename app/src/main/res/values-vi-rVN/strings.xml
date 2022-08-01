@@ -21,6 +21,7 @@
     <string name="open_this_link_on_other_device_to_mirror">Mở liên kết này trên thiết bị khác để trình chiếu</string>
     <string name="the_ip_address_may_change_every_time_you_connect">Địa chỉ IP có thể thay đổi mỗi khi bạn kết nối. Do đó, hãy đảm bảo rằng mỗi số được nhập chính xác vào thanh địa chỉ của trình duyệt.</string>
     <string name="stream_fragment_copied">Đã sao chép</string>
+    <string name="connecting">Đang kết nối</string>
 
     //tutorial screen
     <string name="tutorial">Hướng Dẫn</string>

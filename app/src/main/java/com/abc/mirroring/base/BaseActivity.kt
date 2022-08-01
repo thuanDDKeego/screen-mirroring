@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
@@ -30,7 +31,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
 
     companion object {
-        var dLocale: Locale? = Locale(Locale.getDefault().language.toString())
+        var dLocale: Locale? = Locale(AppPreferences().languageSelected.toString())
     }
 
     init {

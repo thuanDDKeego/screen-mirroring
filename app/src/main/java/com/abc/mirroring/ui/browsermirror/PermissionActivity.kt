@@ -6,10 +6,10 @@ import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.os.IBinder
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.coroutineScope
 import androidx.viewbinding.ViewBinding
+import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.service.AppService
 import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
+abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
 
     companion object {
         private const val CAST_PERMISSION_PENDING_KEY = "CAST_PERMISSION_PENDING_KEY"
@@ -38,12 +38,8 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
 
     private var permissionsErrorDialog: MaterialDialog? = null
     private var isCastPermissionsPending: Boolean = false
-    protected lateinit var binding: V
-
     lateinit var settings: Settings
 
-    //    private val serviceMessageLiveData = MutableLiveData<ServiceMessage>()
-//    fun getServiceMessageLiveData(): LiveData<ServiceMessage> = serviceMessageLiveData
     private var serviceMessageFlowJob: Job? = null
     private var isBound: Boolean = false
 
@@ -181,7 +177,7 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SCREEN_CAPTURE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -204,24 +200,7 @@ abstract class PermissionActivity<V : ViewBinding> : AppCompatActivity() {
         }
     }
 
-//    private fun showErrorDialog(
-//        @StringRes titleRes: Int = R.string.permission_activity_error_title,
-//        @StringRes messageRes: Int = R.string.permission_activity_error_unknown
-//    ) {
-//        permissionsErrorDialog?.dismiss()
-//
-//        permissionsErrorDialog = MaterialDialog(this).show {
-//            lifecycleOwner(this@PermissionActivity)
-//            icon(R.drawable.ic_permission_dialog_24dp)
-//            title(titleRes)
-//            message(messageRes)
-//            positiveButton(android.R.string.ok)
-//            cancelable(false)
-//            cancelOnTouchOutside(false)
-//        }
-//    }
-
-    abstract fun initBinding(): V
-    abstract fun initViews()
-    abstract fun initActions()
+    abstract override fun initBinding(): V
+    abstract override fun initViews()
+    abstract override fun initActions()
 }
