@@ -68,9 +68,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         binding.btnStopStream.visibility = View.GONE
         if (AppPreferences().isTurnOnPinCode == true) {
             binding.txtPinCode.text = "Pin: ${AppPreferences().pinCode}"
-            binding.txtSecurity.visibility = View.VISIBLE
-            binding.txtSecurity.text =
-                Html.fromHtml(getString(R.string.security_your_screen_mirroring))
         } else {
             binding.txtPinCode.visibility = View.GONE
             binding.txtSecurity.visibility = View.GONE
