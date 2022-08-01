@@ -163,6 +163,9 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
     <string name="lg_web_os">LG WebOS</string>
     <string name="lg_web_os_content">WebOS 2 and higher</string>
+    <string name="description">Description</string>
+    <string name="send">Send</string>
+    <string name="description_your_issue_here_with_image_and_video">Description your issue here with image and video</string>
 
 
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
-import android.icu.util.Calendar
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -260,12 +259,17 @@ open class FloatToolService : Service() {
 
     private fun setupExpandableMenuView(action: ExpandableMenuView.Action): ExpandableMenuView.BuilderMenu {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        Timber.d("==== ${currentPointBubble.y} === ${-screenHalfHeight + 100.toPx} ${screenHalfHeight - 100.toPx}")
+        val guidelineMargin: Int =
+            if (currentPointBubble.y > screenHalfHeight - 100.toPx) {
+                screenHalfHeight * 2 - 150.toPx
+            } else if (currentPointBubble.y < -screenHalfHeight + 100.toPx) {
+                60.toPx
+            } else {
+                screenHalfHeight + currentPointBubble.y - (36.toPx)
+            }
 
-        val guidelineMargin: Int = when {
-            xBubble == 0 -> screenHalfHeight - (36.toPx + 12.toPx)
-            xBubble > 0 -> screenHalfHeight + currentPointBubble.y - (36.toPx)
-            else -> screenHalfHeight + currentPointBubble.y - (36.toPx)
-        }
+        Timber.d("==== guide margin ${guidelineMargin}")
 
         val context = applicationContext
         val binding = if (xBubble > 0) {
@@ -280,7 +284,7 @@ open class FloatToolService : Service() {
                     if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
                         val intent = Intent(this@FloatToolService, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                         AppOpenManager.instance?.currentActivity?.finish()
                     }
@@ -299,7 +303,7 @@ open class FloatToolService : Service() {
                     if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
                         val intent = Intent(this@FloatToolService, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                         AppOpenManager.instance?.currentActivity?.finish()
                     }

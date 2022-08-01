@@ -1,12 +1,8 @@
 package com.abc.mirroring.ui.settings
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.net.Uri
-import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
@@ -18,6 +14,7 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySettingBinding
 import com.abc.mirroring.databinding.LayoutDialogChangePinCodeBinding
 import com.abc.mirroring.service.helper.IntentAction
+import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -102,14 +99,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             startActivity(SelectLanguageActivity.newIntent(this))
         }
         binding.llFeedback.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data =
-                Uri.parse("mailto:") // only email apps should handle this
-
-            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@sofigo.net"))
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback")
-            intent.putExtra(Intent.EXTRA_TEXT, "\n" + getExtraInfo(this))
-            startActivity(intent)
+            FeedbackActivity.newIntent(this)
         }
         binding.llInviteFriendItem.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -143,27 +133,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         val v = (context as Activity).currentFocus ?: return
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
-    }
-
-    private fun getExtraInfo(context: Context): String {
-        val info = StringBuffer("")
-        info.append("Extra Info:\n")
-        info.append("Model:${Build.MODEL}\n")
-        val width = Resources.getSystem().displayMetrics.widthPixels
-        val height = Resources.getSystem().displayMetrics.heightPixels
-        info.append("Screen size:${width}x${height}\n")
-        info.append("Screen density:${Resources.getSystem().displayMetrics.density}\n")
-
-        val actManager: ActivityManager =
-            context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val memInfo: ActivityManager.MemoryInfo = ActivityManager.MemoryInfo()
-        actManager.getMemoryInfo(memInfo)
-        val totalMemory = (memInfo.totalMem / (1024 * 1024 * 1024 * 1024L)).toDouble()
-        info.append("Total memory:" + "%.2f".format(totalMemory) + "\n")
-        // Declaring MemoryInfo object
-        val availMemory = (memInfo.availMem / (1024 * 1024 * 1024 * 1024L)).toDouble()
-        info.append("Free memory:" + "%.2f".format(availMemory) + "\n")
-        return info.toString()
     }
 
 }

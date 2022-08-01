@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -25,8 +25,8 @@
         android:id="@+id/btnTime"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="12dp"
         android:layout_marginStart="18dp"
+        android:layout_marginBottom="12dp"
         android:elevation="1dp"
         android:src="@drawable/ic_float_timer"
         app:layout_constraintBottom_toTopOf="@+id/btnBubble"
@@ -37,8 +37,8 @@
         android:id="@+id/btnCamera"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="22dp"
+        android:layout_marginTop="20dp"
         android:elevation="1dp"
         android:src="@drawable/ic_float_camera_preview"
         app:layout_constraintStart_toEndOf="@+id/btnBubble"
@@ -48,8 +48,8 @@
         android:id="@+id/btnPencil"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="22dp"
+        android:layout_marginTop="12dp"
         android:elevation="1dp"
         android:src="@drawable/ic_float_pen"
         app:layout_constraintStart_toEndOf="@+id/btnBubble"
@@ -59,10 +59,10 @@
         android:id="@+id/btnHome"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="12dp"
         android:elevation="1dp"
-        android:src="@drawable/ic_icons8_home"
+        android:src="@drawable/ic_float_home"
         app:layout_constraintStart_toStartOf="@+id/btnBubble"
         app:layout_constraintTop_toBottomOf="@+id/btnBubble" />
 
@@ -74,7 +74,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_begin="306dp"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
