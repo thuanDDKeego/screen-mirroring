@@ -43,22 +43,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgGuide"
+        android:layout_width="match_parent"
+        android:layout_height="167dp"
+        android:paddingVertical="@dimen/margin_12dp"
+        android:src="@drawable/img_tutorial_guild1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtGuildDoNotLeavePage" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtGuildConnectSameWifi"
         style="@style/SmallText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
-        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_24dp"
         android:text="@string/connect_your_devices_to_the_same_wifi_and_turn_off_vpn"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildDoNotLeavePage" />
+        app:layout_constraintTop_toBottomOf="@id/imgGuide" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtWifiName"
-        style="@style/ContentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
@@ -67,11 +75,12 @@
         android:drawablePadding="8dp"
         android:drawableTint="@color/blueA01"
         android:gravity="left"
-        android:text="Wifi Name"
-        android:textColor="@color/black"
+        android:text="Wifi: Connected"
+        android:textColor="@color/draw_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuildConnectSameWifi" />
+        app:layout_constraintTop_toBottomOf="@id/txtGuildConnectSameWifi"
+        tools:ignore="RtlHardcoded" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtGuildOpenThisLink"
