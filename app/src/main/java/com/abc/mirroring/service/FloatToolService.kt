@@ -448,7 +448,7 @@ open class FloatToolService : Service() {
     ) {
         Timber.d("====time current: ${System.currentTimeMillis()}")
         val mNotificationTime =
-            System.currentTimeMillis() + 1 * 60 * 1000 //Set after 5 seconds from the current time // .
+            System.currentTimeMillis() + mimutes * 60 * 1000 //Set after 5 seconds from the current time // .
         Timber.d("====time scheduler: ${mNotificationTime}")
         NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
         if (isLeft) {
