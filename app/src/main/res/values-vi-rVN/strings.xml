@@ -97,5 +97,7 @@ Bạn có thể kiểm tra VPN, cùng một Wifi và khoảng cách. Bạn thậ
     <string name="we_like_you_too">Chúng tôi cũng thích bạn</string>
     <string name="enjoying_the_app">Bạn thích ứng dụng này?</string>
     <string name="send">Send</string>
+    <string name="browser_mirror_home">Browser\nmirror</string>
+    <string name="floating_ntool">Floating\ntool</string>
 
 </resources>

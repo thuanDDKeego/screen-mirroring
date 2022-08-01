@@ -61,14 +61,18 @@
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_on_off_state.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/ic_scale.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_smart_tv.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/ic_version.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-v26/activity_home.xml" value="0.18541666666666667" />
         <entry key="app/src/main/res/layout/activity_base_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_browser_mirror.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_feed_back.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_policy.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.10364583333333334" />
         <entry key="app/src/main/res/layout/float_expandable_menu_left.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/float_expandable_menu_right.xml" value="0.1" />
         <entry key="app/src/main/res/layout/float_expandable_timer_left.xml" value="0.22552083333333334" />
         <entry key="app/src/main/res/layout/float_expandable_timer_right.xml" value="0.22552083333333334" />
         <entry key="app/src/main/res/layout/float_icon_main.xml" value="0.22552083333333334" />

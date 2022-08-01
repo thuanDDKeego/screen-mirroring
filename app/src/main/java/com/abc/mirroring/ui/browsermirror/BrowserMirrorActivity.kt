@@ -159,8 +159,8 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     private fun getWifiName(): String {
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val info = wifiManager.connectionInfo
-        Timber.d("getWifiName $info")
         val wifiName = info.ssid.replace("\"", "")
+        Timber.d("getWifiName $info -- wifiName: ${wifiName.isEmpty()}")
         if (wifiName.isEmpty()) {
             return "Wifi: Connected"
         }
