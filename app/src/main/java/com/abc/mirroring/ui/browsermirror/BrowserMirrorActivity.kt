@@ -168,7 +168,11 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val info = wifiManager.connectionInfo
         Timber.d("getWifiName $info")
-        return info.ssid.replace("\"", "")
+        val wifiName = info.ssid.replace("\"", "")
+        if (wifiName.isEmpty()) {
+            return "Wifi: Connected"
+        }
+        return wifiName
     }
 
     private fun setNewPortAndReStart() {

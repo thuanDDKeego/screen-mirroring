@@ -104,7 +104,7 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
         cameraProvider.unbindAll()
         binding.previewView.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
         val preview = Preview.Builder().setTargetAspectRatio(AspectRatio.RATIO_4_3)
-            .setTargetRotation(binding.previewView.display.rotation)
+            .setTargetRotation(0)
             .build()
         val cameraSelector =
             CameraSelector.Builder().requireLensFacing(lensFacing).build()
