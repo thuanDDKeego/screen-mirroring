@@ -31,6 +31,7 @@ import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
+import com.soft.slideshow.ads.AppOpenManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -73,6 +74,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             ) {}
             showTutorialDialog()
         }
+        AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         initViewPager()
         observerConnectingBrowser()
         job = scrollToAds()
@@ -153,7 +155,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     Timber.d("Start float tools")
                     FloatToolService.start(this@HomeActivity)
                     binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
-                } else requestOverlaysPermission()
+                } else {
+                    binding.switchModeFloatingTool.isChecked = false
+                    requestOverlaysPermission()
+                }
             } else {
                 FloatToolService.stop(this@HomeActivity)
                 binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
@@ -505,7 +510,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (browserDialogErrorShowing) {
             dismissBrowserErrorDialog()
         } else {
-            if(!exitAppDialogShowing){
+            if (!exitAppDialogShowing) {
                 showExitAppDialog()
             }
         }

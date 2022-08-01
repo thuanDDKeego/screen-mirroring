@@ -282,6 +282,7 @@ open class FloatToolService : Service() {
                 btnCamera.setOnClickListener { action.onCameraPreview() }
                 btnHome.setOnClickListener {
                     if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
                         val intent = Intent(this@FloatToolService, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -301,6 +302,7 @@ open class FloatToolService : Service() {
                 btnCamera.setOnClickListener { action.onCameraPreview() }
                 btnHome.setOnClickListener {
                     if (AppOpenManager.instance?.currentIsHomeActivity() == false) {
+                        AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
                         val intent = Intent(this@FloatToolService, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -444,8 +446,10 @@ open class FloatToolService : Service() {
         binding: ViewBinding,
         isLeft: Boolean
     ) {
+        Timber.d("====time current: ${System.currentTimeMillis()}")
         val mNotificationTime =
-            System.currentTimeMillis() + mimutes * 60 * 1000 //Set after 5 seconds from the current time.
+            System.currentTimeMillis() + 1 * 60 * 1000 //Set after 5 seconds from the current time // .
+        Timber.d("====time scheduler: ${mNotificationTime}")
         NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
         if (isLeft) {
             binding as FloatExpandableTimerLeftBinding
