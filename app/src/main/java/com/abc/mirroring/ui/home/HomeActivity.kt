@@ -453,7 +453,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun showExitAppDialog() {
         if (exitAppDialogShowing) return
-        browserDialogErrorShowing = true
+        exitAppDialogShowing = true
         dialogExitAppBinding =
             LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
         dialogExitAppBinding.apply {
