@@ -150,11 +150,11 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtSecurity"
         style="@style/regularText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_6dp"
-        android:text="@string/security_your_screen_mirroring"
         android:textColor="@color/blackA04"
+        app:layout_constraintEnd_toEndOf="@id/txtIpAddress"
         app:layout_constraintStart_toStartOf="@id/txtPinCode"
         app:layout_constraintTop_toBottomOf="@id/txtPinCode" />
 

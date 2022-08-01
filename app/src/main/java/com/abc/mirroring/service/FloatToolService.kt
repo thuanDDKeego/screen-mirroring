@@ -12,6 +12,7 @@ import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startForegroundService
@@ -25,12 +26,8 @@ import com.abc.mirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
 import com.abc.mirroring.ui.home.HomeActivity
-import com.abc.mirroring.utils.NotificationUtils
 import com.soft.slideshow.ads.AppOpenManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 
@@ -450,7 +447,14 @@ open class FloatToolService : Service() {
         val mNotificationTime =
             System.currentTimeMillis() + mimutes * 60 * 1000 //Set after 5 seconds from the current time // .
         Timber.d("====time scheduler: ${mNotificationTime}")
-        NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+//        NotificationUtils().setNotification(mNotificationTime, this@FloatToolService)
+        CoroutineScope(Dispatchers.IO).launch {
+            delay((mimutes * 60 * 1000).toLong())
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@FloatToolService, "We have run out of time.", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
         if (isLeft) {
             binding as FloatExpandableTimerLeftBinding
             binding.txtNotiTimer.visibility = View.VISIBLE

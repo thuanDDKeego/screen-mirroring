@@ -38,6 +38,10 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
 
     var isInitialized = false
 
+    fun resetAdOpenAd() {
+        appOpenAd = null
+    }
+
     /** Creates and returns ad request.  */
     private val adRequest: AdRequest
         private get() = AdRequest.Builder().build()

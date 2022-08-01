@@ -34,12 +34,13 @@ class SplashActivity : AppCompatActivity() {
         } else {
             binding = ActivitySplashBinding.inflate(layoutInflater)
             setContentView(binding.root)
+            AppOpenManager.instance?.resetAdOpenAd()
             FirebaseTracking.logSplashShowed()
-            jobTimeOut = CoroutineScope(Dispatchers.Main).launch {
-                delay(SPLASH_TIME_OUT)
-                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-                finish()
-            }
+//            jobTimeOut = CoroutineScope(Dispatchers.Main).launch {
+//                delay(SPLASH_TIME_OUT)
+//                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+//                finish()
+//            }
             val startTime = System.currentTimeMillis()
             setupSplashView()
             jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
@@ -50,7 +51,7 @@ class SplashActivity : AppCompatActivity() {
                             delay(1600L - timeFromStart)
                         }
                         AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
-                            jobTimeOut?.cancel()
+//                            jobTimeOut?.cancel()
                         }
                     }
                 }
