@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -90,6 +91,20 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                         dialog.btnSaveNewPinCode.isEnabled = false
                         dialog.btnSaveNewPinCode.backgroundTintList =
                             this.getColorStateList(R.color.grayA01)
+                    }
+                }
+                dialog.pinView.setOnEditorActionListener { v, actionId, event ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        if (dialog.pinView.text?.length == 4) {
+                            hideKeyboard(this)
+                            AppPreferences().pinCode = dialog.pinView.text.toString()
+                            binding.txtPinCode.text = AppPreferences().pinCode
+                            dialog.root.visibility = View.INVISIBLE
+                            IntentAction.Exit.sendToAppService(this@SettingActivity)
+                        }
+                        true
+                    } else {
+                        false
                     }
                 }
                 dialog.btnSaveNewPinCode.setOnClickListener {

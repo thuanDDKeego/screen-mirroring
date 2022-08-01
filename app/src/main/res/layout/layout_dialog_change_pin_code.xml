@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_30dp"
                 android:cursorVisible="true"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:itemBackground="#F3F3F3"
                 android:textSize="18sp"
