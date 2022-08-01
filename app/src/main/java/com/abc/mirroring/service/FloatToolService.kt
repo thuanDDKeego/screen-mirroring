@@ -349,11 +349,14 @@ open class FloatToolService : Service() {
 
     private fun setupTimerNotiView(action: ExpandableTimerNotification.Action): ExpandableTimerNotification.BuilderTimerNoti {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val guidelineMargin: Int = when {
-            xBubble == 0 -> screenHalfHeight - (36.toPx + 12.toPx)
-            xBubble > 0 -> screenHalfHeight + currentPointBubble.y - (36.toPx)
-            else -> screenHalfHeight + currentPointBubble.y - (36.toPx)
-        }
+        val guidelineMargin: Int =
+            if (currentPointBubble.y > screenHalfHeight - 100.toPx) {
+                screenHalfHeight * 2 - 150.toPx
+            } else if (currentPointBubble.y < -screenHalfHeight + 100.toPx) {
+                60.toPx
+            } else {
+                screenHalfHeight + currentPointBubble.y - (36.toPx)
+            }
 
         val binding = if (xBubble > 0) {
             FloatExpandableTimerRightBinding.inflate(inflater).apply {
