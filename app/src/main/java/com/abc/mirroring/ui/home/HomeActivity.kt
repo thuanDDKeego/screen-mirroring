@@ -156,6 +156,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     FloatToolService.start(this@HomeActivity)
                     binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
                 } else {
+                    AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
                     binding.switchModeFloatingTool.isChecked = false
                     requestOverlaysPermission()
                 }
@@ -459,6 +460,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
             btnExitApp.setOnClickListener {
                 super.onBackPressed()
+            }
+            btnClose.setOnClickListener {
+                dismissExitAppDialog()
             }
         }
     }
