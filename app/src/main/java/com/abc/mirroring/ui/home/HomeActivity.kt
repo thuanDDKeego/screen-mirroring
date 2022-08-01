@@ -464,6 +464,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             btnClose.setOnClickListener {
                 dismissExitAppDialog()
             }
+            constraintExitAppDialog.setOnClickListener {
+                dismissExitAppDialog()
+            }
+            cardDialog.setOnClickListener { }
         }
     }
 
