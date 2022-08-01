@@ -141,9 +141,9 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                 Timber.d("onServiceMessage lastServiceMessage $lastServiceMessage $serviceMessage")
                 lastServiceMessage != serviceMessage || return
                 with(binding.btnStopStream) {
-                    visibility = View.VISIBLE
-                    isEnabled = !serviceMessage.isBusy
                     if (serviceMessage.isStreaming) {
+                        visibility = View.VISIBLE
+                        isEnabled = !serviceMessage.isBusy
                         setOnClickListener {
                             showDisconnectDialog()
                         }
