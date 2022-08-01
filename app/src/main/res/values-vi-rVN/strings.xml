@@ -99,5 +99,7 @@ Bạn có thể kiểm tra VPN, cùng một Wifi và khoảng cách. Bạn thậ
     <string name="send">Send</string>
     <string name="browser_mirror_home">Browser\nmirror</string>
     <string name="floating_ntool">Floating\ntool</string>
+    <string name="help_us_improve_product">Giúp chúng tôi cải thiện sản phẩm</string>
+    <string name="share_mirror_to_everyone">Chia sẻ Mirror với mọi người</string>
 
 </resources>

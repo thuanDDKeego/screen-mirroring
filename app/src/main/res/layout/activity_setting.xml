@@ -295,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingHorizontal="20dp"
-                        android:text="Help us improve product"
+                        android:text="@string/help_us_improve_product"
                         android:textColor="@color/txt_gray01" />
                 </LinearLayout>
 
@@ -336,7 +336,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingHorizontal="20dp"
-                        android:text="Share Mirror to everyone"
+                        android:text="@string/share_mirror_to_everyone"
                         android:textColor="@color/txt_gray01" />
                 </LinearLayout>
 

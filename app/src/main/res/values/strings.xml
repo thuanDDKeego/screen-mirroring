@@ -168,6 +168,8 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="description_your_issue_here_with_image_and_video">Description your issue here with image and video</string>
     <string name="browser_mirror_home">Browser\nmirror</string>
     <string name="floating_ntool">Floating\ntool</string>
+    <string name="help_us_improve_product">Help us improve product</string>
+    <string name="share_mirror_to_everyone">Share Mirror to everyone</string>
 
 
 </resources>

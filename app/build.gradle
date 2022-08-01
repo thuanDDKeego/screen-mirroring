@@ -11,6 +11,11 @@ plugins {
 android {
     compileSdk 32
 
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    
     defaultConfig {
         applicationId "com.abc.mirroring"
         minSdk 21
