@@ -2,6 +2,7 @@ package com.abc.sreenmirroring.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -79,12 +80,17 @@ class SplashActivity : AppCompatActivity() {
         animationTitleSet.addAnimation(animMoveRight)
         animationTitleSet.addAnimation(animFadeIn)
 
+        val animMoveRightLoadBar = AnimationUtils.loadAnimation(
+            applicationContext,
+            R.anim.move_right_load_bar
+        )
+        animMoveRightLoadBar.repeatCount = Animation.INFINITE
+        animMoveRightLoadBar.repeatMode = Animation.RESTART
+
         binding.cardViewLogo.startAnimation(animationIconSet)
         binding.txtTitleSplash.startAnimation(animationTitleSet)
         binding.txtContentSplash.startAnimation(animFadeIn)
+        binding.viewLoadBar.startAnimation(animMoveRightLoadBar)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
