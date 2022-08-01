@@ -18,7 +18,7 @@
 
     <!-- Declare features -->
     <uses-feature android:name="android.hardware.camera" />
-    
+
     <application
         android:name="com.abc.mirroring.Application"
         android:allowBackup="true"
@@ -68,6 +68,12 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.abc.mirroring.ui.feedback.FeedbackActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name="com.abc.mirroring.ui.policy.PolicyActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -114,6 +120,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/ad_app_id" />
+
     </application>
 
 </manifest>
