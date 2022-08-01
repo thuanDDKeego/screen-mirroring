@@ -56,11 +56,6 @@ class CameraPreviewService : Service() {
             ContextCompat.startForegroundService(context, intent)
     }
 
-    private var initialX = 0
-    private var initialY = 0
-    private var initialTouchX = 0f
-    private var initialTouchY = 0f
-
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= 26) {
@@ -99,18 +94,10 @@ class CameraPreviewService : Service() {
         mWindowManager?.addView(cameraPreview, paramsF)
         try {
             cameraPreview.setOnTouchListener(object : View.OnTouchListener {
-                var paramsT = paramsF
                 private var initialX = 0
                 private var initialY = 0
                 private var initialTouchX = 0f
                 private var initialTouchY = 0f
-
-                private var centerX = 0
-                private var centerY = 0
-                private var startX = 0
-                private var startY = 0
-                private var startR = 0
-                private var startScale = 0
 
                 @SuppressLint("ClickableViewAccessibility")
                 override fun onTouch(v: View?, event: MotionEvent): Boolean {
