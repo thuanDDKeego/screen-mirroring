@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -13,6 +15,7 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySettingBinding
 import com.abc.mirroring.databinding.LayoutDialogChangePinCodeBinding
+import com.abc.mirroring.extentions.setTintColor
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
@@ -26,6 +29,7 @@ import javax.inject.Inject
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     @Inject
     lateinit var admobHelper: AdmobHelper
+    private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -39,6 +43,21 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun initViews() {
         FirebaseTracking.logSettingShowed()
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
+        isTurnOnPinCode.observe(this) {
+            binding.imgChangePinCode.setTintColor(if (it) R.color.blueA01 else R.color.time_second_float)
+            binding.txtPinCode.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    if (it) R.color.txt_gray01 else R.color.time_second_float
+                )
+            )
+            binding.txtChangePinCode.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    if (it) R.color.txt_black else R.color.time_second_float
+                )
+            )
+        }
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
     }
@@ -53,6 +72,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences().isTurnOnPinCode = isChecked
+            isTurnOnPinCode.value = isChecked
             IntentAction.Exit.sendToAppService(this@SettingActivity)
         }
 

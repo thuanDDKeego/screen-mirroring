@@ -150,11 +150,13 @@
                     android:paddingStart="@dimen/margin_12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgChangePinCode"
                         android:layout_width="25dp"
                         android:layout_height="37dp"
                         android:src="@drawable/ic_change_pin_code" />
 
                     <TextView
+                        android:id="@+id/txtChangePinCode"
                         style="@style/regularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -163,7 +165,7 @@
                         android:maxLines="1"
                         android:paddingHorizontal="20dp"
                         android:text="@string/change_pin_code"
-                        android:textColor="@color/txt_black" />
+                        android:textColor="@color/txt_gray" />
 
                     <TextView
                         android:id="@+id/txtPinCode"
