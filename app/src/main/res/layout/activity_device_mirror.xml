@@ -67,6 +67,9 @@
         android:id="@+id/progressCheckConnectionDistance"
         android:layout_width="@dimen/margin_24dp"
         android:layout_height="@dimen/margin_24dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/aqua_main"
+        android:indeterminateTintMode="src_atop"
         android:progressTint="@color/blueA01"
         app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
         app:layout_constraintTop_toTopOf="@id/txtCheckConnectionDistance" />
@@ -98,7 +101,9 @@
         android:id="@+id/progressCheckSignalTransmission"
         android:layout_width="@dimen/margin_24dp"
         android:layout_height="@dimen/margin_24dp"
-        android:progressTint="@color/blueA01"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/aqua_main"
+        android:indeterminateTintMode="src_atop"
         app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
         app:layout_constraintTop_toTopOf="@id/txtCheckSignalTransmission" />
 
@@ -129,7 +134,9 @@
         android:id="@+id/progressTestConnectionSpeed"
         android:layout_width="@dimen/margin_24dp"
         android:layout_height="@dimen/margin_24dp"
-        android:progressTint="@color/blueA01"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/aqua_main"
+        android:indeterminateTintMode="src_atop"
         app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
         app:layout_constraintTop_toTopOf="@id/txtTestConnectionSpeed" />
 

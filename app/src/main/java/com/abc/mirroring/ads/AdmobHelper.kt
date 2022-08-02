@@ -92,30 +92,37 @@ class AdmobHelper {
             callback()
         } else {
             Timber.d("====show ${adsInterstitial[type]}")
+            val fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent()
+                    callback()
+                    adsInterstitial[type] = null
+                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+                    loadAdInterstitial(context, type) {}
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    super.onAdFailedToShowFullScreenContent(p0)
+                    callback()
+                    adsInterstitial[type] = null
+                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+                    loadAdInterstitial(context, type) {}
+
+                }
+            }
             if (adsInterstitial[type] != null) {
                 Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                adsInterstitial[type]?.fullScreenContentCallback =
-                    object : FullScreenContentCallback() {
-                        override fun onAdDismissedFullScreenContent() {
-                            super.onAdDismissedFullScreenContent()
-                            callback()
-                            adsInterstitial[type] = null
-                            Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                            loadAdInterstitial(context, type) {}
-                        }
-
-                        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                            super.onAdFailedToShowFullScreenContent(p0)
-                            callback()
-                            adsInterstitial[type] = null
-                            Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                            loadAdInterstitial(context, type) {}
-
-                        }
-                    }
+                adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
                 adsInterstitial[type]?.show(context as Activity)
             } else {
-                callback()
+                loadAdInterstitial(context, type) {
+                    if (adsInterstitial[type] != null) {
+                        adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
+                        adsInterstitial[type]?.show(context as Activity)
+                    } else {
+                        callback()
+                    }
+                }
             }
         }
     }

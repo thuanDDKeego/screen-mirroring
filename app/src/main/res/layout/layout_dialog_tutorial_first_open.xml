@@ -22,13 +22,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_32dp">
+            android:layout_height="wrap_content">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerTutorialDialog"
                 android:layout_width="0dp"
                 android:layout_height="350dp"
+                android:layout_marginTop="@dimen/margin_36dp"
                 app:layout_constraintBottom_toTopOf="@id/txtOk"
                 app:layout_constraintEnd_toStartOf="@+id/btnNext"
                 app:layout_constraintStart_toEndOf="@+id/btnPrevious"
@@ -104,6 +104,32 @@
                 app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/bg_gray_dialog"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ProgressBar
+                    android:layout_width="@dimen/margin_48dp"
+                    android:layout_height="@dimen/margin_48dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/aqua_main"
+                    android:indeterminateTintMode="src_atop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

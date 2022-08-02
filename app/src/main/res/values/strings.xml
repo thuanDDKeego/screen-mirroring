@@ -171,5 +171,9 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="help_us_improve_product">Help us improve product</string>
     <string name="share_mirror_to_everyone">Share Mirror to everyone</string>
 
+    //dialog loading ads
+    <string name="loading_ad">Loading AD!</string>
+    <string name="full_screen_ad_will_appear">Full screen AD will appear</string>
+
 
 </resources>
