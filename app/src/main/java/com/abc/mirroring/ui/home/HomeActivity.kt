@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
@@ -60,6 +61,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
         }
+
+        val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -77,6 +80,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         initViewPager()
         observerConnectingBrowser()
+        observerConnectFloatingToolService()
+
         job = scrollToAds()
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
@@ -107,7 +112,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         })
         //set swift mode with floating tools state
-        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
+//        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -151,25 +156,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             false
         }
         binding.switchModeFloatingTool.setOnCheckedChangeListener { buttonView, isChecked ->
+            Timber.d("switchMode ${isChecked}")
             if (isChecked) {
                 FirebaseTracking.logHomeFloatingClicked(isChecked)
                 if (isDrawOverlaysPermissionGranted()) {
-                    Timber.d("Start float tools")
                     FloatToolService.start(this@HomeActivity)
-                    binding.txtStateModeFloatingView.text = getString(R.string.on_mode)
                 } else {
                     AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
-                    binding.switchModeFloatingTool.isChecked = false
                     requestOverlaysPermission()
                 }
             } else {
                 FloatToolService.stop(this@HomeActivity)
-                binding.txtStateModeFloatingView.text = getString(R.string.off_mode)
             }
         }
-//        binding.testCrash.setOnClickListener {
-//            throw RuntimeException("Test Crash")
-//        }
     }
 
     override fun onRequestPermissionsResult(
@@ -206,6 +205,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     isStreamingBrowser = false
                 }
             }
+        }
+    }
+
+    private fun observerConnectFloatingToolService() {
+        isOpenFloatingToolLiveData.observe(this) {
+            binding.switchModeFloatingTool.isChecked = it
+            binding.txtStateModeFloatingView.text =
+                getString(if (it) R.string.on_mode else R.string.off_mode)
         }
     }
 

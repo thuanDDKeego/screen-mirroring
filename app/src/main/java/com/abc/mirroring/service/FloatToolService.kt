@@ -26,6 +26,7 @@ import com.abc.mirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
 import com.abc.mirroring.ui.home.HomeActivity
+import com.abc.mirroring.ui.home.HomeActivity.Companion.isOpenFloatingToolLiveData
 import com.soft.slideshow.ads.AppOpenManager
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -43,9 +44,10 @@ open class FloatToolService : Service() {
 
         fun start(context: Context) {
             ctx = context
+            isOpenFloatingToolLiveData.value = true
             when {
                 isRunning -> {
-                    stop(context)
+                    return
                 }
             }
             val intentFloatToolService = getAppServiceIntent(context)
@@ -57,6 +59,7 @@ open class FloatToolService : Service() {
         }
 
         fun stop(context: Context) {
+            isOpenFloatingToolLiveData.value = false
             val intentFloatToolService = getAppServiceIntent(context)
             context.stopService(intentFloatToolService)
         }
@@ -259,7 +262,7 @@ open class FloatToolService : Service() {
         Timber.d("==== ${currentPointBubble.y} === ${-screenHalfHeight + 100.toPx} ${screenHalfHeight - 100.toPx}")
         val guidelineMargin: Int =
             if (currentPointBubble.y > screenHalfHeight - 100.toPx) {
-                screenHalfHeight * 2 - 150.toPx
+                screenHalfHeight * 2 - 180.toPx
             } else if (currentPointBubble.y < -screenHalfHeight + 100.toPx) {
                 60.toPx
             } else {
@@ -584,7 +587,7 @@ open class FloatToolService : Service() {
 
 
     private fun tryStopService() {
-
+        isOpenFloatingToolLiveData.value = false
         tryRemoveAllView()
         stopSelf()
     }
@@ -625,6 +628,7 @@ open class FloatToolService : Service() {
     }
 
     private fun tryRemoveBubbles() = logIfError(isLog = false) {
+        Timber.d("tryRemoveBubbles")
         floatingBubble?.removeIcon()
         floatingBubble?.removeRemoveIcon()
     }
