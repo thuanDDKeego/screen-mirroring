@@ -38,10 +38,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 
-object FloatingToolSingleton {
-    val isOpenFloatingToolLiveData = MutableLiveData(false)
-}
-
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var tutorialDialogIsShowing = false
@@ -65,6 +61,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
         }
+
+        val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -158,10 +156,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             false
         }
         binding.switchModeFloatingTool.setOnCheckedChangeListener { buttonView, isChecked ->
+            Timber.d("switchMode ${isChecked}")
             if (isChecked) {
                 FirebaseTracking.logHomeFloatingClicked(isChecked)
                 if (isDrawOverlaysPermissionGranted()) {
-                    Timber.d("Start float tools")
                     FloatToolService.start(this@HomeActivity)
                 } else {
                     AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
@@ -211,13 +209,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun observerConnectFloatingToolService() {
-        FloatingToolSingleton.isOpenFloatingToolLiveData.observe(this) {
+        isOpenFloatingToolLiveData.observe(this) {
             binding.switchModeFloatingTool.isChecked = it
             binding.txtStateModeFloatingView.text =
                 getString(if (it) R.string.on_mode else R.string.off_mode)
         }
     }
-    
+
     override fun initAdmob() {
         admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
         admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
