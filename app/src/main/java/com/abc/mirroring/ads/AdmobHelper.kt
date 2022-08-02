@@ -31,6 +31,11 @@ class AdmobHelper {
         }
     val adsInterstitial = HashMap<AdType, InterstitialAd?>()
     val adsRewarded = HashMap<AdType, RewardedAd?>()
+
+    fun resetInterstitialAd(type: AdType) {
+        adsInterstitial[type] = null
+    }
+
     fun loadAdBanner(
         mAdView: AdView
     ) {

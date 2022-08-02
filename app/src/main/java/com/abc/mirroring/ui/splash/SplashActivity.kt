@@ -1,5 +1,6 @@
 package com.abc.sreenmirroring.ui.splash
 
+import AdType
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
@@ -8,44 +9,61 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
+import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySplashBinding
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.soft.slideshow.ads.AppOpenManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+    @Inject
+    lateinit var appConfigRemote: AppConfigRemote
+
+    @Inject
+    lateinit var admobHelper: AdmobHelper
     private lateinit var binding: ActivitySplashBinding
-    private var jobTimeOut: Job? = null
+    private val TIME_DISPLAY_ONBOARD = 3000L
+
+    //    private var jobTimeOut: Job? = null
     private var jobLoadAd: Job? = null
-    private val SPLASH_TIME_OUT = 8000L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
             lifecycleScope.launchWhenStarted {
-                delay(3000)
-                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-                finish()
+                delay(TIME_DISPLAY_ONBOARD)
+                goToHome()
             }
         } else {
-            binding = ActivitySplashBinding.inflate(layoutInflater)
-            setContentView(binding.root)
-            AppOpenManager.instance?.resetAdOpenAd()
-            FirebaseTracking.logSplashShowed()
+            setUpSplashAction()
+        }
+    }
+
+    private fun setUpSplashAction() {
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        AppOpenManager.instance?.resetAdOpenAd()
+        val startTime = System.currentTimeMillis()
+        setupSplashView()
+        FirebaseTracking.logSplashShowed()
+        if (appConfigRemote.isUsingAdsOpenApp == true) {
 //            jobTimeOut = CoroutineScope(Dispatchers.Main).launch {
 //                delay(SPLASH_TIME_OUT)
 //                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-//                finish()
+//                finish()  /*set timeout for splash*/
 //            }
-            val startTime = System.currentTimeMillis()
-            setupSplashView()
             jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
                 AppOpenManager.instance?.fetchAd {
-                    var timeFromStart = System.currentTimeMillis() - startTime
+                    val timeFromStart = System.currentTimeMillis() - startTime
                     CoroutineScope(Dispatchers.Main).launch {
                         if (timeFromStart < 1600) {
                             delay(1600L - timeFromStart)
@@ -55,6 +73,46 @@ class SplashActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        } else {
+            admobHelper.loadAdInterstitial(
+                this@SplashActivity,
+                AdType.SPLASH_INTERSTITIAL
+            ) { interstitialAd ->
+                interstitialAd?.fullScreenContentCallback =
+                    object : FullScreenContentCallback() {
+                        override fun onAdDismissedFullScreenContent() {
+                            super.onAdDismissedFullScreenContent()
+                            admobHelper.resetInterstitialAd(AdType.SPLASH_INTERSTITIAL)
+                            goToHome()
+                        }
+
+                        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                            super.onAdFailedToShowFullScreenContent(p0)
+                            goToHome()
+                            admobHelper.resetInterstitialAd(AdType.SPLASH_INTERSTITIAL)
+                            admobHelper.loadAdInterstitial(
+                                this@SplashActivity,
+                                AdType.SPLASH_INTERSTITIAL
+                            ) {}
+
+                        }
+                    }
+                jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
+                    val timeFromStart = System.currentTimeMillis() - startTime
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (timeFromStart < 1600) {
+                            delay(1600L - timeFromStart)
+                        }
+//                            jobTimeOut?.cancel()
+                        if (interstitialAd != null) {
+                            interstitialAd.show(this@SplashActivity)
+                        } else {
+                            goToHome()
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -94,4 +152,8 @@ class SplashActivity : AppCompatActivity() {
         binding.viewLoadBar.startAnimation(animMoveRightLoadBar)
     }
 
+    private fun goToHome() {
+        startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+        finish()
+    }
 }

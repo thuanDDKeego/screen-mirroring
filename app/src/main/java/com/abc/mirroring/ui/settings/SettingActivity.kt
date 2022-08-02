@@ -11,7 +11,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
-import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySettingBinding
@@ -23,13 +22,8 @@ import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
-    @Inject
-    lateinit var admobHelper: AdmobHelper
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
 
     companion object {
@@ -61,10 +55,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
-    }
-
-    override fun initAdmob() {
-        admobHelper.loadAdBanner(binding.adBannerSetting.adView)
     }
 
     override fun initActions() {
