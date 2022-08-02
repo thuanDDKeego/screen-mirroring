@@ -70,6 +70,12 @@ class FloatingBubble(
 
         private var isBubbleMoving = false
 
+        override fun onDown(x: Int, y: Int) {
+            super.onDown(x, y)
+            isBubbleMoving = true
+            showRemoveIcon()
+        }
+
         override fun onMove(x: Int, y: Int) {
             if (isBubbleMoving) return
             showRemoveIcon()
