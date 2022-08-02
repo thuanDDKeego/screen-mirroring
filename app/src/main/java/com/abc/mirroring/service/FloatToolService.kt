@@ -25,6 +25,7 @@ import com.abc.mirroring.floatingbubble.ExpandableMenuView
 import com.abc.mirroring.floatingbubble.ExpandableTimerNotification
 import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
+import com.abc.mirroring.ui.home.FloatingToolSingleton
 import com.abc.mirroring.ui.home.HomeActivity
 import com.soft.slideshow.ads.AppOpenManager
 import kotlinx.coroutines.*
@@ -43,6 +44,7 @@ open class FloatToolService : Service() {
 
         fun start(context: Context) {
             ctx = context
+            FloatingToolSingleton.isOpenFloatingToolLiveData.value = true
             when {
                 isRunning -> {
                     stop(context)
@@ -57,6 +59,7 @@ open class FloatToolService : Service() {
         }
 
         fun stop(context: Context) {
+            FloatingToolSingleton.isOpenFloatingToolLiveData.value = false
             val intentFloatToolService = getAppServiceIntent(context)
             context.stopService(intentFloatToolService)
         }
@@ -584,7 +587,7 @@ open class FloatToolService : Service() {
 
 
     private fun tryStopService() {
-
+        FloatingToolSingleton.isOpenFloatingToolLiveData.value = false
         tryRemoveAllView()
         stopSelf()
     }
@@ -625,6 +628,7 @@ open class FloatToolService : Service() {
     }
 
     private fun tryRemoveBubbles() = logIfError(isLog = false) {
+        Timber.d("tryRemoveBubbles")
         floatingBubble?.removeIcon()
         floatingBubble?.removeRemoveIcon()
     }
