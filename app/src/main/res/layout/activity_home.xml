@@ -187,7 +187,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgWeb"
-                    android:layout_width="@dimen/medium_img_icon_size"
+                    android:layout_width="@dimen/small_img_icon_size"
                     android:layout_height="@dimen/small_img_icon_size"
                     android:layout_marginHorizontal="@dimen/margin_12dp"
                     android:layout_marginVertical="@dimen/margin_16dp"
@@ -199,11 +199,11 @@
                     android:id="@+id/imgStateOnOffConnectBrowser"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
                     android:src="@drawable/ic_on_off_state"
                     android:tint="@color/grayA01"
                     app:layout_constraintStart_toStartOf="@id/txtBrowserMirror"
-                    app:layout_constraintTop_toBottomOf="@id/txtBrowserMirror" />
+                    app:layout_constraintTop_toTopOf="@+id/txtConnectBrowserState" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtConnectBrowserState"
@@ -211,12 +211,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_8dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/margin_20dp"
                     android:paddingEnd="12dp"
                     android:text="@string/connect_with_browser"
+                    android:textColor="@color/txt_dark_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgStateOnOffConnectBrowser"
-                    app:layout_constraintTop_toBottomOf="@id/txtBrowserMirror" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgWeb" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -250,7 +251,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgWrench"
-                    android:layout_width="@dimen/medium_img_icon_size"
+                    android:layout_width="@dimen/small_img_icon_size"
                     android:layout_height="@dimen/small_img_icon_size"
                     android:layout_marginHorizontal="@dimen/margin_12dp"
                     android:layout_marginVertical="@dimen/margin_16dp"
@@ -266,6 +267,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="12dp"
                     android:text="@string/off_mode"
+                    android:textColor="@color/txt_dark_gray"
                     app:layout_constraintBottom_toBottomOf="@id/switchModeFloatingTool"
                     app:layout_constraintStart_toStartOf="@id/txtFloatingTool"
                     app:layout_constraintTop_toTopOf="@id/switchModeFloatingTool" />

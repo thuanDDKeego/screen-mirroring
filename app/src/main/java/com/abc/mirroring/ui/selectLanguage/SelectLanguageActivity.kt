@@ -4,20 +4,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySelectLanguageBinding
 import com.abc.mirroring.ui.home.HomeActivity
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class SelectLanguageActivity : BaseActivity<ActivitySelectLanguageBinding>() {
-
-    @Inject
-    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -43,10 +36,6 @@ class SelectLanguageActivity : BaseActivity<ActivitySelectLanguageBinding>() {
         }
         binding.rcvLanguages.adapter = selectLanguageAdapter
         binding.rcvLanguages.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-    }
-
-    override fun initAdmob() {
-        admobHelper.loadAdBanner(binding.adBannerLanguage.adView)
     }
 
     private fun onSelectItem(item: SelectLanguageViewState) {

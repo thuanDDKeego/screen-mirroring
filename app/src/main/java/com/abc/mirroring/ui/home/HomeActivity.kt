@@ -123,10 +123,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
+            showLoadingAdDialog()
             admobHelper.showAdInterstitial(
                 this@HomeActivity,
                 AdType.GO_MIRROR_DEVICE_INTERSTITIAL
             ) {
+                dismissLoadingAdDialog()
                 DeviceMirrorActivity.gotoActivity(this@HomeActivity)
             }
         }
@@ -310,7 +312,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             txtStartVideoInTime.text =
                 getString(R.string.video_starting_in, "5")
             countDownJob = CoroutineScope(Dispatchers.Main).launch {
-                for (i in 5 downTo 0) {
+                for (i in 4 downTo 0) {
                     delay(1000L)
                     txtStartVideoInTime.text =
                         getString(R.string.video_starting_in, i.toString())
@@ -434,6 +436,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
+                constraintProgressBar.visibility = View.VISIBLE
                 admobHelper.showAdInterstitial(
                     this@HomeActivity,
                     AdType.HOME_ONBOARDING_INTERSTITIAL

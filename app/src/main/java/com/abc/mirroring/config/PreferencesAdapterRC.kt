@@ -1,7 +1,5 @@
-package com.documentmanager.viewer.config
+package com.abc.mirroring.config
 
-import com.abc.mirroring.config.AppPreferences
-import com.abc.mirroring.config.Preferences
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings

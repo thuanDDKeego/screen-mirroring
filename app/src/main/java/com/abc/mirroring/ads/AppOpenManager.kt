@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.home.HomeActivity
 import com.google.android.gms.ads.AdError
@@ -26,7 +27,6 @@ import java.util.*
 /** Prefetches App Open Ads.  */
 class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
     private var appOpenAd: AppOpenAd? = null
-    private val TIME_TO_DISABLE_OPEN_APP = 3000
     private var loadCallback: AppOpenAdLoadCallback? = null
     private lateinit var myApplication: Application
     private lateinit var appOpenAdId: String
@@ -186,7 +186,7 @@ class AppOpenManager : ActivityLifecycleCallbacks, LifecycleObserver {
         Log.d(LOG_TAG, "showAdIfAvailable $isShowingAd -- $isAdAvailable -- $currentActivity")
         val currentTime = System.currentTimeMillis()
         val timeFromTheLast = currentTime - AppPreferences().lastTimeAdOpenApp!!
-        if (!isShowingAd && isAdAvailable && timeFromTheLast >= TIME_TO_DISABLE_OPEN_APP) {
+        if (!isShowingAd && isAdAvailable && timeFromTheLast >= AppConfigRemote().timeBetweenTwoAdsOpenAppShow!!) {
             Log.d(LOG_TAG, "Will show ad $currentActivity")
             val fullScreenContentCallback: FullScreenContentCallback =
                 object : FullScreenContentCallback() {

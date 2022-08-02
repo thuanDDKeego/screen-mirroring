@@ -110,10 +110,12 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
+            showLoadingAdDialog()
             admobHelper.showAdInterstitial(
                 this@TutorialActivity,
                 AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
             ) {
+                dismissLoadingAdDialog()
                 super.onBackPressed()
             }
         }

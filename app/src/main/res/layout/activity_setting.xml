@@ -37,7 +37,7 @@
         android:paddingHorizontal="@dimen/margin_24dp"
         android:paddingVertical="20dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@id/constrAdBanner"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitle">
@@ -420,24 +420,4 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constrAdBanner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include
-            android:id="@+id/adBannerSetting"
-            layout="@layout/layout_admob_banner"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
