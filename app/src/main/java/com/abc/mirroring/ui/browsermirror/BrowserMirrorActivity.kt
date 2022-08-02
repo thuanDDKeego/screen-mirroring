@@ -3,12 +3,17 @@ package com.abc.mirroring.ui.browsermirror
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
+import android.content.ClipboardManager
 import android.net.Uri
-import android.text.Html
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.R
@@ -17,6 +22,7 @@ import com.abc.mirroring.databinding.ActivityBrowserMirrorBinding
 import com.abc.mirroring.databinding.LayoutDialogDisconnectBrowserMirrorBinding
 import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
+import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.elvishew.xlog.XLog
 import info.dvkr.screenstream.data.model.AppError
@@ -70,6 +76,11 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             binding.txtSecurity.visibility = View.VISIBLE
             binding.txtSecurity.text =
                 Html.fromHtml(getString(R.string.security_your_screen_mirroring))
+            binding.txtSecurity.makeLinks(
+                Pair("Setting", View.OnClickListener {
+                    SettingActivity.gotoActivity(this@BrowserMirrorActivity)
+                })
+            )
         } else {
             binding.txtPinCode.visibility = View.GONE
             binding.txtSecurity.visibility = View.GONE
@@ -291,4 +302,35 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             mDialogDisconnectIsShowing = false
         }
     }
+}
+
+fun AppCompatTextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+    val spannableString = SpannableString(this.text)
+    var startIndexOfLink = -1
+    for (link in links) {
+        val clickableSpan = object : ClickableSpan() {
+            override fun updateDrawState(textPaint: TextPaint) {
+                // use this to change the link color
+                textPaint.color = textPaint.linkColor
+                // toggle below value to enable/disable
+                // the underline shown below the clickable text
+                textPaint.isUnderlineText = false
+            }
+
+            override fun onClick(view: View) {
+                Selection.setSelection((view as TextView).text as Spannable, 0)
+                view.invalidate()
+                link.second.onClick(view)
+            }
+        }
+        startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
+//      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+        spannableString.setSpan(
+            clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    this.movementMethod =
+        LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+    this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }

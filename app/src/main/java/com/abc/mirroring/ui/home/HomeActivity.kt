@@ -162,6 +162,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (isDrawOverlaysPermissionGranted()) {
                     FloatToolService.start(this@HomeActivity)
                 } else {
+                    binding.switchModeFloatingTool.isChecked = false
                     AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
                     requestOverlaysPermission()
                 }
