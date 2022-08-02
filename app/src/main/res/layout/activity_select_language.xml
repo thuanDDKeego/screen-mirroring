@@ -35,22 +35,9 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_64dp"
         android:layout_marginTop="@dimen/margin_16dp"
-        app:layout_constraintBottom_toTopOf="@id/constrAdBanner"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBack" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constrAdBanner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include
-            android:id="@+id/adBannerLanguage"
-            layout="@layout/layout_admob_banner" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

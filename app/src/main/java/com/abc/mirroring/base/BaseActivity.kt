@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
@@ -27,8 +29,10 @@ import java.util.*
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: V
     var mRateDialogShowing = false
+    var mLoadingAdDialogShowing = false
     open var isFullScreen: Boolean = false
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
+    private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
 
     companion object {
         var dLocale: Locale? = Locale(AppPreferences().languageSelected.toString())
@@ -72,6 +76,14 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             val view = findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mRateDialogShowing = false
+        }
+    }
+
+    protected fun dismissLoadingAdDialog() {
+        if (mLoadingAdDialogShowing) {
+            val view = findViewById<View>(android.R.id.content) as ViewGroup
+            view.removeViewAt(view.childCount - 1)
+            mLoadingAdDialogShowing = false
         }
     }
 
@@ -195,6 +207,20 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             if (autoShow)
                 finishAfterTransition()
         }
+    }
+
+    protected fun showLoadingAdDialog() {
+        if (mLoadingAdDialogShowing) return
+        mLoadingAdDialogShowing = true
+        val view = findViewById<View>(android.R.id.content) as ViewGroup
+        dialogLoadingAdBinding =
+            LayoutDialogLoadingAdsBinding.inflate(layoutInflater, view, true)
+        val animMoveRightLoadBar = AnimationUtils.loadAnimation(
+            applicationContext,
+            R.anim.move_right_load_bar
+        )
+        dialogLoadingAdBinding.viewLoadBar.startAnimation(animMoveRightLoadBar)
+        dialogLoadingAdBinding.constraintBgDialogLoadingAd.setOnClickListener {}
     }
 
     abstract fun initBinding(): V

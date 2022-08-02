@@ -121,12 +121,14 @@
                 android:id="@+id/progressBarLoadAds"
                 android:layout_width="@dimen/margin_36dp"
                 android:layout_height="@dimen/margin_36dp"
-                android:progressBackgroundTint="@color/blueA01"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/aqua_main"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/txtStartVideoInTime"
                 app:layout_constraintEnd_toEndOf="@id/txtStartVideoInTime"
                 app:layout_constraintStart_toStartOf="@id/txtStartVideoInTime"
-                app:layout_constraintTop_toTopOf="@id/txtStartVideoInTime"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toTopOf="@id/txtStartVideoInTime" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
