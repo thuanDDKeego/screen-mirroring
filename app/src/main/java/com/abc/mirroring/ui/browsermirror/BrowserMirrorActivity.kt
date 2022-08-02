@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.net.Uri
-import android.net.wifi.WifiManager
-import android.text.Html
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -72,7 +70,29 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             binding.txtPinCode.visibility = View.GONE
             binding.txtSecurity.visibility = View.GONE
         }
-        binding.txtWifiName.text = getWifiName()
+        observerWifiState(object : onWifiChangeStateConnection {
+            override fun onWifiUnavailable() {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.txtWifiName.text = getString(R.string.wifi_not_connected)
+                    binding.txtWifiName.setTextColor(
+                        ContextCompat.getColor(
+                            this@BrowserMirrorActivity, R.color.draw_red
+                        )
+                    )
+                }
+            }
+
+            override fun onWifiAvailable() {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.txtWifiName.text = getString(R.string.wifi_connected)
+                    binding.txtWifiName.setTextColor(
+                        ContextCompat.getColor(
+                            this@BrowserMirrorActivity, R.color.black
+                        )
+                    )
+                }
+            }
+        })
     }
 
     override fun initActions() {
@@ -155,17 +175,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             }
             else -> {}
         }
-    }
-
-    private fun getWifiName(): String {
-        val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
-        val info = wifiManager.connectionInfo
-        val wifiName = info.ssid.replace("\"", "")
-        Timber.d("getWifiName $info -- wifiName: ${wifiName.isEmpty()}")
-        if (wifiName.isEmpty()) {
-            return "Wifi: Connected"
-        }
-        return wifiName
     }
 
     private fun setNewPortAndReStart() {
