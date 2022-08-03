@@ -164,8 +164,7 @@
                 android:layout_height="@dimen/dimen_150dp"
                 android:layout_marginVertical="@dimen/margin_16dp"
                 android:layout_marginEnd="@dimen/margin_8dp"
-                android:background="@drawable/bg_border_radius_15dp"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/bg_browser_miror_box"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@id/constraintFloatingTool"
                 app:layout_constraintStart_toStartOf="@id/constrantMirror"
@@ -197,9 +196,9 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgStateOnOffConnectBrowser"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_width="@dimen/margin_12dp"
+                    android:layout_height="@dimen/margin_12dp"
+                    android:layout_marginTop="@dimen/margin_6dp"
                     android:src="@drawable/ic_on_off_state"
                     android:tint="@color/grayA01"
                     app:layout_constraintStart_toStartOf="@id/txtBrowserMirror"
@@ -229,8 +228,7 @@
                 android:layout_height="@dimen/dimen_150dp"
                 android:layout_marginVertical="@dimen/margin_16dp"
                 android:layout_marginStart="@dimen/margin_8dp"
-                android:background="@drawable/bg_border_radius_15dp"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/bg_device_mirror_box"
                 app:layout_constraintEnd_toEndOf="@id/constrantMirror"
                 app:layout_constraintStart_toEndOf="@id/constraintBrowserMirror"
                 app:layout_constraintTop_toBottomOf="@id/constrantMirror">

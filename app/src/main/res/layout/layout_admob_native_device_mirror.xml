@@ -25,26 +25,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView23"
-                android:layout_width="@dimen/margin_24dp"
-                android:layout_height="@dimen/margin_24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_label_ads_device_mirror" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="13dp"
-                android:layout_marginStart="4dp"
-                android:text="@string/sponsored"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView23"
-                app:layout_constraintStart_toEndOf="@+id/imageView23"
-                app:layout_constraintTop_toTopOf="@+id/imageView23" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintInfoAds"
                 android:layout_width="match_parent"
@@ -112,6 +92,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ad_icon" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView23"
+                    android:layout_width="@dimen/margin_16dp"
+                    android:layout_height="@dimen/margin_16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_label_ads_device_mirror" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

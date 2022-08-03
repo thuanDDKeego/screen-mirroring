@@ -43,11 +43,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var tutorialDialogIsShowing = false
     private var browserDialogShowing = false
     private var browserDialogErrorShowing = false
+    private var askPermissionOverLayDialogShowing = false
     private var exitAppDialogShowing = false
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
+    private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
     private var job: Job? = null
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
@@ -163,8 +165,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     FloatToolService.start(this@HomeActivity)
                 } else {
                     binding.switchModeFloatingTool.isChecked = false
-                    AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
-                    requestOverlaysPermission()
+                    showAskPermissionOverlayDialog()
                 }
             } else {
                 FloatToolService.stop(this@HomeActivity)
@@ -196,7 +197,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             when (serviceMessage) {
                 is ServiceMessage.ServiceState -> {
                     isStreamingBrowser = serviceMessage.isStreaming
-                    binding.imgStateOnOffConnectBrowser.setTintColor(if (serviceMessage.isStreaming) R.color.blueA01 else R.color.grayA01)
+                    binding.imgStateOnOffConnectBrowser.setTintColor(if (serviceMessage.isStreaming) R.color.greenA02 else R.color.grayA01)
                     binding.txtConnectBrowserState.text =
                         if (serviceMessage.isStreaming) getString(
                             R.string.connecting
@@ -463,8 +464,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun showExitAppDialog() {
-        if (exitAppDialogShowing) return
-        exitAppDialogShowing = true
+        if (askPermissionOverLayDialogShowing) return
+        askPermissionOverLayDialogShowing = true
         dialogExitAppBinding =
             LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
         dialogExitAppBinding.apply {
@@ -481,6 +482,33 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             cardDialog.setOnClickListener { }
         }
     }
+
+    private fun dismissAskPermissionOverlayDialog() {
+        if (askPermissionOverLayDialogShowing) {
+            binding.root.removeViewAt(binding.root.childCount - 1)
+            askPermissionOverLayDialogShowing = false
+        }
+    }
+
+    private fun showAskPermissionOverlayDialog() {
+        if (askPermissionOverLayDialogShowing) return
+        askPermissionOverLayDialogShowing = true
+        dialogAskPermissionOverLayBinding =
+            LayoutDialogAskDisplayOverlayPermissionBinding.inflate(
+                layoutInflater,
+                binding.root,
+                true
+            )
+        dialogAskPermissionOverLayBinding.apply {
+            btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
+            btnAllow.setOnClickListener {
+                AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+                requestOverlaysPermission()
+                dismissAskPermissionOverlayDialog()
+            }
+        }
+    }
+
 
     private fun updateTabTutorialDialogPager(
         binding: LayoutDialogTutorialFirstOpenBinding,
