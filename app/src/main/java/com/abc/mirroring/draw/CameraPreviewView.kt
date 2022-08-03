@@ -17,7 +17,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.abc.mirroring.R
 import com.abc.mirroring.databinding.LayoutCameraPreviewBinding
+import com.abc.mirroring.helper.toPx
 import com.google.common.util.concurrent.ListenableFuture
+import timber.log.Timber
 import java.util.concurrent.ExecutionException
 import kotlin.math.hypot
 
@@ -84,8 +86,15 @@ class CameraPreviewView : ConstraintLayout, LifecycleOwner {
                     val sizeR = if ((e.rawX - startX) < 0) {
                         -newR
                     } else newR
-                    binding.previewView.layoutParams.width = widthView + sizeR.toInt()
-                    binding.previewView.layoutParams.height = heightView + sizeR.toInt()
+                    var widthState = widthView + sizeR.toInt()
+                    var heightState = heightView + sizeR.toInt()
+                    Timber.d("====sizecamera ${widthState} ${heightState}")
+                    if (widthState < 100.toPx || heightState < 100.toPx) {
+                        widthState = 100.toPx
+                        heightState = 100.toPx
+                    }
+                    binding.previewView.layoutParams.width = widthState
+                    binding.previewView.layoutParams.height = heightState
                     binding.previewView.invalidate()
                     binding.previewView.requestLayout()
                 }

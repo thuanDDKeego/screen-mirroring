@@ -70,11 +70,13 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtCheckingNetWorkTitle"
                 style="@style/ExtraBoldLargeText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
                 android:text="@string/checking_network_title"
                 android:textColor="@color/blueA01"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
                 app:layout_constraintTop_toBottomOf="@id/imgWifiChecking" />
 

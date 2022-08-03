@@ -36,7 +36,7 @@
     //tutorial step
     <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN</string>
     <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
-    <string name="tutorial_guild3">3. Click to the “Mirror” button, enable the wireless display function on your phone and wait for device searching TVs</string>
+    <string name="tutorial_guild3">3.Click the “Mirror” button, enable the wireless display function on your phone, and wait for the device to search TVs</string>
     <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
     <string name="skip">Skip</string>
     <string name="go">Go</string>
@@ -49,14 +49,14 @@
     <string name="checking_network_title">Checking\nNetwork</string>
     <string name="check_signal_transmission">Check signal transmission</string>
     <string name="test_connection_speed">Test connection speed</string>
-    <string name="check_the_connection_distance">Check the connection distance</string>
+    <string name="check_the_connection_distance">Check connection distance</string>
     <string name="select_device">Select device</string>
     <string name="download">Download</string>
 
 
     //dialog
     <string name="open_wifi_setting">Open wifi setting</string>
-    <string name="watch_short_video_to_unlock_browser">Watch short video to unlock browser mirror for free or upgrade to open life time.</string>
+    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free, or upgrade the life-time pack.</string>
     <string name="close">Close</string>
     <string name="upgrade">Upgrade</string>
 
@@ -75,13 +75,13 @@
     <string name="faq_item_description1">- Ensure the same Wifi connection\n- Turn off VPN\n- Shorten the distance between devices\n- Check supported devices</string>
 
     <string name="faq_item_title2">My smartphone gets stuck “connecting” to couple with TV.</string>
-    <string name="faq_item_description2">- Restart the smartphone’s wifi and reconnect to devices.\n- Turn off the TV and unplug it for 1 minute then turn it on again.\n- Shorten the distance between your phone and the TV.</string>
+    <string name="faq_item_description2"> Restart the smartphone’s wifi and reconnect to devices.\n- Turn off the TV and unplug its power cord from the socket for 1 minute, then turn it on again.\n- Shorten the distance between your phone and the TV.</string>
 
     <string name="faq_item_title3">My devices could connect before, but those do not work now?</string>
     <string name="faq_item_description3">If your devices could connect previously, those can be definitely connected again.
 You may check VPN, the same Wifi, and the distance. You even deal with the problems by restarting your devices.</string>
 
-    <string name="faq_item_title4">It shows that my device is not supported. What should we do?</string>
+    <string name="faq_item_title4">It shows that my device is not supported. What should I do?</string>
     <string name="faq_item_description4">This means that your device does not support the screen mirroring function.\nYou could find supported devices to be able to mirror TV.</string>
 
 
@@ -110,8 +110,8 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
 
     //disconnect mirroring dialog
     <string name="want_to_disconnect">Want to disconnect?</string>
-    <string name="connection_will_be_interruped">Connection will be interruped</string>
-    <string name="failed_to_unlock_watching_again">Failed to unlock.\nWatching ad again to browser mirror</string>
+    <string name="connection_will_be_interruped">The Connection will be interruped </string>
+    <string name="failed_to_unlock_watching_again">Failed to unlock.\nWatching the ad again to open Browser Mirror</string>
 
     //timer
     <string name="txt_2">2</string>
