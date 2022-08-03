@@ -107,6 +107,13 @@
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
 
+        <service android:name="com.abc.mirroring.service.FirebaseMessageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name="com.abc.mirroring.notification.TimerReceiver"
             android:enabled="true" />
