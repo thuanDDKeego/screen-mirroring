@@ -142,18 +142,24 @@ open class FloatToolService : Service() {
     private fun setupNotificationBuilder(
         channelId: String,
     ): Notification {
-        val title = getString(R.string.app_name) //todo
-        val message: String = getString(R.string.app_name) //todo
+        val title = getString(R.string.floating_tool) //todo
+        val message: String = getString(R.string.you_are_using_floating_tool) //todo
 
         mNotificationBuilder?.setContentTitle(title)
             ?.setContentText(message)
             ?.setOngoing(true)
-            ?.setSmallIcon(R.mipmap.ic_launcher)
             ?.setContentTitle(title)
             ?.setContentText(message)
             ?.setPriority(NotificationCompat.PRIORITY_MIN)
             ?.setCategory(Notification.CATEGORY_SERVICE)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNotificationBuilder
+                ?.setSmallIcon(R.drawable.ic_launcher_noti)?.color =
+                resources.getColor(R.color.blueA01)
+        } else {
+            mNotificationBuilder?.setSmallIcon(R.drawable.ic_launcher_app)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
@@ -266,7 +272,7 @@ open class FloatToolService : Service() {
             } else if (currentPointBubble.y < -screenHalfHeight + 100.toPx) {
                 60.toPx
             } else {
-                screenHalfHeight + currentPointBubble.y - (36.toPx)
+                screenHalfHeight + currentPointBubble.y - (42.toPx)
             }
 
         Timber.d("==== guide margin ${guidelineMargin}")
@@ -357,7 +363,7 @@ open class FloatToolService : Service() {
             } else if (currentPointBubble.y < -screenHalfHeight + 100.toPx) {
                 60.toPx
             } else {
-                screenHalfHeight + currentPointBubble.y - (36.toPx)
+                screenHalfHeight + currentPointBubble.y - (42.toPx)
             }
 
         val binding = if (xBubble > 0) {

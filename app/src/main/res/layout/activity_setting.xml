@@ -59,7 +59,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_upgrade" />
+                    android:src="@drawable/ic_upgrade"
+                    android:tint="@color/txt_light_gray" />
 
                 <TextView
                     style="@style/regularText"
@@ -69,7 +70,7 @@
                     android:maxLines="1"
                     android:paddingHorizontal="20dp"
                     android:text="@string/upgrade"
-                    android:textColor="@color/txt_black" />
+                    android:textColor="@color/txt_gray" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat

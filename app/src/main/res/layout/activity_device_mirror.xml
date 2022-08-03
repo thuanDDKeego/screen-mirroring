@@ -22,7 +22,8 @@
             android:layout_width="@dimen/margin_48dp"
             android:layout_height="@dimen/margin_48dp"
             android:padding="@dimen/margin_12dp"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/txt_dark_gray" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TitleText"
@@ -69,11 +70,13 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtCheckingNetWorkTitle"
                 style="@style/ExtraBoldLargeText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
                 android:text="@string/checking_network_title"
                 android:textColor="@color/blueA01"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
                 app:layout_constraintTop_toBottomOf="@id/imgWifiChecking" />
 
@@ -90,10 +93,12 @@
 
             <ImageView
                 android:id="@+id/imgResultCheckConnectionDistance"
-                android:layout_width="@dimen/margin_24dp"
-                android:layout_height="@dimen/margin_24dp"
-                android:scaleType="fitXY"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
                 android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/txtCheckConnectionDistance"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
                 app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
                 app:layout_constraintTop_toTopOf="@id/txtCheckConnectionDistance" />
 
@@ -123,11 +128,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgResultCheckSignalTransmission"
-                android:layout_width="@dimen/margin_24dp"
-                android:layout_height="@dimen/margin_24dp"
-                android:scaleType="fitXY"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
                 android:visibility="visible"
-                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintBottom_toBottomOf="@+id/txtCheckSignalTransmission"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintStart_toStartOf="@id/progressCheckConnectionDistance"
                 app:layout_constraintTop_toTopOf="@id/txtCheckSignalTransmission" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -156,11 +163,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgResultTestConnectionSpeed"
-                android:layout_width="@dimen/margin_24dp"
-                android:layout_height="@dimen/margin_24dp"
-                android:scaleType="fitXY"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
                 android:visibility="visible"
-                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintBottom_toBottomOf="@+id/txtTestConnectionSpeed"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintStart_toStartOf="@id/progressCheckConnectionDistance"
                 app:layout_constraintTop_toTopOf="@id/txtTestConnectionSpeed" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -183,14 +192,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_36dp"
                 android:layout_marginBottom="@dimen/margin_42dp"
-                android:background="@drawable/bg_button_gradient_radius_15dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:backgroundTint="@color/aqua_main"
                 android:text="@string/select_device"
                 android:textAllCaps="false"
                 android:textColor="@color/txt_white"
                 android:textSize="@dimen/text_title"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="6.5"
+                app:layout_constraintDimensionRatio="6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTestConnectionSpeed" />
@@ -201,14 +211,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_36dp"
                 android:layout_marginBottom="@dimen/margin_42dp"
-                android:background="@drawable/bg_button_gradient_radius_15dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:backgroundTint="@color/aqua_main"
                 android:text="@string/open_wifi_setting"
                 android:textAllCaps="false"
                 android:textColor="@color/txt_white"
                 android:textSize="@dimen/text_title"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="6.5"
+                app:layout_constraintDimensionRatio="6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTestConnectionSpeed" />

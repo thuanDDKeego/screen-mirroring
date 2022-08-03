@@ -77,7 +77,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             binding.txtSecurity.text =
                 Html.fromHtml(getString(R.string.security_your_screen_mirroring))
             binding.txtSecurity.makeLinks(
-                Pair("Setting", View.OnClickListener {
+                Pair(getString(R.string.setting), View.OnClickListener {
                     SettingActivity.gotoActivity(this@BrowserMirrorActivity)
                 })
             )
