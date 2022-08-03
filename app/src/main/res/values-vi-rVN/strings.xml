@@ -61,7 +61,7 @@
     <string name="save">Lưu</string>
     <string name="enter_a_new_pin_code">Nhập mã Pin mới</string>
     <string name="change_pin_code">Thay  đỏi mã Pin</string>
-    <string name="video_starting_in">Video sẽ bắt đầu trong</string>
+    <string name="video_starting_in">Video sẽ bắt đầu trong %1$s giây</string>
     <string name="help">Trợ giúp</string>
     <string name="general">Chung</string>
     <string name="version">Phiên bản</string>

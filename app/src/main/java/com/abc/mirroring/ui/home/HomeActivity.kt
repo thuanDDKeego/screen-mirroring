@@ -556,6 +556,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             dismissBrowserDialog()
         } else if (browserDialogErrorShowing) {
             dismissBrowserErrorDialog()
+        } else if (tutorialDialogIsShowing) {
+        } else if (askPermissionOverLayDialogShowing) {
+            dismissAskPermissionOverlayDialog()
         } else {
             if (!exitAppDialogShowing) {
                 showExitAppDialog()
