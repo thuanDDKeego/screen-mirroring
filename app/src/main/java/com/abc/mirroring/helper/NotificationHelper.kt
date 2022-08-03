@@ -3,6 +3,7 @@ package com.abc.mirroring.helper
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
@@ -183,52 +184,70 @@ class NotificationHelper(context: Context) {
             }
         }
 
-        return when (notificationType) {
-            NotificationType.START -> builder
-                .setContentTitle(applicationContext.getString(R.string.app_name))
-                .setContentText("Press START to begin stream")
-                .setSmallIcon(R.drawable.logo)
-                .addAction(
-                    NotificationCompat.Action(
-                        R.drawable.ic_close,
-                        "Start",
-                        PendingIntent.getActivity(
-                            applicationContext, 1,
-                            IntentAction.StartStream.toAppActivityIntent(applicationContext),
-                            flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+        when (notificationType) {
+            NotificationType.START -> {
+                val builderNotification = builder
+                    .setContentTitle(applicationContext.getString(R.string.app_name))
+                    .setContentText("Press START to begin stream")
+                    .addAction(
+                        NotificationCompat.Action(
+                            R.drawable.ic_close,
+                            "Start",
+                            PendingIntent.getActivity(
+                                applicationContext, 1,
+                                IntentAction.StartStream.toAppActivityIntent(applicationContext),
+                                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+                            )
                         )
                     )
-                )
-                .addAction(
-                    NotificationCompat.Action(
-                        R.drawable.ic_close,
-                        "Exit",
-                        PendingIntent.getService(
-                            applicationContext, 3,
-                            IntentAction.Exit.toAppServiceIntent(applicationContext),
-                            flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+                    .addAction(
+                        NotificationCompat.Action(
+                            R.drawable.ic_close,
+                            "Exit",
+                            PendingIntent.getService(
+                                applicationContext, 3,
+                                IntentAction.Exit.toAppServiceIntent(applicationContext),
+                                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+                            )
                         )
                     )
-                )
-                .build()
 
-            NotificationType.STOP -> builder
-                .setContentTitle(applicationContext.getString(R.string.app_name))
-                .setContentText("Press STOP to end stream")
-                .setSmallIcon(R.drawable.logo)
-                .addAction(
-                    NotificationCompat.Action(
-                        R.drawable.logo,
-                        "STOP",
-                        PendingIntent.getService(
-                            applicationContext, 2,
-                            IntentAction.StopStream.toAppServiceIntent(applicationContext),
-                            flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builderNotification
+                        .setSmallIcon(R.drawable.ic_launcher_noti)
+                        .setColor(applicationContext.resources.getColor(R.color.blueA01))
+                } else {
+                    builderNotification.setSmallIcon(R.drawable.ic_launcher_app)
+                }
+
+                return builderNotification.build()
+            }
+
+            NotificationType.STOP -> {
+                val builderNotification = builder
+                    .setContentTitle(applicationContext.getString(R.string.app_name))
+                    .setContentText("Press STOP to end stream")
+                    .addAction(
+                        NotificationCompat.Action(
+                            R.drawable.logo,
+                            "STOP",
+                            PendingIntent.getService(
+                                applicationContext, 2,
+                                IntentAction.StopStream.toAppServiceIntent(applicationContext),
+                                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+                            )
                         )
                     )
-                )
-                .build()
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builderNotification
+                        .setSmallIcon(R.drawable.ic_launcher_noti)
+                        .setColor(applicationContext.resources.getColor(R.color.blueA01))
+                } else {
+                    builderNotification.setSmallIcon(R.drawable.ic_launcher_app)
+                }
+                return builderNotification.build()
+            }
             else -> throw IllegalArgumentException("Unexpected notification type: $notificationType")
         }
     }
