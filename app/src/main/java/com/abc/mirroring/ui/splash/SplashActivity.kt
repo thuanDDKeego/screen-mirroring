@@ -156,4 +156,7 @@ class SplashActivity : AppCompatActivity() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
         finish()
     }
+
+    override fun onBackPressed() {
+    }
 }

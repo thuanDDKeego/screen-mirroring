@@ -22,10 +22,8 @@ import com.abc.mirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.mirroring.helper.requestOverlaysPermission
 import com.abc.mirroring.service.CameraPreviewService
 import com.abc.mirroring.service.FloatToolService
-import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
-import com.abc.mirroring.ui.browsermirror.StreamViewModel
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
@@ -57,13 +55,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @Inject
     lateinit var admobHelper: AdmobHelper
 
-    private var isStreamingBrowser: Boolean = false
 
     companion object {
         fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
         }
 
+        var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
     }
 
@@ -121,7 +119,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-            if (isStreamingBrowser) {
+            if (isStreamingBrowser.value == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
@@ -193,22 +191,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun observerConnectingBrowser() {
-        StreamViewModel.getInstance().serviceMessageLiveData.observe(this) { serviceMessage ->
-            when (serviceMessage) {
-                is ServiceMessage.ServiceState -> {
-                    isStreamingBrowser = serviceMessage.isStreaming
-                    binding.imgStateOnOffConnectBrowser.setTintColor(if (serviceMessage.isStreaming) R.color.greenA02 else R.color.grayA01)
-                    binding.txtConnectBrowserState.text =
-                        if (serviceMessage.isStreaming) getString(
-                            R.string.connecting
-                        ) else getString(R.string.connect_with_browser)
-                }
-                else -> {
-                    isStreamingBrowser = false
-                }
-            }
+        isStreamingBrowser.observe(this) { isStreaming ->
+            binding.imgStateOnOffConnectBrowser.setTintColor(if (isStreaming) R.color.greenA02 else R.color.grayA01)
+            binding.txtConnectBrowserState.text =
+                if (isStreaming) getString(
+                    R.string.connecting
+                ) else getString(R.string.connect_with_browser)
         }
     }
+
 
     private fun observerConnectFloatingToolService() {
         isOpenFloatingToolLiveData.observe(this) {
@@ -464,8 +455,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun showExitAppDialog() {
-        if (askPermissionOverLayDialogShowing) return
-        askPermissionOverLayDialogShowing = true
+        if (exitAppDialogShowing) return
+        exitAppDialogShowing = true
         dialogExitAppBinding =
             LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
         dialogExitAppBinding.apply {
@@ -506,6 +497,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 requestOverlaysPermission()
                 dismissAskPermissionOverlayDialog()
             }
+            constraintBgDialogAskPermission.setOnClickListener {
+                dismissAskPermissionOverlayDialog()
+            }
+            llDialog.setOnClickListener {}
         }
     }
 
@@ -557,6 +552,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (browserDialogErrorShowing) {
             dismissBrowserErrorDialog()
         } else if (tutorialDialogIsShowing) {
+        } else if (mLoadingAdDialogShowing) {
         } else if (askPermissionOverLayDialogShowing) {
             dismissAskPermissionOverlayDialog()
         } else {

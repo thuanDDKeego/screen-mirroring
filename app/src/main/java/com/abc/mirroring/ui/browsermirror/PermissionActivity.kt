@@ -34,11 +34,11 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
     companion object {
         private const val CAST_PERMISSION_PENDING_KEY = "CAST_PERMISSION_PENDING_KEY"
         private const val SCREEN_CAPTURE_REQUEST_CODE = 10
+        var settings: Settings? = null
     }
 
     private var permissionsErrorDialog: MaterialDialog? = null
     private var isCastPermissionsPending: Boolean = false
-    lateinit var settings: Settings
 
     private var serviceMessageFlowJob: Job? = null
     private var isBound: Boolean = false
@@ -72,7 +72,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
 
     private val settingsListener = object : SettingsReadOnly.OnSettingsChangeListener {
         override fun onSettingsChanged(key: String) {
-            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         }
     }
 
@@ -85,7 +85,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
                 .exceptionHandler { ex -> Timber.e(ex) }
                 .build()
         )
-        AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+        AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         isCastPermissionsPending =
             savedInstanceState?.getBoolean(CAST_PERMISSION_PENDING_KEY) ?: false
         XLog.d(getLog("onCreate", "isCastPermissionsPending: $isCastPermissionsPending"))
@@ -108,7 +108,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
-        settings.registerChangeListener(settingsListener)
+        settings!!.registerChangeListener(settingsListener)
     }
 
     override fun onResume() {
@@ -124,7 +124,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
             isBound = false
         }
 
-        settings.unregisterChangeListener(settingsListener)
+        settings!!.unregisterChangeListener(settingsListener)
         super.onStop()
     }
 
@@ -147,33 +147,37 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
                             )
                         )
                     } else {
-                        isCastPermissionsPending = true
-                        permissionsErrorDialog?.dismiss()
-                        permissionsErrorDialog = null
-                        val projectionManager =
-                            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                        try {
-//                            val dm = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-//                            val options = ActivityOptions.makeBasic()
-//                            options.launchDisplayId = dm.displays[1].displayId
-                            val createScreenCaptureIntent =
-                                projectionManager.createScreenCaptureIntent()
-                            startActivityForResult(
-                                createScreenCaptureIntent,
-                                SCREEN_CAPTURE_REQUEST_CODE//,options.toBundle()
-                            )
-                        } catch (ex: ActivityNotFoundException) {
-//                            showErrorDialog(
-//                                R.string.permission_activity_error_title_activity_not_found,
-//                                R.string.permission_activity_error_activity_not_found
-//                            )
-                        }
+                        requestProjectionPermission()
                     }
                 } else {
                     isCastPermissionsPending = false
                 }
             }
             else -> {}
+        }
+    }
+
+    protected fun requestProjectionPermission() {
+        isCastPermissionsPending = true
+        permissionsErrorDialog?.dismiss()
+        permissionsErrorDialog = null
+        val projectionManager =
+            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        try {
+//                            val dm = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+//                            val options = ActivityOptions.makeBasic()
+//                            options.launchDisplayId = dm.displays[1].displayId
+            val createScreenCaptureIntent =
+                projectionManager.createScreenCaptureIntent()
+            startActivityForResult(
+                createScreenCaptureIntent,
+                SCREEN_CAPTURE_REQUEST_CODE//,options.toBundle()
+            )
+        } catch (ex: ActivityNotFoundException) {
+//                            showErrorDialog(
+//                                R.string.permission_activity_error_title_activity_not_found,
+//                                R.string.permission_activity_error_activity_not_found
+//                            )
         }
     }
 
@@ -186,9 +190,10 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
                 IntentAction.CastIntent(data).sendToAppService(this@PermissionActivity)
             } else {
                 XLog.w(getLog("onActivityResult", "Cast permission denied"))
-
                 IntentAction.CastPermissionsDenied.sendToAppService(this@PermissionActivity)
                 isCastPermissionsPending = false
+                permissionDenied()
+
 
 //                showErrorDialog(
 //                    R.string.permission_activity_cast_permission_required_title,
@@ -203,4 +208,5 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
     abstract override fun initBinding(): V
     abstract override fun initViews()
     abstract override fun initActions()
+    protected open fun permissionDenied() {}
 }

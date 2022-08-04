@@ -7,6 +7,7 @@
     android:background="@color/bg_dark_gray_dialog">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_border_radius_top_15dp"

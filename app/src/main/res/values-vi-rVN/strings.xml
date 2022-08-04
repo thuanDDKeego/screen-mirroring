@@ -60,7 +60,7 @@
     <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn tắt chức năng này trong phần <b>Cài đặt</b> để bảo vệ mã Pin</string>
     <string name="save">Lưu</string>
     <string name="enter_a_new_pin_code">Nhập mã Pin mới</string>
-    <string name="change_pin_code">Thay  đỏi mã Pin</string>
+    <string name="change_pin_code">Thay đổi mã Pin</string>
     <string name="video_starting_in">Video sẽ bắt đầu trong %1$s giây</string>
     <string name="help">Trợ giúp</string>
     <string name="general">Chung</string>
@@ -104,7 +104,7 @@
     <string name="full_screen_ad_will_appear">Quảng cáo toàn màn hình sẽ xuất hiện</string>
     <string name="you_are_using_floating_tool">Bạn đang sử dụng Floating Tool</string>"
     <string name="ask_display_overlay_permission_description">Để sử dụng Công cụ nổi, quyền
-    "được hiển thị trên các ứng dụng khác" được yêu cầu\nBạn có thể sử dụng <b>bút</b>, <b>tẩy</b>, <b>Camera</b>, vv sau
+    \"được hiển thị trên các ứng dụng khác\" được yêu cầu\nBạn có thể sử dụng <b>bút</b>, <b>tẩy</b>, <b>Camera</b>, vv sau
     khi cho phép quyền</string>
     <string name="allow">Cho phép</string>
 

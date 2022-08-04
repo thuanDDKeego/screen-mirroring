@@ -116,9 +116,20 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         }
     }
 
+    override fun permissionDenied() {
+        binding.btnStopStream.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.start_stream)
+            setOnClickListener {
+                requestProjectionPermission()
+                visibility = View.GONE
+            }
+        }
+    }
+
     private val settingsListener = object : SettingsReadOnly.OnSettingsChangeListener {
         override fun onSettingsChanged(key: String) {
-            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         }
     }
 
@@ -150,8 +161,26 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         IntentAction.GetServiceState.sendToAppService(this@BrowserMirrorActivity)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (AppPreferences().isTurnOnPinCode == true) {
+            binding.txtPinCode.text = "Pin: ${AppPreferences().pinCode}"
+            binding.txtSecurity.visibility = View.VISIBLE
+            binding.txtSecurity.text =
+                Html.fromHtml(getString(R.string.security_your_screen_mirroring))
+            binding.txtSecurity.makeLinks(
+                Pair(getString(R.string.setting), View.OnClickListener {
+                    SettingActivity.gotoActivity(this@BrowserMirrorActivity)
+                })
+            )
+        } else {
+            binding.txtPinCode.visibility = View.GONE
+            binding.txtSecurity.visibility = View.GONE
+        }
+    }
+
     override fun onStop() {
-        settings.unregisterChangeListener(settingsListener)
+        settings!!.unregisterChangeListener(settingsListener)
         super.onStop()
     }
 
@@ -181,7 +210,6 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                         text = getString(R.string.start_stream)
                     }
                 }
-
                 if (serviceMessage.isStreaming != lastServiceMessage?.isStreaming) {
 
                 }
@@ -195,7 +223,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     private fun setNewPortAndReStart() {
         val newPort = (1025..65535).random()
         Timber.d("setNewPortAndReStart $newPort")
-        if (settings.severPort != newPort) settings.severPort = newPort
+        if (settings!!.severPort != newPort) settings!!.severPort = newPort
         IntentAction.StartStream.sendToAppService(this@BrowserMirrorActivity)
     }
 
@@ -227,7 +255,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             serviceMessage.netInterfaces.sortedBy { it.address.asString() }
                 .forEach { netInterface ->
                     val fullAddress =
-                        "http://${netInterface.address.asString()}:${settings.severPort}"
+                        "http://${netInterface.address.asString()}:${settings!!.severPort}"
                     Timber.d("fullAddress $fullAddress")
                     binding.txtIpAddress.text = fullAddress.setUnderlineSpan()
                     binding.txtIpAddress.setOnClickListener {
@@ -240,7 +268,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
                                 binding.txtIpAddress.text
                             )
                         )
-                        Toast.makeText(this, R.string.stream_fragment_copied, Toast.LENGTH_LONG)
+                        Toast.makeText(this, R.string.stream_fragment_copied, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
