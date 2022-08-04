@@ -570,6 +570,24 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val serviceMessage = StreamViewModel.getInstance().serviceMessageLiveData.value
+        when (serviceMessage) {
+            is ServiceMessage.ServiceState -> {
+                isStreamingBrowser = serviceMessage.isStreaming
+                binding.imgStateOnOffConnectBrowser.setTintColor(if (serviceMessage.isStreaming) R.color.greenA02 else R.color.grayA01)
+                binding.txtConnectBrowserState.text =
+                    if (serviceMessage.isStreaming) getString(
+                        R.string.connecting
+                    ) else getString(R.string.connect_with_browser)
+            }
+            else -> {
+                isStreamingBrowser = false
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("destroy home")

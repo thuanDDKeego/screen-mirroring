@@ -16,15 +16,20 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySettingBinding
 import com.abc.mirroring.databinding.LayoutDialogChangePinCodeBinding
 import com.abc.mirroring.extentions.setTintColor
+import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
+import com.abc.mirroring.ui.browsermirror.PermissionActivity
+import com.abc.mirroring.ui.browsermirror.StreamViewModel
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
+import kotlinx.coroutines.Job
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
+    private var serviceMessageFlowJob: Job? = null
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -64,7 +69,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences().isTurnOnPinCode = isChecked
             isTurnOnPinCode.value = isChecked
-            IntentAction.Exit.sendToAppService(this@SettingActivity)
+            PermissionActivity.settings?.enablePin = isChecked
+            val serviceMessage = StreamViewModel.getInstance().serviceMessageLiveData.value
+            if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
+                IntentAction.Exit.sendToAppService(this@SettingActivity)
+            }
         }
 
         binding.llChangePinCode.setOnClickListener {
@@ -90,7 +99,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                             AppPreferences().pinCode = dialog.pinView.text.toString()
                             binding.txtPinCode.text = AppPreferences().pinCode
                             dialog.root.visibility = View.INVISIBLE
-                            IntentAction.Exit.sendToAppService(this@SettingActivity)
+                            PermissionActivity.settings?.pin = AppPreferences().pinCode!!
+//                            IntentAction.Exit.sendToAppService(this@SettingActivity)
+                            val serviceMessage =
+                                StreamViewModel.getInstance().serviceMessageLiveData.value
+                            if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
+                                IntentAction.Exit.sendToAppService(this@SettingActivity)
+                            }
                         }
                         true
                     } else {
@@ -102,7 +117,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     AppPreferences().pinCode = dialog.pinView.text.toString()
                     binding.txtPinCode.text = AppPreferences().pinCode
                     dialog.root.visibility = View.INVISIBLE
-                    IntentAction.Exit.sendToAppService(this@SettingActivity)
+                    PermissionActivity.settings?.pin = AppPreferences().pinCode!!
+//                    IntentAction.Exit.sendToAppService(this@SettingActivity)
+                    val serviceMessage = StreamViewModel.getInstance().serviceMessageLiveData.value
+                    if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
+                        IntentAction.Exit.sendToAppService(this@SettingActivity)
+                    }
                 }
                 dialog.cardDialog.setOnClickListener {
                     hideKeyboard(this)

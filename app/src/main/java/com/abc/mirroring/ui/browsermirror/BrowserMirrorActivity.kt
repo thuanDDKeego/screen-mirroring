@@ -118,7 +118,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
 
     private val settingsListener = object : SettingsReadOnly.OnSettingsChangeListener {
         override fun onSettingsChanged(key: String) {
-            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         }
     }
 
@@ -151,7 +151,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     }
 
     override fun onStop() {
-        settings.unregisterChangeListener(settingsListener)
+        settings!!.unregisterChangeListener(settingsListener)
         super.onStop()
     }
 
@@ -195,7 +195,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     private fun setNewPortAndReStart() {
         val newPort = (1025..65535).random()
         Timber.d("setNewPortAndReStart $newPort")
-        if (settings.severPort != newPort) settings.severPort = newPort
+        if (settings!!.severPort != newPort) settings!!.severPort = newPort
         IntentAction.StartStream.sendToAppService(this@BrowserMirrorActivity)
     }
 
@@ -227,7 +227,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             serviceMessage.netInterfaces.sortedBy { it.address.asString() }
                 .forEach { netInterface ->
                     val fullAddress =
-                        "http://${netInterface.address.asString()}:${settings.severPort}"
+                        "http://${netInterface.address.asString()}:${settings!!.severPort}"
                     Timber.d("fullAddress $fullAddress")
                     binding.txtIpAddress.text = fullAddress.setUnderlineSpan()
                     binding.txtIpAddress.setOnClickListener {

@@ -34,11 +34,11 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
     companion object {
         private const val CAST_PERMISSION_PENDING_KEY = "CAST_PERMISSION_PENDING_KEY"
         private const val SCREEN_CAPTURE_REQUEST_CODE = 10
+        var settings: Settings? = null
     }
 
     private var permissionsErrorDialog: MaterialDialog? = null
     private var isCastPermissionsPending: Boolean = false
-    lateinit var settings: Settings
 
     private var serviceMessageFlowJob: Job? = null
     private var isBound: Boolean = false
@@ -72,7 +72,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
 
     private val settingsListener = object : SettingsReadOnly.OnSettingsChangeListener {
         override fun onSettingsChanged(key: String) {
-            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+            if (key == Settings.Key.NIGHT_MODE) AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         }
     }
 
@@ -85,7 +85,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
                 .exceptionHandler { ex -> Timber.e(ex) }
                 .build()
         )
-        AppCompatDelegate.setDefaultNightMode(settings.nightMode)
+        AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         isCastPermissionsPending =
             savedInstanceState?.getBoolean(CAST_PERMISSION_PENDING_KEY) ?: false
         XLog.d(getLog("onCreate", "isCastPermissionsPending: $isCastPermissionsPending"))
@@ -108,7 +108,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
-        settings.registerChangeListener(settingsListener)
+        settings!!.registerChangeListener(settingsListener)
     }
 
     override fun onResume() {
@@ -124,7 +124,7 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
             isBound = false
         }
 
-        settings.unregisterChangeListener(settingsListener)
+        settings!!.unregisterChangeListener(settingsListener)
         super.onStop()
     }
 
