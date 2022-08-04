@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.helper.NotificationHelper
 import com.abc.mirroring.service.helper.IntentAction
+import com.abc.mirroring.ui.home.HomeActivity
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FatalError
@@ -164,6 +165,7 @@ class AppService : Service() {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
                     sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
                 appStateMachine?.sendEvent(AppStateMachine.Event.StartStream)
+                HomeActivity.isStreamingBrowser.value = true
             }
 
             IntentAction.StopStream -> {
@@ -171,6 +173,7 @@ class AppService : Service() {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
                     sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
                 appStateMachine?.sendEvent(AppStateMachine.Event.StopStream)
+                HomeActivity.isStreamingBrowser.value = false
             }
 
             IntentAction.Exit -> {
@@ -178,6 +181,7 @@ class AppService : Service() {
                     sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
                 stopForeground(true)
                 sendMessageToActivities(ServiceMessage.FinishActivity)
+                HomeActivity.isStreamingBrowser.value = false
                 this@AppService.stopSelf()
             }
 
@@ -189,6 +193,7 @@ class AppService : Service() {
             IntentAction.CastPermissionsDenied -> {
                 appStateMachine?.sendEvent(AppStateMachine.Event.CastPermissionsDenied)
                 appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
+                HomeActivity.isStreamingBrowser.value = false
             }
 
             IntentAction.StartOnBoot ->

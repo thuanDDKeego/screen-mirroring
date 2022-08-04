@@ -21,6 +21,7 @@ import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.browsermirror.PermissionActivity
 import com.abc.mirroring.ui.browsermirror.StreamViewModel
 import com.abc.mirroring.ui.feedback.FeedbackActivity
+import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -68,11 +69,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences().isTurnOnPinCode = isChecked
+            HomeActivity.isStreamingBrowser.value = false
             isTurnOnPinCode.value = isChecked
             PermissionActivity.settings?.enablePin = isChecked
             val serviceMessage = StreamViewModel.getInstance().serviceMessageLiveData.value
             if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
-                IntentAction.Exit.sendToAppService(this@SettingActivity)
+                IntentAction.StopStream.sendToAppService(this@SettingActivity)
             }
         }
 
@@ -96,6 +98,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         if (dialog.pinView.text?.length == 4) {
                             hideKeyboard(this)
+                            HomeActivity.isStreamingBrowser.value = false
                             AppPreferences().pinCode = dialog.pinView.text.toString()
                             binding.txtPinCode.text = AppPreferences().pinCode
                             dialog.root.visibility = View.INVISIBLE
@@ -104,7 +107,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                             val serviceMessage =
                                 StreamViewModel.getInstance().serviceMessageLiveData.value
                             if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
-                                IntentAction.Exit.sendToAppService(this@SettingActivity)
+                                IntentAction.StopStream.sendToAppService(this@SettingActivity)
                             }
                         }
                         true
@@ -116,12 +119,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     hideKeyboard(this)
                     AppPreferences().pinCode = dialog.pinView.text.toString()
                     binding.txtPinCode.text = AppPreferences().pinCode
+                    HomeActivity.isStreamingBrowser.value = false
                     dialog.root.visibility = View.INVISIBLE
                     PermissionActivity.settings?.pin = AppPreferences().pinCode!!
 //                    IntentAction.Exit.sendToAppService(this@SettingActivity)
                     val serviceMessage = StreamViewModel.getInstance().serviceMessageLiveData.value
                     if (serviceMessage is ServiceMessage.ServiceState && serviceMessage.isStreaming) {
-                        IntentAction.Exit.sendToAppService(this@SettingActivity)
+                        IntentAction.StopStream.sendToAppService(this@SettingActivity)
                     }
                 }
                 dialog.cardDialog.setOnClickListener {
