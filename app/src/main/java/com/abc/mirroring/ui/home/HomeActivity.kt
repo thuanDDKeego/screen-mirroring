@@ -464,8 +464,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun showExitAppDialog() {
-        if (askPermissionOverLayDialogShowing) return
-        askPermissionOverLayDialogShowing = true
+        if (exitAppDialogShowing) return
+        exitAppDialogShowing = true
         dialogExitAppBinding =
             LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
         dialogExitAppBinding.apply {
@@ -506,6 +506,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 requestOverlaysPermission()
                 dismissAskPermissionOverlayDialog()
             }
+            constraintBgDialogAskPermission.setOnClickListener {
+                dismissAskPermissionOverlayDialog()
+            }
+            llDialog.setOnClickListener {}
         }
     }
 
