@@ -3,6 +3,14 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven {
+            //IronSource
+            url "https://android-sdk.is.com/"
+        }
+        maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        jcenter()
     }
 }
 dependencyResolutionManagement {
@@ -15,6 +23,7 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
+        jcenter()
     }
 }
 rootProject.name = "sreen-mirroring-cast-tv"

@@ -3,7 +3,14 @@
 buildscript {
     repositories {
         google()  // Google's Maven repository
-
+        maven {
+            //IronSource
+            url "https://android-sdk.is.com/"
+        }
+        maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"

@@ -16,8 +16,17 @@ android {
         abortOnError false
     }
 
+    applicationVariants.all { variant ->
+        if (variant.name.contains("debug")) {
+            variant.mergedFlavor.applicationId = project.properties['dev.package.id']
+        } else {
+            variant.mergedFlavor.applicationId = project.properties['prod.package.id']
+        }
+    }
+
+
+
     defaultConfig {
-        applicationId "com.abc.mirroring"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -30,7 +39,8 @@ android {
 
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
