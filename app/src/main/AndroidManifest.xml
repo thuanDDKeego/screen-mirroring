@@ -114,10 +114,6 @@
             </intent-filter>
         </service>
 
-        <receiver
-            android:name="com.abc.mirroring.notification.TimerReceiver"
-            android:enabled="true" />
-
         <service
             android:name="com.abc.mirroring.service.NotificationService"
             android:enabled="true" />
