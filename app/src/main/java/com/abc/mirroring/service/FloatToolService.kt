@@ -474,7 +474,7 @@ open class FloatToolService : Service() {
             binding.txt15Second.visibility = View.GONE
             binding.txt20Second.visibility = View.GONE
             binding.txt30Second.visibility = View.GONE
-            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+            binding.txtNotiTimer.text = "You will be announced in ${mimutes} mins"
         } else {
             binding as FloatExpandableTimerRightBinding
             binding.txtNotiTimer.visibility = View.VISIBLE
@@ -485,7 +485,7 @@ open class FloatToolService : Service() {
             binding.txt15Second.visibility = View.GONE
             binding.txt20Second.visibility = View.GONE
             binding.txt30Second.visibility = View.GONE
-            binding.txtNotiTimer.text = getString(R.string.time_noti, mimutes.toString())
+            binding.txtNotiTimer.text = "You will be announced in ${mimutes} mins"
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000L)

@@ -400,7 +400,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             updateTabTutorialDialogPager(dialogTutorialBinding, 0)
 
             viewPagerTutorialDialog.addOnPageChangeListener(object :
-                ViewPager.OnPageChangeListener {
+                                                                ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
@@ -470,6 +470,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             constraintExitAppDialog.setOnClickListener {
                 dismissExitAppDialog()
             }
+
             cardDialog.setOnClickListener { }
         }
     }

@@ -18,7 +18,7 @@
     <string name="tutorial">Hướng dẫn</string>
     <string name="faq">FAQ</string>
     <string name="connected_devices">Các thiết bị kết nối</string>
-    <string name="tutorial_guild1">1. Đảm bảo điện thoại và TV ( thiết bị tương thích khác) được kết nối cùng Wifi và tắt VPN</string>
+    <string name="tutorial_guild1">1. Đảm bảo điện thoại và TV ( thiết bị tương thích khác) được kết nối cùng Wifi và tắt VPN.</string>
     <string name="tutorial_guild2">2. Bật chức năng "Hiển thị" trên TV của bạn. Bạn cần kích hoạt nó theo cách thủ công trên một số thiết bị, hãy vào phần cài đặt hệ thống để kiểm tra.</string>
     <string name="tutorial_guild3">3. Nhấp vào nút “Mirror”, bật chức năng hiển thị không dây trên điện thoại của bạn và đợi thiết bị tìm kiếm TV.</string>
     <string name="tutorial_guild4">Nếu hoàn tất các bước trên mà bạn vẫn không ghép nối được các thiết bị của bạn thì bạn hãy kiểm tra lại các thiết bị ghép nối.</string>
@@ -45,19 +45,19 @@
     <string name="rate">Đánh giá</string>
     <string name="invite_friends">Mời bạn</string>
     <string name="faq_item_title1">Điện thoại của tôi không thể tìm bất cứ thiết bị nào để ghép nối</string>
-    <string name="faq_item_description1">- Đảm bảo kết nối cùng Wifi\n- Tắt VPN\n- Rút ngắn khoảng cách giữa các thiết bị\n- kiểm tra thiết bị hỗ trợ ghép nối</string>
+    <string name="faq_item_description1">- Đảm bảo kết nối cùng Wifi.\n- Tắt VPN.\n- Rút ngắn khoảng cách giữa các thiết bị.\n- kiểm tra thiết bị hỗ trợ ghép nối.</string>
     "
     <string name="faq_item_title2">Điện thoại của tôi đang mắc tại phần "kết nối" khi ghép nối với TV</string>
-    <string name="faq_item_description2">- Khởi động lại Wifi trên điên thoại và kết nối lại thiết bị của bạn\n- Tắt TV và cắm dây nguồn ra khỏi ổ cắm, sau đó đợi 1 phút và khởi động lại TV.\n- Thu hẹp khoảng cách giữa điện thoại và TV.</string>
+    <string name="faq_item_description2">- Khởi động lại Wifi trên điên thoại và kết nối lại thiết bị của bạn.\n- Tắt TV và cắm dây nguồn ra khỏi ổ cắm, sau đó đợi 1 phút và khởi động lại TV.\n- Thu hẹp khoảng cách giữa điện thoại và TV.</string>
     "
     <string name="faq_item_title3">Các thiết bị của tôi có thể kết nối trước đó, nhưng bây giờ không thể kết nối lại</string>
-    <string name="faq_item_description3">Nếu thiết bị của bạn có thể kết nối trước đó, chúng chắc chắn có thể kết nối lại. Bạn có thể kiểm tra VPN, kết nối cùng Wifi, khoảng cách. Bạn thậm chí có thể sử lí các vấn đề bằng cách khởi động lại các thiết bị.</string>
-    <string name="faq_item_title4">Hệ báo rằng thiết bị của tôi không được hỗ trợ tôi lên làm gì</string>
-    <string name="faq_item_description4">- Điều này có nghĩa là thiết bị của bạn không được hỗ trợ chức năng Mirror\n- Bạn có thể tìm các thiết bị nào hỗ trợ để trình chiếu lên TV</string>
+    <string name="faq_item_description3">Nếu thiết bị của bạn có thể kết nối trước đó, chúng chắc chắn có thể kết nối lại. Bạn có thể kiểm tra VPN, kết nối cùng Wifi, khoảng cách. Bạn thậm chí có thể xử lí các vấn đề bằng cách khởi động lại các thiết bị.</string>
+    <string name="faq_item_title4">Hệ báo rằng thiết bị của tôi không được hỗ trợ tôi nên làm gì?</string>
+    <string name="faq_item_description4">- Điều này có nghĩa là thiết bị của bạn không được hỗ trợ chức năng Mirror.\n- Bạn có thể tìm các thiết bị nào hỗ trợ để trình chiếu lên TV.</string>
     "
     <string name="faq_item_title5">Có phải thông tin và dữ liệu trên điện thoại của tôi hoàn toàn được đảm bảo?</string>
-    <string name="faq_item_description5">Chúng tôi luôn đảm bảo bí mật thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối là hoàn toàn bí mật. Vì thế bạn có chiếu lên TV mà không cần phải lo lắng về dữ liệu của mình</string>
-    <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn tắt chức năng này trong phần <b>Cài đặt</b> để bảo vệ mã Pin</string>
+    <string name="faq_item_description5">Chúng tôi luôn đảm bảo bí mật thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối là hoàn toàn bí mật. Vì thế bạn có chiếu lên TV mà không cần phải lo lắng về dữ liệu của mình.</string>
+    <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn tắt chức năng này trong phần <b>Cài đặt</b> để bảo vệ mã Pin.</string>
     <string name="save">Lưu</string>
     <string name="enter_a_new_pin_code">Nhập mã Pin mới</string>
     <string name="change_pin_code">Thay đổi mã Pin</string>

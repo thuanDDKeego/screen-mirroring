@@ -34,7 +34,7 @@
     <string name="connected_devices">Connected devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
-    <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN</string>
+    <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN.</string>
     <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
     <string name="tutorial_guild3">3.Click the “Mirror” button, enable the wireless display function on your phone, and wait for the device to search TVs</string>
     <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
@@ -72,7 +72,7 @@
 
     //faq item
     <string name="faq_item_title1">My smartphone can’t find any device for coupling with.</string>
-    <string name="faq_item_description1">- Ensure the same Wifi connection\n- Turn off VPN\n- Shorten the distance between devices\n- Check supported devices</string>
+    <string name="faq_item_description1">- Ensure the same Wifi connection.\n- Turn off VPN.\n- Shorten the distance between devices.\n- Check supported devices.</string>
 
     <string name="faq_item_title2">My smartphone gets stuck “connecting” to couple with TV.</string>
     <string name="faq_item_description2"> Restart the smartphone’s wifi and reconnect to devices.\n- Turn off the TV and unplug its power cord from the socket for 1 minute, then turn it on again.\n- Shorten the distance between your phone and the TV.</string>
@@ -152,17 +152,17 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="dlna">DLNA</string>
     <string name="dlna_content">Smart TVs with DLNA, Samsung, Hisense, Sony smart TVs, etc.</string>
     <string name="chrome_cast">Chromecast</string>
-    <string name="chrome_cast_content">Chrome cast, smart TVs with in buit Chromecast and other Google Cast devices</string>
+    <string name="chrome_cast_content">Chrome cast, smart TVs with in buit Chromecast and other Google Cast devices.</string>
     <string name="xbox">XBox</string>
     <string name="xbox_content">XBox One and XBox 360 from Microsoft.</string>
     <string name="fire_tv">Fire TV</string>
     <string name="fire_tv_content">Fire TV and Fire stick from Amazon.</string>
     <string name="roku">Roku</string>
-    <string name="roku_content">Roku, Roku Stick and Roku TVs</string>
+    <string name="roku_content">Roku, Roku Stick and Roku TVs.</string>
     <string name="apple_tv">Apple TV and Airplay</string>
     <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
     <string name="lg_web_os">LG WebOS</string>
-    <string name="lg_web_os_content">WebOS 2 and higher</string>
+    <string name="lg_web_os_content">WebOS 2 and higher.</string>
     <string name="description">Description</string>
     <string name="send">Send</string>
     <string name="description_your_issue_here_with_image_and_video">Description your issue here with image and video</string>
