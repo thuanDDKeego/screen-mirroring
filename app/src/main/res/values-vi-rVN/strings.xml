@@ -107,5 +107,6 @@
     \"hiển thị trên các ứng dụng khác\" được yêu cầu\nBạn có thể sử dụng <b>bút</b>, <b>tẩy</b>, <b>Camera</b>, vv sau
     khi cho phép quyền</string>
     <string name="allow">Cho phép</string>
+    <string name="checking_your_wifi">Kiểm tra kết nối Wifi của bạn!</string>
 
 </resources>

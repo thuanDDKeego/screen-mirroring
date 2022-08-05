@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.ClipboardManager
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -208,7 +210,15 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             }
             text = getString(R.string.stop_stream)
           } else {
-            setOnClickListener { startStreamScreen() }
+            setOnClickListener {
+              val connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+              val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+              if (networkInfo?.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
+                Toast.makeText(this@BrowserMirrorActivity, getString(R.string.checking_your_wifi), Toast.LENGTH_LONG).show()
+              } else {
+                startStreamScreen()
+              }
+            }
             text = getString(R.string.start_stream)
           }
         }

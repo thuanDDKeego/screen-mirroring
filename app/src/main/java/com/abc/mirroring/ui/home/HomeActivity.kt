@@ -83,6 +83,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     observerConnectFloatingToolService()
 
     job = scrollToAds()
+    //set swift mode with floating tools state
+//        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
+  }
+
+  override fun onResume() {
+    super.onResume()
     observerWifiState(object : onWifiChangeStateConnection {
       override fun onWifiUnavailable() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -111,8 +117,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
       }
     })
-    //set swift mode with floating tools state
-//        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
   }
 
   @SuppressLint("ClickableViewAccessibility")

@@ -176,6 +176,7 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="you_are_using_floating_tool">You are using the Floating Tool</string>
     <string name="ask_display_overlay_permission_description">To use Floating tools, \"display on other apps\" permission is required.\nYou can use <b>Brush</b>, <b>Eraser</b>, <b>Camera</b>, etc., after enabling the permission.</string>
     <string name="allow">Allow</string>
+    <string name="checking_your_wifi">Checking your Wifi connection!</string>
 
 
 </resources>
