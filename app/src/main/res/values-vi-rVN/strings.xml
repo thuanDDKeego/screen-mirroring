@@ -13,7 +13,7 @@
     <string name="dont_leave_this_page_before_connected">Không thoát trang trước khi kết nối</string>
     <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Kết nối các thiết bị của bạn cùng Wifi và tắt VPN</string>
     <string name="open_this_link_on_other_device_to_mirror">Mở link này trên thiết bị khác để phát </string>
-    <string name="the_ip_address_may_change_every_time_you_connect">Đia chỉ IP có thể thay đổi mỗi lần bạn kết nối. Vì vậy, vui lòng đảm bảo mỗi số được nhập đúng trên web.</string>
+    <string name="the_ip_address_may_change_every_time_you_connect">Địa chỉ IP có thể thay đổi mỗi lần bạn kết nối. Vì vậy, vui lòng đảm bảo mỗi số được nhập đúng trên web.</string>
     <string name="stream_fragment_copied">Đã copy</string>
     <string name="tutorial">Hướng dẫn</string>
     <string name="faq">FAQ</string>
@@ -51,13 +51,13 @@
     <string name="faq_item_description2">- Khởi động lại Wifi trên điên thoại và kết nối lại thiết bị của bạn.\n- Tắt TV và cắm dây nguồn ra khỏi ổ cắm, sau đó đợi 1 phút và khởi động lại TV.\n- Thu hẹp khoảng cách giữa điện thoại và TV.</string>
     "
     <string name="faq_item_title3">Các thiết bị của tôi có thể kết nối trước đó, nhưng bây giờ không thể kết nối lại</string>
-    <string name="faq_item_description3">Nếu thiết bị của bạn có thể kết nối trước đó, chúng chắc chắn có thể kết nối lại. Bạn có thể kiểm tra VPN, kết nối cùng Wifi, khoảng cách. Bạn thậm chí có thể xử lí các vấn đề bằng cách khởi động lại các thiết bị.</string>
-    <string name="faq_item_title4">Hệ báo rằng thiết bị của tôi không được hỗ trợ tôi nên làm gì?</string>
+    <string name="faq_item_description3">Nếu thiết bị của bạn có thể kết nối trước đó, chúng chắc chắn có thể kết nối lại. Bạn có thể kiểm tra VPN, kết nối cùng Wifi, khoảng cách. Bạn thậm chí có thể xử lý các vấn đề bằng cách khởi động lại các thiết bị.</string>
+    <string name="faq_item_title4">Hệ thống báo rằng thiết bị của tôi không được hỗ trợ, tôi lên làm gì?</string>
     <string name="faq_item_description4">- Điều này có nghĩa là thiết bị của bạn không được hỗ trợ chức năng Mirror.\n- Bạn có thể tìm các thiết bị nào hỗ trợ để trình chiếu lên TV.</string>
     "
     <string name="faq_item_title5">Có phải thông tin và dữ liệu trên điện thoại của tôi hoàn toàn được đảm bảo?</string>
-    <string name="faq_item_description5">Chúng tôi luôn đảm bảo bí mật thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối là hoàn toàn bí mật. Vì thế bạn có chiếu lên TV mà không cần phải lo lắng về dữ liệu của mình.</string>
-    <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn tắt chức năng này trong phần <b>Cài đặt</b> để bảo vệ mã Pin.</string>
+    <string name="faq_item_description5">Chúng tôi luôn đảm bảo thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối là hoàn toàn bí mật. Vì thế bạn có chiếu lên TV mà không cần phải lo lắng về dữ liệu của mình.</string>
+    <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn có thể tắt chức năng này trong phần <b>Cài đặt</b> để vô hiệu hóa mã Pin.</string>
     <string name="save">Lưu</string>
     <string name="enter_a_new_pin_code">Nhập mã Pin mới</string>
     <string name="change_pin_code">Thay đổi mã Pin</string>
@@ -74,8 +74,8 @@
     <string name="enjoying_the_app">Đánh giá</string>
     <string name="start_stream">Bắt đầu chiếu</string>
     <string name="clear_all">Don dẹp hết</string>
-    <string name="want_to_disconnect">Bạn muốn ngắt kết nối</string>
-    <string name="connection_will_be_interruped">Kết nối sẽ bị ngắt quãng</string>
+    <string name="want_to_disconnect">Bạn muốn ngắt kết nối?</string>
+    <string name="connection_will_be_interruped">Trình chiếu sẽ bị dừng</string>
     <string name="failed_to_unlock_watching_again">- Thất bại để mở khóa\n- Xem quảng lần nữa để trình chiếu trên Web</string>
     <string name="time_noti">Bạn sẽ được thông báo trong  %1$s phút</string>
     <string name="connecting">Đang kết nối</string>
@@ -84,14 +84,14 @@
     <string name="dlna">DLNA</string>
     <string name="dlna_content">Smart TVs with DLNA, Samsung, Hisense, Sony smart TVs, etc.</string>
     <string name="chrome_cast">Chromecast</string>
-    <string name="chrome_cast_content">Chrome cast, smart TVs với thiết lập Chromecast và thiết bị Google Cast khác</string>
+    <string name="chrome_cast_content">Chrome cast, smart TVs với thiết lập Chromecast và thiết bị Google Cast khác.</string>
     <string name="xbox">XBox</string>
-    <string name="xbox_content">XBox One and XBox 360 from Microsoft.</string>
+    <string name="xbox_content">XBox One và XBox 360 từ Microsoft.</string>
     <string name="fire_tv">Fire TV</string>
-    <string name="fire_tv_content">Fire TV and Fire stick from Amazon.</string>
+    <string name="fire_tv_content">Fire TV và Fire stick từ Amazon.</string>
     <string name="roku">Roku</string>
-    <string name="roku_content">Roku, Roku Stick and Roku TVs</string>
-    <string name="apple_tv">Apple TV and Airplay</string>
+    <string name="roku_content">Roku, Roku Stick và Roku TVs</string>
+    <string name="apple_tv">Apple TV và Airplay</string>
     <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
     <string name="lg_web_os">LG WebOS</string>
     <string name="lg_web_os_content">WebOS 2 và đời mới hơn</string>
@@ -104,7 +104,7 @@
     <string name="full_screen_ad_will_appear">Quảng cáo toàn màn hình sẽ xuất hiện</string>
     <string name="you_are_using_floating_tool">Bạn đang sử dụng Floating Tool</string>"
     <string name="ask_display_overlay_permission_description">Để sử dụng Công cụ nổi, quyền
-    \"được hiển thị trên các ứng dụng khác\" được yêu cầu\nBạn có thể sử dụng <b>bút</b>, <b>tẩy</b>, <b>Camera</b>, vv sau
+    \"hiển thị trên các ứng dụng khác\" được yêu cầu\nBạn có thể sử dụng <b>bút</b>, <b>tẩy</b>, <b>Camera</b>, vv sau
     khi cho phép quyền</string>
     <string name="allow">Cho phép</string>
 
