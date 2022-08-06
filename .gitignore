@@ -255,3 +255,5 @@ ktlint.xml
 misc.xml
 
 google
+
+app/google-services.json
