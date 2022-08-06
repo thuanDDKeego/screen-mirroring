@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "285883806590",
-    "project_id": "fir-test-for-mirror",
-    "storage_bucket": "fir-test-for-mirror.appspot.com"
+    "project_number": "127511313184",
+    "project_id": "sofigo-screen-mirroring",
+    "storage_bucket": "sofigo-screen-mirroring.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:285883806590:android:9426ed3bcf72b24415792f",
+        "mobilesdk_app_id": "1:127511313184:android:e82c1aed27ab3365e77545",
         "android_client_info": {
-          "package_name": "com.abc.mirroring"
+          "package_name": "net.sofigo.screenmirroring"
         }
       },
       "oauth_client": [
         {
-          "client_id": "285883806590-rfe29f9hsv333vp08hh83ubslmjtnkhh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.abc.mirroring",
-            "certificate_hash": "043bd01728278bedda40d49a9071790bcab5fc01"
-          }
-        },
-        {
-          "client_id": "285883806590-brusgqlh40j9v4nah8l86mrgpvg3uofs.apps.googleusercontent.com",
+          "client_id": "127511313184-b5jfv2vbb6tsupojijnqppaaeguelcur.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmD4uuJXTLGZTs1piVAxkIpjvxZ_mEIzw"
+          "current_key": "AIzaSyA-R2IG2c5xGIAR1n7jwdfJiSp3U0Qi5T4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "285883806590-brusgqlh40j9v4nah8l86mrgpvg3uofs.apps.googleusercontent.com",
+              "client_id": "127511313184-b5jfv2vbb6tsupojijnqppaaeguelcur.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
