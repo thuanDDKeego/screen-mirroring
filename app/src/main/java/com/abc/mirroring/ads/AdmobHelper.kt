@@ -138,7 +138,7 @@ class AdmobHelper {
     if (haveIcon) {
       adView.iconView = adView.findViewById(R.id.ad_icon)
       if (adView.iconView != null) {
-        (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+        (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
       }
     }
     if (adView.mediaView != null) {
