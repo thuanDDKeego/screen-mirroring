@@ -35,7 +35,7 @@ class FeedbackActivity : BaseActivity<ActivityFeedBackBinding>() {
                 Uri.parse("mailto:") // only email apps should handle this
 
             sendIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@sofigo.net"))
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback")
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback to Screen Mirroring")
             sendIntent.putExtra(Intent.EXTRA_TEXT, "\n" + getExtraInfo(this))
             startActivity(sendIntent)
         }
