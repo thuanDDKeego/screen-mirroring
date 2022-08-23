@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="250dp">
+    <!--    android:background="@color/grayA03"-->
+
+    <FrameLayout
+        android:id="@+id/ad_options_view"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/media_view_container"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:maxHeight="150dp"
+        app:layout_constraintBottom_toTopOf="@id/constraintInfoAds"
+        app:layout_constraintDimensionRatio="W,16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintInfoAds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/media_view_container">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/textView"
+            android:layout_width="@dimen/margin_16dp"
+            android:layout_height="@dimen/margin_16dp"
+            app:layout_constraintBottom_toTopOf="@+id/icon_image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_label_ads_device_mirror" />
+
+        <ImageView
+            android:id="@+id/icon_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/margin_12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:ellipsize="end"
+            android:maxLength="28"
+            android:maxLines="2"
+            android:text="ad loading"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/body_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/advertiser_textView"
+            app:layout_constraintStart_toEndOf="@+id/icon_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/body_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginBottom="3dp"
+            android:ellipsize="end"
+            android:lines="3"
+            android:maxEms="100"
+            android:maxLines="3"
+            android:text="ad loading"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cta_button"
+            app:layout_constraintStart_toEndOf="@+id/icon_image_view"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/advertiser_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/title_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/cta_button"
+            app:layout_constraintStart_toEndOf="@+id/title_text_view"
+            app:layout_constraintTop_toTopOf="@+id/title_text_view"
+            tools:text="Advertiser" />
+
+        <Button
+            android:id="@+id/cta_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_btn_action_native_ads_mirror"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/margin_16dp"
+            android:text="@string/download"
+            android:textColor="@color/blueA01"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:background="@android:color/holo_green_dark"-->
+    <!--        android:padding="2dp"-->
+    <!--        android:text="Ad"-->
+    <!--        android:textAppearance="@style/TextAppearance.AppCompat.Body2"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/title_text_view"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/icon_image_view"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/title_text_view" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

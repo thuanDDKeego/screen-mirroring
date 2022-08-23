@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/float_remove_icon_gradient_background"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_big"
+    android:paddingBottom="@dimen/margin_biggest">
+
+    <ImageView
+        android:id="@+id/homeLauncherMainBinIcon"
+        android:layout_width="@dimen/size_remove_view"
+        android:layout_height="@dimen/size_remove_view"
+        android:layout_gravity="center"
+        android:alpha="0.6" />
+
+
+</FrameLayout>

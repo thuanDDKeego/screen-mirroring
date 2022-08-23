@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.devicemirror.DeviceMirrorActivity">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/margin_48dp"
+            android:layout_height="@dimen/margin_48dp"
+            android:padding="@dimen/margin_12dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/txt_dark_gray" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:text="@string/connected_devices"
+            android:textColor="@color/txt_black" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llHeader">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/containerAd"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:minHeight="250dp"
+                android:paddingStart="@dimen/margin_8dp"
+                android:paddingEnd="@dimen/margin_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/admobNativeView"
+                    layout="@layout/layout_admob_native_device_mirror"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgWifiChecking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_64dp"
+                android:layout_marginTop="@dimen/margin_42dp"
+                android:src="@drawable/ic_wifi_check_device"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/containerAd" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCheckingNetWorkTitle"
+                style="@style/ExtraBoldLargeText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
+                android:text="@string/checking_network_title"
+                android:textColor="@color/blueA01"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintTop_toBottomOf="@id/imgWifiChecking" />
+
+            <ProgressBar
+                android:id="@+id/progressCheckConnectionDistance"
+                android:layout_width="@dimen/margin_24dp"
+                android:layout_height="@dimen/margin_24dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/aqua_main"
+                android:indeterminateTintMode="src_atop"
+                android:progressTint="@color/blueA01"
+                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintTop_toTopOf="@id/txtCheckConnectionDistance" />
+
+            <ImageView
+                android:id="@+id/imgResultCheckConnectionDistance"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/txtCheckConnectionDistance"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintTop_toTopOf="@id/txtCheckConnectionDistance" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCheckConnectionDistance"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginTop="@dimen/margin_30dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
+                android:text="@string/check_the_connection_distance"
+                android:textColor="@color/txt_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtCheckingNetWorkTitle"
+                app:layout_constraintTop_toBottomOf="@id/txtCheckingNetWorkTitle" />
+
+            <ProgressBar
+                android:id="@+id/progressCheckSignalTransmission"
+                android:layout_width="@dimen/margin_24dp"
+                android:layout_height="@dimen/margin_24dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/aqua_main"
+                android:indeterminateTintMode="src_atop"
+                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintTop_toTopOf="@id/txtCheckSignalTransmission" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgResultCheckSignalTransmission"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/txtCheckSignalTransmission"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintStart_toStartOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintTop_toTopOf="@id/txtCheckSignalTransmission" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCheckSignalTransmission"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
+                android:text="@string/check_signal_transmission"
+                android:textColor="@color/txt_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtCheckingNetWorkTitle"
+                app:layout_constraintTop_toBottomOf="@id/txtCheckConnectionDistance" />
+
+            <ProgressBar
+                android:id="@+id/progressTestConnectionSpeed"
+                android:layout_width="@dimen/margin_24dp"
+                android:layout_height="@dimen/margin_24dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/aqua_main"
+                android:indeterminateTintMode="src_atop"
+                app:layout_constraintStart_toStartOf="@id/imgWifiChecking"
+                app:layout_constraintTop_toTopOf="@id/txtTestConnectionSpeed" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgResultTestConnectionSpeed"
+                android:layout_width="@dimen/margin_16dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:scaleX="1"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/txtTestConnectionSpeed"
+                app:layout_constraintEnd_toEndOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintStart_toStartOf="@id/progressCheckConnectionDistance"
+                app:layout_constraintTop_toTopOf="@id/txtTestConnectionSpeed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTestConnectionSpeed"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
+                android:text="@string/test_connection_speed"
+                android:textColor="@color/txt_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtCheckingNetWorkTitle"
+                app:layout_constraintTop_toBottomOf="@id/txtCheckSignalTransmission" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSelectDevice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_36dp"
+                android:layout_marginBottom="@dimen/margin_42dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:backgroundTint="@color/aqua_main"
+                android:text="@string/select_device"
+                android:textAllCaps="false"
+                android:textColor="@color/txt_white"
+                android:textSize="@dimen/text_title"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTestConnectionSpeed" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGoToWifiSetting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_36dp"
+                android:layout_marginBottom="@dimen/margin_42dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:backgroundTint="@color/aqua_main"
+                android:text="@string/open_wifi_setting"
+                android:textAllCaps="false"
+                android:textColor="@color/txt_white"
+                android:textSize="@dimen/text_title"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTestConnectionSpeed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

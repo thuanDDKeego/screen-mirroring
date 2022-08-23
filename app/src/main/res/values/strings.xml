@@ -1,12 +1,188 @@
-<resources>
-    <string name="app_name">sreen-mirroring-cast-tv</string>
+ <resources>
+    <string name="app_ver" translatable="false">V1.0.0</string>
+    <string name="app_name">Screen Mirroring</string>
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="previous_with_underline"><u>Previous</u></string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    //splash
+    <string name="loading_splash">Loading...</string>
+    <string name="share_your_image_and_video_to_big_screens">Share your image and video to BIG screens</string>
+
+
+    <string name="mirror">Mirror</string>
+    <string name="wifi_connected">Wifi connected</string>
+    <string name="wifi_not_connected">Wifi not connected</string>
+    <string name="browser_mirror">Browser Mirror</string>
+    <string name="floating_tool">Floating tool</string>
+    <string name="connect_with_browser">Connect with Browser</string>
+    <string name="on_mode">On mode</string>
+    <string name="off_mode">Off mode</string>
+    <string name="stop_stream">Stop stream</string>
+    <string name="dont_leave_this_page_before_connected">Don’t leave this page before connected</string>
+    <string name="connect_your_devices_to_the_same_wifi_and_turn_off_vpn">Connect your devices to the same Wifi and turn off VPN.</string>
+    <string name="open_this_link_on_other_device_to_mirror">Open this link on other device to mirror</string>
+    <string name="the_ip_address_may_change_every_time_you_connect">The IP address may change every time you connect. Thus, please make sure each number is entered correctly in the browser address bar.</string>
+    <string name="stream_fragment_copied">Copied</string>
+
+    //tutorial screen
+    <string name="tutorial">Tutorial</string>
+    <string name="faq">FAQ</string>
+    <string name="connected_devices">Connected devices</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    //tutorial step
+    <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN.</string>
+    <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
+    <string name="tutorial_guild3">3.Click the “Mirror” button, enable the wireless display function on your phone, and wait for the device to search TVs</string>
+    <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
+    <string name="skip">Skip</string>
+    <string name="go">Go</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+
+    //checking wifi screen
+    <string name="checking_wifi">Checking wifi</string>
+    <string name="checking_network_title">Checking\nNetwork</string>
+    <string name="check_signal_transmission">Check signal transmission</string>
+    <string name="test_connection_speed">Test connection speed</string>
+    <string name="check_the_connection_distance">Check connection distance</string>
+    <string name="select_device">Select device</string>
+    <string name="download">Download</string>
+
+
+    //dialog
+    <string name="open_wifi_setting">Open wifi setting</string>
+    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free, or upgrade the life-time pack.</string>
+    <string name="close">Close</string>
+    <string name="upgrade">Upgrade</string>
+
+    //setting
+    <string name="setting">Setting</string>
+    <string name="language">Language</string>
+    <string name="about">About</string>
+    <string name="policy">Policy</string>
+    <string name="rate">Rate</string>
+    <string name="invite_friends">Invite Friends</string>
+    <string name="feedback">Feedback</string>
+
+
+    //faq item
+    <string name="faq_item_title1">My smartphone can’t find any device for coupling with.</string>
+    <string name="faq_item_description1">- Ensure the same Wifi connection.\n- Turn off VPN.\n- Shorten the distance between devices.\n- Check supported devices.</string>
+
+    <string name="faq_item_title2">My smartphone gets stuck “connecting” to couple with TV.</string>
+    <string name="faq_item_description2"> Restart the smartphone’s wifi and reconnect to devices.\n- Turn off the TV and unplug its power cord from the socket for 1 minute, then turn it on again.\n- Shorten the distance between your phone and the TV.</string>
+
+    <string name="faq_item_title3">My devices could connect before, but those do not work now?</string>
+    <string name="faq_item_description3">If your devices could connect previously, those can be definitely connected again.
+You may check VPN, the same Wifi, and the distance. You even deal with the problems by restarting your devices.</string>
+
+    <string name="faq_item_title4">It shows that my device is not supported. What should I do?</string>
+    <string name="faq_item_description4">This means that your device does not support the screen mirroring function.\nYou could find supported devices to be able to mirror TV.</string>
+
+
+    <string name="faq_item_title5">Is my personal information or mobile data completely secured?</string>
+    <string name="faq_item_description5">- We always ensure your information on your smartphone and connected devices are confidential. Thus, you can mirror to TV without worry.</string>
+    <string name="security_your_screen_mirroring">The pin code will secure your transmission. You can turn it off on the <![CDATA[<b><font color=#00A3FF>Setting</font></b>]]> to disable the pin code.</string>
+    <string name="save">Save</string>
+    <string name="enter_a_new_pin_code">Enter a new pin code</string>
+    <string name="change_pin_code">Change Pin Code</string>
+    <string name="video_starting_in">Video starting in %1$ss</string>
+    <string name="browser_mirror_uppercase">BROWSER \nMIRROR</string>
+    <string name="help">Help</string>
+    <string name="general">General</string>
+    <string name="version">Version</string>
+
+    //rating dialog
+    <string name="dont_ask_me_again">Don’t ask me again</string>
+    <string name="remind_a_later">Remind me later</string>
+    <string name="thanks_for_your_feedback">Thanks for your feedback</string>
+    <string name="please_leave_us_some_feedback">Please leave us some feedback</string>
+    <string name="oh_no">Oh, no</string>
+    <string name="we_like_you_too">We like you too</string>
+    <string name="enjoying_the_app">Enjoying the app?</string>
+    <string name="start_stream">Start Stream</string>
+    <string name="clear_all">Clear All</string>
+
+    //disconnect mirroring dialog
+    <string name="want_to_disconnect">Do you want to stop streaming?</string>
+    <string name="connection_will_be_interruped">The connection will be interruped</string>
+    <string name="failed_to_unlock_watching_again">Failed to unlock.\nWatching the ad again to open Browser Mirror</string>
+
+    //timer
+    <string name="txt_2">2</string>
+    <string name="txt_5">5</string>
+    <string name="txt_10">10</string>
+    <string name="txt_15">15</string>
+    <string name="txt_20">20</string>
+    <string name="txt_30">30</string>
+    <string name="time_noti">You will be announced in %1$s mins</string>
+    <string name="connecting">Connecting</string>
+
+    <!--    ads-->
+     <string name="applovin_interstitial" translatable="false">YOUR_AD_UNIT_ID</string>
+     <string name="applovin_rewardedad" translatable="false">YOUR_AD_UNIT_ID</string>
+     <string name="applovin_banner" translatable="false">YOUR_AD_UNIT_ID</string>
+     <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
+     <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
+
+     <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="ad_interstitial_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_mirror_deivce" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_back_from_tutorial" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_home_onboarding" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="ad_rewarded_browser_mirror" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string name="ad_native_home" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_exit_app" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_tutorial" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_faq" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_connect_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_mirror_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="ad_app_open" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ad_edit_video_banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <!---->
+    <string name="sponsored">Sponsored</string>
+    <string name="exit">Exit</string>
+    <string name="click_to_exit">Click to Exit</string>
+
+    //device screen
+    <string name="dlna">DLNA</string>
+    <string name="dlna_content">Smart TVs with DLNA, Samsung, Hisense, Sony smart TVs, etc.</string>
+    <string name="chrome_cast">Chromecast</string>
+    <string name="chrome_cast_content">Chrome cast, smart TVs with in built Chromecast and other Google Cast devices.</string>
+    <string name="xbox">XBox</string>
+    <string name="xbox_content">XBox One and XBox 360 from Microsoft.</string>
+    <string name="fire_tv">Fire TV</string>
+    <string name="fire_tv_content">Fire TV and Fire stick from Amazon.</string>
+    <string name="roku">Roku</string>
+    <string name="roku_content">Roku, Roku Stick and Roku TVs.</string>
+    <string name="apple_tv">Apple TV and Airplay</string>
+    <string name="apple_tv_content">Airplay (4th gen) tvOS 10.2+</string>
+    <string name="lg_web_os">LG WebOS</string>
+    <string name="lg_web_os_content">WebOS 2 and higher.</string>
+    <string name="description">Description</string>
+    <string name="send">Send</string>
+    <string name="description_your_issue_here_with_image_and_video">Description your issue here with image and video</string>
+    <string name="browser_mirror_home">Browser\nmirror</string>
+    <string name="floating_ntool">Floating\ntool</string>
+    <string name="help_us_improve_product">Help us improve product</string>
+    <string name="share_mirror_to_everyone">Share Mirror to everyone</string>
+
+    //dialog loading ads
+    <string name="loading_ad">Loading AD!</string>
+    <string name="full_screen_ad_will_appear">Full screen AD will appear</string>
+    <string name="you_are_using_floating_tool">You are using the Floating Tool</string>
+    <string name="ask_display_overlay_permission_description">To use Floating tools, \"display on other apps\" permission is required.\nYou can use <b>Brush</b>, <b>Eraser</b>, <b>Camera</b>, etc., after enabling the permission.</string>
+    <string name="allow">Allow</string>
+    <string name="checking_your_wifi">Checking your Wifi connection!</string>
+
+
 </resources>

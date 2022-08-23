@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintBgDialogLoadingAd"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_gray_dialog">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDialog"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.6"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_6dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/bg_button_gradient_radius_15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_8dp"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitleDialog"
+                style="@style/BoldTitleText"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_14dp"
+                android:text="@string/loading_ad"
+                android:textColor="@color/txt_black01" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtContentDialog"
+                style="@style/SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:gravity="center"
+                android:text="@string/full_screen_ad_will_appear"
+                android:textColor="@color/txt_black" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/snackBarLoad"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_4dp"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginVertical="@dimen/margin_12dp"
+                android:background="@color/blueA02"
+                app:layout_constraintBottom_toTopOf="@id/txtLoading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <View
+                    android:id="@+id/viewLoadBar"
+                    android:layout_width="160dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_border_radius_15dp"
+                    android:backgroundTint="@color/aqua_main"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

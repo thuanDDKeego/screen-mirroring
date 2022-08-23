@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127511313184",
+    "project_id": "sofigo-screen-mirroring",
+    "storage_bucket": "sofigo-screen-mirroring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127511313184:android:e82c1aed27ab3365e77545",
+        "android_client_info": {
+          "package_name": "net.sofigo.screenmirroring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127511313184-b5jfv2vbb6tsupojijnqppaaeguelcur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-R2IG2c5xGIAR1n7jwdfJiSp3U0Qi5T4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127511313184-b5jfv2vbb6tsupojijnqppaaeguelcur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

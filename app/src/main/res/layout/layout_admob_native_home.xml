@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/containerAdmobNative"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@drawable/bg_native_ads_home">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/nativeAdView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.gms.ads.nativead.MediaView
+                    android:id="@+id/ad_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minWidth="150dp"
+                    android:minHeight="150dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_headline"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:lines="2"
+                android:maxLines="2"
+                android:text="ad loading"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/imageView23" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_body"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="1dp"
+                android:lines="3"
+                android:maxLines="3"
+                android:minHeight="30dp"
+                android:text="ad loading"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/ad_call_to_action"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/ad_headline" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ad_call_to_action"
+                style="@style/regularBoldText"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="@dimen/margin_24dp"
+                android:background="@drawable/bg_border_radius_15dp"
+                android:gravity="center"
+                android:text="ad loading"
+                android:textColor="@color/blueA01"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline2" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView23"
+                android:layout_width="@dimen/margin_24dp"
+                android:layout_height="@dimen/margin_16dp"
+                android:layout_marginStart="-8dp"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_ad_label_tutorial" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                android:layout_marginStart="4dp"
+                android:text="@string/sponsored"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView23"
+                app:layout_constraintStart_toEndOf="@+id/imageView23"
+                app:layout_constraintTop_toTopOf="@+id/imageView23" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.55" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.gms.ads.nativead.NativeAdView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

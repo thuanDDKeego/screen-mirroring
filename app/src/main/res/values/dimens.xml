@@ -1,3 +1,61 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--    Float Tool-->
+    <dimen name="size_icon_view">54dp</dimen>
+    <dimen name="size_remove_view">65dp</dimen>
+    <dimen name="padding_big">12dp</dimen>
+    <dimen name="margin_biggest">50dp</dimen>
+    <dimen name="icon_main_size">36dp</dimen>
+    <dimen name="icon_time_set_size">32dp</dimen>
+    <!--    Float Tool-->
+
+
+    //margin dimen
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_6dp">6dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_14dp">14dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_25dp">25dp</dimen>
+    <dimen name="margin_26dp">26dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_36dp">36dp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
+    <dimen name="margin_42dp">42dp</dimen>
+    <dimen name="margin_48dp">48dp</dimen>
+    <dimen name="margin_50dp">50dp</dimen>
+    <dimen name="margin_54dp">54dp</dimen>
+    <dimen name="margin_64dp">65dp</dimen>
+    <dimen name="margin_72dp">72dp</dimen>
+
+    //image dimen
+    <dimen name="small_icon_size">18dp</dimen>
+    <dimen name="medium_icon_size">24dp</dimen>
+    <dimen name="medium_icon_size_2">28dp</dimen>
+    <dimen name="large_icon_size">32dp</dimen>
+    <dimen name="small_img_icon_size">40dp</dimen>
+    <dimen name="medium_img_icon_size">50dp</dimen>
+
+    //dimen size
+    <dimen name="dimen_150dp">150dp</dimen>
+    <!--    <dimen name="medium_img_icon_size">50dp</dimen>-->
+    <!--    <dimen name="medium_img_icon_size">50dp</dimen>-->
+    <!--    <dimen name="medium_img_icon_size">50dp</dimen>-->
+
+
+    //text size
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_content">14sp</dimen>
+    <dimen name="text_regular">16sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_title_24sp">24sp</dimen>
+    <dimen name="text_large">32sp</dimen>
 </resources>
