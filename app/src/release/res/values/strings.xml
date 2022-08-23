@@ -22,9 +22,10 @@
     <string name="ad_app_open">ca-app-pub-6969842628973791/2164737879</string>
     <string name="ad_edit_video_banner">ca-app-pub-6969842628973791/3094676163</string>
 
-    <string name="applovin_interstitial">a</string>
-    <string name="applovin_banner">a</string>
-    <string name="applovin_mrec">a</string>
-    <string name="applovin_native">a</string>
-<!--    TODO-->
+    <string name="applovin_interstitial" translatable="false">4fb847c9721f01c4</string>
+    <string name="applovin_rewardedad" translatable="false">d149120d43fa5d11</string>
+    <string name="applovin_banner" translatable="false">23f48de79634d46d</string>
+    <string name="applovin_mrec" translatable="false">67f90e4cba710f2a</string>
+    <string name="applovin_native" translatable="false">c161a56e08e5baa0</string>
+
 </resources>
