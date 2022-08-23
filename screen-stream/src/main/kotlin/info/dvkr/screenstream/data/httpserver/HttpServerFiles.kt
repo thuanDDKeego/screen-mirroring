@@ -11,8 +11,8 @@ import java.nio.charset.StandardCharsets
 
 class HttpServerFiles(context: Context, private val settingsReadOnly: SettingsReadOnly) {
     companion object {
-        const val FAVICON_PNG = "favicon.png"
-        const val LOGO_PNG = "logo.png"
+        const val FAVICON_PNG = "favicon.webp"
+        const val LOGO_PNG = "logo.webp"
         const val FULLSCREEN_ON_PNG = "fullscreen-on.png"
         const val FULLSCREEN_OFF_PNG = "fullscreen-off.png"
         const val START_STOP_PNG = "start-stop.png"
