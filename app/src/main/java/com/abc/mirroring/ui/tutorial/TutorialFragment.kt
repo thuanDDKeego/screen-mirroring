@@ -4,11 +4,14 @@ import  AdType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.base.BaseFragment
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.FragmentTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialGuideAdapter
 import com.abc.mirroring.utils.FirebaseTracking
@@ -25,7 +28,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     lateinit var admobHelper: AdmobHelper
     override fun initBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ) = FragmentTutorialBinding.inflate(inflater, container, false)
 
     override fun initViews() {
@@ -42,7 +45,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
-                    positionOffsetPixels: Int
+                    positionOffsetPixels: Int,
                 ) {
                 }
 
@@ -74,12 +77,20 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-        admobHelper.showNativeAdmob(
-            requireActivity(),
-            AdType.TUTORIAL_NATIVE,
-            binding.nativeAdView.nativeAdView,
-            true
-        )
+
+        if (AppConfigRemote().isUsingAdmobNative == true) {
+            admobHelper.showNativeAdmob(
+                requireActivity(),
+                AdType.TUTORIAL_NATIVE,
+                binding.nativeAdView.nativeAdView,
+                true
+            )
+
+        } else {
+            ApplovinUtils.getInstance().loadAndShowBanner(activity as AppCompatActivity,
+                AdType.APPLOVIN_MREC,
+                binding.containerAd)
+        }
     }
 
     override fun initActions() {
@@ -91,7 +102,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     private fun updateTabTutorialDialogPager(
-        position: Int
+        position: Int,
     ) {
 
         binding.apply {

@@ -43,7 +43,7 @@
                 android:layout_marginVertical="@dimen/margin_24dp"
                 android:paddingHorizontal="3dp"
                 android:src="@drawable/ic_state_off_tutorial_dialog"
-                app:layout_constraintBottom_toTopOf="@id/nativeAdView"
+                app:layout_constraintBottom_toTopOf="@id/containerAd"
                 app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
                 app:layout_constraintStart_toEndOf="@id/imgStateStep1"
                 app:layout_constraintTop_toBottomOf="@id/viewPagerTutorial" />
@@ -78,14 +78,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
 
-            <include
-                android:id="@+id/nativeAdView"
-                layout="@layout/layout_admob_native_tutorial"
+            <FrameLayout
+                android:id="@+id/containerAd"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <include
+                    android:id="@+id/nativeAdView"
+                    layout="@layout/layout_admob_native_tutorial"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp" />
+            </FrameLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

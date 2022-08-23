@@ -48,14 +48,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/admobNativeView"
-                layout="@layout/layout_admob_native_device_mirror"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:id="@+id/containerAd"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:minHeight="250dp"
+                android:paddingStart="@dimen/margin_8dp"
+                android:paddingEnd="@dimen/margin_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/admobNativeView"
+                    layout="@layout/layout_admob_native_device_mirror"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgWifiChecking"
@@ -65,7 +78,7 @@
                 android:layout_marginTop="@dimen/margin_42dp"
                 android:src="@drawable/ic_wifi_check_device"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/admobNativeView" />
+                app:layout_constraintTop_toBottomOf="@id/containerAd" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtCheckingNetWorkTitle"

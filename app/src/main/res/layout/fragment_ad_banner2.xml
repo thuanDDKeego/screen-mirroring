@@ -5,10 +5,10 @@
     android:layout_height="180dp"
     tools:context=".ui.home.uiadbanner.AdBannerFragment2">
 
-    <include
-        android:id="@+id/admobNativeView"
-        layout="@layout/layout_admob_native_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <include-->
+<!--        android:id="@+id/admobNativeView"-->
+<!--        layout="@layout/layout_admob_native_home"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
 </FrameLayout>

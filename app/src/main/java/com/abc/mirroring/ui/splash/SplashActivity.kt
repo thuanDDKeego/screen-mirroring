@@ -1,4 +1,4 @@
-package com.abc.sreenmirroring.ui.splash
+package com.abc.mirroring.ui.splash
 
 import AdType
 import android.content.Intent
@@ -17,7 +17,7 @@ import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
-import com.soft.slideshow.ads.AppOpenManager
+import com.abc.mirroring.ads.AppOpenManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject

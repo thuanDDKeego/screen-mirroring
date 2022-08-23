@@ -1,4 +1,4 @@
-package com.soft.slideshow.ads
+package com.abc.mirroring.ads
 
 import android.annotation.SuppressLint
 import android.app.Activity

@@ -3,6 +3,7 @@ package com.abc.mirroring.ui.tutorial
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseFragment
@@ -26,7 +27,7 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
 
     override fun initViews() {
         FirebaseTracking.logHelpFAQShowed()
-        adapter = FAQItemAdapter(requireActivity(), viewModel.getFAQItem(requireActivity()))
+        adapter = FAQItemAdapter(requireActivity() as AppCompatActivity, viewModel.getFAQItem(requireActivity()))
         adapter.admobHelper = admobHelper
         Log.i("binding FAQ", binding.toString())
         binding.recyclerViewFAQ.adapter = adapter

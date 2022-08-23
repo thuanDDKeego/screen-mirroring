@@ -18,7 +18,9 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <!-- Declare features -->
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera"  android:required="true"/>
+
+
 
     <application
         android:name="com.abc.mirroring.Application"
@@ -32,7 +34,7 @@
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name="com.abc.sreenmirroring.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -124,6 +126,10 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/ad_app_id" />
+
+<!--        Applovin-->
+        <meta-data android:name="applovin.sdk.key"
+            android:value="3gTJLo8pyzkk8BOtDfGQQdm4voly_Wo2CGMT3UL_S4iaF6RSnitBKdFEP_APVzSiDpFGHbGkfzIw4lMrSE0otG"/>
 
     </application>
 
