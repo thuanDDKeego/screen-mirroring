@@ -80,10 +80,6 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.abc.mirroring.service.MirrorService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name="com.abc.mirroring.service.FloatToolService"
             android:enabled="true"
             android:exported="true" />

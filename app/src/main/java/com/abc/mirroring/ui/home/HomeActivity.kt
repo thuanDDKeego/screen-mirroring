@@ -33,6 +33,7 @@ import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
+import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.applovin.sdk.AppLovinSdk
@@ -187,8 +188,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgSetting.setOnClickListener {
-//            SettingActivity.gotoActivity(this@HomeActivity) TODO
-            AppLovinSdk.getInstance(this).showMediationDebugger()
+            SettingActivity.gotoActivity(this@HomeActivity)
         }
         binding.imgHelp.setOnClickListener {
             FirebaseTracking.logHomeIconHelpClicked()
