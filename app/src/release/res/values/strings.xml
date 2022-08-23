@@ -21,4 +21,10 @@
 
     <string name="ad_app_open">ca-app-pub-6969842628973791/2164737879</string>
     <string name="ad_edit_video_banner">ca-app-pub-6969842628973791/3094676163</string>
+
+    <string name="applovin_interstitial">a</string>
+    <string name="applovin_banner">a</string>
+    <string name="applovin_mrec">a</string>
+    <string name="applovin_native">a</string>
+<!--    TODO-->
 </resources>

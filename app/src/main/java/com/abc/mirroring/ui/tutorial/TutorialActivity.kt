@@ -6,10 +6,13 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.ActivityTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +47,6 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
 
     override fun initActions() {
         binding.btnBack.setOnClickListener {
-            Log.i("back pressed", "")
             onBackPressed()
 
         }
@@ -56,22 +58,26 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
 
         fun updateTabPager(position: Int) {
 
-            binding.txtTutorial.setTextColor(getColor(R.color.grayA06))
-            binding.viewTutorial.setBackgroundColor(getColor(R.color.white))
-            binding.txtFAQ.setTextColor(getColor(R.color.grayA06))
-            binding.viewFAQ.setBackgroundColor(getColor(R.color.white))
-            binding.txtConnectedDevices.setTextColor(getColor(R.color.grayA06))
-            binding.viewConnectedDevices.setBackgroundColor(getColor(R.color.white))
+            binding.txtTutorial.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewTutorial.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            binding.txtConnectedDevices.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewConnectedDevices.setBackgroundColor(ContextCompat.getColor(this,
+                R.color.white))
 
             if (position == 0) {
-                binding.txtTutorial.setTextColor(getColor(R.color.blueA01))
-                binding.viewTutorial.setBackgroundColor(getColor(R.color.blueA01))
+                binding.txtTutorial.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                binding.viewTutorial.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.blueA01))
             } else if (position == 1) {
-                binding.txtFAQ.setTextColor(getColor(R.color.blueA01))
-                binding.viewFAQ.setBackgroundColor(getColor(R.color.blueA01))
+                binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
             } else {
-                binding.txtConnectedDevices.setTextColor(getColor(R.color.blueA01))
-                binding.viewConnectedDevices.setBackgroundColor(getColor(R.color.blueA01))
+                binding.txtConnectedDevices.setTextColor(ContextCompat.getColor(this,
+                    R.color.blueA01))
+                binding.viewConnectedDevices.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.blueA01))
             }
         }
 
@@ -79,7 +85,7 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
-                positionOffsetPixels: Int
+                positionOffsetPixels: Int,
             ) {
             }
 
@@ -111,14 +117,29 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             binding.viewPager.currentItem = 0
         } else {
             showLoadingAdDialog()
-            admobHelper.showAdInterstitial(
-                this@TutorialActivity,
-                AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
-            ) {
-                dismissLoadingAdDialog()
-                super.onBackPressed()
+            if (AppConfigRemote().isUsingAdmobBackFromTutorial == true) {
+                admobHelper.showAdInterstitial(
+                    this@TutorialActivity,
+                    AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
+                ) {
+                    dismissLoadingAdDialog()
+                    super.onBackPressed()
+                }
+            } else {
+                ApplovinUtils.getInstance()
+                    .loadAndShowInterstitialAd(this, AdType.APPLOVIN_INTERSTITIAL, object :
+                        ApplovinUtils.AdDisplayCallback() {
+                        override fun onDisplayed() {
+                            dismissLoadingAdDialog()
+                            onBackPressedSuper()
+                        }
+                    })
             }
         }
+    }
+
+    private fun onBackPressedSuper() {
+        super.onBackPressed()
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

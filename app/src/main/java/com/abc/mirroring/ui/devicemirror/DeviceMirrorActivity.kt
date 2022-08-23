@@ -8,9 +8,12 @@ import android.net.*
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
@@ -57,12 +60,17 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initAdmob() {
-        admobHelper.showNativeAdmob(
-            this@DeviceMirrorActivity,
-            AdType.MIRROR_DEVICE_NATIVE,
-            binding.admobNativeView.nativeAdView,
-            true
-        )
+        if (AppConfigRemote().isUsingAdmobNative == true) {
+            admobHelper.showNativeAdmob(
+                this@DeviceMirrorActivity,
+                AdType.MIRROR_DEVICE_NATIVE,
+                binding.admobNativeView.nativeAdView,
+                true
+            )
+        } else {
+            ApplovinUtils.getInstance()
+                .loadAndShowNativeAd(this, AdType.APPLOVIN_NATIVE_MEDIUM, binding.containerAd)
+        }
     }
 
     override fun initActions() {
@@ -113,34 +121,35 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             if (isConnected) {
                 binding.imgResultCheckConnectionDistance.visibility = View.VISIBLE
                 binding.imgResultCheckConnectionDistance.background =
-                    resources.getDrawable(R.drawable.ic_tick)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_tick)
+//                    resources.getDrawable(R.drawable.ic_tick)
                 delay(600)
                 binding.imgResultCheckSignalTransmission.visibility = View.VISIBLE
                 binding.progressCheckSignalTransmission.visibility = View.INVISIBLE
                 binding.imgResultCheckSignalTransmission.background =
-                    resources.getDrawable(R.drawable.ic_tick)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_tick)
                 delay(400)
                 binding.imgResultTestConnectionSpeed.visibility = View.VISIBLE
                 binding.progressTestConnectionSpeed.visibility = View.INVISIBLE
                 binding.imgResultTestConnectionSpeed.background =
-                    resources.getDrawable(R.drawable.ic_tick)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_tick)
                 delay(100)
                 binding.btnGoToWifiSetting.visibility = View.GONE
                 binding.btnSelectDevice.visibility = View.VISIBLE
             } else {
                 binding.imgResultCheckConnectionDistance.visibility = View.VISIBLE
                 binding.imgResultCheckConnectionDistance.background =
-                    resources.getDrawable(R.drawable.ic_x_error)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_x_error)
                 delay(200)
                 binding.imgResultCheckSignalTransmission.visibility = View.VISIBLE
                 binding.progressCheckSignalTransmission.visibility = View.INVISIBLE
                 binding.imgResultCheckSignalTransmission.background =
-                    resources.getDrawable(R.drawable.ic_x_error)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_x_error)
                 delay(200)
                 binding.imgResultTestConnectionSpeed.visibility = View.VISIBLE
                 binding.progressTestConnectionSpeed.visibility = View.INVISIBLE
                 binding.imgResultTestConnectionSpeed.background =
-                    resources.getDrawable(R.drawable.ic_x_error)
+                    ContextCompat.getDrawable(this@DeviceMirrorActivity, R.drawable.ic_x_error)
                 delay(100)
                 binding.btnSelectDevice.visibility = View.GONE
                 binding.btnGoToWifiSetting.visibility = View.VISIBLE

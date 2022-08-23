@@ -1,18 +1,24 @@
 package com.abc.mirroring.ui.tutorial.adapter
 
-import android.content.Context
+import AdType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.ApplovinUtils
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.data.model.FAQItem
-import com.abc.mirroring.databinding.LayoutAdmobNativeHomeBinding
+import com.abc.mirroring.databinding.LayoutAdContainerBinding
 import com.abc.mirroring.databinding.LayoutItemFaqBinding
 
-class FAQItemAdapter(private val context: Context, private val listFAQItem: ArrayList<FAQItem>) :
+class FAQItemAdapter(
+    private val context: AppCompatActivity,
+    private val listFAQItem: ArrayList<FAQItem>,
+) :
     RecyclerView.Adapter<FAQItemAdapter.BaseViewHolder>() {
 
     lateinit var admobHelper: AdmobHelper
@@ -24,37 +30,44 @@ class FAQItemAdapter(private val context: Context, private val listFAQItem: Arra
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        val itemBinding = if(viewType == 0) {
+        val itemBinding = if (viewType == 0) {
             LayoutItemFaqBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         } else {
-            LayoutAdmobNativeHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LayoutAdContainerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         }
         return BaseViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         with(holder) {
-            if(position!=1) {
-            with(listFAQItem[position]) {
-                var expanded = false
-                itemBinding as LayoutItemFaqBinding
-                itemBinding.root.setOnClickListener {
-                    if (!expanded) {
-                        itemBinding.imgExpandCollapse.setImageResource(R.drawable.ic_collapse)
-                        itemBinding.expandTextView.visibility = View.VISIBLE
-                    } else {
-                        itemBinding.imgExpandCollapse.setImageResource(R.drawable.ic_expand)
-                        itemBinding.expandTextView.visibility = View.GONE
+            if (position != 1) {
+                with(listFAQItem[position]) {
+                    var expanded = false
+                    itemBinding as LayoutItemFaqBinding
+                    itemBinding.root.setOnClickListener {
+                        if (!expanded) {
+                            itemBinding.imgExpandCollapse.setImageResource(R.drawable.ic_collapse)
+                            itemBinding.expandTextView.visibility = View.VISIBLE
+                        } else {
+                            itemBinding.imgExpandCollapse.setImageResource(R.drawable.ic_expand)
+                            itemBinding.expandTextView.visibility = View.GONE
+                        }
+                        expanded = !expanded
                     }
-                    expanded = !expanded
+                    itemBinding.txtTitleFAQ.text = title
+                    itemBinding.expandTextView.text = description
                 }
-                itemBinding.txtTitleFAQ.text = title
-                itemBinding.expandTextView.text = description
+            } else {
+                itemBinding as LayoutAdContainerBinding
+                if (AppConfigRemote().isUsingAdmobNative == true) {
+                    admobHelper.showNativeAdmob(context,
+                        AdType.FAQ_NATIVE,
+                        itemBinding.nativeAdView,
+                        true)
+                } else ApplovinUtils.getInstance().loadAndShowNativeAd(context,
+                    AdType.APPLOVIN_NATIVE_MEDIUM,
+                    itemBinding.containerAd)
             }
-        } else {
-            itemBinding as LayoutAdmobNativeHomeBinding
-                admobHelper.showNativeAdmob(context, AdType.FAQ_NATIVE,itemBinding.nativeAdView, true)
-        }
         }
     }
 

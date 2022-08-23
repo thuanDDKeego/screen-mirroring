@@ -27,7 +27,7 @@ import com.abc.mirroring.floatingbubble.FloatingBubble
 import com.abc.mirroring.helper.*
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.home.HomeActivity.Companion.isOpenFloatingToolLiveData
-import com.soft.slideshow.ads.AppOpenManager
+import com.abc.mirroring.ads.AppOpenManager
 import kotlinx.coroutines.*
 import timber.log.Timber
 

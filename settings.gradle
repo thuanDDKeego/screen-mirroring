@@ -24,6 +24,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter()
+        maven { url "https://artifact.bytedance.com/repository/pangle" }
     }
 }
 rootProject.name = "sreen-mirroring-cast-tv"

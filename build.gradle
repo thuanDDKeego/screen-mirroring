@@ -11,13 +11,17 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
+        repositories {
+            maven { url 'https://artifacts.applovin.com/android' }
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.43.2'
         classpath 'com.google.gms:google-services:4.3.13'
         // Add the Crashlytics Gradle plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
+        classpath "com.applovin.quality:AppLovinQualityServiceGradlePlugin:+"
     }
 }
 

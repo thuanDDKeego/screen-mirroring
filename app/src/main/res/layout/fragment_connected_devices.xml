@@ -6,14 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.tutorial.ConnectedDevicesFragment">
 
-    <include
-        android:id="@+id/nativeAdView"
-        layout="@layout/layout_admob_native_tutorial"
+    <FrameLayout
+        android:id="@+id/containerAd"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/nativeAdView"
+            layout="@layout/layout_admob_native_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDevice"
@@ -23,6 +31,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nativeAdView" />
+        app:layout_constraintTop_toBottomOf="@id/containerAd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

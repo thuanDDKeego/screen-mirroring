@@ -2,13 +2,14 @@ package com.abc.mirroring
 
 import AdType
 import android.app.Application
+import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.config.Preferences
 import com.abc.mirroring.config.ReleaseTree
-import com.abc.sreenmirroring.ui.splash.SplashActivity
+import com.abc.mirroring.ui.splash.SplashActivity
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.google.android.gms.ads.AdActivity
-import com.soft.slideshow.ads.AppOpenManager
+import com.abc.mirroring.ads.AppOpenManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -28,6 +29,9 @@ class Application : Application() {
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
         AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
+
+
+        ApplovinUtils.getInstance().initialize(this)
     }
 
     private fun initLogger() {
