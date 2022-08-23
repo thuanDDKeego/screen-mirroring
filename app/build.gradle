@@ -13,6 +13,14 @@ applovin {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Admin\\Box\\Key\\general_key_for_all_123456.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'key0'
+        }
+    }
     compileSdk 32
 
     lintOptions {
@@ -46,6 +54,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
