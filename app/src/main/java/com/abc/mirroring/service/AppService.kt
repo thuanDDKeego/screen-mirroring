@@ -7,14 +7,19 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.Process.killProcess
+import android.os.Process.myPid
+import android.os.RemoteException
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.helper.NotificationHelper
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.home.HomeActivity
+import com.elvishew.xlog.XLog
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FatalError
+import info.dvkr.screenstream.data.other.getLog
 import info.dvkr.screenstream.data.settings.Settings
 import info.dvkr.screenstream.data.settings.SettingsImpl
 import info.dvkr.screenstream.data.settings.SettingsReadOnly
@@ -31,193 +36,209 @@ import java.util.concurrent.atomic.AtomicReference
 
 class AppService : Service() {
 
-    companion object {
-        var isRunning: Boolean = false
+  companion object {
+    var isRunning: Boolean = false
 
-        fun getAppServiceIntent(context: Context): Intent =
-            Intent(context.applicationContext, AppService::class.java)
+    fun getAppServiceIntent(context: Context): Intent =
+      Intent(context.applicationContext, AppService::class.java)
 
-        fun startService(context: Context, intent: Intent) = context.startService(intent)
+    fun startService(context: Context, intent: Intent) = context.startService(intent)
 
-        fun startForeground(context: Context, intent: Intent) =
-            ContextCompat.startForegroundService(context, intent)
+    fun startForeground(context: Context, intent: Intent) =
+      ContextCompat.startForegroundService(context, intent)
+  }
+
+  class AppServiceBinder(private val serviceMessageSharedFlow: MutableSharedFlow<ServiceMessage>) :
+    Binder() {
+    fun getServiceMessageFlow(): SharedFlow<ServiceMessage> =
+      serviceMessageSharedFlow.asSharedFlow()
+  }
+
+  internal object ForegroundServiceBinder : Binder() {
+    private val serviceMessageSharedFlow = MutableSharedFlow<ServiceMessage>()
+
+    internal val serviceMessageFlow: SharedFlow<ServiceMessage> =
+      serviceMessageSharedFlow.asSharedFlow()
+
+    internal suspend fun sendMessage(serviceMessage: ServiceMessage) = try {
+      serviceMessageSharedFlow.emit(serviceMessage)
+    } catch (cause: RemoteException) {
+      XLog.d(getLog("sendMessage", "Failed to send message: $serviceMessage: $cause"))
+      XLog.e(getLog("sendMessage", "Failed to send message: $serviceMessage"), cause)
     }
+  }
 
-    class AppServiceBinder(private val serviceMessageSharedFlow: MutableSharedFlow<ServiceMessage>) :
-        Binder() {
-        fun getServiceMessageFlow(): SharedFlow<ServiceMessage> =
-            serviceMessageSharedFlow.asSharedFlow()
-    }
-
-    private val _serviceMessageSharedFlow =
-        MutableSharedFlow<ServiceMessage>(
-            extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
-        )
-    private var appServiceBinder: AppServiceBinder? = AppServiceBinder(_serviceMessageSharedFlow)
-
-    private fun sendMessageToActivities(serviceMessage: ServiceMessage) {
-        _serviceMessageSharedFlow.tryEmit(serviceMessage)
-    }
-
-    private val coroutineScope = CoroutineScope(
-        SupervisorJob() + Dispatchers.Main.immediate + CoroutineExceptionHandler { _, throwable ->
-            onError(FatalError.CoroutineException)
-        }
+  private val _serviceMessageSharedFlow =
+    MutableSharedFlow<ServiceMessage>(
+      extraBufferCapacity = 1,
+      onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
+  private var appServiceBinder: AppServiceBinder? = AppServiceBinder(_serviceMessageSharedFlow)
 
-    private val isStreaming = AtomicBoolean(false)
-    private val errorPrevious = AtomicReference<AppError?>(null)
-    private lateinit var notificationHelper: NotificationHelper
+  private fun sendMessageToActivities(serviceMessage: ServiceMessage) {
+    _serviceMessageSharedFlow.tryEmit(serviceMessage)
+  }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return appServiceBinder
+  private val coroutineScope = CoroutineScope(
+    SupervisorJob() + Dispatchers.Main.immediate + CoroutineExceptionHandler { _, throwable ->
+      onError(FatalError.CoroutineException)
     }
+  )
 
-    private fun onError(appError: AppError?) {
-        val oldError = errorPrevious.getAndSet(appError)
-        oldError != appError || return
-    }
+  private val isStreaming = AtomicBoolean(false)
+  private val errorPrevious = AtomicReference<AppError?>(null)
+  private lateinit var notificationHelper: NotificationHelper
 
-    private suspend fun onEffect(effect: AppStateMachine.Effect) = coroutineScope.launch {
-        if (effect !is AppStateMachine.Effect.Statistic)
+  override fun onBind(intent: Intent?): IBinder? {
+    return appServiceBinder
+  }
 
-            when (effect) {
-                is AppStateMachine.Effect.ConnectionChanged -> Unit  // TODO Notify user about restart reason
+  private fun onError(appError: AppError?) {
+    val oldError = errorPrevious.getAndSet(appError)
+    oldError != appError || return
+  }
 
-                is AppStateMachine.Effect.PublicState -> {
-                    isStreaming.set(effect.isStreaming)
+  private suspend fun onEffect(effect: AppStateMachine.Effect) = coroutineScope.launch {
+    if (effect !is AppStateMachine.Effect.Statistic)
 
-                    sendMessageToActivities(
-                        ServiceMessage.ServiceState(
-                            effect.isStreaming, effect.isBusy, effect.isWaitingForPermission,
-                            effect.netInterfaces, effect.appError
-                        )
-                    )
+      when (effect) {
+        is AppStateMachine.Effect.ConnectionChanged -> Unit  // TODO Notify user about restart reason
 
-                    if (effect.isStreaming)
-                        notificationHelper.showForegroundNotification(
-                            this@AppService, NotificationHelper.NotificationType.STOP
-                        )
-                    else
-                        notificationHelper.showForegroundNotification(
-                            this@AppService, NotificationHelper.NotificationType.START
-                        )
-                    onError(effect.appError)
+        is AppStateMachine.Effect.PublicState -> {
+          isStreaming.set(effect.isStreaming)
 
-                    onError(effect.appError)
-                }
+          sendMessageToActivities(
+            ServiceMessage.ServiceState(
+              effect.isStreaming, effect.isBusy, effect.isWaitingForPermission,
+              effect.netInterfaces, effect.appError
+            )
+          )
 
-                is AppStateMachine.Effect.Statistic ->
-                    when (effect) {
-                        is AppStateMachine.Effect.Statistic.Clients -> {
-                            sendMessageToActivities(ServiceMessage.Clients(effect.clients))
-                        }
+          if (effect.isStreaming)
+            notificationHelper.showForegroundNotification(
+              this@AppService, NotificationHelper.NotificationType.STOP
+            )
+          else
+            notificationHelper.showForegroundNotification(
+              this@AppService, NotificationHelper.NotificationType.START
+            )
+          onError(effect.appError)
 
-                        is AppStateMachine.Effect.Statistic.Traffic ->
-                            sendMessageToActivities(ServiceMessage.TrafficHistory(effect.traffic))
-
-                        else -> throw IllegalArgumentException("Unexpected onEffect: $effect")
-                    }
-            }
-    }.join()
-
-    private lateinit var settings: Settings
-
-    private var appStateMachine: AppStateMachine? = null
-
-    override fun onCreate() {
-        super.onCreate()
-        notificationHelper = NotificationHelper(this)
-        notificationHelper.createNotificationChannel()
-        notificationHelper.showForegroundNotification(
-            this,
-            NotificationHelper.NotificationType.START
-        )
-        settings = SettingsImpl(
-            BinaryPreferencesBuilder(applicationContext)
-                .supportInterProcess(true)
-                .exceptionHandler { ex -> Timber.e(ex) }
-                .build()
-        )
-        settings.autoChangePinOnStart()
-        settings.enablePin = AppPreferences().isTurnOnPinCode == true
-        settings.pin = AppPreferences().pinCode.toString()
-
-        appStateMachine = AppStateMachineImpl(this, settings as SettingsReadOnly, ::onEffect)
-
-        isRunning = true
-    }
-
-    @SuppressLint("MissingPermission")
-    @Suppress("DEPRECATION")
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val intentAction = IntentAction.fromIntent(intent)
-        intentAction != null || return START_NOT_STICKY
-
-        when (intentAction) {
-            IntentAction.GetServiceState -> {
-                appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
-            }
-
-            IntentAction.StartStream -> {
-                Timber.d("StartStream")
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
-                    sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                appStateMachine?.sendEvent(AppStateMachine.Event.StartStream)
-                HomeActivity.isStreamingBrowser.value = true
-            }
-
-            IntentAction.StopStream -> {
-                Timber.d("StopStream ")
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
-                    sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                appStateMachine?.sendEvent(AppStateMachine.Event.StopStream)
-                HomeActivity.isStreamingBrowser.value = false
-            }
-
-            IntentAction.Exit -> {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
-                    sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                stopForeground(true)
-                sendMessageToActivities(ServiceMessage.FinishActivity)
-                HomeActivity.isStreamingBrowser.value = false
-                this@AppService.stopSelf()
-            }
-
-            is IntentAction.CastIntent -> {
-                appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
-                appStateMachine?.sendEvent(AppStateMachine.Event.StartProjection(intentAction.intent))
-            }
-
-            IntentAction.CastPermissionsDenied -> {
-                appStateMachine?.sendEvent(AppStateMachine.Event.CastPermissionsDenied)
-                appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
-                HomeActivity.isStreamingBrowser.value = false
-            }
-
-            IntentAction.StartOnBoot ->
-                appStateMachine?.sendEvent(AppStateMachine.Event.StartStream, 4500)
-
-            IntentAction.RecoverError -> {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
-                    sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                appStateMachine?.sendEvent(AppStateMachine.Event.RecoverError)
-            }
-            else -> {}
+          onError(effect.appError)
         }
 
-        return START_NOT_STICKY
+        is AppStateMachine.Effect.Statistic ->
+          when (effect) {
+            is AppStateMachine.Effect.Statistic.Clients -> {
+              sendMessageToActivities(ServiceMessage.Clients(effect.clients))
+            }
+
+            is AppStateMachine.Effect.Statistic.Traffic ->
+              sendMessageToActivities(ServiceMessage.TrafficHistory(effect.traffic))
+
+            else -> throw IllegalArgumentException("Unexpected onEffect: $effect")
+          }
+      }
+  }.join()
+
+  private lateinit var settings: Settings
+
+  private var appStateMachine: AppStateMachine? = null
+
+  override fun onCreate() {
+    super.onCreate()
+    notificationHelper = NotificationHelper(this)
+    notificationHelper.createNotificationChannel()
+    notificationHelper.showForegroundNotification(
+      this,
+      NotificationHelper.NotificationType.START
+    )
+    settings = SettingsImpl(
+      BinaryPreferencesBuilder(applicationContext)
+        .supportInterProcess(true)
+        .exceptionHandler { ex -> Timber.e(ex) }
+        .build()
+    )
+    settings.autoChangePinOnStart()
+    settings.enablePin = AppPreferences().isTurnOnPinCode == true
+    settings.pin = AppPreferences().pinCode.toString()
+
+    appStateMachine = AppStateMachineImpl(this, settings as SettingsReadOnly, ::onEffect)
+
+    isRunning = true
+  }
+
+  @SuppressLint("MissingPermission")
+  @Suppress("DEPRECATION")
+  override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    val intentAction = IntentAction.fromIntent(intent)
+    intentAction != null || return START_NOT_STICKY
+
+    when (intentAction) {
+      IntentAction.GetServiceState -> {
+        appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
+      }
+
+      IntentAction.StartStream -> {
+        Timber.d("StartStream")
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+          sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        appStateMachine?.sendEvent(AppStateMachine.Event.StartStream)
+        HomeActivity.isStreamingBrowser.value = true
+      }
+
+      IntentAction.StopStream -> {
+        Timber.d("StopStream ")
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+          sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        appStateMachine?.sendEvent(AppStateMachine.Event.StopStream)
+        HomeActivity.isStreamingBrowser.value = false
+      }
+
+      IntentAction.Exit -> {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+          sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        notificationHelper.hideErrorNotification()
+        stopForeground(true)
+        coroutineScope.launch { ForegroundServiceBinder.sendMessage(ServiceMessage.FinishActivity) }
+        HomeActivity.isStreamingBrowser.value = false
+        this@AppService.stopSelf()
+        killProcess(myPid())
+      }
+
+      is IntentAction.CastIntent -> {
+        appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
+        appStateMachine?.sendEvent(AppStateMachine.Event.StartProjection(intentAction.intent))
+      }
+
+      IntentAction.CastPermissionsDenied -> {
+        appStateMachine?.sendEvent(AppStateMachine.Event.CastPermissionsDenied)
+        appStateMachine?.sendEvent(AppStateMachine.Event.RequestPublicState)
+        HomeActivity.isStreamingBrowser.value = false
+      }
+
+      IntentAction.StartOnBoot ->
+        appStateMachine?.sendEvent(AppStateMachine.Event.StartStream, 4500)
+
+      IntentAction.RecoverError -> {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+          sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        appStateMachine?.sendEvent(AppStateMachine.Event.RecoverError)
+      }
+      else -> {}
     }
 
-    override fun onDestroy() {
-        isRunning = false
-        runBlocking(coroutineScope.coroutineContext) { withTimeout(2000) { appStateMachine?.destroy() } }
-        appStateMachine = null
-        coroutineScope.cancel(CancellationException("AppService.destroy"))
-        stopForeground(true)
-        appServiceBinder = null
-        super.onDestroy()
-    }
+    return START_NOT_STICKY
+  }
+
+  override fun onDestroy() {
+    isRunning = false
+    runBlocking(coroutineScope.coroutineContext) { withTimeout(2000) { appStateMachine?.destroy() } }
+    appStateMachine = null
+    coroutineScope.cancel(CancellationException("AppService.destroy"))
+    stopForeground(true)
+    appServiceBinder = null
+    super.onDestroy()
+  }
 
 }

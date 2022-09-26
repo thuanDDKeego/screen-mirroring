@@ -26,9 +26,9 @@ class NotificationHelper(context: Context) {
 
   private val applicationContext: Context = context.applicationContext
   private val notificationManager =
-      applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
   private val flagImmutable =
-      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) 0 else PendingIntent.FLAG_IMMUTABLE
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) 0 else PendingIntent.FLAG_IMMUTABLE
 
   private var currentNotificationType: NotificationType? = null
 
@@ -38,45 +38,45 @@ class NotificationHelper(context: Context) {
       notificationManager.deleteNotificationChannel("info.dvkr.screenstream.service.NOTIFICATION_CHANNEL_01")
 
       notificationManager.createNotificationChannel(
-          NotificationChannel(
-              CHANNEL_STREAM,
-              "Start/Stop notifications",
-              NotificationManager.IMPORTANCE_DEFAULT
-          )
-              .apply {
-                setSound(null, null)
-                enableLights(false)
-                enableVibration(false)
-                setShowBadge(false)
-              }
+        NotificationChannel(
+          CHANNEL_STREAM,
+          "Start/Stop notifications",
+          NotificationManager.IMPORTANCE_DEFAULT
+        )
+          .apply {
+            setSound(null, null)
+            enableLights(false)
+            enableVibration(false)
+            setShowBadge(false)
+          }
       )
 
       notificationManager.createNotificationChannel(
-          NotificationChannel(
-              CHANNEL_ERROR,
-              "Error notifications",
-              NotificationManager.IMPORTANCE_HIGH
-          )
-              .apply {
-                setSound(null, null)
-                enableLights(false)
-                enableVibration(false)
-                setShowBadge(false)
-              }
+        NotificationChannel(
+          CHANNEL_ERROR,
+          "Error notifications",
+          NotificationManager.IMPORTANCE_HIGH
+        )
+          .apply {
+            setSound(null, null)
+            enableLights(false)
+            enableVibration(false)
+            setShowBadge(false)
+          }
       )
     }
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
   fun getNotificationSettingsIntent(): Intent =
-      Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-          .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, applicationContext.packageName)
+    Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+      .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, applicationContext.packageName)
 
   fun showForegroundNotification(service: Service, notificationType: NotificationType) {
     if (currentNotificationType != notificationType) {
       service.startForeground(
-          notificationType.id,
-          getForegroundNotification(notificationType)
+        notificationType.id,
+        getForegroundNotification(notificationType)
       )
       currentNotificationType = notificationType
     }
@@ -98,54 +98,54 @@ class NotificationHelper(context: Context) {
     }
 
     val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ERROR)
-        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        .setCategory(Notification.CATEGORY_ERROR)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setLargeIcon(
-            AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
+      .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+      .setCategory(Notification.CATEGORY_ERROR)
+      .setPriority(NotificationCompat.PRIORITY_HIGH)
+      .setLargeIcon(
+        AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
+      )
+      .setContentText(message)
+      .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+      .setContentIntent(
+        PendingIntent.getActivity(
+          applicationContext,
+          0,
+          BrowserMirrorActivity.getStartIntent(applicationContext),
+          flagImmutable
         )
-        .setContentText(message)
-        .setStyle(NotificationCompat.BigTextStyle().bigText(message))
-        .setContentIntent(
-            PendingIntent.getActivity(
-                applicationContext,
-                0,
-                BrowserMirrorActivity.getStartIntent(applicationContext),
-                flagImmutable
-            )
-        )
+      )
 
     if (appError is FixableError)
       builder.addAction(
-          NotificationCompat.Action(
-              null,
-              applicationContext.getString(android.R.string.ok),
-              PendingIntent.getService(
-                  applicationContext, 5,
-                  IntentAction.RecoverError.toAppServiceIntent(applicationContext),
-                  flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
-              )
+        NotificationCompat.Action(
+          null,
+          applicationContext.getString(android.R.string.ok),
+          PendingIntent.getService(
+            applicationContext, 5,
+            IntentAction.RecoverError.toAppServiceIntent(applicationContext),
+            flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
           )
+        )
       )
     else
       builder.addAction(
-          NotificationCompat.Action(
-              R.drawable.logo,
-              applicationContext.getString(R.string.app_name),
-              PendingIntent.getService(
-                  applicationContext, 5,
-                  IntentAction.Exit.toAppServiceIntent(applicationContext),
-                  flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
-              )
+        NotificationCompat.Action(
+          R.drawable.logo,
+          applicationContext.getString(R.string.app_name),
+          PendingIntent.getService(
+            applicationContext, 5,
+            IntentAction.Exit.toAppServiceIntent(applicationContext),
+            flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
           )
+        )
       )
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       val notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ERROR)
       builder
-          .setSound(notificationChannel.sound)
-          .setPriority(notificationChannel.importance)
-          .setVibrate(notificationChannel.vibrationPattern)
+        .setSound(notificationChannel.sound)
+        .setPriority(notificationChannel.importance)
+        .setVibrate(notificationChannel.vibrationPattern)
     }
 
     notificationManager.notify(NotificationType.ERROR.id, builder.build())
@@ -159,61 +159,62 @@ class NotificationHelper(context: Context) {
     XLog.d(getLog("getForegroundNotification", "NotificationType: $notificationType"))
 
     val builder = NotificationCompat.Builder(applicationContext, CHANNEL_STREAM)
-        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        .setCategory(Notification.CATEGORY_SERVICE)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setLargeIcon(
-            AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
+      .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+      .setCategory(Notification.CATEGORY_SERVICE)
+      .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+      .setLargeIcon(
+        AppCompatResources.getDrawable(applicationContext, R.drawable.logo)?.toBitmap()
+      )
+      .setContentIntent(
+        PendingIntent.getActivity(
+          applicationContext,
+          0,
+          BrowserMirrorActivity.getStartIntent(applicationContext),
+          flagImmutable
         )
-        .setContentIntent(
-            PendingIntent.getActivity(
-                applicationContext,
-                0,
-                BrowserMirrorActivity.getStartIntent(applicationContext),
-                flagImmutable
-            )
-        )
+      )
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       notificationManager.getNotificationChannel(CHANNEL_STREAM)?.let { notificationChannel ->
         builder
-            .setSound(notificationChannel.sound)
-            .setPriority(notificationChannel.importance)
-            .setVibrate(notificationChannel.vibrationPattern)
+          .setSound(notificationChannel.sound)
+          .setPriority(notificationChannel.importance)
+          .setVibrate(notificationChannel.vibrationPattern)
       }
     }
 
     when (notificationType) {
       NotificationType.START -> {
         val builderNotification = builder
-            .setContentTitle(applicationContext.getString(R.string.app_name))
-            .setContentText("Press START to begin stream")
-//                    .addAction(
-//                        NotificationCompat.Action(
-//                            R.drawable.ic_close,
-//                            "Start",
-//                            PendingIntent.getActivity(
-//                                applicationContext, 1,
-//                                IntentAction.StartStream.toAppActivityIntent(applicationContext),
-//                                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
-//                            )
-//                        )
-//                    )
-//                    .addAction(
-//                        NotificationCompat.Action(
-//                            R.drawable.ic_close,
-//                            "Exit",
-//                            PendingIntent.getService(
-//                                applicationContext, 3,
-//                                IntentAction.Exit.toAppServiceIntent(applicationContext),
-//                                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
-//                            )
-//                        )
-//                    )
+          .setContentTitle(applicationContext.getString(R.string.app_name))
+          .setContentText("Press START to begin stream")
+          .addAction(
+            NotificationCompat.Action(
+              R.drawable.ic_close,
+              "Start",
+              PendingIntent.getActivity(
+                applicationContext, 1,
+                IntentAction.StartStream.toAppActivityIntent(applicationContext),
+                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+              )
+            )
+          )
+          .addAction(
+            NotificationCompat.Action(
+              R.drawable.ic_close,
+              "Exit",
+              PendingIntent.getService(
+                applicationContext, 3,
+                IntentAction.Exit.toAppServiceIntent(applicationContext),
+                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+              )
+            )
+          )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builderNotification
-                .setSmallIcon(R.drawable.ic_launcher_noti).color = applicationContext.resources.getColor(R.color.blueA01)
+          builderNotification
+            .setSmallIcon(R.drawable.ic_launcher_noti).color =
+            applicationContext.resources.getColor(R.color.blueA01)
         } else {
           builderNotification.setSmallIcon(R.drawable.ic_launcher_app)
         }
@@ -223,23 +224,24 @@ class NotificationHelper(context: Context) {
 
       NotificationType.STOP -> {
         val builderNotification = builder
-            .setContentTitle(applicationContext.getString(R.string.app_name))
-            .setContentText("Press STOP to end stream")
-            .addAction(
-                NotificationCompat.Action(
-                    R.drawable.logo,
-                    "STOP",
-                    PendingIntent.getService(
-                        applicationContext, 2,
-                        IntentAction.StopStream.toAppServiceIntent(applicationContext),
-                        flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                )
+          .setContentTitle(applicationContext.getString(R.string.app_name))
+          .setContentText("Press STOP to end stream")
+          .addAction(
+            NotificationCompat.Action(
+              R.drawable.logo,
+              "STOP",
+              PendingIntent.getService(
+                applicationContext, 2,
+                IntentAction.StopStream.toAppServiceIntent(applicationContext),
+                flagImmutable or PendingIntent.FLAG_UPDATE_CURRENT
+              )
             )
+          )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builderNotification
-                .setSmallIcon(R.drawable.ic_launcher_noti).color = applicationContext.resources.getColor(R.color.blueA01)
+          builderNotification
+            .setSmallIcon(R.drawable.ic_launcher_noti).color =
+            applicationContext.resources.getColor(R.color.blueA01)
         } else {
           builderNotification.setSmallIcon(R.drawable.ic_launcher_app)
         }
