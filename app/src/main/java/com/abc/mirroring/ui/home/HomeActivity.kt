@@ -528,26 +528,28 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
             txtOk.setOnClickListener {
                 constraintProgressBar.visibility = View.VISIBLE
-                if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
-                    admobHelper.showAdInterstitial(
-                        this@HomeActivity,
-                        AdType.HOME_ONBOARDING_INTERSTITIAL
-                    ) {
+                /* dismiss show interstitial ads when using the first time*/
+
+//                if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
+//                    admobHelper.showAdInterstitial(
+//                        this@HomeActivity,
+//                        AdType.HOME_ONBOARDING_INTERSTITIAL
+//                    ) {
                         dismissTutorialDialog()
-                    }
-                } else {
-                    showLoadingAdDialog()
-                    ApplovinUtils.getInstance()
-                        .loadAndShowInterstitialAd(this@HomeActivity,
-                            AdType.APPLOVIN_INTERSTITIAL,
-                            object :
-                                ApplovinUtils.AdDisplayCallback() {
-                                override fun onDisplayed() {
-                                    dismissLoadingAdDialog()
-                                    dismissTutorialDialog()
-                                }
-                            })
-                }
+//                    }
+//                } else {
+//                    showLoadingAdDialog()
+//                    ApplovinUtils.getInstance()
+//                        .loadAndShowInterstitialAd(this@HomeActivity,
+//                            AdType.APPLOVIN_INTERSTITIAL,
+//                            object :
+//                                ApplovinUtils.AdDisplayCallback() {
+//                                override fun onDisplayed() {
+//                                    dismissLoadingAdDialog()
+//                                    dismissTutorialDialog()
+//                                }
+//                            })
+//                }
             }
         }
     }
