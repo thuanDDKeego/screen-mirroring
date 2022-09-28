@@ -156,12 +156,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-//            if (isStreamingBrowser.value == true) {
+            if (isStreamingBrowser.value == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
-//            } else {
-//                showBrowserDialog()
-//            }
+            } else {
+                showBrowserDialog()
+            }
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
@@ -530,26 +530,26 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 constraintProgressBar.visibility = View.VISIBLE
                 /* dismiss show interstitial ads when using the first time*/
 
-//                if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
-//                    admobHelper.showAdInterstitial(
-//                        this@HomeActivity,
-//                        AdType.HOME_ONBOARDING_INTERSTITIAL
-//                    ) {
+                if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
+                    admobHelper.showAdInterstitial(
+                        this@HomeActivity,
+                        AdType.HOME_ONBOARDING_INTERSTITIAL
+                    ) {
                         dismissTutorialDialog()
-//                    }
-//                } else {
-//                    showLoadingAdDialog()
-//                    ApplovinUtils.getInstance()
-//                        .loadAndShowInterstitialAd(this@HomeActivity,
-//                            AdType.APPLOVIN_INTERSTITIAL,
-//                            object :
-//                                ApplovinUtils.AdDisplayCallback() {
-//                                override fun onDisplayed() {
-//                                    dismissLoadingAdDialog()
-//                                    dismissTutorialDialog()
-//                                }
-//                            })
-//                }
+                    }
+                } else {
+                    showLoadingAdDialog()
+                    ApplovinUtils.getInstance()
+                        .loadAndShowInterstitialAd(this@HomeActivity,
+                            AdType.APPLOVIN_INTERSTITIAL,
+                            object :
+                                ApplovinUtils.AdDisplayCallback() {
+                                override fun onDisplayed() {
+                                    dismissLoadingAdDialog()
+                                    dismissTutorialDialog()
+                                }
+                            })
+                }
             }
         }
     }
