@@ -10,7 +10,6 @@
         style="@style/ContentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="4"
         android:text="@string/tutorial_guild3"
         android:textColor="@color/txt_black"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,19 +22,9 @@
         android:padding="@dimen/margin_12dp"
         android:paddingHorizontal="@dimen/margin_54dp"
         android:src="@drawable/img_tutorial_guild3"
-        app:layout_constraintBottom_toTopOf="@+id/txtTemp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtGuild" />
-
-    <TextView
-        android:id="@+id/txtTemp"
-        style="@style/ContentText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
