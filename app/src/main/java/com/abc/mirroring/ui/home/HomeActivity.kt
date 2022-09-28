@@ -528,6 +528,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
             txtOk.setOnClickListener {
                 constraintProgressBar.visibility = View.VISIBLE
+                /* dismiss show interstitial ads when using the first time*/
+
                 if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
                     admobHelper.showAdInterstitial(
                         this@HomeActivity,

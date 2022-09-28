@@ -77,7 +77,6 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-
         if (AppConfigRemote().isUsingAdmobNative == true) {
             admobHelper.showNativeAdmob(
                 requireActivity(),
@@ -85,7 +84,6 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 binding.nativeAdView.nativeAdView,
                 true
             )
-
         } else {
             ApplovinUtils.getInstance().loadAndShowBanner(activity as AppCompatActivity,
                 AdType.APPLOVIN_MREC,

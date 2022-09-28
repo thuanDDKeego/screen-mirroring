@@ -6,97 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".ui.tutorial.TutorialFragment">
 
-    <ScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/containerAd"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerTutorial"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_24dp"
+            android:src="@drawable/ic_previous_dialog"
+            app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_24dp"
+            android:src="@drawable/ic_next_dialog"
+            app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgStateStep1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+        app:layout_constraintEnd_toStartOf="@id/imgStateStep2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgStateStep2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_24dp"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
+        app:layout_constraintBottom_toTopOf="@id/containerAd"
+        app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
+        app:layout_constraintStart_toEndOf="@id/imgStateStep1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgStateStep3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="3dp"
+        android:src="@drawable/ic_state_off_tutorial_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
+
+    <FrameLayout
+        android:id="@+id/containerAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/nativeAdView"
+            layout="@layout/layout_admob_native_tutorial"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerTutorial"
-                android:layout_width="0dp"
-                android:layout_height="360dp"
-                app:layout_constraintBottom_toTopOf="@id/imgStateStep2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgStateStep1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="3dp"
-                android:src="@drawable/ic_state_off_tutorial_dialog"
-                app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
-                app:layout_constraintEnd_toStartOf="@id/imgStateStep2"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgStateStep2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_24dp"
-                android:paddingHorizontal="3dp"
-                android:src="@drawable/ic_state_off_tutorial_dialog"
-                app:layout_constraintBottom_toTopOf="@id/containerAd"
-                app:layout_constraintEnd_toStartOf="@id/imgStateStep3"
-                app:layout_constraintStart_toEndOf="@id/imgStateStep1"
-                app:layout_constraintTop_toBottomOf="@id/viewPagerTutorial" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgStateStep3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="3dp"
-                android:src="@drawable/ic_state_off_tutorial_dialog"
-                app:layout_constraintBottom_toBottomOf="@id/imgStateStep2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imgStateStep2" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_24dp"
-                android:src="@drawable/ic_previous_dialog"
-                app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_24dp"
-                android:src="@drawable/ic_next_dialog"
-                app:layout_constraintBottom_toBottomOf="@id/viewPagerTutorial"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/viewPagerTutorial" />
-
-            <FrameLayout
-                android:id="@+id/containerAd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <include
-                    android:id="@+id/nativeAdView"
-                    layout="@layout/layout_admob_native_tutorial"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp" />
-            </FrameLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            android:layout_height="70dp" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
