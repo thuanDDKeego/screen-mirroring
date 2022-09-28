@@ -18,14 +18,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Singleton
-    @Provides
-    fun providesSettings(@ApplicationContext context: Context): Settings = SettingsImpl(
-        BinaryPreferencesBuilder(context)
-            .supportInterProcess(true)
-            .exceptionHandler { ex -> Timber.e(ex) }
-            .build()
-    )
+//    @Singleton
+//    @Provides
+//    fun providesSettings(@ApplicationContext context: Context): Settings = SettingsImpl(
+//        BinaryPreferencesBuilder(context)
+//            .supportInterProcess(true)
+//            .exceptionHandler { ex -> Timber.e(ex) }
+//            .build()
+//    )
 
     @Singleton
     @Provides

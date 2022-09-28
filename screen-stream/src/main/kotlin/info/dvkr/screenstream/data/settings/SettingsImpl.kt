@@ -12,6 +12,8 @@ import kotlin.reflect.KProperty
 
 class SettingsImpl(private val preferences: Preferences) : Settings {
 
+    private var isRegisted = false
+
     override var nightMode: Int
             by bindPreference(preferences, Settings.Key.NIGHT_MODE, Settings.Default.NIGHT_MODE)
 
@@ -152,16 +154,20 @@ class SettingsImpl(private val preferences: Preferences) : Settings {
             } else {
                 changeListenerSet.add(listener)
             }
+          isRegisted = true
         }
     }
 
     override fun unregisterChangeListener(listener: SettingsReadOnly.OnSettingsChangeListener) {
-        synchronized(changeListenerSet) {
-            changeListenerSet.remove(listener)
+        if(isRegisted) {
+            synchronized(changeListenerSet) {
+                changeListenerSet.remove(listener)
 
-            if (changeListenerSet.isEmpty()) {
-                preferences.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
+                if (changeListenerSet.isEmpty()) {
+                    preferences.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
+                }
             }
+          isRegisted = false
         }
     }
 
