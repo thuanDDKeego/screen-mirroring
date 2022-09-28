@@ -7,19 +7,14 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.os.Process.killProcess
-import android.os.Process.myPid
-import android.os.RemoteException
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.helper.NotificationHelper
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.home.HomeActivity
-import com.elvishew.xlog.XLog
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
 import info.dvkr.screenstream.data.model.FatalError
-import info.dvkr.screenstream.data.other.getLog
 import info.dvkr.screenstream.data.settings.Settings
 import info.dvkr.screenstream.data.settings.SettingsImpl
 import info.dvkr.screenstream.data.settings.SettingsReadOnly
@@ -52,20 +47,6 @@ class AppService : Service() {
     Binder() {
     fun getServiceMessageFlow(): SharedFlow<ServiceMessage> =
       serviceMessageSharedFlow.asSharedFlow()
-  }
-
-  internal object ForegroundServiceBinder : Binder() {
-    private val serviceMessageSharedFlow = MutableSharedFlow<ServiceMessage>()
-
-    internal val serviceMessageFlow: SharedFlow<ServiceMessage> =
-      serviceMessageSharedFlow.asSharedFlow()
-
-    internal suspend fun sendMessage(serviceMessage: ServiceMessage) = try {
-      serviceMessageSharedFlow.emit(serviceMessage)
-    } catch (cause: RemoteException) {
-      XLog.d(getLog("sendMessage", "Failed to send message: $serviceMessage: $cause"))
-      XLog.e(getLog("sendMessage", "Failed to send message: $serviceMessage"), cause)
-    }
   }
 
   private val _serviceMessageSharedFlow =
@@ -200,10 +181,10 @@ class AppService : Service() {
           sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
         notificationHelper.hideErrorNotification()
         stopForeground(true)
-        coroutineScope.launch { ForegroundServiceBinder.sendMessage(ServiceMessage.FinishActivity) }
+        sendMessageToActivities(ServiceMessage.FinishActivity)
         HomeActivity.isStreamingBrowser.value = false
         this@AppService.stopSelf()
-        killProcess(myPid())
+
       }
 
       is IntentAction.CastIntent -> {
@@ -236,7 +217,12 @@ class AppService : Service() {
     runBlocking(coroutineScope.coroutineContext) { withTimeout(2000) { appStateMachine?.destroy() } }
     appStateMachine = null
     coroutineScope.cancel(CancellationException("AppService.destroy"))
-    stopForeground(true)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      stopForeground(STOP_FOREGROUND_REMOVE)
+    } else {
+      @Suppress("DEPRECATION")
+      stopForeground(true)
+    }
     appServiceBinder = null
     super.onDestroy()
   }
