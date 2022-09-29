@@ -184,7 +184,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
   }
 
   override fun onStop() {
-//    settings!!.unregisterChangeListener(settingsListener)
+    settings!!.unregisterChangeListener(settingsListener)
     super.onStop()
   }
 
