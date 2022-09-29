@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.ApplovinUtils
-import com.abc.mirroring.config.AppConfigRemote
+
 import com.abc.mirroring.data.model.FAQItem
 import com.abc.mirroring.databinding.LayoutAdContainerBinding
 import com.abc.mirroring.databinding.LayoutItemFaqBinding
@@ -59,14 +58,12 @@ class FAQItemAdapter(
                 }
             } else {
                 itemBinding as LayoutAdContainerBinding
-                if (AppConfigRemote().isUsingAdmobNative == true) {
-                    admobHelper.showNativeAdmob(context,
-                        AdType.FAQ_NATIVE,
-                        itemBinding.nativeAdView,
-                        true)
-                } else ApplovinUtils.getInstance().loadAndShowNativeAd(context,
-                    AdType.APPLOVIN_NATIVE_MEDIUM,
-                    itemBinding.containerAd)
+                admobHelper.showNativeAdmob(
+                    context,
+                    AdType.FAQ_NATIVE,
+                    itemBinding.nativeAdView,
+                    true
+                )
             }
         }
     }

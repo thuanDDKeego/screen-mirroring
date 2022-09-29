@@ -17,24 +17,9 @@ object AdConfig {
     const val AD_MOB_MIRROR_DEVICE_NATIVE = R.string.ad_native_mirror_device
 
     const val AD_MOB_AD_OPEN = R.string.ad_app_open
-
-    const val APPLOVIN_INTERSTITIAL = R.string.applovin_interstitial
-    const val APPLOVIN_BANNER = R.string.applovin_banner
-    const val APPLOVIN_MREC = R.string.applovin_mrec
-    const val APPLOVIN_NATIVE = R.string.applovin_native
-    const val APPLOVIN_REWARDEDAD = R.string.applovin_rewardedad
-
-
 }
 
 enum class AdType(var adsId: Int) {
-
-    //applovin
-    APPLOVIN_INTERSTITIAL(AdConfig.APPLOVIN_INTERSTITIAL),
-    APPLOVIN_BANNER(AdConfig.APPLOVIN_BANNER),
-    APPLOVIN_MREC(AdConfig.APPLOVIN_MREC),
-    APPLOVIN_NATIVE_MEDIUM(AdConfig.APPLOVIN_NATIVE),
-    APPLOVIN_REWARDEDAD(AdConfig.APPLOVIN_REWARDEDAD),
 
     SPLASH_INTERSTITIAL(AdConfig.AD_MOB_SPLASH_INTERSTITIAL),
     HOME_ONBOARDING_INTERSTITIAL(AdConfig.AD_MOB_HOME_ONBOARDING_INTERSTITIAL),
