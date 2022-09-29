@@ -36,9 +36,9 @@
     <string name="connected_devices">Connected devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
-    <string name="tutorial_guild1">1. Make sure your phone and TV (other adaptable devices) connected to the same Wifi and turn off VPN.</string>
-    <string name="tutorial_guild2">2. Enable the “Display” function on your TV. You need to enable it manually on several devices, go to system settings to check.</string>
-    <string name="tutorial_guild3">3.Click the “Mirror” button, enable the wireless display function on your phone, and wait for the device to search TVs</string>
+    <string name="tutorial_guild1">1. Make sure your phone and TV connected to the same Wifi without VPN.</string>
+    <string name="tutorial_guild2">2. Enable the “Display” function on your TV.</string>
+    <string name="tutorial_guild3">3. Select your device to screen mirroring</string>
     <string name="tutorial_guild4">4. If finishing all steps, you can’t still connect two of your devices. Then, please check the connected devices.</string>
     <string name="skip">Skip</string>
     <string name="go">Go</string>
