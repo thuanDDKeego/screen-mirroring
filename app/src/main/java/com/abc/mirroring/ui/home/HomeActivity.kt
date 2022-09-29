@@ -68,10 +68,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
-        if (AppPreferences().isTheFirstTimeUseApp == true) {
-            AppPreferences().isTheFirstTimeUseApp = false
+        appPreferences.countTimeOpenApp = appPreferences.countTimeOpenApp!! + 1
+        if (appPreferences.isTheFirstTimeUseApp == true) {
+            appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
+        } else if (appPreferences.isRated == false && appPreferences.countTimeOpenApp!! % 3 == 0) {
+            showRatingDialog()
         }
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         initViewPager()
