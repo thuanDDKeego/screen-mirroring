@@ -6,10 +6,6 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
-    id 'applovin-quality-service'
-}
-applovin {
-    apiKey "hLyLL5iWI_VscLCL_O9G3I2_wS-VscCJSmWcPheho48s1IBTv7NCOVFMhncXpE6ViGH3sLfWd3BSmKMqfm3p-X"
 }
 
 android {
@@ -156,13 +152,6 @@ dependencies {
 
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
-
-//    AppLovin begin
-    implementation 'com.applovin:applovin-sdk:+'
-    implementation 'com.applovin.mediation:google-adapter:+'
-    implementation 'com.applovin.mediation:ironsource-adapter:+'
-    implementation 'com.applovin.mediation:bytedance-adapter:+'
-//    AppLovin end
 }
 kapt {
     correctErrorTypes true

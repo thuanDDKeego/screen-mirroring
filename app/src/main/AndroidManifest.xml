@@ -98,10 +98,6 @@
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar" />
 
         <service
-            android:name="com.abc.mirroring.service.MirrorService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name="com.abc.mirroring.service.AppService"
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
@@ -122,10 +118,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/ad_app_id" />
-
-<!--        Applovin-->
-        <meta-data android:name="applovin.sdk.key"
-            android:value="3gTJLo8pyzkk8BOtDfGQQdm4voly_Wo2CGMT3UL_S4iaF6RSnitBKdFEP_APVzSiDpFGHbGkfzIw4lMrSE0otG"/>
 
     </application>
 

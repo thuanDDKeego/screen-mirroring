@@ -5,8 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Handler
-import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -16,16 +14,13 @@ import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
-import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.base.BaseActivity
-import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.*
 import com.abc.mirroring.extentions.setTintColor
 import com.abc.mirroring.helper.MY_PERMISSIONS_REQUEST_CAMERA
 import com.abc.mirroring.helper.isDrawOverlaysPermissionGranted
 import com.abc.mirroring.helper.requestOverlaysPermission
-import com.abc.mirroring.helper.toPx
 import com.abc.mirroring.service.CameraPreviewService
 import com.abc.mirroring.service.FloatToolService
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
@@ -36,7 +31,6 @@ import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
-import com.applovin.sdk.AppLovinSdk
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -77,47 +71,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         FirebaseTracking.logHomeShowed()
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             AppPreferences().isTheFirstTimeUseApp = false
-
-            if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
-                admobHelper.loadAdInterstitial(
-                    this@HomeActivity,
-                    AdType.HOME_ONBOARDING_INTERSTITIAL
-                ) {}
-            }
             showTutorialDialog()
         }
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         initViewPager()
-
-        initLoadAd()
         observerConnectingBrowser()
         observerConnectFloatingToolService()
 
         job = scrollToAds()
         //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
-    }
-
-    private fun initLoadAd() {
-        if (AppConfigRemote().isUsingAdmobNative == true) {
-            admobHelper.showNativeAdmob(
-                this,
-                AdType.HOME_NATIVE,
-                binding.admobNativeView.nativeAdView
-            )
-            binding.containerAd.visibility = View.VISIBLE
-        } else {
-            binding.containerAd.removeAllViews()
-            binding.admobNativeView.containerAdmobNative.visibility = View.GONE
-            val params = binding.cardViewAdBanner.layoutParams
-            params.height = 260.toPx
-            binding.cardViewAdBanner.layoutParams = params
-            ApplovinUtils.getInstance()
-                .loadAndShowNativeAd(this, AdType.APPLOVIN_NATIVE_MEDIUM, binding.containerAd)
-        }
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.containerViewPager.visibility = View.GONE
-        }, 4000)
     }
 
     override fun onResume() {
@@ -166,25 +129,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
             showLoadingAdDialog()
-
-            if (AppConfigRemote().isUsingAdmobGoMirrorDevice == true) {
-                admobHelper.showAdInterstitial(
-                    this@HomeActivity,
-                    AdType.GO_MIRROR_DEVICE_INTERSTITIAL
-                ) {
-                    dismissLoadingAdDialog()
-                    DeviceMirrorActivity.gotoActivity(this@HomeActivity)
-                }
-            } else {
-                ApplovinUtils.getInstance()
-                    .loadAndShowInterstitialAd(this, AdType.APPLOVIN_INTERSTITIAL, object :
-                        ApplovinUtils.AdDisplayCallback() {
-                        override fun onDisplayed() {
-                            Timber.d("onDisplayed home")
-                            dismissLoadingAdDialog()
-                            DeviceMirrorActivity.gotoActivity(this@HomeActivity)
-                        }
-                    })
+            admobHelper.showAdInterstitial(
+                this@HomeActivity,
+                AdType.GO_MIRROR_DEVICE_INTERSTITIAL
+            ) {
+                dismissLoadingAdDialog()
+                DeviceMirrorActivity.gotoActivity(this@HomeActivity)
             }
         }
         binding.imgSetting.setOnClickListener {
@@ -260,9 +210,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun initAdmob() {
-        if (AppConfigRemote().isUsingAdmobBrowserMirrorReward == true) {
-            admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
-        }
+        admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
 
         admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
 
@@ -363,65 +311,29 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         FirebaseTracking.logHomeBrowserDialogShowed()
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
-        if (AppConfigRemote().isUsingAdmobBrowserMirrorReward == true) {
-            dialogBrowserBinding.apply {
-                txtStartVideoInTime.text =
-                    getString(R.string.video_starting_in, "5")
-                countDownJob = CoroutineScope(Dispatchers.Main).launch {
-                    for (i in 4 downTo 0) {
-                        delay(1000L)
-                        txtStartVideoInTime.text =
-                            getString(R.string.video_starting_in, i.toString())
-                        if (i == 0) {
-                            goToRewardAds()
-                        }
+        dialogBrowserBinding.apply {
+            txtStartVideoInTime.text =
+                getString(R.string.video_starting_in, "5")
+            countDownJob = CoroutineScope(Dispatchers.Main).launch {
+                for (i in 4 downTo 0) {
+                    delay(1000L)
+                    txtStartVideoInTime.text =
+                        getString(R.string.video_starting_in, i.toString())
+                    if (i == 0) {
+                        goToRewardAds()
                     }
                 }
-                txtClose.setOnClickListener {
-                    dismissBrowserDialog()
-                }
-                cardDialog.setOnClickListener { }
-                constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
-
-                txtStartVideoInTime.setOnClickListener {
-                    countDownJob?.cancel()
-                    goToRewardAds()
-                }
             }
-        } else {
-            dialogBrowserBinding.apply {
-                txtStartVideoInTime.text = getString(R.string.start_stream)
-
-                txtClose.setOnClickListener {
-                    dismissBrowserDialog()
-                }
-                cardDialog.setOnClickListener { }
-                constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
-
-                txtStartVideoInTime.setOnClickListener {
-                    txtStartVideoInTime.setTextColor(
-                        ContextCompat.getColor(
-                            this@HomeActivity,
-                            R.color.txt_disable_gray
-                        )
-                    )
-                    txtStartVideoInTime.setOnClickListener { }
-                    progressBarLoadAds.visibility = View.VISIBLE
-                    ApplovinUtils.getInstance()
-                        .loadAndShowMaxRewardedAd(this@HomeActivity,
-                            AdType.APPLOVIN_REWARDEDAD,
-                            userGetRewarded = {
-                                BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                                dismissBrowserDialog()
-                            },
-                            userNoRewarded = {
-                                dismissBrowserDialog()
-                                showBrowserErrorDialog()
-                            }
-                        )
-                }
+            txtClose.setOnClickListener {
+                dismissBrowserDialog()
             }
+            cardDialog.setOnClickListener { }
+            constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
+            txtStartVideoInTime.setOnClickListener {
+                countDownJob?.cancel()
+                goToRewardAds()
+            }
         }
     }
 
@@ -527,29 +439,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
-                constraintProgressBar.visibility = View.VISIBLE
-                /* dismiss show interstitial ads when using the first time*/
-
-                if (AppConfigRemote().isUsingAdmobHomeOnboarding == true) {
-                    admobHelper.showAdInterstitial(
-                        this@HomeActivity,
-                        AdType.HOME_ONBOARDING_INTERSTITIAL
-                    ) {
-                        dismissTutorialDialog()
-                    }
-                } else {
-                    showLoadingAdDialog()
-                    ApplovinUtils.getInstance()
-                        .loadAndShowInterstitialAd(this@HomeActivity,
-                            AdType.APPLOVIN_INTERSTITIAL,
-                            object :
-                                ApplovinUtils.AdDisplayCallback() {
-                                override fun onDisplayed() {
-                                    dismissLoadingAdDialog()
-                                    dismissTutorialDialog()
-                                }
-                            })
-                }
+                dismissTutorialDialog()
             }
         }
     }
@@ -568,13 +458,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
         dialogExitAppBinding.apply {
 
-            if (AppConfigRemote().isUsingAdmobNative == true) {
-                admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
-            } else {
-                ApplovinUtils.getInstance().loadAndShowMREC(this@HomeActivity,
-                    AdType.APPLOVIN_MREC,
-                    dialogExitAppBinding.containerAd)
-            }
+            admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
+
             btnExitApp.setOnClickListener {
                 super.onBackPressed()
             }

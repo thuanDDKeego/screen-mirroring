@@ -9,9 +9,9 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
@@ -60,17 +60,12 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initAdmob() {
-        if (AppConfigRemote().isUsingAdmobNative == true) {
-            admobHelper.showNativeAdmob(
-                this@DeviceMirrorActivity,
-                AdType.MIRROR_DEVICE_NATIVE,
-                binding.admobNativeView.nativeAdView,
-                true
-            )
-        } else {
-            ApplovinUtils.getInstance()
-                .loadAndShowNativeAd(this, AdType.APPLOVIN_NATIVE_MEDIUM, binding.containerAd)
-        }
+        admobHelper.showNativeAdmob(
+            this@DeviceMirrorActivity,
+            AdType.MIRROR_DEVICE_NATIVE,
+            binding.admobNativeView.nativeAdView,
+            true
+        )
     }
 
     override fun initActions() {

@@ -7,11 +7,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/containerAdmobNative"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        tools:background="@drawable/bg_native_ads_home">
+        android:background="@drawable/bg_native_ads_home">
 
         <com.google.android.gms.ads.nativead.NativeAdView
             android:id="@+id/nativeAdView"

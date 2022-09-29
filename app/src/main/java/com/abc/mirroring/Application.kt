@@ -2,7 +2,6 @@ package com.abc.mirroring
 
 import AdType
 import android.app.Application
-import com.abc.mirroring.ads.ApplovinUtils
 import com.abc.mirroring.config.Preferences
 import com.abc.mirroring.config.ReleaseTree
 import com.abc.mirroring.ui.splash.SplashActivity
@@ -29,9 +28,6 @@ class Application : Application() {
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
         AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
-
-
-        ApplovinUtils.getInstance().initialize(this)
     }
 
     private fun initLogger() {

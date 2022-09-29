@@ -58,32 +58,18 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <FrameLayout
-                        android:id="@+id/containerAd"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <include
-                            android:id="@+id/admobNativeView"
-                            layout="@layout/layout_admob_native_home"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </FrameLayout>
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/containerViewPager"
-                        tools:visibility="gone"
+                        tools:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/viewPagerAdHome"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="180dp"
                             android:background="@drawable/bg_border_radius_15dp"
                             android:backgroundTint="@color/grayA01"
                             app:layout_constraintEnd_toEndOf="parent"

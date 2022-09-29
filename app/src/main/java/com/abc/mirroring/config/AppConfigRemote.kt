@@ -7,10 +7,10 @@ class AppConfigRemote() :
     var isUsingAdsOpenApp by booleanPref(defaultValue = true)
     var timeBetweenTwoAdsOpenAppShow by intPref(defaultValue = 10000)
 
-    var isUsingAdmobGoMirrorDevice by booleanPref(defaultValue = false)
-    var isUsingAdmobHomeOnboarding by booleanPref(defaultValue = false)
-    var isUsingAdmobBackFromTutorial by booleanPref(defaultValue = false)
-    var isUsingAdmobNative by booleanPref(defaultValue = false)
+//    var isUsingAdmobGoMirrorDevice by booleanPref(defaultValue = false)
+//    var isUsingAdmobHomeOnboarding by booleanPref(defaultValue = false)
+//    var isUsingAdmobBackFromTutorial by booleanPref(defaultValue = false)
+//    var isUsingAdmobNative by booleanPref(defaultValue = false)
 
-    var isUsingAdmobBrowserMirrorReward by booleanPref(defaultValue = false)
+//    var isUsingAdmobBrowserMirrorReward by booleanPref(defaultValue = false)
 }
