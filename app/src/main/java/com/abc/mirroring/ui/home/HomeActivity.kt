@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
@@ -48,7 +49,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
-    private var job: Job? = null
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
 
@@ -68,6 +68,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        initAds()
         val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
         appPreferences.countTimeOpenApp = appPreferences.countTimeOpenApp!! + 1
@@ -78,13 +79,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             showRatingDialog()
         }
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
-        initViewPager()
         observerConnectingBrowser()
         observerConnectFloatingToolService()
-
-        job = scrollToAds()
-        //set swift mode with floating tools state
+     //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
+    }
+
+    private fun initAds() {
+        admobHelper.showNativeAdmob(
+            this@HomeActivity,
+            AdType.HOME_NATIVE,
+            binding.admobNativeView.nativeAdView
+        )
     }
 
     override fun onResume() {
@@ -148,17 +154,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             FirebaseTracking.logHomeIconHelpClicked()
             TutorialActivity.gotoActivity(this@HomeActivity)
         }
-        binding.viewPagerAdHome.setOnTouchListener { v, event ->
-            when (event?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    job?.cancel()
-                }
-                MotionEvent.ACTION_UP -> {
-                    job = scrollToAds()
-                }
-            }
-            false
-        }
         binding.switchModeFloatingTool.setOnCheckedChangeListener { _, isChecked ->
             Timber.d("switchMode $isChecked")
             if (isChecked) {
@@ -208,8 +203,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun observerConnectFloatingToolService() {
         isOpenFloatingToolLiveData.observe(this) {
             binding.switchModeFloatingTool.isChecked = it
-            binding.txtStateModeFloatingView.text =
-                getString(if (it) R.string.on_mode else R.string.off_mode)
         }
     }
 
@@ -218,83 +211,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
 
-    }
-
-    private fun setAutoScrollJob(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
-        while (true) {
-            delay(time)
-            var nextStep =
-                if (binding.viewPagerAdHome.currentItem < 2) binding.viewPagerAdHome.currentItem + 1 else 0
-            binding.viewPagerAdHome.setCurrentItem(nextStep, true)
-            updateTabPager(nextStep)
-        }
-    }
-
-    private fun scrollToAds(time: Long = 3000L) = lifecycleScope.launchWhenStarted {
-        delay(time)
-        binding.viewPagerAdHome.setCurrentItem(1, true)
-        updateTabPager(1)
-    }
-
-    private fun initViewPager() {
-        binding.viewPagerAdHome.offscreenPageLimit = 3
-        binding.viewPagerAdHome.adapter = AdBannerAdapter(this, supportFragmentManager)
-        updateTabPager(0)
-        binding.viewPagerAdHome.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int,
-            ) {
-            }
-
-
-            override fun onPageSelected(position: Int) {
-                updateTabPager(position)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-
-        binding.imgStateStepBanner1.setOnClickListener {
-            binding.viewPagerAdHome.currentItem = 0
-            updateTabPager(0)
-        }
-
-        binding.imgStateStepBanner2.setOnClickListener {
-            binding.viewPagerAdHome.currentItem = 1
-            updateTabPager(1)
-        }
-
-        binding.imgStateStepBanner3.setOnClickListener {
-            binding.viewPagerAdHome.currentItem = 2
-            updateTabPager(2)
-        }
-    }
-
-    private fun updateTabPager(position: Int) {
-
-        binding.imgStateStepBanner1.background =
-            ContextCompat.getDrawable(this, R.drawable.ic_state_off_viewpager_home)
-        binding.imgStateStepBanner2.background =
-            ContextCompat.getDrawable(this, R.drawable.ic_state_off_viewpager_home)
-        binding.imgStateStepBanner3.background =
-            ContextCompat.getDrawable(this, R.drawable.ic_state_off_viewpager_home)
-
-        when (position) {
-            0 -> {
-                binding.imgStateStepBanner1.background =
-                    ContextCompat.getDrawable(this, R.drawable.ic_state_on_viewpager_home)
-            }
-            1 -> {
-                binding.imgStateStepBanner2.background =
-                    ContextCompat.getDrawable(this, R.drawable.ic_state_on_viewpager_home)
-            }
-            else -> {
-                binding.imgStateStepBanner3.background =
-                    ContextCompat.getDrawable(this, R.drawable.ic_state_on_viewpager_home)
-            }
-        }
     }
 
     private fun dismissBrowserDialog() {
@@ -569,7 +485,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("destroy home")
-        job?.cancel()
         countDownJob?.cancel()
     }
 }

@@ -4,6 +4,7 @@
     <string name="previous">trước</string>
     <string name="share_your_image_and_video_to_big_screens">Chia sẻ ảnh và Video tới màn hình lớn hơn</string>
     <string name="mirror">Mirror</string>
+    <string name="mirror_to_tv">Mirror to TV</string>
     <string name="wifi_connected">Wifi được kết nối</string>
     <string name="wifi_not_connected">Wifi chưa được kết nối</string>
     <string name="browser_mirror">Trình chiếu Web</string>
@@ -17,6 +18,7 @@
     <string name="stream_fragment_copied">Đã copy</string>
     <string name="tutorial">Hướng dẫn</string>
     <string name="faq">FAQ</string>
+    <string name="connect">Kết nối</string>
     <string name="connected_devices">Các thiết bị kết nối</string>
     <string name="tutorial_guild1">1. Đảm bảo điện thoại và TV ( thiết bị tương thích khác) được kết nối cùng Wifi và tắt VPN.</string>
     <string name="tutorial_guild2">2. Bật chức năng "Hiển thị" trên TV của bạn. Bạn cần kích hoạt nó theo cách thủ công trên một số thiết bị, hãy vào phần cài đặt hệ thống để kiểm tra.</string>
@@ -98,6 +100,7 @@
     <string name="description">Mô tả</string>
     <string name="send">Gửi</string>
     <string name="description_your_issue_here_with_image_and_video">Mô tả vấn đề của bạn ở đây kèm theo ảnh và video</string>
+    <string name="floating_tool_des">Bật để mở thêm nhiều tính năng</string>
     <string name="help_us_improve_product">Giúp chúng tôi cải tiến sản phẩm</string>
     <string name="share_mirror_to_everyone">Chia sẻ Mirror cho mọi người</string>
     <string name="loading_ad">Đang tải AD</string>

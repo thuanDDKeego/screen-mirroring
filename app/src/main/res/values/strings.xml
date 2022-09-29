@@ -14,6 +14,7 @@
 
 
     <string name="mirror">Mirror</string>
+    <string name="mirror_to_tv">Mirror to TV</string>
     <string name="wifi_connected">Wifi connected</string>
     <string name="wifi_not_connected">Wifi not connected</string>
     <string name="browser_mirror">Browser Mirror</string>
@@ -31,6 +32,7 @@
     //tutorial screen
     <string name="tutorial">Tutorial</string>
     <string name="faq">FAQ</string>
+    <string name="connect">Connect</string>
     <string name="connected_devices">Connected devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
@@ -171,8 +173,9 @@ You may check VPN, the same Wifi, and the distance. You even deal with the probl
     <string name="description">Description</string>
     <string name="send">Send</string>
     <string name="description_your_issue_here_with_image_and_video">Description your issue here with image and video</string>
-    <string name="browser_mirror_home">Browser\nmirror</string>
-    <string name="floating_ntool">Floating\ntool</string>
+    <string name="browser_mirror_home">Mirror to\nBrowser</string>
+    <string name="floating_ntool">Floating\ntools</string>
+    <string name="floating_tool_des">turn on to open more features</string>
     <string name="help_us_improve_product">Help us improve product</string>
     <string name="share_mirror_to_everyone">Share Mirror to everyone</string>
 

@@ -5,6 +5,10 @@
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">@dimen/text_small</item>
     </style>
+    <style name="SmallBoldText">
+        <item name="android:fontFamily">@font/inter_semi_bold</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
 
     <style name="ContentText">
         <item name="android:fontFamily">@font/inter_regular</item>
