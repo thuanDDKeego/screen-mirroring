@@ -148,7 +148,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             startActivity(SelectLanguageActivity.newIntent(this))
         }
         binding.llFeedback.setOnClickListener {
-            FeedbackActivity.newIntent(this)
+            FeedbackActivity.start(this)
         }
         binding.llInviteFriendItem.setOnClickListener {
             val sendIntent: Intent = Intent().apply {

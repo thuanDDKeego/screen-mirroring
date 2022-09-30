@@ -210,7 +210,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         dialogRatingBinding.btnRate.setOnClickListener {
             AppPreferences().isRated = true
             if (rating <= 3) {
-                FeedbackActivity.newIntent(this, rating)
+                FeedbackActivity.start(this, rating)
             } else {
                 openAppInStore()
             }

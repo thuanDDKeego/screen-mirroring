@@ -16,7 +16,7 @@ class FeedbackActivity : BaseActivity<ActivityFeedBackBinding>() {
     companion object {
         private const val RATING_KEY = "rating"
 
-        fun newIntent(activity: Activity, rating: Int? = null) {
+        fun start(activity: Activity, rating: Int? = null) {
             val intent = Intent(activity, FeedbackActivity::class.java)
             intent.putExtra(RATING_KEY, rating)
             activity.startActivity(intent)
