@@ -57,6 +57,7 @@
                 android:minHeight="250dp"
                 android:paddingStart="@dimen/margin_8dp"
                 android:paddingEnd="@dimen/margin_8dp"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <include

@@ -61,6 +61,7 @@
                 android:layout_marginTop="@dimen/margin_4dp"
                 android:backgroundTint="@color/grayA01"
                 app:cardCornerRadius="@dimen/margin_10dp"
+                android:visibility="gone"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.ActivityTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -129,12 +130,16 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
-            showLoadingAdDialog()
-            admobHelper.showAdInterstitial(
-                this@TutorialActivity,
-                AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
-            ) {
-                dismissLoadingAdDialog()
+            if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true) {
+                showLoadingAdDialog()
+                admobHelper.showAdInterstitial(
+                    this@TutorialActivity,
+                    AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
+                ) {
+                    dismissLoadingAdDialog()
+                    super.onBackPressed()
+                }
+            } else {
                 super.onBackPressed()
             }
         }
