@@ -4,6 +4,7 @@
     <string name="previous">trước</string>
     <string name="share_your_image_and_video_to_big_screens">Chia sẻ ảnh và Video tới màn hình lớn hơn</string>
     <string name="mirror">Mirror</string>
+    <string name="mirror_to_tv">Mirror to TV</string>
     <string name="wifi_connected">Wifi được kết nối</string>
     <string name="wifi_not_connected">Wifi chưa được kết nối</string>
     <string name="browser_mirror">Trình chiếu Web</string>
@@ -17,6 +18,7 @@
     <string name="stream_fragment_copied">Đã copy</string>
     <string name="tutorial">Hướng dẫn</string>
     <string name="faq">FAQ</string>
+    <string name="connect">Kết nối</string>
     <string name="connected_devices">Các thiết bị kết nối</string>
     <string name="tutorial_guild1">1. Đảm bảo điện thoại và TV ( thiết bị tương thích khác) được kết nối cùng Wifi và tắt VPN.</string>
     <string name="tutorial_guild2">2. Bật chức năng "Hiển thị" trên TV của bạn. Bạn cần kích hoạt nó theo cách thủ công trên một số thiết bị, hãy vào phần cài đặt hệ thống để kiểm tra.</string>
@@ -57,6 +59,8 @@
     "
     <string name="faq_item_title5">Có phải thông tin và dữ liệu trên điện thoại của tôi hoàn toàn được đảm bảo?</string>
     <string name="faq_item_description5">Chúng tôi luôn đảm bảo thông tin của bạn trên điện thoại thông minh và các thiết bị được kết nối là hoàn toàn bí mật. Vì thế bạn có chiếu lên TV mà không cần phải lo lắng về dữ liệu của mình.</string>
+    <string name="faq_item_title6">Kết nối có thể bị ngắt quãng trong một khoảng thời gian</string>
+    <string name="faq_item_description6">Nếu bạn bật chế độ tiết kiệm pin hoặc chế độ tìm kiếm wifi thông minh trên điện thoại, kết nối có thể bị ngắt quãng.</string>
     <string name="security_your_screen_mirroring">Mã pin sẽ bảo mật đường truyền của bạn. Bạn có thể tắt chức năng này trong phần <b>Cài đặt</b> để vô hiệu hóa mã Pin.</string>
     <string name="save">Lưu</string>
     <string name="enter_a_new_pin_code">Nhập mã Pin mới</string>
@@ -98,6 +102,7 @@
     <string name="description">Mô tả</string>
     <string name="send">Gửi</string>
     <string name="description_your_issue_here_with_image_and_video">Mô tả vấn đề của bạn ở đây kèm theo ảnh và video</string>
+    <string name="floating_tool_des">Bật để mở thêm nhiều tính năng</string>
     <string name="help_us_improve_product">Giúp chúng tôi cải tiến sản phẩm</string>
     <string name="share_mirror_to_everyone">Chia sẻ Mirror cho mọi người</string>
     <string name="loading_ad">Đang tải AD</string>

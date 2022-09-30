@@ -26,7 +26,7 @@ class TutorialViewModel @Inject constructor() : ViewModel() {
                     R.string.faq_item_description1
                 )
             ),
-            FAQItem("",""),
+            FAQItem("", ""),
             FAQItem(
                 context.getString(R.string.faq_item_title2),
                 context.getString(R.string.faq_item_description2)
@@ -42,6 +42,10 @@ class TutorialViewModel @Inject constructor() : ViewModel() {
             FAQItem(
                 context.getString(R.string.faq_item_title5),
                 context.getString(R.string.faq_item_description5)
+            ),
+            FAQItem(
+                context.getString(R.string.faq_item_title6),
+                context.getString(R.string.faq_item_description6)
             )
         )
     }

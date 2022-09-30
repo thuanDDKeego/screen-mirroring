@@ -8,4 +8,6 @@ class AppPreferences : Preferences(name = "app_preferences") {
     var pinCode by stringPref(defaultValue = "0000")
     var isTurnOnPinCode by booleanPref(defaultValue = false)
     var languageSelected by stringPref(defaultValue = Locale.getDefault().language.toString())
+    var isRated  by booleanPref(defaultValue = false)
+    var countTimeOpenApp by intPref(defaultValue = 0)
 }

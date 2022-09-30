@@ -9,11 +9,10 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
-import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
@@ -57,6 +56,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         val connectivityManager =
             getSystemService(ConnectivityManager::class.java) as ConnectivityManager
         connectivityManager.requestNetwork(networkRequest, networkCallback)
+        AppOpenManager.instance?.enableAddWithActivity(DeviceMirrorActivity::class.java)
     }
 
     override fun initAdmob() {
@@ -71,6 +71,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     override fun initActions() {
         binding.apply {
             btnSelectDevice.setOnClickListener {
+                AppOpenManager.instance?.disableAddWithActivity(DeviceMirrorActivity::class.java)
                 selectDeviceMirror()
             }
             btnGoToWifiSetting.setOnClickListener {

@@ -19,6 +19,7 @@ import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
+import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -136,6 +137,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected fun showRatingDialog(autoShow: Boolean = true) {
         if (mRateDialogShowing) return
         mRateDialogShowing = true
+        var rating = 5
         val view = findViewById<View>(android.R.id.content) as ViewGroup
         dialogRatingBinding =
             LayoutRateDialogBinding.inflate(layoutInflater, view, true)
@@ -149,14 +151,15 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             delay(150)
             dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
         }
-        dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+        dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
+            rating = _rating.toInt()
             resetDialogView()
             dialogRatingBinding.btnClose.visibility = View.GONE
             dialogRatingBinding.btnRate.visibility = View.VISIBLE
             dialogRatingBinding.txtDescription.visibility = View.VISIBLE
             dialogRatingBinding.animationEmojis.visibility = View.VISIBLE
             dialogRatingBinding.imgStar.visibility = View.INVISIBLE
-            when (rating.toInt()) {
+            when (rating) {
                 0, 1, 2 -> {
                     dialogRatingBinding.layoutRateDialogTitle.text =
                         this@BaseActivity.resources.getString(R.string.oh_no)
@@ -205,7 +208,12 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
         dialogRatingBinding.txtRemindALater.setOnClickListener { dismissRatingDialog() }
         dialogRatingBinding.btnRate.setOnClickListener {
-            openAppInStore()
+            AppPreferences().isRated = true
+            if (rating <= 3) {
+                FeedbackActivity.start(this, rating)
+            } else {
+                openAppInStore()
+            }
             dismissRatingDialog()
             if (autoShow)
                 finishAfterTransition()
