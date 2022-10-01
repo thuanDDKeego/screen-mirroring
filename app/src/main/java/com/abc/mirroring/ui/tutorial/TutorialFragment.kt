@@ -1,6 +1,7 @@
 package com.abc.mirroring.ui.tutorial
 
 import  AdType
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseFragment
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.databinding.FragmentTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialGuideAdapter
 import com.abc.mirroring.utils.FirebaseTracking
@@ -74,12 +76,17 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-        admobHelper.showNativeAdmob(
-            requireActivity(),
-            AdType.TUTORIAL_NATIVE,
-            binding.nativeAdView.nativeAdView,
-            true
-        )
+        if(AppConfigRemote().turnOnBottomTutorialNative == true) {
+            binding.containerAd.visibility = View.VISIBLE
+            admobHelper.showNativeAdmob(
+                requireActivity(),
+                AdType.TUTORIAL_NATIVE,
+                binding.nativeAdView.nativeAdView,
+                true
+            )
+        } else {
+            binding.containerAd.visibility = View.GONE
+        }
     }
 
     override fun initActions() {

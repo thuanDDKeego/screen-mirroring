@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.opengl.Visibility
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -16,6 +17,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.*
 import com.abc.mirroring.extentions.setTintColor
@@ -86,11 +88,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        admobHelper.showNativeAdmob(
-            this@HomeActivity,
-            AdType.HOME_NATIVE,
-            binding.admobNativeView.nativeAdView
-        )
+        if (AppConfigRemote().turnOnHomeTopNative == true) {
+            binding.cardViewAdBanner.visibility = View.VISIBLE
+            admobHelper.showNativeAdmob(
+                this@HomeActivity,
+                AdType.HOME_NATIVE,
+                binding.admobNativeView.nativeAdView
+            )
+        }
     }
 
     override fun onResume() {
@@ -129,7 +134,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-            if (isStreamingBrowser.value == true) {
+            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
@@ -138,12 +143,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
-            showLoadingAdDialog()
-            admobHelper.showAdInterstitial(
-                this@HomeActivity,
-                AdType.GO_MIRROR_DEVICE_INTERSTITIAL
-            ) {
-                dismissLoadingAdDialog()
+            if(AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true) {
+                showLoadingAdDialog()
+                admobHelper.showAdInterstitial(
+                    this@HomeActivity,
+                    AdType.GO_MIRROR_DEVICE_INTERSTITIAL
+                ) {
+                    dismissLoadingAdDialog()
+                    DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+                }
+            } else {
                 DeviceMirrorActivity.gotoActivity(this@HomeActivity)
             }
         }
@@ -204,13 +213,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         isOpenFloatingToolLiveData.observe(this) {
             binding.switchModeFloatingTool.isChecked = it
         }
-    }
-
-    override fun initAdmob() {
-        admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
-
-        admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
-
     }
 
     private fun dismissBrowserDialog() {

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 
 import com.abc.mirroring.data.model.FAQItem
 import com.abc.mirroring.databinding.LayoutAdContainerBinding
@@ -17,15 +19,13 @@ import com.abc.mirroring.databinding.LayoutItemFaqBinding
 class FAQItemAdapter(
     private val context: AppCompatActivity,
     private val listFAQItem: ArrayList<FAQItem>,
+    private val hasAds: Boolean = true
 ) :
     RecyclerView.Adapter<FAQItemAdapter.BaseViewHolder>() {
 
     lateinit var admobHelper: AdmobHelper
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            1 -> 1
-            else -> 0
-        }
+        return if (position == 1 && hasAds) 1 else 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -39,7 +39,7 @@ class FAQItemAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         with(holder) {
-            if (position != 1) {
+            if (position != 1 || !hasAds) {
                 with(listFAQItem[position]) {
                     var expanded = false
                     itemBinding as LayoutItemFaqBinding

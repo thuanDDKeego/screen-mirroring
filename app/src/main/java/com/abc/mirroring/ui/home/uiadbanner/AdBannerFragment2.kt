@@ -24,12 +24,4 @@ class AdBannerFragment2 : BaseFragment<FragmentAdBanner2Binding>() {
 
     override fun initActions() {
     }
-
-    override fun showAds() {
-        admobHelper.showNativeAdmob(
-            requireContext(),
-            AdType.HOME_NATIVE,
-            binding.admobNativeView.nativeAdView
-        )
-    }
 }
