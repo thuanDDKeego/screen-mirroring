@@ -75,6 +75,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name="com.abc.mirroring.ui.browsermirror.TempActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.abc.mirroring.ui.policy.PolicyActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
