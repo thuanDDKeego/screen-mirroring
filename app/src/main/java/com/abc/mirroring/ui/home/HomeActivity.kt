@@ -215,13 +215,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-    override fun initAdmob() {
-//        admobHelper.loadRewardedAds(this, AdType.BROWSER_MIRROR_REWARD) {}
-//
-//        admobHelper.loadAdInterstitial(this, AdType.GO_MIRROR_DEVICE_INTERSTITIAL) {}
-
-    }
-
     private fun dismissBrowserDialog() {
         if (browserDialogShowing) {
             binding.root.removeViewAt(binding.root.childCount - 1)

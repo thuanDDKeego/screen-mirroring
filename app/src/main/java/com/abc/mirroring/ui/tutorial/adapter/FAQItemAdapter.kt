@@ -19,12 +19,13 @@ import com.abc.mirroring.databinding.LayoutItemFaqBinding
 class FAQItemAdapter(
     private val context: AppCompatActivity,
     private val listFAQItem: ArrayList<FAQItem>,
+    private val hasAds: Boolean = true
 ) :
     RecyclerView.Adapter<FAQItemAdapter.BaseViewHolder>() {
 
     lateinit var admobHelper: AdmobHelper
     override fun getItemViewType(position: Int): Int {
-        return if (position == 1 && AppConfigRemote().turnOnInlineFAQNative == true) 1 else 0
+        return if (position == 1 && hasAds) 1 else 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -38,8 +39,7 @@ class FAQItemAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         with(holder) {
-            var a = AppConfigRemote().turnOnInlineFAQNative
-            if (position != 1 || AppConfigRemote().turnOnInlineFAQNative == false) {
+            if (position != 1 || !hasAds) {
                 with(listFAQItem[position]) {
                     var expanded = false
                     itemBinding as LayoutItemFaqBinding

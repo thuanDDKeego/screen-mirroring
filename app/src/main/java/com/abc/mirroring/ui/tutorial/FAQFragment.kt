@@ -1,6 +1,5 @@
 package com.abc.mirroring.ui.tutorial
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,7 @@ import com.abc.mirroring.databinding.FragmentFAQBinding
 import com.abc.mirroring.ui.tutorial.adapter.FAQItemAdapter
 import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,12 +29,13 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
     override fun initViews() {
         FirebaseTracking.logHelpFAQShowed()
         val faqItems = viewModel.getFAQItem(requireActivity())
-        if(AppConfigRemote().turnOnInlineFAQNative == false) {
+        val hasAds = AppConfigRemote().turnOnInlineFAQNative == true
+        if (!hasAds) {
             faqItems.removeAt(1)
         }
-        adapter = FAQItemAdapter(requireActivity() as AppCompatActivity, faqItems)
+        adapter = FAQItemAdapter(requireActivity() as AppCompatActivity, faqItems, hasAds)
         adapter.admobHelper = admobHelper
-        Log.i("binding FAQ", binding.toString())
+        Timber.tag("binding FAQ").i(binding.toString())
         binding.recyclerViewFAQ.adapter = adapter
     }
 
