@@ -142,16 +142,17 @@
                     app:layout_constraintStart_toEndOf="@id/imgWifiState"
                     app:layout_constraintTop_toBottomOf="@id/txtMirror" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/margin_32dp"
                     android:text="@string/connect"
                     style="@style/SmallBoldText"
+                    android:gravity="center"
                     android:background="@drawable/bg_button_gradient_radius_15dp"
                     android:backgroundTint="@color/white"
                     android:textColor="@color/blueA01"
                     android:textAllCaps="false"
-                    android:paddingHorizontal="@dimen/margin_24dp"
+                    android:paddingHorizontal="@dimen/margin_32dp"
                     app:layout_constraintTop_toBottomOf="@id/imgWifiState"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/imgWifiState"
