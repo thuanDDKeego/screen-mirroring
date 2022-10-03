@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.abc.mirroring.R
+import com.abc.mirroring.config.AppConfigRemote
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -18,7 +19,9 @@ import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import kotlinx.coroutines.*
 import timber.log.Timber
+import kotlin.coroutines.coroutineContext
 
 class AdmobHelper {
 
@@ -34,7 +37,7 @@ class AdmobHelper {
     }
 
     fun loadAdBanner(
-      mAdView: AdView,
+        mAdView: AdView,
     ) {
         mAdView.loadAd(adRequest)
         mAdView.adListener = object : AdListener() {
@@ -54,12 +57,23 @@ class AdmobHelper {
 
 
     fun loadAdInterstitial(
-      context: Context,
-      type: AdType,
-      callback: (mInterstitialAd: InterstitialAd?) -> Unit,
+        context: Context,
+        type: AdType,
+        callback: (mInterstitialAd: InterstitialAd?) -> Unit,
     ) {
-        if (adsInterstitial[type] != null) {
+        var showAds = true
+        var job: Job? = null
+        val timeout = AppConfigRemote().adsTimeout ?: 0
+        if (timeout != 0) {
+            job = CoroutineScope(Dispatchers.Main).launch {
+                delay(timeout.toLong())
+                showAds = false
+                callback(null)
+            }
+        }
+        if (adsInterstitial[type] != null && showAds) {
             callback(adsInterstitial[type])
+            job?.cancel()
             return
         }
         InterstitialAd.load(context, context.getString(type.adsId), adRequest,
@@ -68,22 +82,29 @@ class AdmobHelper {
                     Timber.d("====onLoaded $mInterstitialAd")
                     super.onAdLoaded(mInterstitialAd)
                     adsInterstitial[type] = mInterstitialAd
-                    callback(mInterstitialAd)
+                    if (showAds) {
+                        callback(adsInterstitial[type])
+                        adsInterstitial[type] = null
+                        job?.cancel()
+                    }
                 }
 
                 override fun onAdFailedToLoad(mInterstitialAd: LoadAdError) {
                     Timber.d("====onLoad failed${mInterstitialAd}")
                     super.onAdFailedToLoad(mInterstitialAd)
                     adsInterstitial[type] = null
-                    callback(null)
+                    if (showAds) {
+                        callback( adsInterstitial[type])
+                        job?.cancel()
+                    }
                 }
             })
     }
 
     fun showAdInterstitial(
-      context: Context,
-      type: AdType,
-      callback: () -> Unit,
+        context: Context,
+        type: AdType,
+        callback: () -> Unit,
     ) {
         if (AdConfig.TURN_OFF_ADS) {
             callback()
@@ -125,10 +146,10 @@ class AdmobHelper {
     }
 
     private fun populateUnifiedNativeAdView(
-      context: Context,
-      nativeAd: NativeAd,
-      adView: NativeAdView,
-      haveIcon: Boolean = false,
+        context: Context,
+        nativeAd: NativeAd,
+        adView: NativeAdView,
+        haveIcon: Boolean = false,
     ) {
         Timber.d("nativeAd $nativeAd")
         adView.mediaView = adView.findViewById(R.id.ad_media)
@@ -195,10 +216,10 @@ class AdmobHelper {
     }
 
     fun showNativeAdmob(
-      context: Context,
-      adType: AdType,
-      adView: NativeAdView,
-      haveIcon: Boolean = false,
+        context: Context,
+        adType: AdType,
+        adView: NativeAdView,
+        haveIcon: Boolean = false,
     ) {
         val builder = AdLoader.Builder(context, context.getString(adType.adsId))
         builder.forNativeAd {
@@ -220,11 +241,22 @@ class AdmobHelper {
     }
 
     fun loadRewardedAds(
-      context: Context,
-      type: AdType, callback: (mRewardedAd: RewardedAd?) -> Unit,
+        context: Context,
+        type: AdType, callback: (mRewardedAd: RewardedAd?) -> Unit,
     ) {
-        if (adsRewarded[type] != null) {
+        var showAds = true
+        var job: Job? = null
+        val timeout = AppConfigRemote().adsTimeout ?: 0
+        if (timeout != 0) {
+            job = CoroutineScope(Dispatchers.Main).launch {
+                delay(timeout.toLong())
+                showAds = false
+                callback(null)
+            }
+        }
+        if (adsRewarded[type] != null && showAds) {
             callback.invoke(adsRewarded[type])
+            job?.cancel()
             return
         }
         RewardedAd.load(
@@ -234,12 +266,18 @@ class AdmobHelper {
             object : RewardedAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     adsRewarded[type] = null
-                    callback(null)
+                    if (showAds) {
+                        callback(null)
+                        job?.cancel()
+                    }
                 }
 
                 override fun onAdLoaded(rewardedAd: RewardedAd) {
                     adsRewarded[type] = rewardedAd
-                    callback(adsRewarded[type])
+                    if (showAds) {
+                        callback(adsRewarded[type])
+                        job?.cancel()
+                    }
                 }
             })
     }
@@ -250,12 +288,11 @@ class AdmobHelper {
         } else {
 //            if (adsRewarded[type] != null) {
             var isSuccess = false
-            val fullScreenContentCallback = object : FullScreenContentCallback() {
+            val fullScreenCall = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
                     callback(isSuccess)
                     adsRewarded[type] = null
-                    loadRewardedAds(context, type) {}
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
@@ -269,8 +306,14 @@ class AdmobHelper {
                 isSuccess = true
             }
             loadRewardedAds(context, AdType.BROWSER_MIRROR_REWARD) {
-                adsRewarded[type]?.fullScreenContentCallback = fullScreenContentCallback
-                adsRewarded[type]?.show(context as Activity, onUserEarnedRewardListener)
+                if (it != null) {
+                    it.apply {
+                        fullScreenContentCallback = fullScreenCall
+                        show(context as Activity, onUserEarnedRewardListener)
+                    }
+                } else {
+                    callback(false)
+                }
             }
         }
 //        else {

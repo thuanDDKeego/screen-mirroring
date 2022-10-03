@@ -16,4 +16,7 @@ class AppConfigRemote() :
     var turnOnInlineFAQNative by booleanPref(defaultValue = true)
     var turnOnTopDevicesNative by booleanPref(defaultValue = true)
     var turnOnBackFromTutorialInterstitial by booleanPref(defaultValue = true)
+
+    //ad timeout
+    var adsTimeout by intPref(defaultValue = 0)
 }

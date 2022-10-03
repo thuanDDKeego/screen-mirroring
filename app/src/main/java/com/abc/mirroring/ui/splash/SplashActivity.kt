@@ -31,6 +31,8 @@ class SplashActivity : AppCompatActivity() {
     lateinit var admobHelper: AdmobHelper
     private lateinit var binding: ActivitySplashBinding
     private val TIME_DISPLAY_ONBOARD = 3000L
+    private var jobTimeOutOpenApp: Job? = null
+    private var showOpenAds = true
 
     //    private var jobTimeOut: Job? = null
     private var jobLoadAd: Job? = null
@@ -56,20 +58,25 @@ class SplashActivity : AppCompatActivity() {
         setupSplashView()
         FirebaseTracking.logSplashShowed()
         if (appConfigRemote.isUsingAdsOpenApp == true) {
-//            jobTimeOut = CoroutineScope(Dispatchers.Main).launch {
-//                delay(SPLASH_TIME_OUT)
-//                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-//                finish()  /*set timeout for splash*/
-//            }
+            jobTimeOutOpenApp = CoroutineScope(Dispatchers.Main).launch {
+                delay(appConfigRemote.adsTimeout!!.toLong())
+                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                showOpenAds = false
+                finish()  /*set timeout for splash*/
+            }
             jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
                 AppOpenManager.instance?.fetchAd {
                     val timeFromStart = System.currentTimeMillis() - startTime
                     CoroutineScope(Dispatchers.Main).launch {
+                        jobTimeOutOpenApp?.cancel()
                         if (timeFromStart < 1600) {
                             delay(1600L - timeFromStart)
                         }
-                        AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
-//                            jobTimeOut?.cancel()
+                        if (showOpenAds) {
+                            AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
+                                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                                finish()
+                            }
                         }
                     }
                 }
