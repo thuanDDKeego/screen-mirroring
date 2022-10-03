@@ -58,7 +58,7 @@
 
     //dialog
     <string name="open_wifi_setting">Open wifi setting</string>
-    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free, or upgrade the life-time pack.</string>
+    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free or upgrade to open life time.</string>
     <string name="close">Close</string>
     <string name="upgrade">Upgrade</string>
 
