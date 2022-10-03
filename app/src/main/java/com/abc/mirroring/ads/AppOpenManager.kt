@@ -141,7 +141,7 @@ class AppOpenManager : ActivityLifecycleCallbacks,
     )
   }
 
-  fun showAdAtSplash(activity: Activity, callback: (() -> Unit)?) {
+  fun showAdAtSplash(activity: Activity, callback: (() -> Unit)) {
     val fullScreenContentCallback: FullScreenContentCallback =
         object : FullScreenContentCallback() {
           override fun onAdDismissedFullScreenContent() {
@@ -149,13 +149,11 @@ class AppOpenManager : ActivityLifecycleCallbacks,
             appOpenAd = null
             isShowingAd = false
             fetchAd()
-            activity.startActivity(Intent(activity, HomeActivity::class.java))
-            activity.finish()
+            callback.invoke()
           }
 
           override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-            activity.startActivity(Intent(activity, HomeActivity::class.java))
-            activity.finish()
+            callback.invoke()
           }
 
           override fun onAdShowedFullScreenContent() {
@@ -163,15 +161,13 @@ class AppOpenManager : ActivityLifecycleCallbacks,
           }
         }
     if (!isShowingAd && isAdAvailable) {
-      callback?.invoke()
       appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
       if (currentActivity != null) {
         AppPreferences().lastTimeAdOpenApp = System.currentTimeMillis()
         appOpenAd?.show(currentActivity!!)
       }
     } else {
-      activity.startActivity(Intent(activity, HomeActivity::class.java))
-      activity.finish()
+      callback.invoke()
     }
   }
 

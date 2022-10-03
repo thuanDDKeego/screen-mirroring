@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.helper.NotificationHelper
 import com.abc.mirroring.service.helper.IntentAction
-import com.abc.mirroring.ui.browsermirror.TempActivity
+import com.abc.mirroring.ui.browsermirror.CloseAppActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
 import info.dvkr.screenstream.data.model.AppError
@@ -183,7 +183,7 @@ class AppService : Service() {
         notificationHelper.hideErrorNotification()
         stopForeground(true)
 //        sendMessageToActivities(ServiceMessage.FinishActivity)
-        TempActivity.start(this@AppService)
+        CloseAppActivity.start(this@AppService)
         HomeActivity.isStreamingBrowser.value = false
         this@AppService.stopSelf()
 

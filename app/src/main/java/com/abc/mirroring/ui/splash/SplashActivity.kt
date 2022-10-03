@@ -68,12 +68,14 @@ class SplashActivity : AppCompatActivity() {
                 AppOpenManager.instance?.fetchAd {
                     val timeFromStart = System.currentTimeMillis() - startTime
                     CoroutineScope(Dispatchers.Main).launch {
+                        jobTimeOutOpenApp?.cancel()
                         if (timeFromStart < 1600) {
                             delay(1600L - timeFromStart)
                         }
                         if (showOpenAds) {
                             AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
-                                jobTimeOutOpenApp?.cancel()
+                                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                                finish()
                             }
                         }
                     }

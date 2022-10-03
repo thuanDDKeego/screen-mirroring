@@ -6,10 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import kotlin.system.exitProcess
 
-class TempActivity: Activity() {
+class CloseAppActivity: Activity() {
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, TempActivity::class.java)
+            val intent = Intent(context, CloseAppActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
