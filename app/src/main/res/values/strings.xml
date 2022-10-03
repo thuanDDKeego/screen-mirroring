@@ -91,7 +91,7 @@
 
      <string name="faq_item_title6">The connection can be interrupted for a while</string>
      <string name="faq_item_description6">If you turn on the battery-saving or the smart wifi-researching mode on your smartphone, the connection may be interrupted.
-\nĐảm bảo rằng các thiết bị của bạn được kết nối cùng wifi. </string>
+\nPlease make sure you devices are connecting to the same Wifi. </string>
     <string name="security_your_screen_mirroring">The pin code will secure your transmission. You can turn it off on the <![CDATA[<b><font color=#00A3FF>Setting</font></b>]]> to disable the pin code.</string>
     <string name="save">Save</string>
     <string name="enter_a_new_pin_code">Enter a new pin code</string>
