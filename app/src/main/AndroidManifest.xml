@@ -16,14 +16,10 @@
     <uses-permission android:name="Settings.ACTION_MANAGE_OVERLAY_PERMISSION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-
-    <uses-permission android:name="com.android.vending.BILLING" />
-
-    <!-- Declare features -->
+    <uses-permission android:name="com.android.vending.BILLING" /> <!-- Declare features -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
 
     <application
         android:name="com.abc.mirroring.Application"
@@ -36,6 +32,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.premium.PremiumActivity"
+            android:screenOrientation="portrait"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -76,12 +80,10 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name="com.abc.mirroring.ui.browsermirror.CloseAppActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.abc.mirroring.ui.policy.PolicyActivity"
             android:exported="false"
@@ -91,7 +93,6 @@
             android:name="com.abc.mirroring.service.FloatToolService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name="com.abc.mirroring.service.CameraPreviewService"
             android:enabled="true"
@@ -110,7 +111,6 @@
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
-
         <service
             android:name="com.abc.mirroring.service.FirebaseMessageReceiver"
             android:exported="true">
@@ -118,7 +118,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.abc.mirroring.service.NotificationService"
             android:enabled="true" />
@@ -126,7 +125,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/ad_app_id" />
-
     </application>
 
 </manifest>

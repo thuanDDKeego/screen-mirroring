@@ -34,6 +34,7 @@ import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -188,6 +189,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             } else {
                 FloatToolService.stop(this@HomeActivity)
             }
+        }
+        binding.imgPremium.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
         }
     }
 

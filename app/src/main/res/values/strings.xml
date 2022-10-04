@@ -1,4 +1,4 @@
- <resources>
+<resources>
     <string name="app_name">Screen Mirroring</string>
 
     <string name="action_settings">Settings</string>
@@ -88,8 +88,8 @@
     <string name="faq_item_title5">Is my personal information or mobile data completely secured?</string>
     <string name="faq_item_description5">- We always ensure your information on your smartphone and connected devices are confidential. Thus, you can mirror to TV without worry.</string>
 
-     <string name="faq_item_title6">The connection can be interrupted for a while</string>
-     <string name="faq_item_description6">If you turn on the battery-saving or the smart wifi-researching mode on your smartphone, the connection may be interrupted.
+    <string name="faq_item_title6">The connection can be interrupted for a while</string>
+    <string name="faq_item_description6">If you turn on the battery-saving or the smart wifi-researching mode on your smartphone, the connection may be interrupted.
 \nPlease make sure you devices are connecting to the same Wifi. </string>
     <string name="security_your_screen_mirroring">The pin code will secure your transmission. You can turn it off on the <![CDATA[<b><font color=#00A3FF>Setting</font></b>]]> to disable the pin code.</string>
     <string name="save">Save</string>
@@ -128,13 +128,13 @@
     <string name="connecting">Connecting</string>
 
     <!--    ads-->
-     <string name="applovin_interstitial" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_rewardedad" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_banner" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
+    <string name="applovin_interstitial" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_rewardedad" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_banner" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
 
-     <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 
     <string name="ad_interstitial_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_interstitial_mirror_deivce" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
