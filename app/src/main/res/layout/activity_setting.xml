@@ -408,12 +408,12 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/txtVersioncode"
                         style="@style/regularText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:maxLines="1"
-                        android:text="@string/app_ver"
                         android:textColor="@color/txt_gray01" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>

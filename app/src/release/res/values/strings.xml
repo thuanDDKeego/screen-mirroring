@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_ver" translatable="false">V1.0.0</string>
-
     <!--    ads-->
     <string name="ad_app_id">ca-app-pub-6969842628973791~3712503700</string>
 

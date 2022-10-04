@@ -61,6 +61,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
+        binding.txtVersioncode.text = BuildConfig.VERSION_CODE.toString()
     }
 
     override fun initActions() {

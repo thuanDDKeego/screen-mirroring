@@ -8,6 +8,9 @@ import android.content.pm.PackageManager
 import android.opengl.Visibility
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -83,8 +86,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
-     //set swift mode with floating tools state
+        //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
+        initAnim()
+    }
+
+    private fun initAnim() {
+        val animFade = AnimationUtils.loadAnimation(
+            applicationContext,
+            R.anim.alpha_scale
+        )
+        binding.imgBtnConnect.startAnimation(animFade)
     }
 
     private fun initAds() {
@@ -143,7 +155,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
-            if(AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true) {
+            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
                     this@HomeActivity,
