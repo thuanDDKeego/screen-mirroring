@@ -27,7 +27,7 @@ import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
-import com.abc.mirroring.ui.premium.PurchaseActivity2
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -184,7 +184,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PurchaseActivity2::class.java))
+            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
         }
     }
 
