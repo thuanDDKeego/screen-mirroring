@@ -5,16 +5,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.opengl.Visibility
-import android.view.MotionEvent
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -32,9 +26,8 @@ import com.abc.mirroring.service.FloatToolService
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
-import com.abc.mirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
-import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.ui.premium.PurchaseActivity2
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -191,7 +184,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
+            startActivity(Intent(this@HomeActivity, PurchaseActivity2::class.java))
         }
     }
 
