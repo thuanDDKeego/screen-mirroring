@@ -1,8 +1,6 @@
 import com.abc.mirroring.R
 
 object AdConfig {
-    const val TURN_OFF_ADS = false
-
     const val AD_MOB_SPLASH_INTERSTITIAL = R.string.ad_interstitial_splash
     const val AD_MOB_MIRROR_DEVICE_INTERSTITIAL = R.string.ad_interstitial_mirror_deivce
     const val AD_MOB_BACK_FROM_TUTORIAL_INTERSTITIAL = R.string.ad_interstitial_back_from_tutorial

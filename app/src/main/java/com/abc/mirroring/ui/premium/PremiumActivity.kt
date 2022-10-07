@@ -1,34 +1,109 @@
 package com.abc.mirroring.ui.premium
 
-import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.abc.mirroring.R
+import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.android.billingclient.api.*
 import timber.log.Timber
 
+enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED, SUCCESS }
 
-class PremiumActivity : AppCompatActivity() {
+class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
+    private var isPremiumActive = AppPreferences().isPremiumActive == true
     private lateinit var billingClient: BillingClient
-    private lateinit var binding: ActivityPremiumBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityPremiumBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private val SUB_PURCHASE_ID = "sub_premium"
+    private lateinit var screenState: ScreenState
 
-        initGoogleBilling()
-        establishConnection()
+    override fun initBinding() = ActivityPremiumBinding.inflate(layoutInflater)
+
+    override fun initViews() {
+        val animBtnUpgrade = AnimationUtils.loadAnimation(
+            applicationContext,
+            R.anim.alpha_scale_upgrade
+        )
+        binding.btnUpgrade.startAnimation(animBtnUpgrade)
+        if (isPremiumActive) {
+            screenState = ScreenState.HAS_SUBSCRIBED
+            updateView(screenState)
+        } else {
+            initGoogleBilling()
+            establishConnection()
+            screenState = ScreenState.HASNT_SUBSCRIBED
+            updateView(screenState)
+
+        }
+    }
+
+    fun updateView(screenState: ScreenState) {
+        this.screenState = screenState
+        when (this.screenState) {
+            ScreenState.HASNT_SUBSCRIBED -> {
+                binding.apply {
+                    btnUpgrade.visibility = View.VISIBLE
+                    txtPurchaseState.visibility = View.VISIBLE
+                    imgCrown.setImageResource(R.drawable.ic_crown)
+                }
+            }
+            ScreenState.HAS_SUBSCRIBED -> {
+                binding.apply {
+                    btnUpgrade.visibility = View.GONE
+                    txtPurchaseState.visibility = View.GONE
+                    txtPurchaseDes.text = "Thanks a lot for using Mirroring"
+                    imgCrown.setImageResource(R.drawable.ic_success)
+                }
+            }
+            ScreenState.SUCCESS -> {
+                binding.apply {
+                    btnUpgrade.visibility = View.GONE
+                    txtPurchaseState.visibility = View.GONE
+                    txtPurchaseDes.text = "Thanks a lot for using Mirroring"
+                    imgCrown.setImageResource(R.drawable.ic_success)
+                }
+            }
+        }
+    }
+
+    override fun initActions() {
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initGoogleBilling() {
-
         val purchasesUpdatedListener =
             PurchasesUpdatedListener { billingResult, purchases ->
                 // To be implemented in a later section.
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                    dismissLoadingBarDialog()
+                    AppPreferences().isPremiumActive = true
+                    updateView(ScreenState.SUCCESS)
                     for (purchase in purchases) {
                         verifySubPurchase(purchase)
                     }
+                }
+//if item already subscribed then check and reflect changes
+                //...
+//if Purchase canceled
+                else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+                    dismissLoadingBarDialog()
+                    Toast.makeText(
+                        this@PremiumActivity,
+                        getString(R.string.purchase_cancel),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+// Handle any other error msgs
+                else {
+                    dismissLoadingBarDialog()
+                    Toast.makeText(
+                        this@PremiumActivity,
+                        "Error: " + billingResult.debugMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -59,7 +134,7 @@ class PremiumActivity : AppCompatActivity() {
         val productList = mutableListOf(
             //Product 1 = index is 0
             QueryProductDetailsParams.Product.newBuilder()
-                .setProductId("sub_premium")
+                .setProductId(SUB_PURCHASE_ID)
                 .setProductType(BillingClient.ProductType.SUBS)
                 .build()
         )
@@ -71,29 +146,21 @@ class PremiumActivity : AppCompatActivity() {
         ) { billingResult: BillingResult?, productDetailsList: List<ProductDetails> ->
             // Process the result
             for (productDetails in productDetailsList) {
-                if (productDetails.productId == "sub_premium") {
-                    val subDetails: List<*> =
+                if (productDetails.productId == SUB_PURCHASE_ID) {
+                    val subDetails =
                         productDetails.subscriptionOfferDetails!!
 //                    Log.d("testOffer", subDetails[0])
-//                    txt_price.setText(
-//                        subDetails[0].getPricingPhases().getPricingPhaseList().get(0)
-//                            .getFormattedPrice() + " Per Month"
-//                    )
-//                    txt_price.setOnClickListener { view -> launchPurchaseFlow(productDetails) }
-                    binding.test.setOnClickListener {
-                        launchPurchaseFlow(productDetails)
+                    binding.apply {
+                        txtPurchaseState.text = "${
+                            subDetails[0].pricingPhases.pricingPhaseList[0]
+                                .formattedPrice
+                        }"
+                        btnUpgrade.setOnClickListener {
+                            showLoadingProgressBar()
+                            launchPurchaseFlow(productDetails)
+                        }
                     }
                 }
-//                if (productDetails.productId == "test_id_shar") {
-//                    val subDetails: List<*> =
-//                        productDetails.subscriptionOfferDetails!!
-////                    Log.d("testOffer", subDetails[1].getOfferToken())
-////                    offer_btn.setText(
-////                        subDetails[1].getPricingPhases().getPricingPhaseList().get(0)
-////                            .getFormattedPrice() + " Per Month"
-////                    )
-////                    offer_btn.setOnClickListener { view -> launchPurchaseFlow(productDetails) }
-//                }
             }
         }
     }
@@ -118,7 +185,7 @@ class PremiumActivity : AppCompatActivity() {
             .setPurchaseToken(purchases.purchaseToken)
             .build()
         billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
-            if (billingResult.getResponseCode() === BillingClient.BillingResponseCode.OK) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 //user prefs to set premium
                 Toast.makeText(
                     this@PremiumActivity,
@@ -139,13 +206,17 @@ class PremiumActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build()
-        ) { billingResult: BillingResult, list: List<Purchase> ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                for (purchase in list) {
-                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
-                        verifySubPurchase(purchase)
+        updateView(screenState)
+        if (!isPremiumActive) {
+            billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS)
+                    .build()
+            ) { billingResult: BillingResult, list: List<Purchase> ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    for (purchase in list) {
+                        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
+                            verifySubPurchase(purchase)
+                        }
                     }
                 }
             }

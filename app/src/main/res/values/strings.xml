@@ -189,5 +189,18 @@
     <string name="allow">Allow</string>
     <string name="checking_your_wifi">Checking your Wifi connection!</string>
 
+    //premium screen
+    <string name="premium_title">Premium Upgrade</string>
+    <string name="one_time_payment">One-time Payment</string>
+    <string name="remove_all_ads">Remove all Ads</string>
+    <string name="unlimited_browser_mirror">Unlimited Browser Mirror</string>
+    <string name="upcoming_features">Upcoming features</string>
+    <string name="upgrade_now">Upgrade Now</string>
+    <string name="life_time">Life-Time</string>
+    <string name="purchase_cancel">Purchase Cancel</string>
+
+
+
+
 
 </resources>

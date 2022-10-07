@@ -94,7 +94,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        if (AppConfigRemote().turnOnHomeTopNative == true) {
+        if (AppConfigRemote().turnOnHomeTopNative == true && AppPreferences().isPremiumActive == false) {
             binding.cardViewAdBanner.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this@HomeActivity,
@@ -140,7 +140,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false) {
+            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumActive == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
@@ -149,7 +149,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
-            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true) {
+            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
                     this@HomeActivity,

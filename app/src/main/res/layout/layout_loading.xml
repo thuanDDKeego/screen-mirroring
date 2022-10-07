@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_gray_dialog">
+
+    <ProgressBar
+        android:id="@+id/progressBarLoadAds"
+        android:layout_width="@dimen/margin_64dp"
+        android:layout_height="@dimen/margin_64dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/aqua_main"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
