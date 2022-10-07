@@ -106,6 +106,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
+        if(AppPreferences().isPremiumActive == true) {
+            binding.cardViewAdBanner.visibility = View.GONE
+        }
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
                 CoroutineScope(Dispatchers.Main).launch {

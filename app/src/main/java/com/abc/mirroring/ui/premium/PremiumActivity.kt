@@ -1,5 +1,7 @@
 package com.abc.mirroring.ui.premium
 
+import android.app.Activity
+import android.content.Intent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -17,6 +19,13 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private lateinit var billingClient: BillingClient
     private val SUB_PURCHASE_ID = "sub_premium"
     private lateinit var screenState: ScreenState
+
+    companion object {
+        fun gotoActivity(activity: Activity) {
+            val intent = Intent(activity, PremiumActivity::class.java)
+            activity.startActivity(intent)
+        }
+    }
 
     override fun initBinding() = ActivityPremiumBinding.inflate(layoutInflater)
 
@@ -50,17 +59,19 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             }
             ScreenState.HAS_SUBSCRIBED -> {
                 binding.apply {
+                    btnUpgrade.clearAnimation()
                     btnUpgrade.visibility = View.GONE
                     txtPurchaseState.visibility = View.GONE
-                    txtPurchaseDes.text = "Thanks a lot for using Mirroring"
+                    txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
                     imgCrown.setImageResource(R.drawable.ic_success)
                 }
             }
             ScreenState.SUCCESS -> {
                 binding.apply {
+                    btnUpgrade.clearAnimation()
                     btnUpgrade.visibility = View.GONE
                     txtPurchaseState.visibility = View.GONE
-                    txtPurchaseDes.text = "Thanks a lot for using Mirroring"
+                    txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
                     imgCrown.setImageResource(R.drawable.ic_success)
                 }
             }
@@ -165,7 +176,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         }
     }
 
-    fun launchPurchaseFlow(productDetails: ProductDetails) {
+    private fun launchPurchaseFlow(productDetails: ProductDetails) {
         assert(productDetails.subscriptionOfferDetails != null)
         val productDetailsParamsList = mutableListOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -179,7 +190,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         val billingResult = billingClient.launchBillingFlow(this@PremiumActivity, billingFlowParams)
     }
 
-    fun verifySubPurchase(purchases: Purchase) {
+    private fun verifySubPurchase(purchases: Purchase) {
         val acknowledgePurchaseParams = AcknowledgePurchaseParams
             .newBuilder()
             .setPurchaseToken(purchases.purchaseToken)
@@ -189,7 +200,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 //user prefs to set premium
                 Toast.makeText(
                     this@PremiumActivity,
-                    "You are a premium user now",
+                    getString(R.string.you_are_premium_user),
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -220,6 +231,13 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::billingClient.isInitialized) {
+            billingClient.endConnection()
         }
     }
 }

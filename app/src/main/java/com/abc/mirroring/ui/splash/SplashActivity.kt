@@ -58,13 +58,16 @@ class SplashActivity : AppCompatActivity() {
         setupSplashView()
         FirebaseTracking.logSplashShowed()
         if (AppPreferences().isPremiumActive == true) {
-            startActivity(
-                Intent(
-                    this@SplashActivity,
-                    HomeActivity::class.java
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2000L)
+                startActivity(
+                    Intent(
+                        this@SplashActivity,
+                        HomeActivity::class.java
+                    )
                 )
-            )
-            finish()
+                finish()
+            }
         } else {
             if (appConfigRemote.isUsingAdsOpenApp == true) {
                 jobTimeOutOpenApp = CoroutineScope(Dispatchers.Main).launch {

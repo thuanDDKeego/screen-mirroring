@@ -31,9 +31,9 @@ import java.util.*
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: V
-    var mRateDialogShowing = false
-    var mLoadingAdDialogShowing = false
-    var mLoadingProgressBarShowing = false
+    protected var mRateDialogShowing = false
+    protected var mLoadingAdDialogShowing = false
+    protected var mLoadingProgressBarShowing = false
     open var isFullScreen: Boolean = false
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
     private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding

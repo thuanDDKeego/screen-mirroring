@@ -3,9 +3,11 @@ package com.abc.mirroring.ui.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +25,7 @@ import com.abc.mirroring.ui.browsermirror.StreamViewModel
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -64,7 +67,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME.toString()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initActions() {
+        binding.llUpgrade.setOnClickListener {
+            PremiumActivity.gotoActivity(this@SettingActivity)
+        }
         binding.llHelp.setOnClickListener {
             TutorialActivity.gotoActivity(this@SettingActivity)
         }
@@ -142,6 +149,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                 }
             }
         }
+
         binding.llRate.setOnClickListener {
             showRatingDialog(false)
         }
