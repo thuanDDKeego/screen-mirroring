@@ -106,8 +106,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if(AppPreferences().isPremiumActive == true) {
-            binding.cardViewAdBanner.visibility = View.GONE
+        if (AppPreferences().isPremiumActive == true) {
+            hideBannerAds()
         }
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
@@ -494,6 +494,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 showExitAppDialog()
             }
         }
+    }
+
+    private fun hideBannerAds() {
+        binding.cardViewAdBanner.visibility = View.GONE
     }
 
     override fun onDestroy() {
