@@ -177,5 +177,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtExpiredTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/margin_24dp"
+        android:layout_marginVertical="@dimen/margin_54dp"
+        android:text="@string/one_time_payment"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="@dimen/text_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
