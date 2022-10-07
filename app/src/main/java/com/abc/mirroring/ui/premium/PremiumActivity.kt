@@ -17,7 +17,7 @@ enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED, SUCCESS }
 class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private var isPremiumActive = AppPreferences().isPremiumActive == true
     private lateinit var billingClient: BillingClient
-    private val SUB_PURCHASE_ID = "sub_premium"
+    private val SUB_PURCHASE_ID = "sp_test2"
     private lateinit var screenState: ScreenState
 
     companion object {

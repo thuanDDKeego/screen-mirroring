@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
@@ -18,8 +19,10 @@ import com.abc.mirroring.utils.FirebaseTracking
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.abc.mirroring.ads.AppOpenManager
+import com.android.billingclient.api.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
     private var jobLoadAd: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkSubscription()
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -176,7 +180,50 @@ class SplashActivity : AppCompatActivity() {
         binding.txtContentSplash.startAnimation(animFadeIn)
         binding.viewLoadBar.startAnimation(animMoveRightLoadBar)
     }
+    private fun checkSubscription() {
+        var billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
+            .setListener { _: BillingResult?, _: List<Purchase?>? -> }
+            .build()
+        val finalBillingClient: BillingClient = billingClient
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingServiceDisconnected() {}
+            override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    finalBillingClient.queryPurchasesAsync(
+                        QueryPurchasesParams.newBuilder()
+                            .setProductType(BillingClient.ProductType.SUBS).build()
+                    ) { billingResult1: BillingResult, list: List<Purchase> ->
+                        if (billingResult1.responseCode == BillingClient.BillingResponseCode.OK) {
+                            Timber.d("testOffer" + list.size.toString() + " size")
+                            if (list.isNotEmpty()) {
+                                AppPreferences().isPremiumActive = true
+                                for ((i, purchase) in list.withIndex()) {
+                                    //Here you can manage each product, if you have multiple subscription
+                                    Timber.d(
+                                        "testOffer",
+                                        purchase.originalJson
+                                    ) // Get to see the order information
+                                    Timber.d("testOffer", " index$i")
+                                }
+                            } else {
+                                AppPreferences().isPremiumActive = false // set 0 to de-activate premium feature
+                            }
+                        }
+                    }
+//                    billingClient.queryPurchasesAsync(BillingClient.ProductType.SUBS){
+//                            responseCode, purchasesList ->
+//                        if(purchasesList.isNullOrEmpty()){
+//                            Timber.d("Purchase App","history for SUBS is empty")
+//                        }else{
+//                            Timber.d("Purchase App","history subs has ${purchasesList.size} items : ${purchasesList.toString()}")
+//                        }
+//                    }
+                }
+            }
+        })
 
+
+    }
     private fun goToHome() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
         finish()
