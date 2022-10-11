@@ -490,8 +490,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (askPermissionOverLayDialogShowing) {
             dismissAskPermissionOverlayDialog()
         } else {
-            if (!exitAppDialogShowing) {
+            if (!exitAppDialogShowing || AppPreferences().isPremiumActive == false) {
                 showExitAppDialog()
+            } else {
+                super.onBackPressed()
             }
         }
     }

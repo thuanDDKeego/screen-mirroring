@@ -29,6 +29,7 @@ import javax.inject.Inject
 class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var appConfigRemote: AppConfigRemote
+    private lateinit var billingClient: BillingClient
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -180,8 +181,9 @@ class SplashActivity : AppCompatActivity() {
         binding.txtContentSplash.startAnimation(animFadeIn)
         binding.viewLoadBar.startAnimation(animMoveRightLoadBar)
     }
+
     private fun checkSubscription() {
-        var billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
+        billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
             .setListener { _: BillingResult?, _: List<Purchase?>? -> }
             .build()
         val finalBillingClient: BillingClient = billingClient
@@ -189,24 +191,31 @@ class SplashActivity : AppCompatActivity() {
             override fun onBillingServiceDisconnected() {}
             override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    Timber.d("On billing finish")
                     finalBillingClient.queryPurchasesAsync(
                         QueryPurchasesParams.newBuilder()
                             .setProductType(BillingClient.ProductType.SUBS).build()
                     ) { billingResult1: BillingResult, list: List<Purchase> ->
                         if (billingResult1.responseCode == BillingClient.BillingResponseCode.OK) {
-                            Timber.d("testOffer" + list.size.toString() + " size")
                             if (list.isNotEmpty()) {
-                                AppPreferences().isPremiumActive = true
+                                Timber.d("Free Premium is active")
                                 for ((i, purchase) in list.withIndex()) {
                                     //Here you can manage each product, if you have multiple subscription
-                                    Timber.d(
-                                        "testOffer",
-                                        purchase.originalJson
-                                    ) // Get to see the order information
+                                    // Get to see the order information
+
+                                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+                                        AppPreferences().isPremiumActive =
+                                            true // set 0 to de-activate premium feature
+                                        break
+                                    }
                                     Timber.d("testOffer", " index$i")
+                                    AppPreferences().isPremiumActive =
+                                        false // set 0 to de-activate premium feature
                                 }
                             } else {
-                                AppPreferences().isPremiumActive = false // set 0 to de-activate premium feature
+                                Timber.d("Free Premium isn't active")
+                                AppPreferences().isPremiumActive =
+                                    false // set 0 to de-activate premium feature
                             }
                         }
                     }
@@ -224,11 +233,19 @@ class SplashActivity : AppCompatActivity() {
 
 
     }
+
     private fun goToHome() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
         finish()
     }
 
     override fun onBackPressed() {
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::billingClient.isInitialized) {
+            billingClient.endConnection()
+        }
     }
 }
