@@ -203,7 +203,6 @@
     <string name="purchase_cancel">Purchase Cancel</string>
     <string name="thanks_for_using_app">Thanks a lot for using Mirroring</string>
     <string name="you_are_premium_user">"You are a premium user now"</string>
-    <string name="title_activity_subscriptions">SubscriptionsActivity</string>
     <string name="expire_on">Expire on %1$s</string>
     <string name="expired_on">Expired on %1$s</string>
     <string name="cancel_subscription"><u>Cancel Subscription</u></string>

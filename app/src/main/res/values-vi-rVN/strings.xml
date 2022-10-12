@@ -117,6 +117,7 @@
 
     //premium screen
     <string name="premium_title">Nâng cấp Premium</string>
+    <string name="premium_member">Thành viên Premium</string>
     <string name="one_time_payment">Thanh toán một lần</string>
     <string name="remove_all_ads">Loại bỏ tất cả quảng cáo</string>
     <string name="unlimited_browser_mirror">Browser Mirror không giới hạn</string>
@@ -126,5 +127,9 @@
     <string name="purchase_cancel">Hủy thanh toán</string>
     <string name="thanks_for_using_app">cảm ơn bạn vì đã sử dụng Screen Mirroring</string>
     <string name="you_are_premium_user">"Bạn đã trở thành người dùng Premium"</string>
+    <string name="expire_on">Hết hạn vào %1$s</string>
+    <string name="expired_on">Đã hết hạn vào %1$s</string>
+    <string name="cancel_subscription"><u>Hủy đăng ký</u></string>
+    <string name="term_and_policy"><u>Điều khoản dịch vụ &amp; Chính sách quyền riêng tư</u></string>
 
 </resources>
