@@ -26,6 +26,7 @@ import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.ui.premium.SubscriptionsActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -33,7 +34,6 @@ import kotlinx.coroutines.Job
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
-    private var serviceMessageFlowJob: Job? = null
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -64,7 +64,15 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
-        binding.txtVersioncode.text = BuildConfig.VERSION_NAME.toString()
+        binding.txtVersioncode.text = BuildConfig.VERSION_NAME
+
+        if(AppPreferences().isPremiumActive == true) {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_black))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.blueA01))
+        } else {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -178,7 +186,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
-
+        binding.llSubscriptionItem.setOnClickListener {
+            if(AppPreferences().isPremiumActive == true) {
+                SubscriptionsActivity.gotoActivity(this@SettingActivity)
+            }
+        }
     }
 
     private fun showKeyboard(context: Context) {
@@ -192,5 +204,4 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         val v = (context as Activity).currentFocus ?: return
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
-
 }

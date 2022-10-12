@@ -1,5 +1,6 @@
 package com.abc.mirroring.ui.premium
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.view.View
@@ -11,12 +12,15 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.android.billingclient.api.*
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
-enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED, SUCCESS }
+enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED}
 
 class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private var isPremiumActive = AppPreferences().isPremiumActive == true
     private lateinit var billingClient: BillingClient
+//    private val SUB_PURCHASE_ID = "test_1year_2"
     private val SUB_PURCHASE_ID = "sp_test2"
     private lateinit var screenState: ScreenState
 
@@ -47,34 +51,43 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun updateView(screenState: ScreenState) {
         this.screenState = screenState
         when (this.screenState) {
             ScreenState.HASNT_SUBSCRIBED -> {
                 binding.apply {
                     btnUpgrade.visibility = View.VISIBLE
+                    txtExpiryDate.visibility = View.INVISIBLE
                     txtPurchaseState.visibility = View.VISIBLE
                     imgCrown.setImageResource(R.drawable.ic_crown)
                 }
             }
             ScreenState.HAS_SUBSCRIBED -> {
+                val expiryDate = UtilsPremium.getExpiryTime(AppPreferences().purchaseDate!!, )
+                val date = Date(expiryDate)
+                val expiryDateFormat = SimpleDateFormat("yyyy/MM/dd")
                 binding.apply {
                     btnUpgrade.clearAnimation()
-                    btnUpgrade.visibility = View.GONE
+                    btnUpgrade.visibility = View.INVISIBLE
+                    txtExpiryDate.visibility = View.VISIBLE
+                    txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))
                     txtPurchaseState.visibility = View.GONE
                     txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
                     imgCrown.setImageResource(R.drawable.ic_success)
+
                 }
             }
-            ScreenState.SUCCESS -> {
-                binding.apply {
-                    btnUpgrade.clearAnimation()
-                    btnUpgrade.visibility = View.GONE
-                    txtPurchaseState.visibility = View.GONE
-                    txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
-                    imgCrown.setImageResource(R.drawable.ic_success)
-                }
-            }
+//            ScreenState.SUCCESS -> {
+//                binding.apply {
+//                    btnUpgrade.clearAnimation()
+//                    btnUpgrade.visibility = View.INVISIBLE
+//                    txtExpiryDate.visibility = View.VISIBLE
+//                    txtPurchaseState.visibility = View.GONE
+//                    txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
+//                    imgCrown.setImageResource(R.drawable.ic_success)
+//                }
+//            }
         }
     }
 
@@ -91,7 +104,8 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                     dismissLoadingBarDialog()
                     AppPreferences().isPremiumActive = true
-                    updateView(ScreenState.SUCCESS)
+                    AppPreferences().purchaseDate = purchases[0].purchaseTime
+                    updateView(ScreenState.HAS_SUBSCRIBED)
                     for (purchase in purchases) {
                         verifySubPurchase(purchase)
                     }

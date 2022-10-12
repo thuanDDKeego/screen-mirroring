@@ -206,6 +206,8 @@ class SplashActivity : AppCompatActivity() {
                                     if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
                                         AppPreferences().isPremiumActive =
                                             true // set 0 to de-activate premium feature
+                                        AppPreferences().purchaseDate = purchase.purchaseTime
+
                                         break
                                     }
                                     Timber.d("testOffer", " index$i")
@@ -230,8 +232,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         })
-
-
     }
 
     private fun goToHome() {

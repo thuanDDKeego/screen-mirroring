@@ -346,6 +346,34 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llSubscriptionItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="10dp"
+                android:paddingStart="@dimen/margin_12dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgSubscription"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_clock_refresh"
+                    android:tint="@color/txt_light_gray"/>
+
+                    <TextView
+                        android:id="@+id/txtSubscription"
+                        style="@style/regularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/subscription"
+                        android:textColor="@color/txt_light_gray" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

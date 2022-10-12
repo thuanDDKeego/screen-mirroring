@@ -68,6 +68,7 @@
     <string name="policy">Policy</string>
     <string name="rate">Rate</string>
     <string name="invite_friends">Invite Friends</string>
+    <string name="subscription">Subscription</string>
     <string name="feedback">Feedback</string>
 
 
@@ -191,7 +192,9 @@
 
     //premium screen
     <string name="premium_title">Premium Upgrade</string>
+    <string name="premium_member">Premium Member</string>
     <string name="one_time_payment">One-time Payment</string>
+    <string name="one_year">One Year</string>
     <string name="remove_all_ads">Remove all Ads</string>
     <string name="unlimited_browser_mirror">Unlimited Browser Mirror</string>
     <string name="upcoming_features">Upcoming features</string>
@@ -200,5 +203,10 @@
     <string name="purchase_cancel">Purchase Cancel</string>
     <string name="thanks_for_using_app">Thanks a lot for using Mirroring</string>
     <string name="you_are_premium_user">"You are a premium user now"</string>
+    <string name="title_activity_subscriptions">SubscriptionsActivity</string>
+    <string name="expire_on">Expire on %1$s</string>
+    <string name="expired_on">Expired on %1$s</string>
+    <string name="cancel_subscription"><u>Cancel Subscription</u></string>
+    <string name="term_and_policy"><u>Terms of Service &amp; Privacy Policy</u></string>
 
 </resources>

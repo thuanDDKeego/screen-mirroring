@@ -46,6 +46,7 @@
     <string name="policy">Chính sách</string>
     <string name="rate">Đánh giá</string>
     <string name="invite_friends">Mời bạn</string>
+    <string name="subscription">gói Premium</string>
     <string name="faq_item_title1">Điện thoại của tôi không thể tìm bất cứ thiết bị nào để ghép nối</string>
     <string name="faq_item_description1">- Đảm bảo kết nối cùng Wifi.\n- Tắt VPN.\n- Rút ngắn khoảng cách giữa các thiết bị.\n- kiểm tra thiết bị hỗ trợ ghép nối.</string>
     "

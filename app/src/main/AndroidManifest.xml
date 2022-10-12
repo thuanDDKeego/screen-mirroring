@@ -33,12 +33,14 @@
         android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ui.premium.SubscriptionsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".ui.premium.PremiumActivity"
-            android:screenOrientation="portrait"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:exported="false"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
