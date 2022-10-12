@@ -5,16 +5,18 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySubscriptionsBinding
 import com.abc.mirroring.ui.policy.PolicyActivity
+import com.abc.mirroring.utils.Global
 import java.text.SimpleDateFormat
 import java.util.*
 
 class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
-    private final val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions?package=net.sofigo.screenmirroring&sku=sp_test2"
+    private final val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=${Global.SUB_PURCHASE_ID}"
 
     companion object {
         fun gotoActivity(activity: Activity) {
