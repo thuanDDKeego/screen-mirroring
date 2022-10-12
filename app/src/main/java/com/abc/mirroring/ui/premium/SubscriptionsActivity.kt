@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
-    private final val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions"
+    private final val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions?package=net.sofigo.screenmirroring&sku=sp_test2"
 
     companion object {
         fun gotoActivity(activity: Activity) {
