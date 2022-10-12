@@ -37,6 +37,9 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
 
     override fun initActions() {
         binding.apply {
+            btnClose.setOnClickListener {
+                onBackPressed()
+            }
             txtCancel.setOnClickListener {
                 openPlaystoreAccount()
             }
