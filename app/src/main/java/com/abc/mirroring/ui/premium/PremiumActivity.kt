@@ -10,6 +10,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
+import com.abc.mirroring.utils.Global.SUB_PURCHASE_ID
 import com.android.billingclient.api.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -20,8 +21,6 @@ enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED}
 class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private var isPremiumActive = AppPreferences().isPremiumActive == true
     private lateinit var billingClient: BillingClient
-//    private val SUB_PURCHASE_ID = "test_1year_2"
-    private val SUB_PURCHASE_ID = "sp_test2"
     private lateinit var screenState: ScreenState
 
     companion object {
@@ -64,7 +63,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 }
             }
             ScreenState.HAS_SUBSCRIBED -> {
-                val expiryDate = UtilsPremium.getExpiryTime(AppPreferences().purchaseDate!!, )
+                val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!, )
                 val date = Date(expiryDate)
                 val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
                 binding.apply {

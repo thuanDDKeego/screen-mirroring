@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppPreferences
@@ -28,7 +27,7 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
         ActivitySubscriptionsBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        val expiryDate = UtilsPremium.getExpiryTime(AppPreferences().purchaseDate!!)
+        val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!)
         val date = Date(expiryDate)
         val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
         binding.txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))

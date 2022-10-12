@@ -1,12 +1,8 @@
 package com.abc.mirroring.ui.premium
 
 import android.text.format.DateUtils
-import androidx.annotation.NonNull
-import com.abc.mirroring.config.AppPreferences
-import com.android.billingclient.api.*
-import timber.log.Timber
 
-class UtilsPremium {
+class PremiumUtils {
     companion object {
         fun getExpiryTime (
             purchaseTime: Long,
