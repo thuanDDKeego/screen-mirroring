@@ -190,7 +190,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     }
 
     private fun launchPurchaseFlow(productDetails: ProductDetails) {
-        assert(productDetails.subscriptionOfferDetails != null)
+        assert(productDetails.subscriptionOfferDetails != null && productDetails.subscriptionOfferDetails!!.isNotEmpty())
         val productDetailsParamsList = mutableListOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
