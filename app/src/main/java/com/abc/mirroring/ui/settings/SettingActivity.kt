@@ -65,14 +65,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
-
-        if(AppPreferences().isPremiumActive == true) {
-            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_black))
-            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.blueA01))
-        } else {
-            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
-            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -203,5 +195,16 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         val v = (context as Activity).currentFocus ?: return
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(AppPreferences().isPremiumActive == true) {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_black))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.blueA01))
+        } else {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+        }
     }
 }
