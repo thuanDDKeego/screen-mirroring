@@ -59,11 +59,11 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_upgrade"
+                    android:src="@drawable/ic_crown"
                     />
 
                 <TextView
-                    style="@style/regularText"
+                    style="@style/regularBoldText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
