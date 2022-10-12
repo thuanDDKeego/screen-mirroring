@@ -30,7 +30,7 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
     override fun initViews() {
         val expiryDate = UtilsPremium.getExpiryTime(AppPreferences().purchaseDate!!)
         val date = Date(expiryDate)
-        val expiryDateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
         binding.txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))
 
     }

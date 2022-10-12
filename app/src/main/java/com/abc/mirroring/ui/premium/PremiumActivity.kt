@@ -66,7 +66,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             ScreenState.HAS_SUBSCRIBED -> {
                 val expiryDate = UtilsPremium.getExpiryTime(AppPreferences().purchaseDate!!, )
                 val date = Date(expiryDate)
-                val expiryDateFormat = SimpleDateFormat("yyyy/MM/dd")
+                val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
                 binding.apply {
                     btnUpgrade.clearAnimation()
                     btnUpgrade.visibility = View.INVISIBLE
