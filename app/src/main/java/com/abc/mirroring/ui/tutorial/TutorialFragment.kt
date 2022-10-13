@@ -11,6 +11,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseFragment
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.FragmentTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialGuideAdapter
 import com.abc.mirroring.utils.FirebaseTracking
@@ -76,7 +77,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-        if(AppConfigRemote().turnOnBottomTutorialNative == true) {
+        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 requireActivity(),

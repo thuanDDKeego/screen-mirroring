@@ -5,16 +5,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.opengl.Visibility
-import android.view.MotionEvent
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -32,8 +26,8 @@ import com.abc.mirroring.service.FloatToolService
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
-import com.abc.mirroring.ui.home.adapter.AdBannerAdapter
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -100,7 +94,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        if (AppConfigRemote().turnOnHomeTopNative == true) {
+        if (AppConfigRemote().turnOnHomeTopNative == true && AppPreferences().isPremiumActive == false) {
             binding.cardViewAdBanner.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this@HomeActivity,
@@ -112,6 +106,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
+        if (AppPreferences().isPremiumActive == true) {
+            hideBannerAds()
+        }
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -146,7 +143,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initActions() {
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false) {
+            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumActive == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
@@ -155,7 +152,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
-            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true) {
+            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
                     this@HomeActivity,
@@ -188,6 +185,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             } else {
                 FloatToolService.stop(this@HomeActivity)
             }
+        }
+        binding.imgPremium.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
         }
     }
 
@@ -490,10 +490,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (askPermissionOverLayDialogShowing) {
             dismissAskPermissionOverlayDialog()
         } else {
-            if (!exitAppDialogShowing) {
+            if (!exitAppDialogShowing || AppPreferences().isPremiumActive == false) {
                 showExitAppDialog()
+            } else {
+                super.onBackPressed()
             }
         }
+    }
+
+    private fun hideBannerAds() {
+        binding.cardViewAdBanner.visibility = View.GONE
     }
 
     override fun onDestroy() {

@@ -14,6 +14,7 @@ import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
@@ -61,7 +62,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initAdmob() {
-        if(AppConfigRemote().turnOnTopNativeDeviceMirror == true) {
+        if(AppConfigRemote().turnOnTopNativeDeviceMirror == true && AppPreferences().isPremiumActive == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this@DeviceMirrorActivity,

@@ -16,6 +16,7 @@ import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
+import com.abc.mirroring.databinding.LayoutLoadingBinding
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
@@ -30,11 +31,13 @@ import java.util.*
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: V
-    var mRateDialogShowing = false
-    var mLoadingAdDialogShowing = false
+    protected var mRateDialogShowing = false
+    protected var mLoadingAdDialogShowing = false
+    protected var mLoadingProgressBarShowing = false
     open var isFullScreen: Boolean = false
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
     private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
+    private lateinit var layoutLoadingBinding: LayoutLoadingBinding
 
     companion object {
         var dLocale: Locale? = Locale(AppPreferences().languageSelected.toString())
@@ -86,6 +89,14 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             val view = findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mLoadingAdDialogShowing = false
+        }
+    }
+
+    protected fun dismissLoadingBarDialog() {
+        if (mLoadingProgressBarShowing) {
+            val view = findViewById<View>(android.R.id.content) as ViewGroup
+            view.removeViewAt(view.childCount - 1)
+            mLoadingProgressBarShowing = false
         }
     }
 
@@ -233,6 +244,15 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         dialogLoadingAdBinding.viewLoadBar.startAnimation(animMoveRightLoadBar)
         dialogLoadingAdBinding.constraintBgDialogLoadingAd.setOnClickListener {}
     }
+
+    protected fun showLoadingProgressBar() {
+        if (mLoadingProgressBarShowing) return
+        mLoadingProgressBarShowing = true
+        val view = findViewById<View>(android.R.id.content) as ViewGroup
+        layoutLoadingBinding =
+            LayoutLoadingBinding.inflate(layoutInflater, view, true)
+    }
+
 
     abstract fun initBinding(): V
     abstract fun initViews()

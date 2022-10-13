@@ -2,15 +2,19 @@ package com.abc.mirroring
 
 import AdType
 import android.app.Application
+import androidx.annotation.NonNull
+import com.abc.mirroring.ads.AppOpenManager
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.config.Preferences
 import com.abc.mirroring.config.ReleaseTree
 import com.abc.mirroring.ui.splash.SplashActivity
+import com.android.billingclient.api.*
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.google.android.gms.ads.AdActivity
-import com.abc.mirroring.ads.AppOpenManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+
 
 @HiltAndroidApp
 class Application : Application() {

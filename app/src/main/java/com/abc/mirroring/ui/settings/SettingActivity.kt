@@ -3,9 +3,11 @@ package com.abc.mirroring.ui.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +25,8 @@ import com.abc.mirroring.ui.browsermirror.StreamViewModel
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
+import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.ui.premium.SubscriptionsActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -30,7 +34,6 @@ import kotlinx.coroutines.Job
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
-    private var serviceMessageFlowJob: Job? = null
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -61,10 +64,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
-        binding.txtVersioncode.text = BuildConfig.VERSION_NAME.toString()
+        binding.txtVersioncode.text = BuildConfig.VERSION_NAME
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initActions() {
+        binding.llUpgrade.setOnClickListener {
+            PremiumActivity.gotoActivity(this@SettingActivity)
+        }
         binding.llHelp.setOnClickListener {
             TutorialActivity.gotoActivity(this@SettingActivity)
         }
@@ -142,6 +149,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                 }
             }
         }
+
         binding.llRate.setOnClickListener {
             showRatingDialog(false)
         }
@@ -170,7 +178,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
-
+        binding.llSubscriptionItem.setOnClickListener {
+            if(AppPreferences().isPremiumActive == true) {
+                SubscriptionsActivity.gotoActivity(this@SettingActivity)
+            }
+        }
     }
 
     private fun showKeyboard(context: Context) {
@@ -185,4 +197,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(AppPreferences().isPremiumActive == true) {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_black))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.blueA01))
+        } else {
+            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+        }
+    }
 }

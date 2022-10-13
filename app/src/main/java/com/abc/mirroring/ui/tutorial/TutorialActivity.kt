@@ -11,6 +11,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,7 +131,7 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
-            if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true) {
+            if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
                     this@TutorialActivity,

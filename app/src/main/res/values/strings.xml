@@ -1,4 +1,4 @@
- <resources>
+<resources>
     <string name="app_name">Screen Mirroring</string>
 
     <string name="action_settings">Settings</string>
@@ -68,6 +68,7 @@
     <string name="policy">Policy</string>
     <string name="rate">Rate</string>
     <string name="invite_friends">Invite Friends</string>
+    <string name="subscription">Subscription</string>
     <string name="feedback">Feedback</string>
 
 
@@ -88,8 +89,8 @@
     <string name="faq_item_title5">Is my personal information or mobile data completely secured?</string>
     <string name="faq_item_description5">- We always ensure your information on your smartphone and connected devices are confidential. Thus, you can mirror to TV without worry.</string>
 
-     <string name="faq_item_title6">The connection can be interrupted for a while</string>
-     <string name="faq_item_description6">If you turn on the battery-saving or the smart wifi-researching mode on your smartphone, the connection may be interrupted.
+    <string name="faq_item_title6">The connection can be interrupted for a while</string>
+    <string name="faq_item_description6">If you turn on the battery-saving or the smart wifi-researching mode on your smartphone, the connection may be interrupted.
 \nPlease make sure you devices are connecting to the same Wifi. </string>
     <string name="security_your_screen_mirroring">The pin code will secure your transmission. You can turn it off on the <![CDATA[<b><font color=#00A3FF>Setting</font></b>]]> to disable the pin code.</string>
     <string name="save">Save</string>
@@ -128,13 +129,13 @@
     <string name="connecting">Connecting</string>
 
     <!--    ads-->
-     <string name="applovin_interstitial" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_rewardedad" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_banner" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
-     <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
+    <string name="applovin_interstitial" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_rewardedad" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_banner" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
+    <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
 
-     <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 
     <string name="ad_interstitial_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_interstitial_mirror_deivce" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
@@ -189,5 +190,22 @@
     <string name="allow">Allow</string>
     <string name="checking_your_wifi">Checking your Wifi connection!</string>
 
+    //premium screen
+    <string name="premium_title">Premium Upgrade</string>
+    <string name="premium_member">Premium Member</string>
+    <string name="one_time_payment">One-time Payment</string>
+    <string name="one_year">One Year</string>
+    <string name="remove_all_ads">Remove all Ads</string>
+    <string name="unlimited_browser_mirror">Unlimited Browser Mirror</string>
+    <string name="upcoming_features">Upcoming features</string>
+    <string name="upgrade_now">Upgrade Now</string>
+    <string name="life_time">Life-Time</string>
+    <string name="purchase_cancel">Purchase Cancel</string>
+    <string name="thanks_for_using_app">Thanks a lot for using Mirroring</string>
+    <string name="you_are_premium_user">"You are a premium user now"</string>
+    <string name="expire_on">Expire on %1$s</string>
+    <string name="expired_on">Expired on %1$s</string>
+    <string name="cancel_subscription"><u>Cancel Subscription</u></string>
+    <string name="term_and_policy"><u>Terms of Service &amp; Privacy Policy</u></string>
 
 </resources>

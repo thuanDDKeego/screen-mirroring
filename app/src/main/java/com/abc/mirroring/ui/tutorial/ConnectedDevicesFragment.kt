@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseFragment
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.FragmentConnectedDevicesBinding
 import com.abc.mirroring.ui.tutorial.adapter.DeviceItemAdapter
 import com.abc.mirroring.utils.FirebaseTracking
@@ -35,7 +36,7 @@ class ConnectedDevicesFragment : BaseFragment<FragmentConnectedDevicesBinding>()
     }
 
     override fun showAds() {
-        if (AppConfigRemote().turnOnTopDevicesNative == true) {
+        if (AppConfigRemote().turnOnTopDevicesNative == true && AppPreferences().isPremiumActive == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 requireActivity(),

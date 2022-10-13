@@ -11,7 +11,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Admin\\Box\\Key\\general_key_for_all_123456.jks')
+            storeFile file('D:\\android-prj\\sreen-mirroring-cast-tv\\key\\key_screen_mirroring.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
@@ -25,18 +25,18 @@ android {
     }
 
     applicationVariants.all { variant ->
-        if (variant.name.contains("debug")) {
-            variant.mergedFlavor.applicationId = project.properties['dev.package.id']
-        } else {
+//        if (variant.name.contains("debug")) {
+//            variant.mergedFlavor.applicationId = project.properties['dev.package.id']
+//        } else {
             variant.mergedFlavor.applicationId = project.properties['prod.package.id']
-        }
+//        }
     }
 
 
     defaultConfig {
         minSdk 21
         targetSdk 32
-        versionCode 11
+        versionCode 12
         versionName "2.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -44,7 +44,6 @@ android {
 
     buildTypes {
         debug {
-
         }
         release {
             minifyEnabled true
@@ -153,6 +152,10 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'com.google.android.play:app-update-ktx:2.0.0'
 
+    //google-play billing
+    def billing_version = "5.0.0"
+
+    implementation "com.android.billingclient:billing:$billing_version"
 
 }
 kapt {

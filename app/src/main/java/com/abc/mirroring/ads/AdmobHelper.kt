@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -61,44 +62,48 @@ class AdmobHelper {
         type: AdType,
         callback: (mInterstitialAd: InterstitialAd?) -> Unit,
     ) {
-        var showAds = true
-        var job: Job? = null
-        val timeout = AppConfigRemote().adsTimeout ?: 0
-        if (timeout != 0) {
-            job = CoroutineScope(Dispatchers.Main).launch {
-                delay(timeout.toLong())
-                showAds = false
-                callback(null)
+        if (AppPreferences().isPremiumActive == true) {
+            callback(null)
+        } else {
+            var showAds = true
+            var job: Job? = null
+            val timeout = AppConfigRemote().adsTimeout ?: 0
+            if (timeout != 0) {
+                job = CoroutineScope(Dispatchers.Main).launch {
+                    delay(timeout.toLong())
+                    showAds = false
+                    callback(null)
+                }
             }
-        }
-        if (adsInterstitial[type] != null && showAds) {
-            callback(adsInterstitial[type])
-            job?.cancel()
-            return
-        }
-        InterstitialAd.load(context, context.getString(type.adsId), adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
-                    Timber.d("====onLoaded $mInterstitialAd")
-                    super.onAdLoaded(mInterstitialAd)
-                    adsInterstitial[type] = mInterstitialAd
-                    if (showAds) {
-                        callback(adsInterstitial[type])
-                        adsInterstitial[type] = null
-                        job?.cancel()
+            if (adsInterstitial[type] != null && showAds) {
+                callback(adsInterstitial[type])
+                job?.cancel()
+                return
+            }
+            InterstitialAd.load(context, context.getString(type.adsId), adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
+                        Timber.d("====onLoaded $mInterstitialAd")
+                        super.onAdLoaded(mInterstitialAd)
+                        adsInterstitial[type] = mInterstitialAd
+                        if (showAds) {
+                            callback(adsInterstitial[type])
+                            adsInterstitial[type] = null
+                            job?.cancel()
+                        }
                     }
-                }
 
-                override fun onAdFailedToLoad(mInterstitialAd: LoadAdError) {
-                    Timber.d("====onLoad failed${mInterstitialAd}")
-                    super.onAdFailedToLoad(mInterstitialAd)
-                    adsInterstitial[type] = null
-                    if (showAds) {
-                        callback( adsInterstitial[type])
-                        job?.cancel()
+                    override fun onAdFailedToLoad(mInterstitialAd: LoadAdError) {
+                        Timber.d("====onLoad failed${mInterstitialAd}")
+                        super.onAdFailedToLoad(mInterstitialAd)
+                        adsInterstitial[type] = null
+                        if (showAds) {
+                            callback(adsInterstitial[type])
+                            job?.cancel()
+                        }
                     }
-                }
-            })
+                })
+        }
     }
 
     fun showAdInterstitial(
@@ -106,7 +111,7 @@ class AdmobHelper {
         type: AdType,
         callback: () -> Unit,
     ) {
-        if (AdConfig.TURN_OFF_ADS) {
+        if (AppPreferences().isPremiumActive == true) {
             callback()
         } else {
             Timber.d("====show ${adsInterstitial[type]}")
@@ -283,7 +288,7 @@ class AdmobHelper {
     }
 
     fun showRewardedAds(context: Context, type: AdType, callback: (Boolean) -> Unit) =
-        if (AdConfig.TURN_OFF_ADS) {
+        if (AppPreferences().isPremiumActive == true) {
             callback.invoke(true)
         } else {
 //            if (adsRewarded[type] != null) {

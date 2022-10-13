@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseFragment
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.FragmentFAQBinding
 import com.abc.mirroring.ui.tutorial.adapter.FAQItemAdapter
 import com.abc.mirroring.utils.FirebaseTracking
@@ -29,7 +30,7 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
     override fun initViews() {
         FirebaseTracking.logHelpFAQShowed()
         val faqItems = viewModel.getFAQItem(requireActivity())
-        val hasAds = AppConfigRemote().turnOnInlineFAQNative == true
+        val hasAds = AppConfigRemote().turnOnInlineFAQNative == true && AppPreferences().isPremiumActive == false
         if (!hasAds) {
             faqItems.removeAt(1)
         }
