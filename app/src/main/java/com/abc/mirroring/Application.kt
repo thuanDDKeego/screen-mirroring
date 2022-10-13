@@ -12,8 +12,11 @@ import com.android.billingclient.api.*
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.google.android.gms.ads.AdActivity
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import java.util.*
 
 
 @HiltAndroidApp
@@ -32,6 +35,9 @@ class Application : Application() {
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
         AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
+        val testDeviceIds = Arrays.asList("30C8D1813FBF6F221A54C4D0DDA2D7DC", "F394E8C18C4B32FBB0CD9CBAF0241AE8")
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        MobileAds.setRequestConfiguration(configuration)
     }
 
     private fun initLogger() {

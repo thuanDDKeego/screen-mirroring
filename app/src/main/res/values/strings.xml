@@ -32,7 +32,7 @@
     <string name="tutorial">Tutorial</string>
     <string name="faq">FAQ</string>
     <string name="connect">Connect</string>
-    <string name="connected_devices">Connected devices</string>
+    <string name="connected_devices">Connecting devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
     <string name="tutorial_guild1">1. Make sure your phone and TV connected to the same Wifi without VPN.</string>
