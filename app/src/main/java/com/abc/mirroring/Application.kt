@@ -35,7 +35,7 @@ class Application : Application() {
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
         AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
-        val testDeviceIds = Arrays.asList("30C8D1813FBF6F221A54C4D0DDA2D7DC", "F394E8C18C4B32FBB0CD9CBAF0241AE8")
+        val testDeviceIds = Arrays.asList("68DDC733EF933C7728111563202D9BB6", "F394E8C18C4B32FBB0CD9CBAF0241AE8")
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(configuration)
     }

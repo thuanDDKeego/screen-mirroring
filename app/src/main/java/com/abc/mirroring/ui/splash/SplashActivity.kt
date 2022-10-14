@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.abc.mirroring.ads.AppOpenManager
 import com.android.billingclient.api.*
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -43,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkSubscription()
+        initializeMobileAds()
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -232,6 +234,21 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun initializeMobileAds() {
+        MobileAds.initialize(this) { initializationStatus ->
+            val statusMap =
+                initializationStatus.adapterStatusMap
+            for (adapterClass in statusMap.keys) {
+                val status = statusMap[adapterClass]
+                Timber.d("MyApp" + String.format(
+                    "Adapter name: %s, Description: %s, Latency: %d",
+                    adapterClass, status!!.description, status.latency))
+            }
+
+            // Start loading ads here...
+        }
     }
 
     private fun goToHome() {
