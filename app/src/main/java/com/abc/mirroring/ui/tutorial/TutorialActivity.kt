@@ -33,13 +33,6 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
 
     override fun initBinding() = ActivityTutorialBinding.inflate(layoutInflater)
 
-    override fun initAdmob() {
-        admobHelper.loadAdInterstitial(
-            this@TutorialActivity,
-            AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
-        ) {}
-    }
-
     override fun initViews() {
         initViewPager()
     }
@@ -47,7 +40,6 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     override fun initActions() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
-
         }
     }
 
