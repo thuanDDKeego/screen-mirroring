@@ -122,7 +122,6 @@ class AdmobHelper {
                     callback()
                     adsInterstitial[type] = null
                     Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                    loadAdInterstitial(context, type) {}
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
@@ -130,7 +129,6 @@ class AdmobHelper {
                     callback()
                     adsInterstitial[type] = null
                     Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                    loadAdInterstitial(context, type) {}
 
                 }
             }
