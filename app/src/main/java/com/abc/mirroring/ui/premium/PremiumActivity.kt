@@ -3,11 +3,13 @@ package com.abc.mirroring.ui.premium
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.abc.mirroring.utils.Global.SUB_PURCHASE_ID
@@ -30,9 +32,18 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (AppConfigRemote().isHalloweenTheme == true) {
+            setTheme(R.style.Theme_Halloween_NoActionBar)
+        }
+        super.onCreate(savedInstanceState)
+    }
     override fun initBinding() = ActivityPremiumBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        if(AppConfigRemote().isHalloweenTheme == true) {
+            binding.constrPremium.background = resources.getDrawable(R.mipmap.bg_premium_haloween)
+        }
         val animBtnUpgrade = AnimationUtils.loadAnimation(
             applicationContext,
             R.anim.alpha_scale_upgrade

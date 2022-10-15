@@ -19,4 +19,8 @@ class AppConfigRemote() :
 
     //ad timeout
     var adsTimeout by intPref(defaultValue = 0)
+
+    //theme
+    var isHalloweenTheme by booleanPref(defaultValue = false)
+
 }

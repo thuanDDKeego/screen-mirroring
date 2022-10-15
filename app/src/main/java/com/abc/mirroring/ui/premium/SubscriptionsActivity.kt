@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.widget.Toast
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySubscriptionsBinding
 import com.abc.mirroring.ui.policy.PolicyActivity
@@ -25,10 +27,20 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (AppConfigRemote().isHalloweenTheme == true) {
+            setTheme(R.style.Theme_Halloween_NoActionBar)
+        }
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initBinding(): ActivitySubscriptionsBinding =
         ActivitySubscriptionsBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        if(AppConfigRemote().isHalloweenTheme == true) {
+            binding.constrSubscription.background = resources.getDrawable(R.mipmap.bg_premium_haloween)
+        }
         val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!)
         val date = Date(expiryDate)
         val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")

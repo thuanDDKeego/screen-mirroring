@@ -20,6 +20,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Halloween.NoActionBar" parent="Theme.Sreenmirroringcasttv">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#C95337</item>
+        <item name="colorPrimaryVariant">#C95337</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#C95337</item>
+
+    </style>
+
+
+
     <style name="SplashTheme" parent="Theme.Sreenmirroringcasttv.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
     </style>

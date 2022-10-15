@@ -84,6 +84,7 @@ class AdmobHelper {
                 object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
                         Timber.d("====onLoaded $mInterstitialAd")
+                        Timber.d("interstitial adapter class name:" + mInterstitialAd.responseInfo.mediationAdapterClassName)
                         super.onAdLoaded(mInterstitialAd)
                         adsInterstitial[type] = mInterstitialAd
                         if (showAds) {
@@ -121,7 +122,6 @@ class AdmobHelper {
                     callback()
                     adsInterstitial[type] = null
                     Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                    loadAdInterstitial(context, type) {}
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
@@ -129,7 +129,6 @@ class AdmobHelper {
                     callback()
                     adsInterstitial[type] = null
                     Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                    loadAdInterstitial(context, type) {}
 
                 }
             }
@@ -278,6 +277,7 @@ class AdmobHelper {
                 }
 
                 override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    Timber.d("rewarded adapter class name:" + rewardedAd.responseInfo.mediationAdapterClassName)
                     adsRewarded[type] = rewardedAd
                     if (showAds) {
                         callback(adsRewarded[type])
