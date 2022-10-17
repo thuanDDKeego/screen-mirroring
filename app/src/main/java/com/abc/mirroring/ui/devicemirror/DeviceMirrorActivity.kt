@@ -5,10 +5,12 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.*
+import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
@@ -16,6 +18,7 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
+import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,15 +53,32 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             setupCheckWifiConnectView(false)
         }
 
-        networkRequest = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .build()
-
-        val connectivityManager =
-            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-        connectivityManager.requestNetwork(networkRequest, networkCallback)
+//        networkRequest = NetworkRequest.Builder()
+//            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+//            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+//            .build()
+//
+//        val connectivityManager =
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+//            } else {
+//
+//            }
+//        connectivityManager.requestNetwork(networkRequest, networkCallback)
         AppOpenManager.instance?.enableAddWithActivity(DeviceMirrorActivity::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observerWifiState(object : onWifiChangeStateConnection {
+            override fun onWifiUnavailable() {
+                    setupCheckWifiConnectView(false)
+            }
+
+            override fun onWifiAvailable() {
+                setupCheckWifiConnectView(true)
+            }
+        })
     }
 
     override fun initAdmob() {
@@ -88,19 +108,19 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         }
     }
 
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            setupCheckWifiConnectView(true)
-        }
-
-        // lost network connection
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            setupCheckWifiConnectView(false)
-        }
-    }
+//    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+//        // network is available for use
+//        override fun onAvailable(network: Network) {
+//            super.onAvailable(network)
+//            setupCheckWifiConnectView(true)
+//        }
+//
+//        // lost network connection
+//        override fun onLost(network: Network) {
+//            super.onLost(network)
+//            setupCheckWifiConnectView(false)
+//        }
+//    }
 
 //    override fun onResume() {
 //        super.onResume()
