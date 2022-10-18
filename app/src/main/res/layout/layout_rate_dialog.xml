@@ -28,6 +28,8 @@
         app:layout_constraintWidth_percent="0.85">
 
 
+
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnClose"
             android:layout_width="24dp"
@@ -35,7 +37,7 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_close"
             android:tint="@color/grayA01"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@id/mainRatingContentLayout"
             app:layout_constraintTop_toTopOf="@id/mainRatingContentLayout" />
 
@@ -130,14 +132,14 @@
             app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtRemindALater"
+            android:id="@+id/txtDontAskAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/remind_a_later"
-            android:textColor="@color/colorPrimary"
+            android:text="@string/dont_ask_me_again"
+            android:textColor="@color/blackA02"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

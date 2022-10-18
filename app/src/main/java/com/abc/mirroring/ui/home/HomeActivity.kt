@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.result.ActivityResultLauncher
@@ -34,7 +33,6 @@ import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
-import com.ironsource.mediationsdk.ac
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -67,7 +65,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
-        val GO_TO_PREMIUM_DATA = "goToPremium"
+        val SHOW_RATING_DIALOG = "soRatingDialog"
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -81,8 +79,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if (appPreferences.isRated == false && appPreferences.countTimeOpenApp!! % 3 == 0) {
-            showRatingDialog()
+        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false) {
+            PremiumActivity.gotoActivity(this@HomeActivity)
         }
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
@@ -152,9 +150,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode
                 val data = activityResult.data
-                if (result == RESULT_OK && data != null && AppPreferences().isPremiumActive == false) {
-                    val goToPremium = data.getBooleanExtra(GO_TO_PREMIUM_DATA, false)
-                    if (goToPremium) PremiumActivity.gotoActivity(this@HomeActivity)
+                if (result == RESULT_OK && data != null && AppPreferences().isRated == false) {
+                    val isShowRating = data.getBooleanExtra(SHOW_RATING_DIALOG, false)
+                    if (isShowRating) showRatingDialog()
                 }
             }
         binding.constraintBrowserMirror.setOnClickListener {

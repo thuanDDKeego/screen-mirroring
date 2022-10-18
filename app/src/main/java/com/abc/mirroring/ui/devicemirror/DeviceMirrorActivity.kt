@@ -207,7 +207,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
 
     override fun onBackPressed() {
         val returnIntent = Intent()
-        returnIntent.putExtra(HomeActivity.GO_TO_PREMIUM_DATA, true)
+        returnIntent.putExtra(HomeActivity.SHOW_RATING_DIALOG, true)
         setResult(RESULT_OK, returnIntent)
         super.onBackPressed()
     }

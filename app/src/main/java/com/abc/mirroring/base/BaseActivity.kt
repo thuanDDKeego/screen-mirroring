@@ -162,6 +162,9 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
             delay(150)
             dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
         }
+        dialogRatingBinding.btnClose.setOnClickListener {
+            dismissRatingDialog()
+        }
         dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
             rating = _rating.toInt()
             resetDialogView()
@@ -217,7 +220,10 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         }
         dialogRatingBinding.bgBlackViewInRate.fadeInAnimation()
         dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
-        dialogRatingBinding.txtRemindALater.setOnClickListener { dismissRatingDialog() }
+        dialogRatingBinding.txtDontAskAgain.setOnClickListener {
+            dismissRatingDialog()
+            AppPreferences().isRated = true
+        }
         dialogRatingBinding.btnRate.setOnClickListener {
             AppPreferences().isRated = true
             if (rating <= 3) {
