@@ -50,7 +50,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
-    private lateinit var activityResult: ActivityResultLauncher<Intent>
+    private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
 
@@ -75,15 +75,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
         appPreferences.countTimeOpenApp = appPreferences.countTimeOpenApp!! + 1
-        val a = appPreferences.isTheFirstTimeUseApp
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
         } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        binding.imgPremium.startAnimation(shake)
+
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
@@ -98,6 +96,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             R.anim.alpha_scale
         )
         binding.imgBtnConnect.startAnimation(animFade)
+
+        //shake img crown
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        binding.imgPremium.startAnimation(shake)
     }
 
     private fun initAds() {
@@ -148,7 +150,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
-        activityResult =
+        goToMirrorActivityResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode
                 val data = activityResult.data
@@ -176,10 +178,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     AdType.GO_MIRROR_DEVICE_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
-                    activityResult.launch(intent)
+                    goToMirrorActivityResult.launch(intent)
                 }
             } else {
-                activityResult.launch(intent)
+                goToMirrorActivityResult.launch(intent)
             }
         }
         binding.imgSetting.setOnClickListener {
@@ -342,12 +344,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
     }
-
-//    private fun goToMirrorDevice(): ActivityResultLauncher<Intent> {
-//        Timber.d("gotoMirrorDevice func")
-//
-//        return activityResult
-//    }
 
     private fun showTutorialDialog() {
         tutorialDialogIsShowing = true
