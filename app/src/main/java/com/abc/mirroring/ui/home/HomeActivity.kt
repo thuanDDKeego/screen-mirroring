@@ -82,6 +82,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        binding.imgPremium.startAnimation(shake)
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
