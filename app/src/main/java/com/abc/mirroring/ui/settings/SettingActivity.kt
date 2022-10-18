@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
@@ -65,6 +66,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        binding.imgCrown.startAnimation(shake)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

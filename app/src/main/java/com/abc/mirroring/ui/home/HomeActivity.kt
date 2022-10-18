@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager.widget.ViewPager
@@ -48,6 +50,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
+    private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
 
@@ -62,6 +65,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
+        val SHOW_RATING_DIALOG = "soRatingDialog"
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -74,9 +78,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if (appPreferences.isRated == false && appPreferences.countTimeOpenApp!! % 3 == 0) {
-            showRatingDialog()
+        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false) {
+            PremiumActivity.gotoActivity(this@HomeActivity)
         }
+
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
@@ -91,6 +96,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             R.anim.alpha_scale
         )
         binding.imgBtnConnect.startAnimation(animFade)
+
+        //shake img crown
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        binding.imgPremium.startAnimation(shake)
     }
 
     private fun initAds() {
@@ -141,6 +150,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
+        goToMirrorActivityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+                val result = activityResult.resultCode
+                val data = activityResult.data
+                if (result == RESULT_OK && data != null && AppPreferences().isRated == false) {
+                    val isShowRating = data.getBooleanExtra(SHOW_RATING_DIALOG, false)
+                    if (isShowRating) showRatingDialog()
+                }
+            }
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
             if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumActive == true) {
@@ -152,6 +170,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
+            val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
@@ -159,10 +178,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     AdType.GO_MIRROR_DEVICE_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
-                    DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+                    goToMirrorActivityResult.launch(intent)
                 }
             } else {
-                DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+                goToMirrorActivityResult.launch(intent)
             }
         }
         binding.imgSetting.setOnClickListener {
@@ -373,7 +392,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
-                dismissTutorialDialog()
+                if (AppPreferences().isPremiumActive == true) {
+                    dismissTutorialDialog()
+                } else {
+                    admobHelper.showAdInterstitial(
+                        this@HomeActivity,
+                        AdType.HOME_ONBOARDING_INTERSTITIAL
+                    ) {
+                        dismissTutorialDialog()
+                    }
+                }
             }
         }
     }
