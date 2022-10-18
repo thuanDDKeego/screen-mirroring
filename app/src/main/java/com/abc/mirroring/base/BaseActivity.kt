@@ -168,7 +168,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
             rating = _rating.toInt()
             resetDialogView()
-            dialogRatingBinding.btnClose.visibility = View.GONE
+            dialogRatingBinding.btnClose.visibility = View.VISIBLE
             dialogRatingBinding.btnRate.visibility = View.VISIBLE
             dialogRatingBinding.txtDescription.visibility = View.VISIBLE
             dialogRatingBinding.animationEmojis.visibility = View.VISIBLE
