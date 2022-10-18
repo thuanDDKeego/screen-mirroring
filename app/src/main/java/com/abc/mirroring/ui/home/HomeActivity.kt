@@ -71,6 +71,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
         appPreferences.countTimeOpenApp = appPreferences.countTimeOpenApp!! + 1
+        val a = appPreferences.isTheFirstTimeUseApp
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
@@ -373,7 +374,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
-                dismissTutorialDialog()
+                if (AppPreferences().isPremiumActive == true) {
+                    dismissTutorialDialog()
+                } else {
+                    admobHelper.showAdInterstitial(
+                        this@HomeActivity,
+                        AdType.HOME_ONBOARDING_INTERSTITIAL
+                    ) {
+                        dismissTutorialDialog()
+                    }
+                }
             }
         }
     }
