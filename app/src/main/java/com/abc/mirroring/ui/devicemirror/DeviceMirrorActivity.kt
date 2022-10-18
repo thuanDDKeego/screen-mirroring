@@ -5,12 +5,10 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.*
-import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
@@ -205,6 +203,13 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        val returnIntent = Intent()
+        returnIntent.putExtra(HomeActivity.GO_TO_PREMIUM_DATA, true)
+        setResult(RESULT_OK, returnIntent)
+        super.onBackPressed()
     }
 
 }

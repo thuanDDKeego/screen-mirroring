@@ -5,8 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager.widget.ViewPager
@@ -31,6 +34,7 @@ import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
+import com.ironsource.mediationsdk.ac
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -48,6 +52,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
+    private lateinit var activityResult: ActivityResultLauncher<Intent>
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
 
@@ -62,6 +67,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
+        val GO_TO_PREMIUM_DATA = "goToPremium"
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -142,6 +148,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
+        activityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+                val result = activityResult.resultCode
+                val data = activityResult.data
+                if (result == RESULT_OK && data != null && AppPreferences().isPremiumActive == false) {
+                    val goToPremium = data.getBooleanExtra(GO_TO_PREMIUM_DATA, false)
+                    if (goToPremium) PremiumActivity.gotoActivity(this@HomeActivity)
+                }
+            }
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
             if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumActive == true) {
@@ -153,6 +168,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
+            val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
                 admobHelper.showAdInterstitial(
@@ -160,10 +176,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     AdType.GO_MIRROR_DEVICE_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
-                    DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+                    activityResult.launch(intent)
                 }
             } else {
-                DeviceMirrorActivity.gotoActivity(this@HomeActivity)
+                activityResult.launch(intent)
             }
         }
         binding.imgSetting.setOnClickListener {
@@ -326,6 +342,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
     }
+
+//    private fun goToMirrorDevice(): ActivityResultLauncher<Intent> {
+//        Timber.d("gotoMirrorDevice func")
+//
+//        return activityResult
+//    }
 
     private fun showTutorialDialog() {
         tutorialDialogIsShowing = true
