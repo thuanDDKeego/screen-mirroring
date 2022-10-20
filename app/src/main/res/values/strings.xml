@@ -135,43 +135,24 @@
     <string name="applovin_mrec" translatable="false">YOUR_AD_UNIT_ID</string>
     <string name="applovin_native" translatable="false">2ae08312099b9acb</string>
 
-<!--    <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>-->
+    <string name="ad_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 
-<!--    <string name="ad_interstitial_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="ad_interstitial_mirror_deivce" translatable="false">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="ad_interstitial_back_from_tutorial" translatable="false">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="ad_interstitial_home_onboarding" translatable="false">ca-app-pub-3940256099942544/1033173712</string>-->
+    <string name="ad_interstitial_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_mirror_deivce" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_back_from_tutorial" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_interstitial_home_onboarding" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
 
-<!--    <string name="ad_rewarded_browser_mirror" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
+    <string name="ad_rewarded_browser_mirror" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
-<!--    <string name="ad_native_home" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
-<!--    <string name="ad_native_exit_app" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
-<!--    <string name="ad_native_tutorial" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
-<!--    <string name="ad_native_faq" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
-<!--    <string name="ad_native_connect_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
-<!--    <string name="ad_native_mirror_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
+    <string name="ad_native_home" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_exit_app" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_tutorial" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_faq" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_connect_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_native_mirror_device" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
 
-<!--    <string name="ad_app_open" translatable="false">ca-app-pub-3940256099942544/3419835294</string>-->
-<!--    <string name="ad_edit_video_banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>-->
-
-    <string name="ad_app_id">ca-app-pub-6969842628973791~3712503700</string>
-
-    <string name="ad_interstitial_splash">ca-app-pub-6969842628973791/9632713099</string>
-    <string name="ad_interstitial_mirror_deivce">ca-app-pub-6969842628973791/3920123930</string>
-    <string name="ad_interstitial_back_from_tutorial">ca-app-pub-6969842628973791/4890973563</string>
-    <string name="ad_interstitial_home_onboarding">ca-app-pub-6969842628973791/8183351313</string>
-
-    <string name="ad_rewarded_browser_mirror">ca-app-pub-6969842628973791/1171220406</string>
-
-    <string name="ad_native_home">ca-app-pub-6969842628973791/2931024634</string>
-    <string name="ad_native_exit_app">ca-app-pub-6969842628973791/7133993524</string>
-    <string name="ad_native_tutorial">ca-app-pub-6969842628973791/2739452942</string>
-    <string name="ad_native_faq">ca-app-pub-6969842628973791/6487126266</string>
-    <string name="ad_native_connect_device">ca-app-pub-6969842628973791/8921717913</string>
-    <string name="ad_native_mirror_device">ca-app-pub-6969842628973791/8730146224</string>
-
-    <string name="ad_app_open">ca-app-pub-6969842628973791/2164737879</string>
-    <string name="ad_edit_video_banner">ca-app-pub-6969842628973791/3094676163</string>
+    <string name="ad_app_open" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ad_edit_video_banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
     <string name="sponsored">Sponsored</string>
     <string name="exit">Exit</string>
