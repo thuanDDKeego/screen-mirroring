@@ -35,6 +35,7 @@ class Application : Application() {
         AppOpenManager.instance?.init(this, this.getString(AdType.APP_OPEN.adsId))
         AppOpenManager.instance?.disableAddWithActivity(AdActivity::class.java)
         AppOpenManager.instance?.disableAddWithActivity(SplashActivity::class.java)
+        RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("68DDC733EF933C7728111563202D9BB6"))
     }
 
     private fun initLogger() {

@@ -72,7 +72,7 @@
         android:gravity="center"
         android:paddingHorizontal="@dimen/margin_24dp"
         android:layout_marginBottom="@dimen/margin_36dp"
-        android:text="@string/one_year"
+        android:text="@string/three_months"
         android:textColor="@color/white"
         android:textSize="@dimen/text_regular"
         app:layout_constraintEnd_toEndOf="parent"

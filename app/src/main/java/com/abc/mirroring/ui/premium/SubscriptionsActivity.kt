@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.widget.Toast
+import androidx.annotation.NonNull
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
@@ -14,12 +16,14 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySubscriptionsBinding
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.utils.Global
+import com.android.billingclient.api.*
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
-    private final val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=${Global.SUB_PURCHASE_ID}"
-
+    private val SUBSCRIPTION_URL = "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=${Global.SUB_PURCHASE_ID}"
+    private lateinit var billingClient: BillingClient
     companion object {
         fun gotoActivity(activity: Activity) {
             val intent = Intent(activity, SubscriptionsActivity::class.java)
@@ -39,9 +43,10 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
 
     override fun initViews() {
         if(AppConfigRemote().isHalloweenTheme == true) {
-            binding.constrSubscription.background = resources.getDrawable(R.mipmap.bg_premium_haloween)
+            binding.constrSubscription.background = resources.getDrawable(R.mipmap.bg_premium_halloween)
         }
-        val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!)
+        getPrice()
+        val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!, DateUtils.YEAR_IN_MILLIS / 4)
         val date = Date(expiryDate)
         val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
         binding.txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))
@@ -62,6 +67,37 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
         }
     }
 
+    private fun getPrice() {
+        billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
+            .setListener { _: BillingResult?, _: List<Purchase?>? -> }
+            .build()
+        val finalBillingClient: BillingClient = billingClient
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingServiceDisconnected() {}
+            override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    PremiumUtils.showProducts(finalBillingClient) { productDetailsList ->
+                        for (productDetails in productDetailsList) {
+                            if (productDetails.productId == Global.SUB_PURCHASE_ID) {
+                                val subDetails =
+                                    productDetails.subscriptionOfferDetails!!
+//                    Log.d("testOffer", subDetails[0])
+                                binding.apply {
+                                    txtSubscriptionPrice.text = "${
+                                        subDetails[0].pricingPhases.pricingPhaseList[0]
+                                            .formattedPrice
+                                    }/${getString(R.string.three_months)}"
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    binding.txtSubscriptionPrice.text = getString(R.string.price_and_period,"1.99$" )
+                }
+            }
+        })
+    }
+
 
     private fun openPlaystoreAccount() {
         try {
@@ -69,6 +105,13 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(this, "Cant open the browser", Toast.LENGTH_LONG).show()
             e.printStackTrace()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::billingClient.isInitialized) {
+            billingClient.endConnection()
         }
     }
 
