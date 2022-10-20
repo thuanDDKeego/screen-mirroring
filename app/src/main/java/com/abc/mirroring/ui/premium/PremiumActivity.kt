@@ -12,13 +12,14 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
-import com.abc.mirroring.utils.Global.SUB_PURCHASE_ID
+import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
+import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED}
+enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED }
 
 class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private var isPremiumActive = AppPreferences().isPremiumActive == true
@@ -38,11 +39,12 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         }
         super.onCreate(savedInstanceState)
     }
+
     override fun initBinding() = ActivityPremiumBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        if(AppConfigRemote().isHalloweenTheme == true) {
-            binding.constrPremium.background = resources.getDrawable(R.mipmap.bg_premium_haloween)
+        if (AppConfigRemote().isHalloweenTheme == true) {
+            binding.constrPremium.background = resources.getDrawable(R.mipmap.bg_premium_halloween)
         }
         val animBtnUpgrade = AnimationUtils.loadAnimation(
             applicationContext,
@@ -74,14 +76,18 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 }
             }
             ScreenState.HAS_SUBSCRIBED -> {
-                val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!, )
+                val expiryDate = PremiumUtils.getExpiryTime(
+                    AppPreferences().purchaseDate!!,
+                    PremiumUtils.THREE_MONTHS_IN_MILLIS
+                )
                 val date = Date(expiryDate)
                 val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
                 binding.apply {
                     btnUpgrade.clearAnimation()
                     btnUpgrade.visibility = View.INVISIBLE
                     txtExpiryDate.visibility = View.VISIBLE
-                    txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))
+                    txtExpiryDate.text =
+                        getString(R.string.expire_on, expiryDateFormat.format(date))
                     txtPurchaseState.visibility = View.GONE
                     txtPurchaseDes.text = getString(R.string.thanks_for_using_app)
                     imgCrown.setImageResource(R.drawable.ic_success)
@@ -153,7 +159,25 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
-                    showProducts()
+                    showProducts(billingClient) { productDetailsList ->
+                        for (productDetails in productDetailsList) {
+                            if (productDetails.productId == Global.SUB_PURCHASE_ID) {
+                                val subDetails =
+                                    productDetails.subscriptionOfferDetails!!
+//                    Log.d("testOffer", subDetails[0])
+                                binding.apply {
+                                    txtPurchaseState.text = "${
+                                        subDetails[0].pricingPhases.pricingPhaseList[0]
+                                            .formattedPrice
+                                    }"
+                                    btnUpgrade.setOnClickListener {
+                                        showLoadingProgressBar()
+                                        launchPurchaseFlow(productDetails)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -165,40 +189,6 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
         })
     }
 
-    fun showProducts() {
-        val productList = mutableListOf(
-            //Product 1 = index is 0
-            QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(SUB_PURCHASE_ID)
-                .setProductType(BillingClient.ProductType.SUBS)
-                .build()
-        )
-        val params = QueryProductDetailsParams.newBuilder()
-            .setProductList(productList)
-            .build()
-        billingClient.queryProductDetailsAsync(
-            params
-        ) { billingResult: BillingResult?, productDetailsList: List<ProductDetails> ->
-            // Process the result
-            for (productDetails in productDetailsList) {
-                if (productDetails.productId == SUB_PURCHASE_ID) {
-                    val subDetails =
-                        productDetails.subscriptionOfferDetails!!
-//                    Log.d("testOffer", subDetails[0])
-                    binding.apply {
-                        txtPurchaseState.text = "${
-                            subDetails[0].pricingPhases.pricingPhaseList[0]
-                                .formattedPrice
-                        }"
-                        btnUpgrade.setOnClickListener {
-                            showLoadingProgressBar()
-                            launchPurchaseFlow(productDetails)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private fun launchPurchaseFlow(productDetails: ProductDetails) {
         assert(productDetails.subscriptionOfferDetails != null && productDetails.subscriptionOfferDetails!!.isNotEmpty())

@@ -2,9 +2,7 @@ package com.abc.mirroring.utils
 
 object Global {
     var SELECT_FROM_SETTING = false
-    val POLICY = "https://sofigo.net/policy/"
-    val SUB_PURCHASE_ID = "sub_one_month_test"
-    //    val SUB_PURCHASE_ID = "test_1year_2"
-
+    const val POLICY = "https://sofigo.net/policy/"
+    const val SUB_PURCHASE_ID = "subscription_premium_no_ads"
 
 }

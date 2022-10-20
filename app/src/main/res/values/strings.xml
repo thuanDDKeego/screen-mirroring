@@ -194,7 +194,9 @@
     <string name="premium_title">Premium Upgrade</string>
     <string name="premium_member">Premium Member</string>
     <string name="one_time_payment">One-time Payment</string>
+    <string name="price_and_period">%1s/3 months</string>
     <string name="one_year">One Year</string>
+    <string name="three_months">3 months</string>
     <string name="remove_all_ads">Remove all Ads</string>
     <string name="unlimited_browser_mirror">Unlimited Browser Mirror</string>
     <string name="upcoming_features">Upcoming features</string>

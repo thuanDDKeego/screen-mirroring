@@ -102,7 +102,6 @@
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:padding="@dimen/margin_8dp"
-            android:text="$1.5/year"
             android:textColor="@color/white"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="16sp"
