@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.annotation.NonNull
 import com.abc.mirroring.BuildConfig
@@ -15,9 +14,9 @@ import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySubscriptionsBinding
 import com.abc.mirroring.ui.policy.PolicyActivity
+import com.abc.mirroring.ui.premium.PremiumUtils.Companion.THREE_MONTHS_IN_MILLIS
 import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,7 +45,7 @@ class SubscriptionsActivity : BaseActivity<ActivitySubscriptionsBinding>() {
             binding.constrSubscription.background = resources.getDrawable(R.mipmap.bg_premium_halloween)
         }
         getPrice()
-        val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!, DateUtils.YEAR_IN_MILLIS / 4)
+        val expiryDate = PremiumUtils.getExpiryTime(AppPreferences().purchaseDate!!, THREE_MONTHS_IN_MILLIS)
         val date = Date(expiryDate)
         val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
         binding.txtExpiryDate.text = getString(R.string.expire_on, expiryDateFormat.format(date))

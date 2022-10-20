@@ -6,10 +6,10 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.QueryProductDetailsParams
-import timber.log.Timber
 
 class PremiumUtils {
     companion object {
+        const val THREE_MONTHS_IN_MILLIS = DateUtils.YEAR_IN_MILLIS / 4
         fun getExpiryTime(
             purchaseTime: Long,
             subscriptionPeriod: Long = DateUtils.YEAR_IN_MILLIS

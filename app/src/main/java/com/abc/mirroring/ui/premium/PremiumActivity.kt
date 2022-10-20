@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -15,7 +14,6 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
 import com.abc.mirroring.utils.Global
-import com.abc.mirroring.utils.Global.SUB_PURCHASE_ID
 import com.android.billingclient.api.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -80,7 +78,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             ScreenState.HAS_SUBSCRIBED -> {
                 val expiryDate = PremiumUtils.getExpiryTime(
                     AppPreferences().purchaseDate!!,
-                    DateUtils.YEAR_IN_MILLIS / 4
+                    PremiumUtils.THREE_MONTHS_IN_MILLIS
                 )
                 val date = Date(expiryDate)
                 val expiryDateFormat = SimpleDateFormat("MM/dd/yyyy")
