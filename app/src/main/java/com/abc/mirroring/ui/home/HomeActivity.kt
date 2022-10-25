@@ -78,7 +78,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false) {
+        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
 
@@ -88,6 +88,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
         initAnim()
+
+        binding.imgPremium.visibility = if(AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     private fun initAnim() {
@@ -395,10 +397,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (AppPreferences().isPremiumActive == true) {
                     dismissTutorialDialog()
                 } else {
+                    showLoadingAdDialog()
                     admobHelper.showAdInterstitial(
                         this@HomeActivity,
                         AdType.HOME_ONBOARDING_INTERSTITIAL
                     ) {
+                        dismissLoadingAdDialog()
                         dismissTutorialDialog()
                     }
                 }

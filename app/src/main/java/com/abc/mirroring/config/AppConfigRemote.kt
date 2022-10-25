@@ -23,4 +23,7 @@ class AppConfigRemote() :
     //theme
     var isHalloweenTheme by booleanPref(defaultValue = false)
 
+    //enable premium feature
+    var enable_premium by booleanPref(defaultValue = false)
+
 }
