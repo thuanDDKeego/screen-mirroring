@@ -277,7 +277,7 @@
                     app:layout_constraintEnd_toStartOf="@id/switchModeFloatingTool"
                     app:layout_constraintTop_toTopOf="@id/switchModeFloatingTool" />
 
-                <androidx.appcompat.widget.SwitchCompat
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchModeFloatingTool"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
