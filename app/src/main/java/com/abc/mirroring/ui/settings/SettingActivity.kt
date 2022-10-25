@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySettingBinding
 import com.abc.mirroring.databinding.LayoutDialogChangePinCodeBinding
@@ -68,6 +69,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
         val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
         binding.imgCrown.startAnimation(shake)
+        binding.llUpgrade.visibility = if(AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

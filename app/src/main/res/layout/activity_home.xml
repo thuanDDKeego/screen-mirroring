@@ -37,6 +37,7 @@
         android:paddingEnd="@dimen/margin_8dp"
         android:paddingStart="@dimen/margin_16dp"
         android:src="@drawable/ic_crown"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/imgSetting"
         app:layout_constraintTop_toTopOf="parent" />
 
