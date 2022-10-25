@@ -175,9 +175,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
-                admobHelper.showAdInterstitial(
+                admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
-                    AdType.GO_MIRROR_DEVICE_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
                     goToMirrorActivityResult.launch(intent)
@@ -398,9 +397,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dismissTutorialDialog()
                 } else {
                     showLoadingAdDialog()
-                    admobHelper.showAdInterstitial(
+                    admobHelper.showGeneralAdInterstitial(
                         this@HomeActivity,
-                        AdType.HOME_ONBOARDING_INTERSTITIAL
                     ) {
                         dismissLoadingAdDialog()
                         dismissTutorialDialog()

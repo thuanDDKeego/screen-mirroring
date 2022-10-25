@@ -125,9 +125,8 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         } else {
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
-                admobHelper.showAdInterstitial(
+                admobHelper.showGeneralAdInterstitial(
                     this@TutorialActivity,
-                    AdType.BACK_FROM_TUTORIAL_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
                     super.onBackPressed()

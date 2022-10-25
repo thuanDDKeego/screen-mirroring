@@ -57,49 +57,142 @@ class AdmobHelper {
     }
 
 
-    fun loadAdInterstitial(
+//    fun loadAdInterstitial(
+//        context: Context,
+//        type: AdType,
+//        callback: (mInterstitialAd: InterstitialAd?) -> Unit,
+//    ) {
+//        if (AppPreferences().isPremiumActive == true) {
+//            callback(null)
+//        } else {
+//            var showAds = true
+//            var job: Job? = null
+//            val timeout = AppConfigRemote().adsTimeout ?: 0
+//            if (timeout != 0) {
+//                job = CoroutineScope(Dispatchers.Main).launch {
+//                    delay(timeout.toLong())
+//                    showAds = false
+//                    callback(null)
+//                }
+//            }
+//            if (adsInterstitial[type] != null && showAds) {
+//                callback(adsInterstitial[type])
+//                job?.cancel()
+//                return
+//            }
+//            InterstitialAd.load(context, context.getString(type.adsId), adRequest,
+//                object : InterstitialAdLoadCallback() {
+//                    override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
+//                        Timber.d("====onLoaded $mInterstitialAd")
+//                        Timber.d("interstitial adapter class name:" + mInterstitialAd.responseInfo.mediationAdapterClassName)
+//                        super.onAdLoaded(mInterstitialAd)
+//                        adsInterstitial[type] = mInterstitialAd
+//                        if (showAds) {
+//                            callback(adsInterstitial[type])
+//                            adsInterstitial[type] = null
+//                            job?.cancel()
+//                        }
+//                    }
+//
+//                    override fun onAdFailedToLoad(mInterstitialAd: LoadAdError) {
+//                        Timber.d("====onLoad failed${mInterstitialAd}")
+//                        super.onAdFailedToLoad(mInterstitialAd)
+//                        adsInterstitial[type] = null
+//                        if (showAds) {
+//                            callback(adsInterstitial[type])
+//                            job?.cancel()
+//                        }
+//                    }
+//                })
+//        }
+//    }
+
+//    fun showAdInterstitial(
+//        context: Context,
+//        type: AdType,
+//        callback: () -> Unit,
+//    ) {
+//        if (AppPreferences().isPremiumActive == true) {
+//            callback()
+//        } else {
+//            Timber.d("====show ${adsInterstitial[type]}")
+//            val fullScreenContentCallback = object : FullScreenContentCallback() {
+//                override fun onAdDismissedFullScreenContent() {
+//                    super.onAdDismissedFullScreenContent()
+//                    callback()
+//                    adsInterstitial[type] = null
+//                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+//                }
+//
+//                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+//                    super.onAdFailedToShowFullScreenContent(p0)
+//                    callback()
+//                    adsInterstitial[type] = null
+//                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+//
+//                }
+//            }
+//            if (adsInterstitial[type] != null) {
+//                Timber.d("adsInterstitial ${adsInterstitial[type]}")
+//                adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
+//                adsInterstitial[type]?.show(context as Activity)
+//            } else {
+//                loadAdInterstitial(context, type) {
+//                    if (adsInterstitial[type] != null) {
+//                        adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
+//                        adsInterstitial[type]?.show(context as Activity)
+//                    } else {
+//                        callback()
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    fun loadGeneralAdInterstitial(
         context: Context,
-        type: AdType,
-        callback: (mInterstitialAd: InterstitialAd?) -> Unit,
+        timeout: Long? = null,
+        callback: ((mInterstitialAd: InterstitialAd?) -> Unit)? = null,
     ) {
         if (AppPreferences().isPremiumActive == true) {
-            callback(null)
+            callback?.invoke(null)
         } else {
             var showAds = true
             var job: Job? = null
-            val timeout = AppConfigRemote().adsTimeout ?: 0
-            if (timeout != 0) {
+            if (adsInterstitial[AdType.GENERAL_INTERSTITIAL] != null && showAds) {
+                callback?.invoke(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
+                adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
+                return
+            }
+            if (timeout != null) {
                 job = CoroutineScope(Dispatchers.Main).launch {
                     delay(timeout.toLong())
                     showAds = false
-                    callback(null)
+                    callback?.invoke(null)
                 }
             }
-            if (adsInterstitial[type] != null && showAds) {
-                callback(adsInterstitial[type])
-                job?.cancel()
-                return
-            }
-            InterstitialAd.load(context, context.getString(type.adsId), adRequest,
+            InterstitialAd.load(context, context.getString(AdType.GENERAL_INTERSTITIAL.adsId), adRequest,
                 object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
-                        Timber.d("====onLoaded $mInterstitialAd")
+                        Timber.d("====onLoad general interstitial success $mInterstitialAd")
                         Timber.d("interstitial adapter class name:" + mInterstitialAd.responseInfo.mediationAdapterClassName)
                         super.onAdLoaded(mInterstitialAd)
-                        adsInterstitial[type] = mInterstitialAd
-                        if (showAds) {
-                            callback(adsInterstitial[type])
-                            adsInterstitial[type] = null
+                        adsInterstitial[AdType.GENERAL_INTERSTITIAL] = mInterstitialAd
+                        if (showAds && callback!=null) {
+                            callback.invoke(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
+                            adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
                             job?.cancel()
                         }
                     }
 
                     override fun onAdFailedToLoad(mInterstitialAd: LoadAdError) {
-                        Timber.d("====onLoad failed${mInterstitialAd}")
+                        Timber.d("====onLoad general interstitial fail $mInterstitialAd")
+
                         super.onAdFailedToLoad(mInterstitialAd)
-                        adsInterstitial[type] = null
-                        if (showAds) {
-                            callback(adsInterstitial[type])
+                        adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
+                        if (showAds && callback!= null) {
+                            callback(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
+                            adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
                             job?.cancel()
                         }
                     }
@@ -107,40 +200,41 @@ class AdmobHelper {
         }
     }
 
-    fun showAdInterstitial(
+    fun showGeneralAdInterstitial(
         context: Context,
-        type: AdType,
         callback: () -> Unit,
     ) {
         if (AppPreferences().isPremiumActive == true) {
             callback()
         } else {
-            Timber.d("====show ${adsInterstitial[type]}")
+            Timber.d("====show ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
             val fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
                     callback()
-                    adsInterstitial[type] = null
-                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+                    Timber.d("adsInterstitial ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
+                    adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
+                    loadGeneralAdInterstitial(context)
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                     super.onAdFailedToShowFullScreenContent(p0)
                     callback()
-                    adsInterstitial[type] = null
-                    Timber.d("adsInterstitial ${adsInterstitial[type]}")
+                    Timber.d("adsInterstitial ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
+                    adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
+                    loadGeneralAdInterstitial(context)
 
                 }
             }
-            if (adsInterstitial[type] != null) {
-                Timber.d("adsInterstitial ${adsInterstitial[type]}")
-                adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
-                adsInterstitial[type]?.show(context as Activity)
+            if (adsInterstitial[AdType.GENERAL_INTERSTITIAL] != null) {
+                Timber.d("adsInterstitial ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
+                adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback = fullScreenContentCallback
+                adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.show(context as Activity)
             } else {
-                loadAdInterstitial(context, type) {
-                    if (adsInterstitial[type] != null) {
-                        adsInterstitial[type]?.fullScreenContentCallback = fullScreenContentCallback
-                        adsInterstitial[type]?.show(context as Activity)
+                loadGeneralAdInterstitial(context) {
+                    if (adsInterstitial[AdType.GENERAL_INTERSTITIAL] != null) {
+                        adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback = fullScreenContentCallback
+                        adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.show(context as Activity)
                     } else {
                         callback()
                     }
@@ -148,6 +242,9 @@ class AdmobHelper {
             }
         }
     }
+
+
+
 
     private fun populateUnifiedNativeAdView(
         context: Context,
