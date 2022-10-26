@@ -32,10 +32,11 @@ import com.abc.mirroring.ui.premium.SubscriptionsActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
+    private var shakeAnimJob: Job? = null
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -69,7 +70,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
         val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
         binding.imgCrown.startAnimation(shake)
-        binding.llUpgrade.visibility = if(AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
+        binding.llUpgrade.visibility =
+            if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -184,7 +186,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             onBackPressed()
         }
         binding.llSubscriptionItem.setOnClickListener {
-            if(AppPreferences().isPremiumActive == true) {
+            if (AppPreferences().isPremiumActive == true) {
                 SubscriptionsActivity.gotoActivity(this@SettingActivity)
             }
         }
@@ -204,12 +206,48 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if(AppPreferences().isPremiumActive == true) {
-            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_black))
-            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.blueA01))
+        if (AppPreferences().isPremiumActive == true) {
+            binding.txtSubscription.setTextColor(
+                ContextCompat.getColor(
+                    this@SettingActivity,
+                    R.color.txt_black
+                )
+            )
+            binding.imgSubscription.setColorFilter(
+                ContextCompat.getColor(
+                    this@SettingActivity,
+                    R.color.blueA01
+                )
+            )
         } else {
-            binding.txtSubscription.setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
-            binding.imgSubscription.setColorFilter(ContextCompat.getColor(this@SettingActivity, R.color.txt_light_gray))
+            binding.txtSubscription.setTextColor(
+                ContextCompat.getColor(
+                    this@SettingActivity,
+                    R.color.txt_light_gray
+                )
+            )
+            binding.imgSubscription.setColorFilter(
+                ContextCompat.getColor(
+                    this@SettingActivity,
+                    R.color.txt_light_gray
+                )
+            )
         }
+
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+            while (true) {
+                delay(1000L)
+                binding.imgCrown.clearAnimation()
+                binding.imgCrown.startAnimation(shake)
+                delay(9000L)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        shakeAnimJob?.cancel()
+        shakeAnimJob = null
     }
 }

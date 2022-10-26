@@ -53,6 +53,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
+    private var shakeAnimJob: Job? = null
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -65,7 +66,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
-        val SHOW_RATING_DIALOG = "soRatingDialog"
+        const val SHOW_RATING_DIALOG = "soRatingDialog"
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -100,8 +101,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgBtnConnect.startAnimation(animFade)
 
         //shake img crown
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        binding.imgPremium.startAnimation(shake)
     }
 
     private fun initAds() {
@@ -119,6 +118,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onResume()
         if (AppPreferences().isPremiumActive == true) {
             hideBannerAds()
+        }
+        //shake img animation
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+            while(true) {
+                delay(1000L)
+                binding.imgPremium.clearAnimation()
+                binding.imgPremium.startAnimation(shake)
+                delay(9000L)
+            }
         }
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
@@ -530,6 +539,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun hideBannerAds() {
         binding.cardViewAdBanner.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        shakeAnimJob?.cancel()
+        shakeAnimJob = null
     }
 
     override fun onDestroy() {
