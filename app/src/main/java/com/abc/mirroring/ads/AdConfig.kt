@@ -1,6 +1,7 @@
 import com.abc.mirroring.R
 
 object AdConfig {
+    const val AD_MOB_GENEARAL_INTERSTITIAL = R.string.ad_interstitial_general
     const val AD_MOB_SPLASH_INTERSTITIAL = R.string.ad_interstitial_splash
     const val AD_MOB_MIRROR_DEVICE_INTERSTITIAL = R.string.ad_interstitial_mirror_deivce
     const val AD_MOB_BACK_FROM_TUTORIAL_INTERSTITIAL = R.string.ad_interstitial_back_from_tutorial
@@ -19,6 +20,7 @@ object AdConfig {
 
 enum class AdType(var adsId: Int) {
 
+    GENERAL_INTERSTITIAL(AdConfig.AD_MOB_GENEARAL_INTERSTITIAL),
     SPLASH_INTERSTITIAL(AdConfig.AD_MOB_SPLASH_INTERSTITIAL),
     HOME_ONBOARDING_INTERSTITIAL(AdConfig.AD_MOB_HOME_ONBOARDING_INTERSTITIAL),
     BACK_FROM_TUTORIAL_INTERSTITIAL(AdConfig.AD_MOB_BACK_FROM_TUTORIAL_INTERSTITIAL),

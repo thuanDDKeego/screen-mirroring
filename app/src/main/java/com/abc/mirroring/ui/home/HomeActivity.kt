@@ -53,6 +53,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
+    private var shakeAnimJob: Job? = null
 
     @Inject
     lateinit var admobHelper: AdmobHelper
@@ -65,7 +66,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         var isStreamingBrowser = MutableLiveData(false)
         val isOpenFloatingToolLiveData = MutableLiveData(FloatToolService.isRunning)
-        val SHOW_RATING_DIALOG = "soRatingDialog"
+        const val SHOW_RATING_DIALOG = "soRatingDialog"
     }
 
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -78,7 +79,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
+        } else if (appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
 
@@ -89,7 +90,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
         initAnim()
 
-        binding.imgPremium.visibility = if(AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
+        binding.imgPremium.visibility =
+            if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     private fun initAnim() {
@@ -100,8 +102,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgBtnConnect.startAnimation(animFade)
 
         //shake img crown
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        binding.imgPremium.startAnimation(shake)
     }
 
     private fun initAds() {
@@ -119,6 +119,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onResume()
         if (AppPreferences().isPremiumActive == true) {
             hideBannerAds()
+        }
+        //shake img animation
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+            while (true) {
+                delay(1000L)
+                withContext(Dispatchers.Main) {
+                    binding.imgPremium.clearAnimation()
+                    binding.imgPremium.startAnimation(shake)
+                }
+                delay(9000L)
+            }
         }
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
@@ -175,9 +187,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
                 showLoadingAdDialog()
-                admobHelper.showAdInterstitial(
+                admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
-                    AdType.GO_MIRROR_DEVICE_INTERSTITIAL
                 ) {
                     dismissLoadingAdDialog()
                     goToMirrorActivityResult.launch(intent)
@@ -398,9 +409,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dismissTutorialDialog()
                 } else {
                     showLoadingAdDialog()
-                    admobHelper.showAdInterstitial(
+                    admobHelper.showGeneralAdInterstitial(
                         this@HomeActivity,
-                        AdType.HOME_ONBOARDING_INTERSTITIAL
                     ) {
                         dismissLoadingAdDialog()
                         dismissTutorialDialog()
@@ -532,6 +542,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun hideBannerAds() {
         binding.cardViewAdBanner.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        shakeAnimJob?.cancel()
+        shakeAnimJob = null
     }
 
     override fun onDestroy() {

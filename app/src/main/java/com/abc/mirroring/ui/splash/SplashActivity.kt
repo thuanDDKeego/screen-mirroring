@@ -8,6 +8,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -45,6 +46,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         checkSubscription()
         initializeMobileAds()
+        if(AppPreferences().isPremiumActive == false) AdmobHelper().loadGeneralAdInterstitial(this)
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -106,44 +108,10 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                admobHelper.loadAdInterstitial(
-                    this@SplashActivity,
-                    AdType.SPLASH_INTERSTITIAL
-                ) { interstitialAd ->
-                    interstitialAd?.fullScreenContentCallback =
-                        object : FullScreenContentCallback() {
-                            override fun onAdDismissedFullScreenContent() {
-                                super.onAdDismissedFullScreenContent()
-                                admobHelper.resetInterstitialAd(AdType.SPLASH_INTERSTITIAL)
-                                goToHome()
-                            }
-
-                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                                super.onAdFailedToShowFullScreenContent(p0)
-                                goToHome()
-                                admobHelper.resetInterstitialAd(AdType.SPLASH_INTERSTITIAL)
-                                admobHelper.loadAdInterstitial(
-                                    this@SplashActivity,
-                                    AdType.SPLASH_INTERSTITIAL
-                                ) {}
-
-                            }
-                        }
-                    jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
-                        val timeFromStart = System.currentTimeMillis() - startTime
-                        CoroutineScope(Dispatchers.Main).launch {
-                            if (timeFromStart < 1600) {
-                                delay(1600L - timeFromStart)
-                            }
-//                            jobTimeOut?.cancel()
-                            if (interstitialAd != null) {
-                                interstitialAd.show(this@SplashActivity)
-                            } else {
-                                goToHome()
-                            }
-                        }
-                    }
-
+                admobHelper.showGeneralAdInterstitial(
+                    this@SplashActivity
+                ) {
+                    goToHome()
                 }
             }
         }
@@ -242,9 +210,12 @@ class SplashActivity : AppCompatActivity() {
                 initializationStatus.adapterStatusMap
             for (adapterClass in statusMap.keys) {
                 val status = statusMap[adapterClass]
-                Timber.d("MyApp" + String.format(
-                    "Adapter name: %s, Description: %s, Latency: %d",
-                    adapterClass, status!!.description, status.latency))
+                Timber.d(
+                    "MyApp" + String.format(
+                        "Adapter name: %s, Description: %s, Latency: %d",
+                        adapterClass, status!!.description, status.latency
+                    )
+                )
             }
 
             // Start loading ads here...

@@ -7,6 +7,8 @@
     <string name="ad_interstitial_mirror_deivce">ca-app-pub-6969842628973791/3920123930</string>
     <string name="ad_interstitial_back_from_tutorial">ca-app-pub-6969842628973791/4890973563</string>
     <string name="ad_interstitial_home_onboarding">ca-app-pub-6969842628973791/8183351313</string>
+    <string name="ad_interstitial_general" translatable="false">ca-app-pub-6969842628973791/4985110742</string>
+
 
     <string name="ad_rewarded_browser_mirror">ca-app-pub-6969842628973791/1171220406</string>
 
