@@ -171,14 +171,15 @@ class AdmobHelper {
                     callback?.invoke(null)
                 }
             }
-            InterstitialAd.load(context, context.getString(AdType.GENERAL_INTERSTITIAL.adsId), adRequest,
+            InterstitialAd.load(
+                context, context.getString(AdType.GENERAL_INTERSTITIAL.adsId), adRequest,
                 object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(mInterstitialAd: InterstitialAd) {
                         Timber.d("====onLoad general interstitial success $mInterstitialAd")
                         Timber.d("interstitial adapter class name:" + mInterstitialAd.responseInfo.mediationAdapterClassName)
                         super.onAdLoaded(mInterstitialAd)
                         adsInterstitial[AdType.GENERAL_INTERSTITIAL] = mInterstitialAd
-                        if (showAds && callback!=null) {
+                        if (showAds && callback != null) {
                             callback.invoke(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
                             adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
                             job?.cancel()
@@ -190,11 +191,8 @@ class AdmobHelper {
 
                         super.onAdFailedToLoad(mInterstitialAd)
                         adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
-                        if (showAds && callback!= null) {
-                            callback(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
-                            adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null
-                            job?.cancel()
-                        }
+                        callback?.invoke(adsInterstitial[AdType.GENERAL_INTERSTITIAL])
+                        if (showAds) job?.cancel()
                     }
                 })
         }
@@ -228,12 +226,14 @@ class AdmobHelper {
             }
             if (adsInterstitial[AdType.GENERAL_INTERSTITIAL] != null) {
                 Timber.d("adsInterstitial ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
-                adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback = fullScreenContentCallback
+                adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback =
+                    fullScreenContentCallback
                 adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.show(context as Activity)
             } else {
                 loadGeneralAdInterstitial(context) {
                     if (adsInterstitial[AdType.GENERAL_INTERSTITIAL] != null) {
-                        adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback = fullScreenContentCallback
+                        adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.fullScreenContentCallback =
+                            fullScreenContentCallback
                         adsInterstitial[AdType.GENERAL_INTERSTITIAL]?.show(context as Activity)
                     } else {
                         callback()
@@ -242,8 +242,6 @@ class AdmobHelper {
             }
         }
     }
-
-
 
 
     private fun populateUnifiedNativeAdView(

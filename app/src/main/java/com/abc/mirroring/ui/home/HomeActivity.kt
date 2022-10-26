@@ -79,7 +79,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if(appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
+        } else if (appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
 
@@ -90,7 +90,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
         initAnim()
 
-        binding.imgPremium.visibility = if(AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
+        binding.imgPremium.visibility =
+            if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     private fun initAnim() {
@@ -122,10 +123,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         //shake img animation
         val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
         shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
-            while(true) {
+            while (true) {
                 delay(1000L)
-                binding.imgPremium.clearAnimation()
-                binding.imgPremium.startAnimation(shake)
+                withContext(Dispatchers.Main) {
+                    binding.imgPremium.clearAnimation()
+                    binding.imgPremium.startAnimation(shake)
+                }
                 delay(9000L)
             }
         }

@@ -68,8 +68,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        binding.imgCrown.startAnimation(shake)
         binding.llUpgrade.visibility =
             if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
@@ -238,8 +236,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
             while (true) {
                 delay(1000L)
-                binding.imgCrown.clearAnimation()
-                binding.imgCrown.startAnimation(shake)
+                withContext(Dispatchers.Main) {
+                    binding.imgCrown.clearAnimation()
+                    binding.imgCrown.startAnimation(shake)
+                }
                 delay(9000L)
             }
         }
