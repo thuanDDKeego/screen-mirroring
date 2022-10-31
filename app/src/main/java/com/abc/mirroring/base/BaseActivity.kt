@@ -194,7 +194,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
                     dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_4star)
                 }
                 else -> {
-                    Glide.with(view.context).load(R.drawable.ic_5stars)
+                    Glide.with(applicationContext).load(R.drawable.ic_5stars)
                         .into(dialogRatingBinding.imgStar)
                     dialogRatingBinding.layoutRateDialogTitle.text =
                         this@BaseActivity.resources.getString(R.string.we_like_you_too)
