@@ -5,14 +5,14 @@ plugins {
     id 'kotlin-parcelize'
 
     // <hilt>
-    id 'dagger.hilt.android.plugin'
+    // id 'dagger.hilt.android.plugin'
     id 'com.google.dagger.hilt.android'
     // </hilt>
 
     // <google firebase & others>
     id 'com.google.devtools.ksp' version '1.7.20-1.0.7' // check to update with kotlin_version
     id 'com.google.gms.google-services'
-//    id 'com.google.firebase.firebase-perf'
+    id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
 }
 
@@ -113,7 +113,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 //    implementation 'com.ms-square:expandableTextView:0.1.4'
 
-    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation platform('com.google.firebase:firebase-bom:31.0.1')
     implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-dynamic-module-support:16.0.0-beta02'
