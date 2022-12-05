@@ -15,6 +15,12 @@ pluginManagement {
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    // get Sofi libs
+    def locals = new Properties()
+    locals.load(file("local.properties").newDataInputStream())
+    println("[SOFI] Set up remote repository with user : ${locals["space.username"]}")
+
     repositories {
         maven {
             //IronSource
@@ -25,8 +31,27 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter()
         maven { url "https://artifact.bytedance.com/repository/pangle" }
+        maven {
+            url "https://maven.pkg.jetbrains.space/sofigo/p/sofi/sofi-setting"
+            credentials {
+                username = locals["space.username"]
+                password = locals["space.password"]
+            }
+        }
+        maven {
+            url "https://maven.pkg.jetbrains.space/sofigo/p/sofi/sofi-ads"
+            credentials {
+                username = locals["space.username"]
+                password = locals["space.password"]
+            }
+        }
     }
 }
 rootProject.name = "sreen-mirroring-cast-tv"
 include ':app'
 include ':screen-stream'
+include ':Connect-SDK'
+//include ":ads"
+//project(":ads").projectDir = file("../sofi-ads/ads")
+include ':extensions'
+
