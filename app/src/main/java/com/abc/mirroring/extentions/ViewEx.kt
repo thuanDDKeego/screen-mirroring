@@ -44,20 +44,16 @@ fun View.fadeOutAnimation(onEnd: () -> Unit) {
         interpolator = LinearOutSlowInInterpolator()
         duration = 250
         addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-
+            override fun onAnimationStart(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
-                onEnd.invoke()
+            override fun onAnimationEnd(animation: Animator) {
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
-
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
-
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
         })
