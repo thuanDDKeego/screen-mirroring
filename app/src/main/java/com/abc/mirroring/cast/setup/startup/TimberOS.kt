@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.startup.Initializer
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import net.sofigo.cast.tv.BuildConfig
+import com.abc.mirroring.BuildConfig
 import timber.log.Timber
 
 /**

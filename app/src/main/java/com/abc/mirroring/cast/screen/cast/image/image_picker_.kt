@@ -27,9 +27,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiScreen
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.screen.cast.image.component.image
-import net.sofigo.cast.tv.screen.destinations.image_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.ImageNavGraph

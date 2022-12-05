@@ -14,15 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.abc.mirroring.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiScreen
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
 import com.abc.mirroring.cast.screen.cast.audible.component.audibles
-import net.sofigo.cast.tv.screen.cast.audible.AudibleVimel
-import net.sofigo.cast.tv.screen.destinations.audible_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.VideoNavGraph

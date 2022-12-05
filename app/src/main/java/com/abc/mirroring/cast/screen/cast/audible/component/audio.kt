@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.section.Audible
 import com.abc.mirroring.cast.setup.theme.LightGrayBg
 import net.sofigo.cast.tv.shared.utils.FileUtils

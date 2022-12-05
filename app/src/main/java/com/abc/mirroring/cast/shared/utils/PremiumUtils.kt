@@ -1,7 +1,7 @@
 package com.abc.mirroring.cast.shared.utils
 
 import android.content.Context
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 
 object PremiumUtils {
     fun getBenefits(context: Context) = context.run {

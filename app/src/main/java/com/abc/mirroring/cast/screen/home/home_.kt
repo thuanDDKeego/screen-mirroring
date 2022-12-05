@@ -47,13 +47,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
-import net.sofigo.cast.tv.screen.NavGraphs
-import net.sofigo.cast.tv.screen.destinations.audible_picker_Destination
-import net.sofigo.cast.tv.screen.destinations.screen_mirroring_Destination
-import net.sofigo.cast.tv.screen.destinations.setting_Destination
-import net.sofigo.cast.tv.screen.destinations.web_cast_Destination
-import net.sofigo.cast.tv.screen.destinations.youtube_webview_Destination
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 import com.abc.mirroring.cast.setup.config.AppPreferences
@@ -114,7 +108,7 @@ fun home_(
                     title = stringResource(id = R.string.app_name),
                     navigator = navigator,
                     navigatorIcon = {
-                        IconButton(onClick = { navigator.navigate(setting_Destination) }) {
+                        IconButton(onClick = { navigator.navigate(setting_Destination()) }) {
                             Icon(
                                 imageVector = Icons.Rounded.Settings,
                                 contentDescription = "setting"

@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.startup.Initializer
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 
 class FCMOS: Initializer<Unit> {
 

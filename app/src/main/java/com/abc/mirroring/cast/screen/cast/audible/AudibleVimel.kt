@@ -1,4 +1,4 @@
-package net.sofigo.cast.tv.screen.cast.audible
+package com.abc.mirroring.cast.screen.cast.audible
 
 import android.app.Activity
 import android.content.Context
@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.abc.mirroring.cast.screen.cast.audible.AudibleParameter
 import com.connectsdk.service.capability.MediaControl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

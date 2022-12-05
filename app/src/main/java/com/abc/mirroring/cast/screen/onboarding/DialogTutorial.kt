@@ -24,6 +24,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.abc.mirroring.cast.setup.theme.Purple700
 import com.abc.mirroring.cast.setup.theme.TypographyM3
+import com.abc.mirroring.R
 
 /**
 how to call dialog
@@ -37,6 +38,7 @@ showDialog.value = it
 
 setvalue() showDialog.value = true
  */
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DialogTutorial(setShowDialog: (Boolean) -> Unit) {
@@ -187,7 +189,6 @@ fun BottomSection(currentPage: Int, size: Int) {
             SkipNextButton("OK", Modifier.padding(end = 20.dp))
         } else {
             SkipNextButton("Skip", Modifier.padding(start = 20.dp))
-
         }
     }
 }

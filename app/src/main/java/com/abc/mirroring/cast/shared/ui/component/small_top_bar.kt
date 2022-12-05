@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import net.sofigo.cast.tv.screen.destinations.premium_Destination
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 

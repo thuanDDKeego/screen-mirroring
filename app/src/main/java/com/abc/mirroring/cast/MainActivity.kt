@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.abc.mirroring.cast.GlobalVimel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -27,7 +26,7 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
 import net.sofigo.cast.tv.screen.NavGraphs
-import net.sofigo.cast.tv.screen.cast.audible.AudibleVimel
+import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel
 import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
 import com.abc.mirroring.cast.setup.theme.CastTvTheme

@@ -20,7 +20,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.screen.onboarding.DialogTutorial
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 

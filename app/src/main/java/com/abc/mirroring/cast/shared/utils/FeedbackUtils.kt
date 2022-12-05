@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 
 object FeedbackUtils {
     fun sendFeedback(context: Context, content: String = "") {

@@ -1,8 +1,8 @@
 package com.abc.mirroring.cast.setup.config
 
 import android.annotation.SuppressLint
+import com.abc.mirroring.BuildConfig
 import com.google.gson.GsonBuilder
-import net.sofigo.cast.tv.BuildConfig
 
 @SuppressLint("StaticFieldLeak")
 object AppConfigRemote : PreferencesAdapterRC(name = "app_config_remote", devMode = BuildConfig.DEBUG) {

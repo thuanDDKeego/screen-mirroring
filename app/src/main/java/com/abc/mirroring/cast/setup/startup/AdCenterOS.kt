@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.startup.Initializer
+import com.abc.mirroring.BuildConfig
 import com.google.android.gms.ads.MobileAds
 import dev.sofi.ads.AdCenter
 import dev.sofi.ads.AppOpen
@@ -13,8 +14,7 @@ import dev.sofi.ads.ExitDialog
 import dev.sofi.ads.Interstitial
 import dev.sofi.ads.Native
 import kotlinx.coroutines.flow.MutableStateFlow
-import net.sofigo.cast.tv.BuildConfig
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.setup.config.Preferences
 

@@ -50,27 +50,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.applovin.sdk.AppLovinSdk
-import com.google.android.ads.mediationtestsuite.MediationTestSuite
+import com.abc.mirroring.BuildConfig
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
-import dev.sofi.setting.SofiSetting
-import dev.sofi.setting._item
-import dev.sofi.setting._subtitle
-import dev.sofi.setting._switch
-import net.sofigo.cast.tv.BuildConfig
 import com.abc.mirroring.cast.GlobalVimel
-import net.sofigo.cast.tv.R
-import net.sofigo.cast.tv.screen.destinations.guideline_Destination
-import net.sofigo.cast.tv.screen.destinations.premium_Destination
-import net.sofigo.cast.tv.screen.destinations.subscription_Destination
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.shared.ui.component.modal_rate
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
 import com.abc.mirroring.cast.shared.utils.RatingUtils
-
+import com.applovin.sdk.AppLovinSdk
+import com.google.android.ads.mediationtestsuite.MediationTestSuite
+import dev.sofi.setting.SofiSetting
+import dev.sofi.setting._item
+import dev.sofi.setting._subtitle
+import dev.sofi.setting._switch
 
 @Composable
 fun BackButton(modifier: Modifier = Modifier, onClick: () -> Unit) {

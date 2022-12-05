@@ -3,7 +3,7 @@ package com.abc.mirroring.cast.shared.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import net.sofigo.cast.tv.BuildConfig
+import com.abc.mirroring.BuildConfig
 
 object RatingUtils {
 

@@ -41,9 +41,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
-import net.sofigo.cast.tv.BuildConfig
+import com.abc.mirroring.BuildConfig
 import net.sofigo.cast.tv.MainActivity
-import net.sofigo.cast.tv.R
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.setup.config.AppPreferences
 import timber.log.Timber
 import kotlin.math.roundToInt
