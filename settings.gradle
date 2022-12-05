@@ -34,15 +34,15 @@ dependencyResolutionManagement {
         maven {
             url "https://maven.pkg.jetbrains.space/sofigo/p/sofi/sofi-setting"
             credentials {
-                username = locals["space.username"]
-                password = locals["space.password"]
+                username = spaceUsername
+                password = spacePassword
             }
         }
         maven {
             url "https://maven.pkg.jetbrains.space/sofigo/p/sofi/sofi-ads"
             credentials {
-                username = locals["space.username"]
-                password = locals["space.password"]
+                username = spaceUsername
+                password = spacePassword
             }
         }
     }
