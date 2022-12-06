@@ -1,6 +1,5 @@
 package com.abc.mirroring.ui.splash
 
-import AdType
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
@@ -8,18 +7,15 @@ import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.config.AppConfigRemote
-import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySplashBinding
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.abc.mirroring.ads.AppOpenManager
+import com.abc.mirroring.config.AppPreferences
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +42,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         checkSubscription()
         initializeMobileAds()
-        if(AppPreferences().isPremiumActive == false) AdmobHelper().loadGeneralAdInterstitial(this)
+        if(AppPreferences().isPremiumSubscribed == false) AdmobHelper().loadGeneralAdInterstitial(this)
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -66,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
         val startTime = System.currentTimeMillis()
         setupSplashView()
         FirebaseTracking.logSplashShowed()
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2000L)
                 startActivity(
@@ -174,19 +170,19 @@ class SplashActivity : AppCompatActivity() {
                                     // Get to see the order information
 
                                     if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                                        AppPreferences().isPremiumActive =
+                                        AppPreferences().isPremiumSubscribed =
                                             true // set 0 to de-activate premium feature
                                         AppPreferences().purchaseDate = purchase.purchaseTime
 
                                         break
                                     }
                                     Timber.d("testOffer", " index$i")
-                                    AppPreferences().isPremiumActive =
+                                    AppPreferences().isPremiumSubscribed =
                                         false // set 0 to de-activate premium feature
                                 }
                             } else {
                                 Timber.d("Free Premium isn't active")
-                                AppPreferences().isPremiumActive =
+                                AppPreferences().isPremiumSubscribed =
                                     false // set 0 to de-activate premium feature
                             }
                         }

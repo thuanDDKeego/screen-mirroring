@@ -3,7 +3,7 @@ package com.abc.mirroring.config
 import java.util.*
 
 class AppPreferences : Preferences(name = "app_preferences") {
-    var isPremiumActive by booleanPref(defaultValue = false)
+    var isPremiumSubscribed by booleanPref(defaultValue = false)
     var purchaseDate by longPref(defaultValue = 0L)
     var isTheFirstTimeUseApp by booleanPref(defaultValue = true)
     var lastTimeAdOpenApp by longPref(defaultValue = 0L)

@@ -36,7 +36,7 @@ class ConnectedDevicesFragment : BaseFragment<FragmentConnectedDevicesBinding>()
     }
 
     override fun showAds() {
-        if (AppConfigRemote().turnOnTopDevicesNative == true && AppPreferences().isPremiumActive == false) {
+        if (AppConfigRemote().turnOnTopDevicesNative == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 requireActivity(),

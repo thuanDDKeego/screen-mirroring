@@ -15,6 +15,7 @@ import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
 import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
+import dev.sofi.ads.AdCenter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,7 +23,7 @@ import java.util.*
 enum class ScreenState { HAS_SUBSCRIBED, HASNT_SUBSCRIBED }
 
 class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
-    private var isPremiumActive = AppPreferences().isPremiumActive == true
+    private var isPremiumActive = AppPreferences().isPremiumSubscribed == true
     private lateinit var billingClient: BillingClient
     private lateinit var screenState: ScreenState
 
@@ -119,7 +120,8 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 // To be implemented in a later section.
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                     dismissLoadingBarDialog()
-                    AppPreferences().isPremiumActive = true
+                    AppPreferences().isPremiumSubscribed = true
+                    AdCenter.getInstance().enable.value = false
                     AppPreferences().purchaseDate = purchases[0].purchaseTime
                     updateView(ScreenState.HAS_SUBSCRIBED)
                     for (purchase in purchases) {

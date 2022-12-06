@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -13,7 +12,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
-import com.abc.mirroring.ui.home.HomeActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -178,7 +176,7 @@ class AppOpenManager : ActivityLifecycleCallbacks,
     Log.d(LOG_TAG, "showAdIfAvailable $isShowingAd -- $isAdAvailable -- $currentActivity")
     val currentTime = System.currentTimeMillis()
     val timeFromTheLast = currentTime - AppPreferences().lastTimeAdOpenApp!!
-    if (!isShowingAd && isAdAvailable && timeFromTheLast >= AppConfigRemote().timeBetweenTwoAdsOpenAppShow!! && AppPreferences().isPremiumActive == false) {
+    if (!isShowingAd && isAdAvailable && timeFromTheLast >= AppConfigRemote().timeBetweenTwoAdsOpenAppShow!! && AppPreferences().isPremiumSubscribed == false) {
       Log.d(LOG_TAG, "Will show ad $currentActivity")
       val fullScreenContentCallback: FullScreenContentCallback =
           object : FullScreenContentCallback() {

@@ -1,6 +1,7 @@
 package com.abc.mirroring.config
 
 import com.abc.mirroring.BuildConfig
+import com.google.gson.GsonBuilder
 
 class AppConfigRemote() :
     PreferencesAdapterRC(name = "app_config_remote", devMode = BuildConfig.DEBUG) {
@@ -25,5 +26,13 @@ class AppConfigRemote() :
 
     //enable premium feature
     var enable_premium by booleanPref(defaultValue = false)
+
+    private var connect_sdk_devices by stringPref(defaultValue = "[]")
+    var ui_home_version by intPref(defaultValue = 1)
+    var player_control_counter by intPref(defaultValue = 5)
+
+    private val gson = GsonBuilder().create()
+
+    fun getDevices() = gson.fromJson(connect_sdk_devices, Array<String>::class.java).toList()
 
 }

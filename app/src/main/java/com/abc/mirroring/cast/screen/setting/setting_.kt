@@ -57,10 +57,9 @@ import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.screen.destinations.guideline_Destination
-import com.abc.mirroring.cast.setup.config.AppConfigRemote
-import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
-import com.abc.mirroring.cast.shared.utils.RatingUtils
+import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.applovin.sdk.AppLovinSdk
 import com.google.android.ads.mediationtestsuite.MediationTestSuite
 import dev.sofi.setting.SofiSetting
@@ -133,7 +132,7 @@ fun setting_(
 
 
                     LazyColumn {
-                        if (AppConfigRemote.premium_enable == true) {
+                        if (AppConfigRemote().enable_premium == true) {
                             item {
                                 SofiSetting._subtitle(text = stringResource(id = R.string.premium))
                             }
@@ -167,7 +166,7 @@ fun setting_(
 
                             }
 
-                            if (AppPreferences.isPremiumSubscribed == true) {
+                            if (AppPreferences().isPremiumSubscribed == true) {
                                 item {
                                     SofiSetting._item(
                                         title = stringResource(id = R.string.subscription),

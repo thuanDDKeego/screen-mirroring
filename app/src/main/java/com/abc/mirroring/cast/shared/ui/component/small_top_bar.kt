@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
-import com.abc.mirroring.cast.setup.config.AppConfigRemote
+import com.abc.mirroring.config.AppConfigRemote
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +72,7 @@ fun small_top_bar(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote.premium_enable!!
+    val enablePremium = AppConfigRemote().enable_premium!!
 
     // show / hide disconnect device confirmation
     var dialogVisibility by remember { mutableStateOf(false) }
@@ -147,7 +147,7 @@ fun top_bar_webview(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote.premium_enable!!
+    val enablePremium = AppConfigRemote().enable_premium!!
 
     // used to clear focus in text-field
     val focusManager = LocalFocusManager.current

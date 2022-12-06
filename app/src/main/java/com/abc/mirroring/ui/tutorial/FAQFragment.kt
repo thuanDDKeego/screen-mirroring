@@ -30,7 +30,7 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
     override fun initViews() {
         FirebaseTracking.logHelpFAQShowed()
         val faqItems = viewModel.getFAQItem(requireActivity())
-        val hasAds = AppConfigRemote().turnOnInlineFAQNative == true && AppPreferences().isPremiumActive == false
+        val hasAds = AppConfigRemote().turnOnInlineFAQNative == true && AppPreferences().isPremiumSubscribed == false
         if (!hasAds) {
             faqItems.removeAt(1)
         }

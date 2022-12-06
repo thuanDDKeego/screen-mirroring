@@ -1,6 +1,5 @@
 package com.abc.mirroring.ads
 
-import AdConfig
 import AdType
 import android.app.Activity
 import android.content.Context
@@ -22,7 +21,6 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import kotlinx.coroutines.*
 import timber.log.Timber
-import kotlin.coroutines.coroutineContext
 
 class AdmobHelper {
 
@@ -154,7 +152,7 @@ class AdmobHelper {
         timeout: Long? = null,
         callback: ((mInterstitialAd: InterstitialAd?) -> Unit)? = null,
     ) {
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             callback?.invoke(null)
         } else {
             var showAds = true
@@ -202,7 +200,7 @@ class AdmobHelper {
         context: Context,
         callback: () -> Unit,
     ) {
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             callback()
         } else {
             Timber.d("====show ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
@@ -383,7 +381,7 @@ class AdmobHelper {
     }
 
     fun showRewardedAds(context: Context, type: AdType, callback: (Boolean) -> Unit) =
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             callback.invoke(true)
         } else {
 //            if (adsRewarded[type] != null) {

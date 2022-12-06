@@ -2,6 +2,7 @@ package com.abc.mirroring.cast.shared.cast
 
 import android.app.Activity
 import android.content.Context
+import com.abc.mirroring.config.AppConfigRemote
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.device.ConnectableDeviceListener
 import com.connectsdk.device.DevicePicker
@@ -9,7 +10,6 @@ import com.connectsdk.discovery.DiscoveryManager
 import com.connectsdk.service.DeviceService
 import com.connectsdk.service.command.ServiceCommandError
 import kotlinx.coroutines.flow.MutableStateFlow
-import com.abc.mirroring.cast.setup.config.AppConfigRemote
 import timber.log.Timber
 
 
@@ -59,7 +59,7 @@ class DeviceDiscovery(
         manager = DiscoveryManager.getInstance()
         manager.pairingLevel = DiscoveryManager.PairingLevel.ON
 
-        Timber.i("Register Devices: ${AppConfigRemote.getDevices()}")
+        Timber.i("Register Devices: ${AppConfigRemote().getDevices()}")
 
 //        manager.setCapabilityFilters(
 //            CapabilityFilter(
