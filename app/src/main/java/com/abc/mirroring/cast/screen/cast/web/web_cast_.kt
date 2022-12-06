@@ -58,10 +58,12 @@ import kotlinx.coroutines.launch
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.audible.AudibleParameter
 import com.abc.mirroring.cast.screen.cast.image.ImageParameter
+import com.abc.mirroring.cast.screen.destinations.audible_player_Destination
+import com.abc.mirroring.cast.screen.destinations.image_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.section.Streamable
-import net.sofigo.cast.tv.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.ui.component.intercepted_browser
 import com.abc.mirroring.cast.shared.ui.component.top_bar_webview
 

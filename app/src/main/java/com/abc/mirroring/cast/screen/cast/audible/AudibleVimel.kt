@@ -20,7 +20,7 @@ import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.section.Streamable
 import com.abc.mirroring.cast.shared.cast.Caster
-import net.sofigo.cast.tv.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.cast.SessionPlayer
 import timber.log.Timber
 import javax.inject.Inject

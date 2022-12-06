@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.section.Audible
 import com.abc.mirroring.cast.setup.theme.LightGrayBg
-import net.sofigo.cast.tv.shared.utils.FileUtils
+import com.abc.mirroring.cast.shared.utils.FileUtils
 
 @Composable
 fun audio(

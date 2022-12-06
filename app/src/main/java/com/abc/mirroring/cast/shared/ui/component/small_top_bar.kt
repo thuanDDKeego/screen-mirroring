@@ -47,7 +47,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
-import net.sofigo.cast.tv.screen.destinations.premium_Destination
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,7 +93,9 @@ fun small_top_bar(
                 actions.invoke()
             } else {
                 if (enablePremium) {
-                    IconButton(onClick = { navigator.navigate(premium_Destination()) }) {
+                    IconButton(onClick = {
+//                        navigator.navigate(premium_Destination())
+                    }) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_crown),
                             contentDescription = "Premium"
@@ -219,7 +220,9 @@ fun top_bar_webview(
                 )
             }
             if (enablePremium) {
-                IconButton(onClick = { navigator.navigate(premium_Destination()) }) {
+                IconButton(onClick = {
+//                    navigator.navigate(premium_Destination())
+                }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_crown),
                         contentDescription = "Premium",

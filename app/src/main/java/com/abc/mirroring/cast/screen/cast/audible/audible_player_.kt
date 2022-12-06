@@ -91,11 +91,10 @@ import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.setup.graphs.VideoNavGraph
 import com.abc.mirroring.cast.setup.theme.DarkGrayBg
 import com.abc.mirroring.cast.setup.theme.Purple500
-import net.sofigo.cast.tv.shared.cast.Command
-import com.abc.mirroring.cast.shared.ui.component.modal_rate
+import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
-import net.sofigo.cast.tv.shared.utils.FileUtils
+import com.abc.mirroring.cast.shared.utils.FileUtils
 import com.abc.mirroring.cast.shared.utils.RatingUtils
 import timber.log.Timber
 
@@ -238,21 +237,21 @@ fun audible_player_(
                     )
                 }
             }
-            if (ratingVisibility) {
-                modal_rate(context = context,
-                    hideDialog =
-                    { askAgain ->
-                        AppPreferences.isRated = askAgain == true
-                        ratingVisibility = false
-                    }) {
-                    AppPreferences.isRated = true
-                    if (it <= 2) {
-                        FeedbackUtils.sendFeedback(context)
-                    } else {
-                        RatingUtils.rateInStore(context as Activity)
-                    }
-                }
-            }
+//            if (ratingVisibility) {
+//                modal_rate(context = context,
+//                    hideDialog =
+//                    { askAgain ->
+//                        AppPreferences.isRated = askAgain == true
+//                        ratingVisibility = false
+//                    }) {
+//                    AppPreferences.isRated = true
+//                    if (it <= 2) {
+//                        FeedbackUtils.sendFeedback(context)
+//                    } else {
+//                        RatingUtils.rateInStore(context as Activity)
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -505,7 +504,8 @@ private fun _controller_part(
                         tint = DarkGrayBg
                     )
                 }
-                IconButton(onClick = { if (state.isPlaying) onControl(Command.Pause) {} else onControl(Command.Play) {} }) {
+                IconButton(onClick = { if (state.isPlaying) onControl(Command.Pause) {} else onControl(
+                    Command.Play) {} }) {
                     Icon(
                         modifier = Modifier.size(48.dp),
                         imageVector = if (state.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayCircle,

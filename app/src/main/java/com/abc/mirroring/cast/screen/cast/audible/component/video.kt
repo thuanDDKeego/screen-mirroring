@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.abc.mirroring.cast.section.Audible
 import com.abc.mirroring.cast.section.MediaPicker
 import com.abc.mirroring.cast.setup.theme.WhiteAlpha
-import net.sofigo.cast.tv.shared.utils.FileUtils
+import com.abc.mirroring.cast.shared.utils.FileUtils
 
 @Composable
 fun video(

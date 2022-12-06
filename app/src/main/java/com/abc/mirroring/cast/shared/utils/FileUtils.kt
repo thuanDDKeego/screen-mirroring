@@ -1,4 +1,4 @@
-package net.sofigo.cast.tv.shared.utils
+package com.abc.mirroring.cast.shared.utils
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver

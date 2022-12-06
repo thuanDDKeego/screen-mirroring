@@ -56,9 +56,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
+import com.abc.mirroring.cast.screen.destinations.guideline_Destination
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 import com.abc.mirroring.cast.setup.config.AppPreferences
-import com.abc.mirroring.cast.shared.ui.component.modal_rate
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
 import com.abc.mirroring.cast.shared.utils.RatingUtils
 import com.applovin.sdk.AppLovinSdk
@@ -161,7 +161,7 @@ fun setting_(
                                         .clip(RoundedCornerShape(12.dp))
                                         .background(Color(0XFFFFB901))
                                         .clickable {
-                                            navigator.navigate(premium_Destination())
+//                                            navigator.navigate(premium_Destination())
                                         }
                                         .padding(16.dp))
 
@@ -173,7 +173,7 @@ fun setting_(
                                         title = stringResource(id = R.string.subscription),
                                         icon = Icons.Rounded.Diamond,
                                     ) {
-                                        navigator.navigate(subscription_Destination())
+//                                        navigator.navigate(subscription_Destination())
                                     }
                                 }
                             }
@@ -307,21 +307,21 @@ fun setting_(
                         }
                     }
                 }
-                if (ratingVisibility) {
-                    modal_rate(context = context,
-                        hideDialog =
-                        { askAgain ->
-                            AppPreferences.isRated = askAgain == true
-                            ratingVisibility = false
-                        }) {
-                        AppPreferences.isRated = true
-                        if (it <= 2) {
-                            FeedbackUtils.sendFeedback(context)
-                        } else {
-                            RatingUtils.rateInStore(context as Activity)
-                        }
-                    }
-                }
+//                if (ratingVisibility) {
+//                    modal_rate(context = context,
+//                        hideDialog =
+//                        { askAgain ->
+//                            AppPreferences.isRated = askAgain == true
+//                            ratingVisibility = false
+//                        }) {
+//                        AppPreferences.isRated = true
+//                        if (it <= 2) {
+//                            FeedbackUtils.sendFeedback(context)
+//                        } else {
+//                            RatingUtils.rateInStore(context as Activity)
+//                        }
+//                    }
+//                }
             }
         })
 }

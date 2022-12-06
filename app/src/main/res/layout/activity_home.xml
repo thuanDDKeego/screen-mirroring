@@ -292,6 +292,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CAST TV"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/constraintBrowserMirror"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:paddingVertical="24dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

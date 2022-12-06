@@ -3,7 +3,7 @@ package com.abc.mirroring.cast.section
 import android.content.Context
 import android.net.Uri
 import kotlinx.parcelize.Parcelize
-import net.sofigo.cast.tv.shared.utils.FileUtils
+import com.abc.mirroring.cast.shared.utils.FileUtils
 
 @Parcelize
 data class Image(

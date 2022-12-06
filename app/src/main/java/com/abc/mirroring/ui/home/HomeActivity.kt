@@ -16,6 +16,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
+import com.abc.mirroring.cast.MainActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.*
@@ -164,6 +165,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
+        binding.txtCast.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
         goToMirrorActivityResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode

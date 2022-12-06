@@ -1,4 +1,4 @@
-package net.sofigo.cast.tv.shared.cast
+package com.abc.mirroring.cast.shared.cast
 
 sealed class Command {
     object Pause : Command()

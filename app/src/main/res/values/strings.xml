@@ -13,7 +13,6 @@
 
     <!-- admob -->
     <string name="ad_banner_general">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_interstitial_general">ca-app-pub-3940256099942544/8691691433</string>
     <string name="ad_app_open_general">ca-app-pub-3940256099942544/3419835294</string>
     <string name="ad_native_advanced_general">ca-app-pub-3940256099942544/2247696110</string>
     <!-- admob -->
@@ -255,5 +254,9 @@
     <string name="more">More</string>
     <string name="share_this_app">Share this app</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="unlimited_screen_mirroring">Unlimited Screen Mirroring</string>
+    <string name="completely_ads_free">"Completely Ads Free "</string>
+    <string name="unlimited_cast_your_media_file">Unlimited Cast Your Media File</string>
+    <string name="improved_streaming_quality">Improved Streaming Quality</string>
 
 </resources>

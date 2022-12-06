@@ -48,13 +48,18 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
+import com.abc.mirroring.cast.screen.NavGraphs
+import com.abc.mirroring.cast.screen.destinations.audible_picker_Destination
+import com.abc.mirroring.cast.screen.destinations.screen_mirroring_Destination
+import com.abc.mirroring.cast.screen.destinations.setting_Destination
+import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
+import com.abc.mirroring.cast.screen.destinations.youtube_webview_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.setup.config.AppConfigRemote
 import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.shared.ui.component._card_small
 import com.abc.mirroring.cast.shared.ui.component.card_gradient
 import com.abc.mirroring.cast.shared.ui.component.card_reversed
-import com.abc.mirroring.cast.shared.ui.component.modal_rate
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
 import com.abc.mirroring.cast.shared.utils.RatingUtils
@@ -317,19 +322,19 @@ fun home_(
                     }
                 }
             }
-            if (ratingVisibility) {
-                modal_rate(context = context, hideDialog = { askAgain ->
-                    AppPreferences.isRated = askAgain == true
-                    ratingVisibility = false
-                }) {
-                    AppPreferences.isRated = true
-                    if (it <= 2) {
-                        FeedbackUtils.sendFeedback(context)
-                    } else {
-                        RatingUtils.rateInStore(context as Activity)
-                    }
-                }
-            }
+//            if (ratingVisibility) {
+//                modal_rate(context = context, hideDialog = { askAgain ->
+//                    AppPreferences.isRated = askAgain == true
+//                    ratingVisibility = false
+//                }) {
+//                    AppPreferences.isRated = true
+//                    if (it <= 2) {
+//                        FeedbackUtils.sendFeedback(context)
+//                    } else {
+//                        RatingUtils.rateInStore(context as Activity)
+//                    }
+//                }
+//            }
 
         }
         /**

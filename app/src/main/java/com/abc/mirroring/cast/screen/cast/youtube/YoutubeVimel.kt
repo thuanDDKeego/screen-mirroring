@@ -14,7 +14,7 @@ import com.abc.mirroring.cast.State
 import com.abc.mirroring.cast.VimelStateHolder
 import com.abc.mirroring.cast.section.Youtube
 import com.abc.mirroring.cast.shared.cast.Caster
-import net.sofigo.cast.tv.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.Command
 import timber.log.Timber
 import javax.inject.Inject
 

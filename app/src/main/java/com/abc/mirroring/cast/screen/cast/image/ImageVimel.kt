@@ -9,7 +9,7 @@ import com.abc.mirroring.cast.VimelStateHolder
 import com.abc.mirroring.cast.section.MediaPicker
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.section.Streamable
-import net.sofigo.cast.tv.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.Command
 import javax.inject.Inject
 
 class ImageVimel @Inject constructor() : VimelStateHolder<ImageVimel.ImageVimelState>(

@@ -29,6 +29,7 @@ import dev.sofi.extentions.SofiScreen
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.screen.cast.image.component.image
+import com.abc.mirroring.cast.screen.destinations.image_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.ImageNavGraph

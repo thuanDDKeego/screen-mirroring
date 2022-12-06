@@ -24,7 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.sofi.extentions.SofiComponent
-import net.sofigo.cast.tv.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.utils.AppDimensions
 
 @Composable
