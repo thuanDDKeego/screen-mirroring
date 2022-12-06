@@ -51,12 +51,12 @@ task jacocoTestReport(type:JacocoReport, dependsOn: "check") {
 build.dependsOn jacocoTestReport
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 32
+        targetSdkVersion 33
     }
 
     packagingOptions {
@@ -142,4 +142,3 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
     testImplementation 'xmlunit:xmlunit:1.4'
 }
-
