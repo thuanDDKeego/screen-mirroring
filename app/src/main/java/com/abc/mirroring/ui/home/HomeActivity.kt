@@ -106,13 +106,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        if (AppConfigRemote().turnOnHomeTopNative == true && AppPreferences().isPremiumActive == false) {
-            binding.cardViewAdBanner.visibility = View.VISIBLE
+        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
+            binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
-                this@HomeActivity,
+                this,
                 AdType.HOME_NATIVE,
-                binding.admobNativeView.nativeAdView
+                binding.nativeAdView.nativeAdView,
+                true
             )
+        } else {
+            binding.containerAd.visibility = View.GONE
         }
     }
 
@@ -165,9 +168,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
-        binding.txtCast.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
+//        binding.txtCast.setOnClickListener {
+//            startActivity(Intent(this, MainActivity::class.java))
+//        }
         goToMirrorActivityResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode
@@ -545,7 +548,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun hideBannerAds() {
-        binding.cardViewAdBanner.visibility = View.GONE
+        binding.containerAd.visibility = View.GONE
     }
 
     override fun onStop() {

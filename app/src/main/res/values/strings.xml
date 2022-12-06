@@ -258,5 +258,11 @@
     <string name="completely_ads_free">"Completely Ads Free "</string>
     <string name="unlimited_cast_your_media_file">Unlimited Cast Your Media File</string>
     <string name="improved_streaming_quality">Improved Streaming Quality</string>
+    <string name="cast_tv">Cast TV</string>
+    <string name="image">Image</string>
+    <string name="youtube">Youtube</string>
+    <string name="drive">Drive</string>
+    <string name="web_browser">Web Browser</string>
+    <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
 
 </resources>
