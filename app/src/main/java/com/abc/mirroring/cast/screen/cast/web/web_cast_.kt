@@ -92,7 +92,7 @@ fun web_cast_(
     }
 
     fun customBackPressed() {
-        if (vm.isOriginalUrl()) navigator.navigateUp() else vm.onControl(Command.Previous)
+        if (vm.isOriginalUrl()) (context as Activity).finish() else vm.onControl(Command.Previous)
         toggleSheet(false)
     }
 

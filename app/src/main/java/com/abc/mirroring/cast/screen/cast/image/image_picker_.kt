@@ -12,7 +12,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,12 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.extentions.SofiBinding
-import dev.sofi.extentions.SofiScreen
-import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
+import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.image.component.image
 import com.abc.mirroring.cast.screen.destinations.image_player_Destination
 import com.abc.mirroring.cast.section.MediaType
@@ -35,6 +35,10 @@ import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.ImageNavGraph
 import com.abc.mirroring.cast.shared.Permissionary
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import dev.sofi.extentions.SofiBinding
+import dev.sofi.extentions.SofiScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,7 +69,22 @@ fun image_picker_(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            topBar = { small_top_bar(navigator = navigator, title = stringResource(id = R.string.cast_image)) }
+            topBar = {
+                small_top_bar(
+                    navigator = navigator,
+                    title = stringResource(id = R.string.cast_image),
+                    navigatorIcon = {
+                        IconButton(onClick = {
+                            (context as Activity).finish()
+                        }) {
+                            Icon(
+                                Icons.Filled.ArrowBack,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    })
+            }
         ) { padding ->
             Column(
                 modifier = Modifier
@@ -81,12 +100,18 @@ fun image_picker_(
                 ) {
                     items(
                         items = vm.images,
-                        key = { it.id()})
+                        key = { it.id() })
                     {
                         image(image = it) {
                             if (device?.isConnected == true) {
                                 main.ads.interstitial?.show(context as Activity) {
-                                    navigator.navigate(image_player_Destination(params = ImageParameter(current = it)))
+                                    navigator.navigate(
+                                        image_player_Destination(
+                                            params = ImageParameter(
+                                                current = it
+                                            )
+                                        )
+                                    )
                                 }
                             } else {
                                 main.caster.discovery.picker(context as Activity)

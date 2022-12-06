@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -17,6 +18,8 @@ import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.cast.MainActivity
+import com.abc.mirroring.cast.MainActivity.Companion.MEDIA_ROUTE
+import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.*
@@ -106,7 +109,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
+        if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this,
@@ -228,6 +231,37 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgPremium.setOnClickListener {
             startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
         }
+        castOnClickSection()
+    }
+
+    private fun castOnClickSection() {
+        binding.apply {
+            llVideo.setOnClickListener {
+                goToCast(MediaRoute.Video)
+            }
+            llImage.setOnClickListener {
+                goToCast(MediaRoute.Image)
+            }
+            llAudio.setOnClickListener {
+                goToCast(MediaRoute.Audio)
+            }
+            llYoutube.setOnClickListener {
+                goToCast(MediaRoute.Youtube)
+            }
+            llDrive.setOnClickListener {
+                Toast.makeText(this@HomeActivity, getString(R.string.coming_soon), Toast.LENGTH_LONG).show()
+            }
+            llWebCast.setOnClickListener {
+                goToCast(MediaRoute.WebCast)
+            }
+        }
+    }
+
+    private fun goToCast(route: MediaRoute){
+        val intent = Intent(this@HomeActivity, MainActivity::class.java)
+        intent.putExtra(MEDIA_ROUTE, route.route)
+        startActivity(intent)
+
     }
 
     override fun onRequestPermissionsResult(

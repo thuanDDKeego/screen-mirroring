@@ -73,6 +73,7 @@ class GlobalVimel @Inject constructor(
 
     override fun onCleared() {
         caster.shutdown()
+        Timber.d("caster has shutdown")
         super.onCleared()
     }
 //

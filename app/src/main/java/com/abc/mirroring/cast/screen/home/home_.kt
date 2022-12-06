@@ -49,7 +49,7 @@ import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.screen.NavGraphs
-import com.abc.mirroring.cast.screen.destinations.audible_picker_Destination
+import com.abc.mirroring.cast.screen.destinations.audio_picker_Destination
 import com.abc.mirroring.cast.screen.destinations.screen_mirroring_Destination
 import com.abc.mirroring.cast.screen.destinations.setting_Destination
 import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
@@ -61,8 +61,6 @@ import com.abc.mirroring.cast.shared.ui.component._card_small
 import com.abc.mirroring.cast.shared.ui.component.card_gradient
 import com.abc.mirroring.cast.shared.ui.component.card_reversed
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
-import com.abc.mirroring.cast.shared.utils.FeedbackUtils
-import com.abc.mirroring.cast.shared.utils.RatingUtils
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RootNavGraph(start = true) // sets this as the start destination of the default nav graph
@@ -256,7 +254,7 @@ fun home_(
                             iconColor = Color(0xFF8040F7)
                         ) {
                             adsWrapper {
-                                navigator.navigate(audible_picker_Destination(type = MediaType.Audio))
+                                navigator.navigate(audio_picker_Destination())
                             }
                         }
                     }

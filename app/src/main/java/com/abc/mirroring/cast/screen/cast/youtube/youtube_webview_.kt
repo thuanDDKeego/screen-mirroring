@@ -97,7 +97,7 @@ fun youtube_webview_(
     }
 
     fun customBackPressed() {
-        if (vm.isOriginalUrl()) navigator.navigateUp() else vm.onControl(Command.Previous)
+        if (vm.isOriginalUrl()) (context as Activity).finish() else vm.onControl(Command.Previous)
 //        vm.onControl(Command.Previous)
 //        var a = vm.state.value.url
 //        if (vm.state.value.url != YOUTUBE_URL) vm.onControl(Command.Previous) else navigator.navigateUp()

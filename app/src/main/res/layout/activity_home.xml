@@ -383,7 +383,7 @@
                             android:textColor="@color/blackA01"
                             android:textStyle="bold"
                             android:gravity="center"
-                            android:text="@string/video"/>
+                            android:text="@string/audio"/>
                     </LinearLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

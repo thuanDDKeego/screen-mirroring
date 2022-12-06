@@ -29,11 +29,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel
 import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
+import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
 import com.abc.mirroring.cast.setup.theme.CastTvTheme
+import com.abc.mirroring.cast.shared.route.MediaRoute
 import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    companion object {
+        const val MEDIA_ROUTE = "media_route"
+    }
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -48,7 +54,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
-
+        var mediaRoute = intent.getStringExtra(MEDIA_ROUTE)
+        if(mediaRoute.isNullOrEmpty()) mediaRoute = MediaRoute.Video.route
+        val startRoute = when (mediaRoute) {
+            MediaRoute.WebCast.route -> web_cast_Destination
+            MediaRoute.Image.route -> NavGraphs.image
+            MediaRoute.Audio.route -> NavGraphs.audio
+            MediaRoute.Youtube.route -> NavGraphs.youtube
+            else -> NavGraphs.video
+        }
         Timber.i("initialized")
 
         setContent {
@@ -73,7 +87,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        DestinationsNavHost(navGraph = NavGraphs.root, engine = engine, navController = navController, dependenciesContainerBuilder = dependencies())
+                        DestinationsNavHost(navGraph = NavGraphs.root, engine = engine, navController = navController, startRoute = startRoute,dependenciesContainerBuilder = dependencies())
                     }
                 }
             }
@@ -93,6 +107,13 @@ class MainActivity : ComponentActivity() {
             hiltViewModel<AudibleVimel>(parent)
         }
 
+        dependency(NavGraphs.audio) {
+            val parent = remember(navBackStackEntry) {
+                navController.getBackStackEntry(NavGraphs.audio.route)
+            }
+            hiltViewModel<AudibleVimel>(parent)
+        }
+
         dependency(NavGraphs.image) {
             val parent = remember(navBackStackEntry) {
                 navController.getBackStackEntry(NavGraphs.image.route)
@@ -105,7 +126,6 @@ class MainActivity : ComponentActivity() {
             }
             hiltViewModel<YoutubeVimel>(parent)
         }
-
 
         // 👇 To tie ActivityViewModel to the activity, making it available to all destinations
         dependency(GlobalVimel.get())
