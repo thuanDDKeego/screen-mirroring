@@ -44,54 +44,5 @@ fun audio_picker_(
     @SofiBinding vm: AudibleVimel,
     @SofiBinding main: GlobalVimel,
 ) {
-    /**
-     * TODO: UI Wifi checking and loadings the devices
-     */
-
-    val context = LocalContext.current
-    val globalState by main.state.collectAsState()
-
-    Permissionary.require(Permissionary.getPermission(MediaType.Audio)) {
-        if (it) vm.fetch(context, AudibleParameter(source = SourceType.Internal, type = MediaType.Audio))
-    }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            topBar = {
-                small_top_bar(
-                    navigator = navigator,
-                     stringResource(id = R.string.audio_directory),
-                    navigatorIcon = {
-                        IconButton(onClick = {
-                            (context as Activity).finish()
-                        }) {
-                            Icon(
-                                Icons.Filled.ArrowBack,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                )
-            },
-
-            ) { padding ->
-            Column(modifier = Modifier.padding(padding)) {
-                audibles(MediaType.Audio, vm.playlists) {
-                    if (globalState.isDeviceConnected) {
-                        main.ads.interstitial?.show(context as Activity) {
-                            navigator.navigate(audible_player_Destination(params = AudibleParameter(current = it, type = MediaType.Audio)))
-                        }
-                    } else {
-                        vm.caster.discovery.picker(context as Activity)
-                    }
-                }
-            }
-        }
-        main.ads.native?.small()
-        // main.ads.banner?.render(Modifier.wrapContentSize())
-    }
+    video_picker(navigator = navigator, vm = vm, main = main, type = MediaType.Audio)
 }

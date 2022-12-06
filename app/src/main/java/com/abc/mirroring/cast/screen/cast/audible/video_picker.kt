@@ -43,6 +43,7 @@ fun video_picker(
     @SofiBinding navigator: DestinationsNavigator,
     @SofiBinding vm: AudibleVimel,
     @SofiBinding main: GlobalVimel,
+    type: MediaType = MediaType.Video
 ) {
     /**
      * TODO: UI Wifi checking and loadings the devices
@@ -51,10 +52,10 @@ fun video_picker(
     val context = LocalContext.current
     val globalState by main.state.collectAsState()
 
-    Permissionary.require(Permissionary.getPermission(MediaType.Video)) {
+    Permissionary.require(Permissionary.getPermission(type)) {
         if (it) vm.fetch(
             context,
-            AudibleParameter(source = SourceType.Internal, type = MediaType.Video)
+            AudibleParameter(source = SourceType.Internal, type = type)
         )
     }
 
@@ -77,20 +78,20 @@ fun video_picker(
                             )
                         }
                     },
-                    title = stringResource(id = R.string.video_directory)
+                    title = stringResource(id =if(type == MediaType.Video) R.string.video_directory else R.string.audio_directory)
                 )
             },
 
             ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                audibles(MediaType.Video, vm.playlists) {
+                audibles(type, vm.playlists) {
                     if (globalState.isDeviceConnected) {
                         main.ads.interstitial?.show(context as Activity) {
                             navigator.navigate(
                                 audible_player_Destination(
                                     params = AudibleParameter(
                                         current = it,
-                                        type = MediaType.Video
+                                        type = type
                                     )
                                 )
                             )
