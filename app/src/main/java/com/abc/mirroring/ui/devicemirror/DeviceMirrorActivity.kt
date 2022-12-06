@@ -80,7 +80,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initAdmob() {
-        if(AppConfigRemote().turnOnTopNativeDeviceMirror == true && AppPreferences().isPremiumActive == false) {
+        if(AppConfigRemote().turnOnTopNativeDeviceMirror == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this@DeviceMirrorActivity,

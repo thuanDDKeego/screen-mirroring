@@ -87,15 +87,13 @@ import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.section.Streamable
 import com.abc.mirroring.cast.section.Youtube
-import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.setup.graphs.VideoNavGraph
 import com.abc.mirroring.cast.setup.theme.DarkGrayBg
 import com.abc.mirroring.cast.setup.theme.Purple500
 import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
-import com.abc.mirroring.cast.shared.utils.FeedbackUtils
 import com.abc.mirroring.cast.shared.utils.FileUtils
-import com.abc.mirroring.cast.shared.utils.RatingUtils
+import com.abc.mirroring.config.AppPreferences
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -136,7 +134,7 @@ fun audible_player_(
     }
 
     LaunchedEffect(key1 = state.isFinished) {
-        ratingVisibility = state.isFinished && AppPreferences.isRated == false
+        ratingVisibility = state.isFinished && AppPreferences().isRated == false
     }
 
     /**

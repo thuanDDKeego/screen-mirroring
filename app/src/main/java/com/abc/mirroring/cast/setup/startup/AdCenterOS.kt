@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.startup.Initializer
-import com.abc.mirroring.BuildConfig
 import com.google.android.gms.ads.MobileAds
 import dev.sofi.ads.AdCenter
 import dev.sofi.ads.AppOpen
@@ -15,8 +14,8 @@ import dev.sofi.ads.Interstitial
 import dev.sofi.ads.Native
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.abc.mirroring.R
-import com.abc.mirroring.cast.setup.config.AppPreferences
-import com.abc.mirroring.cast.setup.config.Preferences
+import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.config.Preferences
 
 class AdCenterOS : Initializer<AdCenter> {
     override fun create(context: Context): AdCenter {
@@ -25,7 +24,8 @@ class AdCenterOS : Initializer<AdCenter> {
 
         return AdCenter.initialize(
             context as Application,
-            MutableStateFlow(if (BuildConfig.DEBUG || AppPreferences.isPremiumSubscribed == true) false else true)
+//            MutableStateFlow(if (BuildConfig.DEBUG || AppPreferences.isPremiumSubscribed == true) false else true)
+            MutableStateFlow(AppPreferences().isPremiumSubscribed != true)
         ).apply {
             exitDialog = ExitDialog(context.getString(R.string.ad_native_advanced_general), this.enable)
             banner = Banner(context.getString(R.string.ad_banner_general), MutableStateFlow(false))

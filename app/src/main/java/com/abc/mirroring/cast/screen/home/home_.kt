@@ -54,13 +54,12 @@ import com.abc.mirroring.cast.screen.destinations.screen_mirroring_Destination
 import com.abc.mirroring.cast.screen.destinations.setting_Destination
 import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
 import com.abc.mirroring.cast.screen.destinations.youtube_webview_Destination
-import com.abc.mirroring.cast.section.MediaType
-import com.abc.mirroring.cast.setup.config.AppConfigRemote
-import com.abc.mirroring.cast.setup.config.AppPreferences
 import com.abc.mirroring.cast.shared.ui.component._card_small
 import com.abc.mirroring.cast.shared.ui.component.card_gradient
 import com.abc.mirroring.cast.shared.ui.component.card_reversed
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RootNavGraph(start = true) // sets this as the start destination of the default nav graph
@@ -73,8 +72,8 @@ fun home_(
 ) {
     val context = LocalContext.current
     //use to handle rating dialog business logic show
-    var ratingVisibility by rememberSaveable { mutableStateOf(AppPreferences.appOpenCounter!! % 3 == 0 && AppPreferences.isRated == false) }
-    val abTestHome: Boolean = AppConfigRemote.ui_home_version?.let { it == 1 } ?: true
+    var ratingVisibility by rememberSaveable { mutableStateOf(AppPreferences().countTimeOpenApp!! % 3 == 0 && AppPreferences().isRated == false) }
+    val abTestHome: Boolean = AppConfigRemote().ui_home_version?.let { it == 1 } ?: true
 
     val state by main.state.collectAsState()
 

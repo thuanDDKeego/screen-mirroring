@@ -28,7 +28,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: V
     protected var mRateDialogShowing = false

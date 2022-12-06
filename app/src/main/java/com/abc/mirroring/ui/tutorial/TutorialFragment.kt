@@ -1,7 +1,6 @@
 package com.abc.mirroring.ui.tutorial
 
 import  AdType
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +76,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
+        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 requireActivity(),

@@ -83,7 +83,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
             showTutorialDialog()
-        } else if (appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumActive == false && AppConfigRemote().enable_premium == true) {
+        } else if (appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false && AppConfigRemote().enable_premium == true) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
 
@@ -109,7 +109,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
-        if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumActive == false) {
+        if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this,
@@ -124,7 +124,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
         }
         //shake img animation
@@ -185,7 +185,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         binding.constraintBrowserMirror.setOnClickListener {
             FirebaseTracking.logHomeCardBrowserClicked()
-            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumActive == true) {
+            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumSubscribed == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
@@ -195,7 +195,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
-            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumActive == false) {
+            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
                 showLoadingAdDialog()
                 admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
@@ -446,7 +446,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
             txtOk.setOnClickListener {
-                if (AppPreferences().isPremiumActive == true) {
+                if (AppPreferences().isPremiumSubscribed == true) {
                     dismissTutorialDialog()
                 } else {
                     showLoadingAdDialog()
@@ -573,7 +573,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (askPermissionOverLayDialogShowing) {
             dismissAskPermissionOverlayDialog()
         } else {
-            if (!exitAppDialogShowing && AppPreferences().isPremiumActive == false) {
+            if (!exitAppDialogShowing && AppPreferences().isPremiumSubscribed == false) {
                 showExitAppDialog()
             } else {
                 super.onBackPressed()

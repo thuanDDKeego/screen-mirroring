@@ -1,6 +1,5 @@
 package com.abc.mirroring.ui.tutorial
 
-import AdType
 import android.app.Activity
 import android.content.Intent
 import android.view.View
@@ -123,7 +122,7 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
-            if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumActive == false) {
+            if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
                 showLoadingAdDialog()
                 admobHelper.showGeneralAdInterstitial(
                     this@TutorialActivity,

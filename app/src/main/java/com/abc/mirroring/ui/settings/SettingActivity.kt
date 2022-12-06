@@ -184,7 +184,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             onBackPressed()
         }
         binding.llSubscriptionItem.setOnClickListener {
-            if (AppPreferences().isPremiumActive == true) {
+            if (AppPreferences().isPremiumSubscribed == true) {
                 SubscriptionsActivity.gotoActivity(this@SettingActivity)
             }
         }
@@ -204,7 +204,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (AppPreferences().isPremiumActive == true) {
+        if (AppPreferences().isPremiumSubscribed == true) {
             binding.txtSubscription.setTextColor(
                 ContextCompat.getColor(
                     this@SettingActivity,

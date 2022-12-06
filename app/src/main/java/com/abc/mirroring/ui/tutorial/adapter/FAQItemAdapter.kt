@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.config.AppConfigRemote
-import com.abc.mirroring.config.AppPreferences
 
 import com.abc.mirroring.data.model.FAQItem
 import com.abc.mirroring.databinding.LayoutAdContainerBinding
