@@ -12,6 +12,7 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
 import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
@@ -26,6 +27,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private var isPremiumActive = AppPreferences().isPremiumSubscribed == true
     private lateinit var billingClient: BillingClient
     private lateinit var screenState: ScreenState
+    private lateinit var dialogCenter: DialogCenter
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -37,6 +39,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppConfigRemote().isHalloweenTheme == true) {
             setTheme(R.style.Theme_Halloween_NoActionBar)
+            dialogCenter = DialogCenter(this)
         }
         super.onCreate(savedInstanceState)
     }
@@ -119,7 +122,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             PurchasesUpdatedListener { billingResult, purchases ->
                 // To be implemented in a later section.
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                    dismissLoadingBarDialog()
+                    dialogCenter.dismissLoadingBarDialog()
                     AppPreferences().isPremiumSubscribed = true
                     AdCenter.getInstance().enable.value = false
                     AppPreferences().purchaseDate = purchases[0].purchaseTime
@@ -132,7 +135,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 //...
 //if Purchase canceled
                 else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-                    dismissLoadingBarDialog()
+                    dialogCenter.dismissLoadingBarDialog()
                     Toast.makeText(
                         this@PremiumActivity,
                         getString(R.string.purchase_cancel),
@@ -141,7 +144,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 }
 // Handle any other error msgs
                 else {
-                    dismissLoadingBarDialog()
+                    dialogCenter.dismissLoadingBarDialog()
                     Toast.makeText(
                         this@PremiumActivity,
                         "Error: " + billingResult.debugMessage,
@@ -173,7 +176,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                                             .formattedPrice
                                     }"
                                     btnUpgrade.setOnClickListener {
-                                        showLoadingProgressBar()
+                                        dialogCenter.showLoadingProgressBar()
                                         launchPurchaseFlow(productDetails)
                                     }
                                 }
@@ -248,6 +251,11 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if(dialogCenter.mLoadingProgressBarShowing) return
+        super.onBackPressed()
     }
 
     override fun onDestroy() {

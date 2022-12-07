@@ -12,6 +12,7 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityTutorialBinding
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,6 +24,8 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     @Inject
     lateinit var admobHelper: AdmobHelper
 
+    private lateinit var dialogCenter: DialogCenter
+
     companion object {
         fun gotoActivity(activity: Activity) {
             val intent = Intent(activity, TutorialActivity::class.java)
@@ -33,6 +36,7 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     override fun initBinding() = ActivityTutorialBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        dialogCenter = DialogCenter(this)
         initViewPager()
     }
 
@@ -119,25 +123,22 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     }
 
     override fun onBackPressed() {
+        if(dialogCenter.mLoadingAdsDialogShowing) return
         if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
             binding.viewPager.currentItem = 0
         } else {
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-                showLoadingAdDialog()
+                dialogCenter.showLoadingAdsDialog()
                 admobHelper.showGeneralAdInterstitial(
                     this@TutorialActivity,
                 ) {
-                    dismissLoadingAdDialog()
+                    dialogCenter.dismissLoadingAdDialog()
                     super.onBackPressed()
                 }
             } else {
                 super.onBackPressed()
             }
         }
-    }
-
-    private fun onBackPressedSuper() {
-        super.onBackPressed()
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

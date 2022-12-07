@@ -32,6 +32,8 @@ import com.abc.mirroring.service.FloatToolService
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity.Companion.START_WHEN_RUNNING_REQUEST_CODE
 import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
+import com.abc.mirroring.ui.dialog.DialogCenter
+import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.settings.SettingActivity
@@ -55,6 +57,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
     private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
+    private lateinit var dialogCenter: DialogCenter
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
     private var shakeAnimJob: Job? = null
@@ -76,6 +79,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        dialogCenter = DialogCenter(this)
         initAds()
         val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
@@ -180,7 +184,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 val data = activityResult.data
                 if (result == RESULT_OK && data != null && AppPreferences().isRated == false) {
                     val isShowRating = data.getBooleanExtra(SHOW_RATING_DIALOG, false)
-                    if (isShowRating) showRatingDialog()
+                    if (isShowRating) dialogCenter.showRatingDialog { star ->
+                        if (star <= 3) {
+                            FeedbackActivity.start(this, star)
+                        } else {
+                            openAppInStore()
+                        }
+                    }
                 }
             }
         binding.constraintBrowserMirror.setOnClickListener {
@@ -196,11 +206,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             FirebaseTracking.logHomeMirrorClicked()
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-                showLoadingAdDialog()
+                dialogCenter.showLoadingAdsDialog()
                 admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
                 ) {
-                    dismissLoadingAdDialog()
+                    dialogCenter.dismissLoadingAdDialog()
                     goToMirrorActivityResult.launch(intent)
                 }
             } else {
@@ -249,7 +259,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 goToCast(MediaRoute.Youtube)
             }
             llDrive.setOnClickListener {
-                Toast.makeText(this@HomeActivity, getString(R.string.coming_soon), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@HomeActivity,
+                    getString(R.string.coming_soon),
+                    Toast.LENGTH_LONG
+                ).show()
             }
             llWebCast.setOnClickListener {
                 goToCast(MediaRoute.WebCast)
@@ -257,7 +271,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-    private fun goToCast(route: MediaRoute){
+    private fun goToCast(route: MediaRoute) {
         val intent = Intent(this@HomeActivity, MainActivity::class.java)
         intent.putExtra(MEDIA_ROUTE, route.route)
         startActivity(intent)
@@ -449,11 +463,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (AppPreferences().isPremiumSubscribed == true) {
                     dismissTutorialDialog()
                 } else {
-                    showLoadingAdDialog()
+                    dialogCenter.showLoadingAdsDialog()
                     admobHelper.showGeneralAdInterstitial(
                         this@HomeActivity,
                     ) {
-                        dismissLoadingAdDialog()
+                        dialogCenter.dismissLoadingAdDialog()
                         dismissTutorialDialog()
                     }
                 }
@@ -569,7 +583,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         } else if (browserDialogErrorShowing) {
             dismissBrowserErrorDialog()
         } else if (tutorialDialogIsShowing) {
-        } else if (mLoadingAdDialogShowing) {
+        } else if (dialogCenter.mLoadingAdsDialogShowing) {
         } else if (askPermissionOverLayDialogShowing) {
             dismissAskPermissionOverlayDialog()
         } else {

@@ -30,13 +30,13 @@ import java.util.*
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: V
-    protected var mRateDialogShowing = false
-    protected var mLoadingAdDialogShowing = false
-    protected var mLoadingProgressBarShowing = false
+//    protected var mRateDialogShowing = false
+//    protected var mLoadingAdDialogShowing = false
+//    protected var mLoadingProgressBarShowing = false
     open var isFullScreen: Boolean = false
-    private lateinit var dialogRatingBinding: LayoutRateDialogBinding
-    private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
-    private lateinit var layoutLoadingBinding: LayoutLoadingBinding
+//    private lateinit var dialogRatingBinding: LayoutRateDialogBinding
+//    private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
+//    private lateinit var layoutLoadingBinding: LayoutLoadingBinding
 
     companion object {
         var dLocale: Locale? = Locale(AppPreferences().languageSelected.toString())
@@ -67,38 +67,38 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         initAdmob()
     }
 
-    private fun resetDialogView() {
-        dialogRatingBinding.txtDescription.visibility = View.GONE
-        dialogRatingBinding.btnRate.visibility = View.GONE
-        dialogRatingBinding.animationEmojis.visibility = View.INVISIBLE
-        dialogRatingBinding.imgStar.visibility = View.VISIBLE
-    }
+//    private fun resetDialogView() {
+//        dialogRatingBinding.txtDescription.visibility = View.GONE
+//        dialogRatingBinding.btnRate.visibility = View.GONE
+//        dialogRatingBinding.animationEmojis.visibility = View.INVISIBLE
+//        dialogRatingBinding.imgStar.visibility = View.VISIBLE
+//    }
+//
+//    private fun dismissRatingDialog() {
+//        if (mRateDialogShowing) {
+//            val view = findViewById<View>(android.R.id.content) as ViewGroup
+//            view.removeViewAt(view.childCount - 1)
+//            mRateDialogShowing = false
+//        }
+//    }
+//
+//    protected fun dismissLoadingAdDialog() {
+//        if (mLoadingAdDialogShowing) {
+//            val view = findViewById<View>(android.R.id.content) as ViewGroup
+//            view.removeViewAt(view.childCount - 1)
+//            mLoadingAdDialogShowing = false
+//        }
+//    }
+//
+//    protected fun dismissLoadingBarDialog() {
+//        if (mLoadingProgressBarShowing) {
+//            val view = findViewById<View>(android.R.id.content) as ViewGroup
+//            view.removeViewAt(view.childCount - 1)
+//            mLoadingProgressBarShowing = false
+//        }
+//    }
 
-    private fun dismissRatingDialog() {
-        if (mRateDialogShowing) {
-            val view = findViewById<View>(android.R.id.content) as ViewGroup
-            view.removeViewAt(view.childCount - 1)
-            mRateDialogShowing = false
-        }
-    }
-
-    protected fun dismissLoadingAdDialog() {
-        if (mLoadingAdDialogShowing) {
-            val view = findViewById<View>(android.R.id.content) as ViewGroup
-            view.removeViewAt(view.childCount - 1)
-            mLoadingAdDialogShowing = false
-        }
-    }
-
-    protected fun dismissLoadingBarDialog() {
-        if (mLoadingProgressBarShowing) {
-            val view = findViewById<View>(android.R.id.content) as ViewGroup
-            view.removeViewAt(view.childCount - 1)
-            mLoadingProgressBarShowing = false
-        }
-    }
-
-    private fun Activity.openAppInStore() {
+    fun Activity.openAppInStore() {
         try {
             val intent = packageManager.getLaunchIntentForPackage("com.android.vending")
             if (intent != null) {
@@ -142,119 +142,119 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    private var mAutoShowRating = false
-    protected fun showRatingDialog(autoShow: Boolean = true) {
-        if (mRateDialogShowing) return
-        mRateDialogShowing = true
-        var rating = 5
-        val view = findViewById<View>(android.R.id.content) as ViewGroup
-        dialogRatingBinding =
-            LayoutRateDialogBinding.inflate(layoutInflater, view, true)
-        resetDialogView()
-        CoroutineScope(Dispatchers.Main).launch {
-            for (i in 1..5) {
-                delay(250)
-                dialogRatingBinding.ratingBarAnimation.rating = i.toFloat()
-            }
-            dialogRatingBinding.ratingBar.rating = 5f
-            delay(150)
-            dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
-        }
-        dialogRatingBinding.btnClose.setOnClickListener {
-            dismissRatingDialog()
-        }
-        dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
-            rating = _rating.toInt()
-            resetDialogView()
-            dialogRatingBinding.btnRate.visibility = View.VISIBLE
-            dialogRatingBinding.txtDescription.visibility = View.VISIBLE
-            dialogRatingBinding.animationEmojis.visibility = View.VISIBLE
-            dialogRatingBinding.imgStar.visibility = View.INVISIBLE
-            when (rating) {
-                0, 1, 2 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        this@BaseActivity.resources.getString(R.string.oh_no)
-                    dialogRatingBinding.txtDescription.text =
-                        this@BaseActivity.resources.getString(R.string.please_leave_us_some_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_2star)
-                }
-                3 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        this@BaseActivity.resources.getString(R.string.oh_no)
-                    dialogRatingBinding.txtDescription.text =
-                        this@BaseActivity.resources.getString(R.string.please_leave_us_some_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_3star)
-                }
-                4 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        this@BaseActivity.resources.getString(R.string.we_like_you_too)
-                    dialogRatingBinding.txtDescription.text =
-                        this@BaseActivity.resources.getString(R.string.thanks_for_your_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_4star)
-                }
-                else -> {
-                    Glide.with(applicationContext).load(R.drawable.ic_5stars)
-                        .into(dialogRatingBinding.imgStar)
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        this@BaseActivity.resources.getString(R.string.we_like_you_too)
-                    dialogRatingBinding.txtDescription.text =
-                        this@BaseActivity.resources.getString(R.string.thanks_for_your_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_5star)
-                }
-            }
-            dialogRatingBinding.animationEmojis.playAnimation()
-        }
-
-        dialogRatingBinding.bgBlackViewInRate.setOnClickListener {
-            dismissRatingDialog()
-        }
-
-        dialogRatingBinding.mainRatingContentLayout.setOnClickListener {
-
-        }
-        dialogRatingBinding.btnClose.setOnClickListener {
-            dismissRatingDialog()
-        }
-        dialogRatingBinding.bgBlackViewInRate.fadeInAnimation()
-        dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
-        dialogRatingBinding.txtDontAskAgain.setOnClickListener {
-            dismissRatingDialog()
-            AppPreferences().isRated = true
-        }
-        dialogRatingBinding.btnRate.setOnClickListener {
-            AppPreferences().isRated = true
-            if (rating <= 3) {
-                FeedbackActivity.start(this, rating)
-            } else {
-                openAppInStore()
-            }
-            dismissRatingDialog()
-            if (autoShow)
-                finishAfterTransition()
-        }
-    }
-
-    protected fun showLoadingAdDialog() {
-        if (mLoadingAdDialogShowing) return
-        mLoadingAdDialogShowing = true
-        val view = findViewById<View>(android.R.id.content) as ViewGroup
-        dialogLoadingAdBinding =
-            LayoutDialogLoadingAdsBinding.inflate(layoutInflater, view, true)
-        val animMoveRightLoadBar = AnimationUtils.loadAnimation(
-            applicationContext,
-            R.anim.move_right_load_bar
-        )
-        dialogLoadingAdBinding.viewLoadBar.startAnimation(animMoveRightLoadBar)
-        dialogLoadingAdBinding.constraintBgDialogLoadingAd.setOnClickListener {}
-    }
-
-    protected fun showLoadingProgressBar() {
-        if (mLoadingProgressBarShowing) return
-        mLoadingProgressBarShowing = true
-        val view = findViewById<View>(android.R.id.content) as ViewGroup
-        layoutLoadingBinding =
-            LayoutLoadingBinding.inflate(layoutInflater, view, true)
-    }
+//    private var mAutoShowRating = false
+//    protected fun showRatingDialog(autoShow: Boolean = true) {
+//        if (mRateDialogShowing) return
+//        mRateDialogShowing = true
+//        var rating = 5
+//        val view = findViewById<View>(android.R.id.content) as ViewGroup
+//        dialogRatingBinding =
+//            LayoutRateDialogBinding.inflate(layoutInflater, view, true)
+//        resetDialogView()
+//        CoroutineScope(Dispatchers.Main).launch {
+//            for (i in 1..5) {
+//                delay(250)
+//                dialogRatingBinding.ratingBarAnimation.rating = i.toFloat()
+//            }
+//            dialogRatingBinding.ratingBar.rating = 5f
+//            delay(150)
+//            dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
+//        }
+//        dialogRatingBinding.btnClose.setOnClickListener {
+//            dismissRatingDialog()
+//        }
+//        dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
+//            rating = _rating.toInt()
+//            resetDialogView()
+//            dialogRatingBinding.btnRate.visibility = View.VISIBLE
+//            dialogRatingBinding.txtDescription.visibility = View.VISIBLE
+//            dialogRatingBinding.animationEmojis.visibility = View.VISIBLE
+//            dialogRatingBinding.imgStar.visibility = View.INVISIBLE
+//            when (rating) {
+//                0, 1, 2 -> {
+//                    dialogRatingBinding.layoutRateDialogTitle.text =
+//                        this@BaseActivity.resources.getString(R.string.oh_no)
+//                    dialogRatingBinding.txtDescription.text =
+//                        this@BaseActivity.resources.getString(R.string.please_leave_us_some_feedback)
+//                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_2star)
+//                }
+//                3 -> {
+//                    dialogRatingBinding.layoutRateDialogTitle.text =
+//                        this@BaseActivity.resources.getString(R.string.oh_no)
+//                    dialogRatingBinding.txtDescription.text =
+//                        this@BaseActivity.resources.getString(R.string.please_leave_us_some_feedback)
+//                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_3star)
+//                }
+//                4 -> {
+//                    dialogRatingBinding.layoutRateDialogTitle.text =
+//                        this@BaseActivity.resources.getString(R.string.we_like_you_too)
+//                    dialogRatingBinding.txtDescription.text =
+//                        this@BaseActivity.resources.getString(R.string.thanks_for_your_feedback)
+//                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_4star)
+//                }
+//                else -> {
+//                    Glide.with(applicationContext).load(R.drawable.ic_5stars)
+//                        .into(dialogRatingBinding.imgStar)
+//                    dialogRatingBinding.layoutRateDialogTitle.text =
+//                        this@BaseActivity.resources.getString(R.string.we_like_you_too)
+//                    dialogRatingBinding.txtDescription.text =
+//                        this@BaseActivity.resources.getString(R.string.thanks_for_your_feedback)
+//                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_5star)
+//                }
+//            }
+//            dialogRatingBinding.animationEmojis.playAnimation()
+//        }
+//
+//        dialogRatingBinding.bgBlackViewInRate.setOnClickListener {
+//            dismissRatingDialog()
+//        }
+//
+//        dialogRatingBinding.mainRatingContentLayout.setOnClickListener {
+//
+//        }
+//        dialogRatingBinding.btnClose.setOnClickListener {
+//            dismissRatingDialog()
+//        }
+//        dialogRatingBinding.bgBlackViewInRate.fadeInAnimation()
+//        dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
+//        dialogRatingBinding.txtDontAskAgain.setOnClickListener {
+//            dismissRatingDialog()
+//            AppPreferences().isRated = true
+//        }
+//        dialogRatingBinding.btnRate.setOnClickListener {
+//            AppPreferences().isRated = true
+//            if (rating <= 3) {
+//                FeedbackActivity.start(this, rating)
+//            } else {
+//                openAppInStore()
+//            }
+//            dismissRatingDialog()
+//            if (autoShow)
+//                finishAfterTransition()
+//        }
+//    }
+//
+//    protected fun showLoadingAdDialog() {
+//        if (mLoadingAdDialogShowing) return
+//        mLoadingAdDialogShowing = true
+//        val view = findViewById<View>(android.R.id.content) as ViewGroup
+//        dialogLoadingAdBinding =
+//            LayoutDialogLoadingAdsBinding.inflate(layoutInflater, view, true)
+//        val animMoveRightLoadBar = AnimationUtils.loadAnimation(
+//            applicationContext,
+//            R.anim.move_right_load_bar
+//        )
+//        dialogLoadingAdBinding.viewLoadBar.startAnimation(animMoveRightLoadBar)
+//        dialogLoadingAdBinding.constraintBgDialogLoadingAd.setOnClickListener {}
+//    }
+//
+//    protected fun showLoadingProgressBar() {
+//        if (mLoadingProgressBarShowing) return
+//        mLoadingProgressBarShowing = true
+//        val view = findViewById<View>(android.R.id.content) as ViewGroup
+//        layoutLoadingBinding =
+//            LayoutLoadingBinding.inflate(layoutInflater, view, true)
+//    }
 
 
     abstract fun initBinding(): V

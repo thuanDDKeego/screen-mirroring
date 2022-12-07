@@ -24,6 +24,7 @@ import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.browsermirror.PermissionActivity
 import com.abc.mirroring.ui.browsermirror.StreamViewModel
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
@@ -37,6 +38,7 @@ import kotlinx.coroutines.*
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
     private var shakeAnimJob: Job? = null
+    private lateinit var dialogCenter: DialogCenter
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -48,6 +50,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun initBinding() = ActivitySettingBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        dialogCenter = DialogCenter(this)
         FirebaseTracking.logSettingShowed()
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
         isTurnOnPinCode.observe(this) {
@@ -156,7 +159,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llRate.setOnClickListener {
-            showRatingDialog(false)
+            dialogCenter.showRatingDialog(false) { star ->
+                if (star <= 3) {
+                    FeedbackActivity.start(this, star)
+                } else {
+                    openAppInStore()
+                }
+            }
         }
         binding.llLanguage.setOnClickListener {
             startActivity(SelectLanguageActivity.newIntent(this))
@@ -243,6 +252,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                 delay(9000L)
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (dialogCenter.mRateDialogShowing) {
+            dialogCenter.dismissRatingDialog()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun onStop() {
