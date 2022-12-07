@@ -207,6 +207,7 @@ class AdmobHelper {
             val fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
+                    AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
                     callback()
                     Timber.d("adsInterstitial ${adsInterstitial[AdType.GENERAL_INTERSTITIAL]}")
                     adsInterstitial[AdType.GENERAL_INTERSTITIAL] = null

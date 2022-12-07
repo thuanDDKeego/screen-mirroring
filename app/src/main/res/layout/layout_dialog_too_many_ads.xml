@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraint_bg_too_many_ads_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_gray_dialog">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_6dp"
+        android:background="@drawable/bg_button_gradient_radius_15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/margin_16dp"
+        app:cardElevation="@dimen/margin_8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llBackground"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@mipmap/bg_browser_dialog_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/lineCenter"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:id="@+id/btnClose"-->
+<!--                    android:layout_width="@dimen/margin_24dp"-->
+<!--                    android:layout_height="@dimen/margin_24dp"-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    android:src="@drawable/ic_close"-->
+<!--                    android:tint="@color/grayA05"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="?android:selectableItemBackground"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTitleDialog"
+                    style="@style/regularBoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_24dp"
+                    android:text="@string/browser_mirror_uppercase"
+                    android:textColor="@color/txt_white"
+                    android:textSize="@dimen/text_title_24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtSubTitle"
+                    style="@style/regularBoldText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_12dp"
+                    android:layout_marginBottom="@dimen/margin_24dp"
+                    android:text="Share screen to Chrome, PC... (Only Screen, no sound)"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/lineCenter"
+                    app:layout_constraintStart_toStartOf="@id/txtTitleDialog"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitleDialog" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtContentDialog"
+                style="@style/ContentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:gravity="center"
+                android:text="@string/watch_short_video_to_unlock_browser"
+                android:textColor="@color/txt_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llBackground" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtFreeTrial"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_30dp"
+                android:paddingHorizontal="@dimen/margin_12dp"
+                android:paddingVertical="@dimen/margin_8dp"
+                android:text="One month free trial"
+                android:textColor="@color/txt_dark_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtBuyPremium"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginVertical="@dimen/margin_20dp"
+                android:layout_marginEnd="24dp"
+                android:drawableStart="@drawable/ic_play"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="center"
+                android:text="Buy premium"
+                android:textColor="@color/blueA01"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog"
+                app:layout_constraintVertical_bias="0.6" />
+
+            <ProgressBar
+                android:id="@+id/progressBarLoadAds"
+                android:layout_width="@dimen/margin_36dp"
+                android:layout_height="@dimen/margin_36dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/aqua_main"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/txtBuyPremium"
+                app:layout_constraintEnd_toEndOf="@id/txtBuyPremium"
+                app:layout_constraintStart_toStartOf="@id/txtBuyPremium"
+                app:layout_constraintTop_toTopOf="@id/txtBuyPremium" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

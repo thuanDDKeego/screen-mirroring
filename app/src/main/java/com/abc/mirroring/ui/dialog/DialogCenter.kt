@@ -17,6 +17,7 @@ import com.abc.mirroring.databinding.LayoutDialogBrowserMirrorBinding
 import com.abc.mirroring.databinding.LayoutDialogExitAppBinding
 import com.abc.mirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
+import com.abc.mirroring.databinding.LayoutDialogTooManyAdsBinding
 import com.abc.mirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.mirroring.databinding.LayoutLoadingBinding
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
@@ -26,6 +27,7 @@ import com.abc.mirroring.helper.requestOverlaysPermission
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
@@ -45,23 +47,28 @@ class DialogCenter(private val activity: Activity) {
     var tutorialDialogIsShowing = false
     var browserDialogShowing = false
     var browserDialogErrorShowing = false
+    var tooManyAdsDialogShowing = false
     var askPermissionOverLayDialogShowing = false
     var exitAppDialogShowing = false
 
     private var countDownJob: Job? = null
     private var rewardAdsJob: Job? = null
-    private var shakeAnimJob: Job? = null
 
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
     private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
     private lateinit var layoutLoadingBinding: LayoutLoadingBinding
 
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
+    private lateinit var dialogTooManyAdsBinding: LayoutDialogTooManyAdsBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
 
+    fun onDestory() {
+        countDownJob?.cancel()
+        rewardAdsJob?.cancel()
+    }
 
     private fun resetDialogView() {
         dialogRatingBinding.txtDescription.visibility = View.GONE
@@ -251,6 +258,42 @@ class DialogCenter(private val activity: Activity) {
             txtRetry.setOnClickListener {
                 dismissBrowserErrorDialog()
                 showBrowserDialog()
+            }
+        }
+    }
+
+    private fun dismissTooManyAdsDialog(){
+        if (tooManyAdsDialogShowing) {
+            view.removeViewAt(view.childCount - 1)
+            tooManyAdsDialogShowing = false
+        }
+    }
+    private fun showTooManyAdsDialog(callback: () -> Unit) {
+        if (tooManyAdsDialogShowing) return
+        tooManyAdsDialogShowing = true
+        dialogTooManyAdsBinding =
+            LayoutDialogTooManyAdsBinding.inflate(
+                activity.layoutInflater,
+                view,
+                true
+            )
+        dialogTooManyAdsBinding.apply {
+            btnClose.setOnClickListener {
+                dismissTooManyAdsDialog()
+                callback()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgTooManyAdsDialog.setOnClickListener { dismissTooManyAdsDialog() }
+
+            txtFreeTrial.setOnClickListener {
+                PremiumActivity.gotoActivity(activity)
+//                dismissTooManyAdsDialog()
+//                callback()
+            }
+            txtBuyPremium.setOnClickListener {
+                PremiumActivity.gotoActivity(activity)
+//                dismissTooManyAdsDialog()
+//                callback()
             }
         }
     }
@@ -488,6 +531,7 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> showRatingDialog(type.autoShow, type.onRate)
             is DialogType.LoadingAds -> showLoadingAdsDialog()
+            is DialogType.TooManyAds -> showTooManyAdsDialog(type.callback)
             is DialogType.Browser -> showBrowserDialog()
             is DialogType.BrowserError -> showLoadingAdsDialog()
             is DialogType.Tutorial -> showTutorialDialog(type.tutorialAdapter)
@@ -501,6 +545,7 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> dismissRatingDialog()
             is DialogType.LoadingAds -> dismissLoadingAdDialog()
+            is DialogType.TooManyAds -> dismissTooManyAdsDialog()
             is DialogType.Browser -> dismissBrowserDialog()
             is DialogType.BrowserError -> dismissBrowserErrorDialog()
             is DialogType.Tutorial -> dismissTutorialDialog()
@@ -514,6 +559,7 @@ class DialogCenter(private val activity: Activity) {
     sealed interface DialogType {
         data class Rating(val autoShow: Boolean = true, val onRate: (Int) -> Unit) : DialogType
         object LoadingAds : DialogType
+        data class TooManyAds(val callback: () -> Unit) : DialogType
         object Browser : DialogType
         object BrowserError : DialogType
         object LoadingBar : DialogType
