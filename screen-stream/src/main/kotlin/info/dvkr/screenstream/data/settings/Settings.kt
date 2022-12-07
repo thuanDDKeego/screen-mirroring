@@ -83,7 +83,7 @@ interface Settings : SettingsReadOnly {
         const val ENABLE_IPV6 = false
         const val ENABLE_LOCAL_HOST = false
         const val LOCAL_HOST_ONLY = false
-        const val SERVER_PORT = 8080
+        const val SERVER_PORT = 5050
         const val LOGGING_VISIBLE = false
         const val LOGGING_ON = false
 

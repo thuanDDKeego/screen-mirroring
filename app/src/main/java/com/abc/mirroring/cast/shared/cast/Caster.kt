@@ -3,6 +3,11 @@ package com.abc.mirroring.cast.shared.cast
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import com.abc.mirroring.cast.section.SourceType
+import com.abc.mirroring.cast.section.Streamable
+import com.abc.mirroring.cast.shared.cast.SessionPlayer.SessionStatus.Error
+import com.abc.mirroring.cast.shared.utils.FileUtils
+import com.abc.mirroring.cast.shared.utils.NetworkUtils
 import com.connectsdk.core.MediaInfo
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.service.capability.MediaPlayer
@@ -27,11 +32,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.abc.mirroring.cast.section.SourceType
-import com.abc.mirroring.cast.section.Streamable
-import com.abc.mirroring.cast.shared.cast.SessionPlayer.SessionStatus.Error
-import com.abc.mirroring.cast.shared.utils.FileUtils
-import com.abc.mirroring.cast.shared.utils.NetworkUtils
 import timber.log.Timber
 import java.io.File
 
@@ -77,6 +77,7 @@ class Caster(
     }
 
     fun start() {
+        Timber.i("Starting Carter at 6996")
         // Start server
         CoroutineScope(Dispatchers.IO).launch {
             server.start(wait = true)
