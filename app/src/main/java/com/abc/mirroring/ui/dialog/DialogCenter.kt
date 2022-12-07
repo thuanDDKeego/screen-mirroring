@@ -90,34 +90,37 @@ class DialogCenter(private val activity: Activity) {
             dialogRatingBinding.imgStar.visibility = View.INVISIBLE
             when (rating) {
                 0, 1, 2 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        activity.resources.getString(R.string.oh_no)
-                    dialogRatingBinding.txtDescription.text =
-                        activity.resources.getString(R.string.please_leave_us_some_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_2star)
+                    setUpMessageAndEmoij(
+                        activity.resources.getString(R.string.oh_no),
+                        activity.resources.getString(R.string.please_leave_us_some_feedback),
+                        R.raw.animation_2star
+                    )
                 }
+
                 3 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        activity.resources.getString(R.string.oh_no)
-                    dialogRatingBinding.txtDescription.text =
-                        activity.resources.getString(R.string.please_leave_us_some_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_3star)
+                    setUpMessageAndEmoij(
+                        activity.resources.getString(R.string.oh_no),
+                        activity.resources.getString(R.string.please_leave_us_some_feedback),
+                        R.raw.animation_3star
+                    )
                 }
+
                 4 -> {
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        activity.resources.getString(R.string.we_like_you_too)
-                    dialogRatingBinding.txtDescription.text =
-                        activity.resources.getString(R.string.thanks_for_your_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_4star)
+                    setUpMessageAndEmoij(
+                        activity.resources.getString(R.string.we_like_you_too),
+                        activity.resources.getString(R.string.thanks_for_your_feedback),
+                        R.raw.animation_4star
+                    )
                 }
+
                 else -> {
                     Glide.with(activity.applicationContext).load(R.drawable.ic_5stars)
                         .into(dialogRatingBinding.imgStar)
-                    dialogRatingBinding.layoutRateDialogTitle.text =
-                        activity.resources.getString(R.string.we_like_you_too)
-                    dialogRatingBinding.txtDescription.text =
-                        activity.resources.getString(R.string.thanks_for_your_feedback)
-                    dialogRatingBinding.animationEmojis.setAnimation(R.raw.animation_5star)
+                    setUpMessageAndEmoij(
+                        activity.resources.getString(R.string.we_like_you_too),
+                        activity.resources.getString(R.string.thanks_for_your_feedback),
+                        R.raw.animation_5star
+                    )
                 }
             }
             dialogRatingBinding.animationEmojis.playAnimation()
@@ -151,6 +154,12 @@ class DialogCenter(private val activity: Activity) {
             if (autoShow)
                 activity.finishAfterTransition()
         }
+    }
+
+    private fun setUpMessageAndEmoij(label: String, message: String, emoij: Int) {
+        dialogRatingBinding.layoutRateDialogTitle.text = label
+        dialogRatingBinding.txtDescription.text = message
+        dialogRatingBinding.animationEmojis.setAnimation(emoij)
     }
 
     fun showLoadingAdsDialog() {
