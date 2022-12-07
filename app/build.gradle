@@ -26,7 +26,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('D:\\android-prj\\sreen-mirroring-cast-tv\\key\\key_screen_mirroring.jks')
+            storeFile file('key/key_screen_mirroring.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
