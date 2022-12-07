@@ -159,13 +159,21 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llRate.setOnClickListener {
-            dialogCenter.showRatingDialog(false) { star ->
+            dialogCenter.showDialog(DialogCenter.DialogType.Rating(false){ star ->
                 if (star <= 3) {
                     FeedbackActivity.start(this, star)
                 } else {
                     openAppInStore()
                 }
-            }
+
+            })
+//            dialogCenter.showRatingDialog(false) { star ->
+//                if (star <= 3) {
+//                    FeedbackActivity.start(this, star)
+//                } else {
+//                    openAppInStore()
+//                }
+//            }
         }
         binding.llLanguage.setOnClickListener {
             startActivity(SelectLanguageActivity.newIntent(this))
@@ -256,7 +264,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     override fun onBackPressed() {
         if (dialogCenter.mRateDialogShowing) {
-            dialogCenter.dismissRatingDialog()
+            dialogCenter.dismissDialog(DialogCenter.DialogType.Rating{})
+//            dialogCenter.dismissRatingDialog()
             return
         }
         super.onBackPressed()

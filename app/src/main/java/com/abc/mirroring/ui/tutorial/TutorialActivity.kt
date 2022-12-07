@@ -128,11 +128,13 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             binding.viewPager.currentItem = 0
         } else {
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-                dialogCenter.showLoadingAdsDialog()
+                dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
+//                showLoadingAdsDialog()
                 admobHelper.showGeneralAdInterstitial(
                     this@TutorialActivity,
                 ) {
-                    dialogCenter.dismissLoadingAdDialog()
+                    dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
+//                    dialogCenter.dismissLoadingAdDialog()
                     super.onBackPressed()
                 }
             } else {

@@ -1,30 +1,67 @@
 package com.abc.mirroring.ui.dialog
 
+import AdType
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
+import com.abc.mirroring.ads.AdmobHelper
+import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.databinding.LayoutDialogAskDisplayOverlayPermissionBinding
+import com.abc.mirroring.databinding.LayoutDialogBrowserMirrorBinding
+import com.abc.mirroring.databinding.LayoutDialogExitAppBinding
+import com.abc.mirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
+import com.abc.mirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.mirroring.databinding.LayoutLoadingBinding
 import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
+import com.abc.mirroring.helper.requestOverlaysPermission
+import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
+import com.abc.mirroring.ui.home.HomeActivity
+import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
+import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DialogCenter(private val activity: Activity) {
+    private val view: ViewGroup = activity.findViewById(android.R.id.content)
+    private val layoutInflater = activity.layoutInflater
+    lateinit var admobHelper: AdmobHelper
     var mRateDialogShowing = false
     var mLoadingAdsDialogShowing = false
     var mLoadingProgressBarShowing = false
+    var tutorialDialogIsShowing = false
+    var browserDialogShowing = false
+    var browserDialogErrorShowing = false
+    var askPermissionOverLayDialogShowing = false
+    var exitAppDialogShowing = false
+
+    private var countDownJob: Job? = null
+    private var rewardAdsJob: Job? = null
+    private var shakeAnimJob: Job? = null
 
     private lateinit var dialogRatingBinding: LayoutRateDialogBinding
     private lateinit var dialogLoadingAdBinding: LayoutDialogLoadingAdsBinding
     private lateinit var layoutLoadingBinding: LayoutLoadingBinding
+
+    private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
+    private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
+    private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
+    private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
+    private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
+
 
     private fun resetDialogView() {
         dialogRatingBinding.txtDescription.visibility = View.GONE
@@ -36,32 +73,30 @@ class DialogCenter(private val activity: Activity) {
         mLoadingProgressBarShowing = false
     }
 
-    fun dismissRatingDialog() {
+    private fun dismissRatingDialog() {
         if (mRateDialogShowing) {
-            val view = activity.findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mRateDialogShowing = false
         }
     }
 
-    fun dismissLoadingAdDialog() {
+    private fun dismissLoadingAdDialog() {
         if (mLoadingAdsDialogShowing) {
-            val view = activity.findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mLoadingAdsDialogShowing = false
         }
     }
 
+
     fun dismissLoadingBarDialog() {
         if (mLoadingProgressBarShowing) {
-            val view = activity.findViewById<View>(android.R.id.content) as ViewGroup
             view.removeViewAt(view.childCount - 1)
             mLoadingProgressBarShowing = false
         }
     }
 
     private var mAutoShowRating = false
-    fun showRatingDialog(autoShow: Boolean = true, onRate: (Int) -> Unit) {
+    private fun showRatingDialog(autoShow: Boolean = true, onRate: (Int) -> Unit) {
         if (mRateDialogShowing) return
         mRateDialogShowing = true
         var rating = 5
@@ -91,24 +126,24 @@ class DialogCenter(private val activity: Activity) {
             when (rating) {
                 0, 1, 2 -> {
                     setUpMessageAndEmoij(
-                        activity.resources.getString(R.string.oh_no),
-                        activity.resources.getString(R.string.please_leave_us_some_feedback),
+                        getString(R.string.oh_no),
+                        getString(R.string.please_leave_us_some_feedback),
                         R.raw.animation_2star
                     )
                 }
 
                 3 -> {
                     setUpMessageAndEmoij(
-                        activity.resources.getString(R.string.oh_no),
-                        activity.resources.getString(R.string.please_leave_us_some_feedback),
+                        getString(R.string.oh_no),
+                        getString(R.string.please_leave_us_some_feedback),
                         R.raw.animation_3star
                     )
                 }
 
                 4 -> {
                     setUpMessageAndEmoij(
-                        activity.resources.getString(R.string.we_like_you_too),
-                        activity.resources.getString(R.string.thanks_for_your_feedback),
+                        getString(R.string.we_like_you_too),
+                        getString(R.string.thanks_for_your_feedback),
                         R.raw.animation_4star
                     )
                 }
@@ -117,8 +152,8 @@ class DialogCenter(private val activity: Activity) {
                     Glide.with(activity.applicationContext).load(R.drawable.ic_5stars)
                         .into(dialogRatingBinding.imgStar)
                     setUpMessageAndEmoij(
-                        activity.resources.getString(R.string.we_like_you_too),
-                        activity.resources.getString(R.string.thanks_for_your_feedback),
+                        getString(R.string.we_like_you_too),
+                        getString(R.string.thanks_for_your_feedback),
                         R.raw.animation_5star
                     )
                 }
@@ -162,7 +197,7 @@ class DialogCenter(private val activity: Activity) {
         dialogRatingBinding.animationEmojis.setAnimation(emoij)
     }
 
-    fun showLoadingAdsDialog() {
+    private fun showLoadingAdsDialog() {
         if (mLoadingAdsDialogShowing) return
         mLoadingAdsDialogShowing = true
         val view = activity.findViewById<View>(android.R.id.content) as ViewGroup
@@ -179,8 +214,315 @@ class DialogCenter(private val activity: Activity) {
     fun showLoadingProgressBar() {
         if (mLoadingProgressBarShowing) return
         mLoadingProgressBarShowing = true
-        val view = activity.findViewById<View>(android.R.id.content) as ViewGroup
+        val view = activity.findViewById<ViewGroup>(android.R.id.content)
         layoutLoadingBinding =
             LayoutLoadingBinding.inflate(activity.layoutInflater, view, true)
+    }
+
+    private fun dismissBrowserDialog() {
+        if (browserDialogShowing) {
+            activity.findViewById<ViewGroup>(android.R.id.content)
+                .removeViewAt(activity.findViewById<ViewGroup>(android.R.id.content).childCount - 1)
+            countDownJob?.cancel()
+            countDownJob = null
+            rewardAdsJob?.cancel()
+            rewardAdsJob = null
+            Timber.d("jobState $countDownJob $rewardAdsJob")
+            browserDialogShowing = false
+        }
+    }
+
+    private fun showBrowserErrorDialog() {
+        if (browserDialogErrorShowing) return
+        browserDialogErrorShowing = true
+        dialogBrowserErrorBinding =
+            LayoutDialogLoadRewardAdErrorBrowserBinding.inflate(
+                activity.layoutInflater,
+                view,
+                true
+            )
+        dialogBrowserErrorBinding.apply {
+            txtCancel.setOnClickListener {
+                dismissBrowserErrorDialog()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgDialogDisconnect.setOnClickListener { dismissBrowserDialog() }
+
+            txtRetry.setOnClickListener {
+                dismissBrowserErrorDialog()
+                showBrowserDialog()
+            }
+        }
+    }
+
+    private fun dismissBrowserErrorDialog() {
+        if (browserDialogErrorShowing) {
+            view.removeViewAt(view.childCount - 1)
+            browserDialogErrorShowing = false
+        }
+    }
+
+    private fun showBrowserDialog() {
+        if (browserDialogShowing) return
+        browserDialogShowing = true
+        FirebaseTracking.logHomeBrowserDialogShowed()
+        dialogBrowserBinding =
+            LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, view, true)
+        dialogBrowserBinding.apply {
+            txtStartVideoInTime.text = getString(R.string.video_starting_in, "5")
+            countDownJob = CoroutineScope(Dispatchers.Main).launch {
+                for (i in 4 downTo 0) {
+                    delay(1000L)
+                    txtStartVideoInTime.text = getString(R.string.video_starting_in, i.toString())
+                    if (i == 0) {
+                        goToRewardAds()
+                    }
+                }
+            }
+            txtClose.setOnClickListener {
+                dismissBrowserDialog()
+            }
+            cardDialog.setOnClickListener { }
+            constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
+
+            txtStartVideoInTime.setOnClickListener {
+                countDownJob?.cancel()
+                goToRewardAds()
+            }
+        }
+    }
+
+    private fun goToRewardAds() {
+        dialogBrowserBinding.apply {
+            txtStartVideoInTime.setTextColor(
+                ContextCompat.getColor(
+                    activity, R.color.txt_disable_gray
+                )
+            )
+            txtStartVideoInTime.setOnClickListener { }
+            progressBarLoadAds.visibility = View.VISIBLE
+            if (rewardAdsJob == null) {
+                rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
+                    admobHelper.showRewardedAds(
+                        activity, AdType.BROWSER_MIRROR_REWARD
+                    ) { isSuccess ->
+                        if (isSuccess) {
+                            BrowserMirrorActivity.gotoActivity(activity)
+                            dismissBrowserDialog()
+                        } else {
+                            dismissBrowserDialog()
+                            showBrowserErrorDialog()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showExitAppDialog() {
+        if (exitAppDialogShowing) return
+        exitAppDialogShowing = true
+        dialogExitAppBinding =
+            LayoutDialogExitAppBinding.inflate(layoutInflater, view, true)
+        dialogExitAppBinding.apply {
+
+            admobHelper.showNativeAdmob(activity, AdType.EXIT_APP_NATIVE, nativeAdView)
+
+            btnExitApp.setOnClickListener {
+//                super.onBackPressed()
+                activity.finish()
+            }
+            btnClose.setOnClickListener {
+                dismissExitAppDialog()
+            }
+            constraintExitAppDialog.setOnClickListener {
+                dismissExitAppDialog()
+            }
+
+            cardDialog.setOnClickListener { }
+        }
+    }
+
+    private fun dismissExitAppDialog() {
+        if (exitAppDialogShowing) {
+            view.removeViewAt(view.childCount - 1)
+            exitAppDialogShowing = false
+        }
+    }
+
+    private fun dismissAskPermissionOverlayDialog() {
+        if (askPermissionOverLayDialogShowing) {
+            view.removeViewAt(view.childCount - 1)
+            askPermissionOverLayDialogShowing = false
+        }
+    }
+
+    private fun showAskPermissionOverlayDialog() {
+        if (askPermissionOverLayDialogShowing) return
+        askPermissionOverLayDialogShowing = true
+        dialogAskPermissionOverLayBinding =
+            LayoutDialogAskDisplayOverlayPermissionBinding.inflate(
+                layoutInflater,
+                view,
+                true
+            )
+        dialogAskPermissionOverLayBinding.apply {
+            btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
+            btnAllow.setOnClickListener {
+                AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+                activity.requestOverlaysPermission()
+                dismissAskPermissionOverlayDialog()
+            }
+            constraintBgDialogAskPermission.setOnClickListener {
+                dismissAskPermissionOverlayDialog()
+            }
+            llDialog.setOnClickListener {}
+        }
+    }
+
+    private fun updateTabTutorialDialogPager(
+        binding: LayoutDialogTutorialFirstOpenBinding,
+        position: Int,
+    ) {
+        binding.apply {
+            imgStateStep1.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+            imgStateStep2.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+            imgStateStep3.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+            if (position == 0) {
+                imgStateStep1.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+            } else if (position == 1) {
+                imgStateStep2.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+            } else {
+                imgStateStep3.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+            }
+            if (position != 0) {
+                btnPrevious.visibility = View.VISIBLE
+            } else {
+                btnPrevious.visibility = View.INVISIBLE
+            }
+            if (position < 2) {
+                btnNext.setOnClickListener {
+                    viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem + 1
+                }
+                txtOk.visibility = View.INVISIBLE
+                btnNext.visibility = View.VISIBLE
+            } else {
+                btnNext.visibility = View.INVISIBLE
+                txtOk.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showTutorialDialog(tutorialAdapter: TutorialDialogAdapter) {
+        tutorialDialogIsShowing = true
+        dialogTutorialBinding =
+            LayoutDialogTutorialFirstOpenBinding.inflate(layoutInflater, view, true)
+//        val tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
+        dialogTutorialBinding.apply {
+            viewPagerTutorialDialog.adapter = tutorialAdapter
+            constraintBgDialogTutorial.setOnClickListener {}
+            updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+
+            viewPagerTutorialDialog.addOnPageChangeListener(object :
+                ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int,
+                ) {
+                }
+
+                override fun onPageSelected(position: Int) {
+                    updateTabTutorialDialogPager(dialogTutorialBinding, position)
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {}
+            })
+
+            imgStateStep1.setOnClickListener {
+                viewPagerTutorialDialog.currentItem = 0
+                updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+            }
+
+            imgStateStep2.setOnClickListener {
+                viewPagerTutorialDialog.currentItem = 1
+                updateTabTutorialDialogPager(dialogTutorialBinding, 1)
+            }
+
+            imgStateStep3.setOnClickListener {
+                viewPagerTutorialDialog.currentItem = 2
+                updateTabTutorialDialogPager(dialogTutorialBinding, 2)
+            }
+            btnPrevious.setOnClickListener {
+                viewPagerTutorialDialog.setCurrentItem(
+                    viewPagerTutorialDialog.currentItem - 1,
+                    true
+                )
+            }
+            txtOk.setOnClickListener {
+                if (AppPreferences().isPremiumSubscribed == true) {
+                    dismissTutorialDialog()
+                } else {
+//                    dialogCenter.showLoadingAdsDialog()
+                    showDialog(DialogCenter.DialogType.LoadingAds)
+                    admobHelper.showGeneralAdInterstitial(
+                        activity,
+                    ) {
+                        dismissLoadingAdDialog()
+                        dismissTutorialDialog()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun dismissTutorialDialog() {
+        if (tutorialDialogIsShowing) {
+            view.removeViewAt(view.childCount - 1)
+            tutorialDialogIsShowing = false
+        }
+    }
+
+
+    fun showDialog(type: DialogType) {
+        when (type) {
+            is DialogType.Rating -> showRatingDialog(type.autoShow, type.onRate)
+            is DialogType.LoadingAds -> showLoadingAdsDialog()
+            is DialogType.Browser -> showBrowserDialog()
+            is DialogType.BrowserError -> showLoadingAdsDialog()
+            is DialogType.Tutorial -> showTutorialDialog(type.tutorialAdapter)
+            is DialogType.ExitApp -> showExitAppDialog()
+            is DialogType.AskPermissionOverLay -> showAskPermissionOverlayDialog()
+            else -> {}
+        }
+    }
+
+    fun dismissDialog(type: DialogType) {
+        when (type) {
+            is DialogType.Rating -> dismissRatingDialog()
+            is DialogType.LoadingAds -> dismissLoadingAdDialog()
+            is DialogType.Browser -> dismissBrowserDialog()
+            is DialogType.BrowserError -> dismissBrowserErrorDialog()
+            is DialogType.Tutorial -> dismissTutorialDialog()
+            is DialogType.ExitApp -> dismissExitAppDialog()
+            is DialogType.AskPermissionOverLay -> dismissAskPermissionOverlayDialog()
+            else -> {
+            }
+        }
+    }
+
+    sealed interface DialogType {
+        data class Rating(val autoShow: Boolean = true, val onRate: (Int) -> Unit) : DialogType
+        object LoadingAds : DialogType
+        object Browser : DialogType
+        object BrowserError : DialogType
+        object LoadingBar : DialogType
+        data class Tutorial(val tutorialAdapter: TutorialDialogAdapter) : DialogType
+        object ExitApp : DialogType
+        object AskPermissionOverLay : DialogType
+    }
+
+    private fun getString(@StringRes resId: Int, vararg formatArgs: Any): String {
+        return activity.getString(resId, *formatArgs)
     }
 }
