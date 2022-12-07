@@ -46,20 +46,20 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-    private var tutorialDialogIsShowing = false
-    private var browserDialogShowing = false
-    private var browserDialogErrorShowing = false
-    private var askPermissionOverLayDialogShowing = false
-    private var exitAppDialogShowing = false
-    private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
-    private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
-    private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
-    private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
-    private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
+//    private var tutorialDialogIsShowing = false
+//    private var browserDialogShowing = false
+//    private var browserDialogErrorShowing = false
+//    private var askPermissionOverLayDialogShowing = false
+//    private var exitAppDialogShowing = false
+//    private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
+//    private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
+//    private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
+//    private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
+//    private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
     private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private lateinit var dialogCenter: DialogCenter
     private var countDownJob: Job? = null
-    private var rewardAdsJob: Job? = null
+//    private var rewardAdsJob: Job? = null
     private var shakeAnimJob: Job? = null
 
     @Inject
@@ -80,13 +80,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initViews() {
         dialogCenter = DialogCenter(this)
+        dialogCenter.admobHelper = admobHelper
         initAds()
         val appPreferences = AppPreferences()
         FirebaseTracking.logHomeShowed()
         appPreferences.countTimeOpenApp = appPreferences.countTimeOpenApp!! + 1
         if (appPreferences.isTheFirstTimeUseApp == true) {
             appPreferences.isTheFirstTimeUseApp = false
-            showTutorialDialog()
+            dialogCenter.showDialog(DialogCenter.DialogType.Tutorial(TutorialDialogAdapter(this, supportFragmentManager)))
+//            showTutorialDialog()
         } else if (appPreferences.countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false && AppConfigRemote().enable_premium == true) {
             PremiumActivity.gotoActivity(this@HomeActivity)
         }
@@ -184,13 +186,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 val data = activityResult.data
                 if (result == RESULT_OK && data != null && AppPreferences().isRated == false) {
                     val isShowRating = data.getBooleanExtra(SHOW_RATING_DIALOG, false)
-                    if (isShowRating) dialogCenter.showRatingDialog { star ->
+                    if (isShowRating) dialogCenter.showDialog(DialogCenter.DialogType.Rating { star ->
                         if (star <= 3) {
                             FeedbackActivity.start(this, star)
                         } else {
                             openAppInStore()
                         }
-                    }
+                    })
+//                    if (isShowRating) dialogCenter.showRatingDialog { star ->
+//                        if (star <= 3) {
+//                            FeedbackActivity.start(this, star)
+//                        } else {
+//                            openAppInStore()
+//                        }
+//                    }
                 }
             }
         binding.constraintBrowserMirror.setOnClickListener {
@@ -199,18 +208,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
-                showBrowserDialog()
+//                dialogCenter.showBrowserDialog()
+                dialogCenter.showDialog(DialogCenter.DialogType.Browser)
             }
         }
         binding.constrantMirror.setOnClickListener {
             FirebaseTracking.logHomeMirrorClicked()
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-                dialogCenter.showLoadingAdsDialog()
+//                dialogCenter.showLoadingAdsDialog()
+                dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
+
                 admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
                 ) {
-                    dialogCenter.dismissLoadingAdDialog()
+                    dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                     goToMirrorActivityResult.launch(intent)
                 }
             } else {
@@ -232,7 +244,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     FloatToolService.start(this@HomeActivity)
                 } else {
                     binding.switchModeFloatingTool.isChecked = false
-                    showAskPermissionOverlayDialog()
+                    dialogCenter.showDialog(DialogCenter.DialogType.AskPermissionOverLay)
+//                    showAskPermissionOverlayDialog()
                 }
             } else {
                 FloatToolService.stop(this@HomeActivity)
@@ -314,281 +327,283 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-    private fun dismissBrowserDialog() {
-        if (browserDialogShowing) {
-            binding.root.removeViewAt(binding.root.childCount - 1)
-            countDownJob?.cancel()
-            countDownJob = null
-            rewardAdsJob?.cancel()
-            rewardAdsJob = null
-            Timber.d("jobState $countDownJob $rewardAdsJob")
-            browserDialogShowing = false
-        }
-    }
+//    private fun dismissBrowserDialog() {
+//        if (browserDialogShowing) {
+//            binding.root.removeViewAt(binding.root.childCount - 1)
+//            countDownJob?.cancel()
+//            countDownJob = null
+//            rewardAdsJob?.cancel()
+//            rewardAdsJob = null
+//            Timber.d("jobState $countDownJob $rewardAdsJob")
+//            browserDialogShowing = false
+//        }
+//    }
 
-    private fun showBrowserDialog() {
-        if (browserDialogShowing) return
-        browserDialogShowing = true
-        FirebaseTracking.logHomeBrowserDialogShowed()
-        dialogBrowserBinding =
-            LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
-        dialogBrowserBinding.apply {
-            txtStartVideoInTime.text =
-                getString(R.string.video_starting_in, "5")
-            countDownJob = CoroutineScope(Dispatchers.Main).launch {
-                for (i in 4 downTo 0) {
-                    delay(1000L)
-                    txtStartVideoInTime.text =
-                        getString(R.string.video_starting_in, i.toString())
-                    if (i == 0) {
-                        goToRewardAds()
-                    }
-                }
-            }
-            txtClose.setOnClickListener {
-                dismissBrowserDialog()
-            }
-            cardDialog.setOnClickListener { }
-            constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
+//    private fun showBrowserDialog() {
+//        if (browserDialogShowing) return
+//        browserDialogShowing = true
+//        FirebaseTracking.logHomeBrowserDialogShowed()
+//        dialogBrowserBinding =
+//            LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, binding.root, true)
+//        dialogBrowserBinding.apply {
+//            txtStartVideoInTime.text = getString(R.string.video_starting_in, "5")
+//            countDownJob = CoroutineScope(Dispatchers.Main).launch {
+//                for (i in 4 downTo 0) {
+//                    delay(1000L)
+//                    txtStartVideoInTime.text = getString(R.string.video_starting_in, i.toString())
+//                    if (i == 0) {
+//                        goToRewardAds()
+//                    }
+//                }
+//            }
+//            txtClose.setOnClickListener {
+//                dismissBrowserDialog()
+//            }
+//            cardDialog.setOnClickListener { }
+//            constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
+//
+//            txtStartVideoInTime.setOnClickListener {
+//                countDownJob?.cancel()
+//                goToRewardAds()
+//            }
+//        }
+//    }
 
-            txtStartVideoInTime.setOnClickListener {
-                countDownJob?.cancel()
-                goToRewardAds()
-            }
-        }
-    }
+//    private fun goToRewardAds() {
+//        dialogBrowserBinding.apply {
+//            txtStartVideoInTime.setTextColor(
+//                ContextCompat.getColor(
+//                    this@HomeActivity,
+//                    R.color.txt_disable_gray
+//                )
+//            )
+//            txtStartVideoInTime.setOnClickListener { }
+//            progressBarLoadAds.visibility = View.VISIBLE
+//            if (rewardAdsJob == null) {
+//                rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
+//                    admobHelper.showRewardedAds(
+//                        this@HomeActivity,
+//                        AdType.BROWSER_MIRROR_REWARD
+//                    ) { isSuccess ->
+//                        if (isSuccess) {
+//                            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+//                            dismissBrowserDialog()
+//                        } else {
+//                            dismissBrowserDialog()
+//                            showBrowserErrorDialog()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    private fun goToRewardAds() {
-        dialogBrowserBinding.apply {
-            txtStartVideoInTime.setTextColor(
-                ContextCompat.getColor(
-                    this@HomeActivity,
-                    R.color.txt_disable_gray
-                )
-            )
-            txtStartVideoInTime.setOnClickListener { }
-            progressBarLoadAds.visibility = View.VISIBLE
-            if (rewardAdsJob == null) {
-                rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
-                    admobHelper.showRewardedAds(
-                        this@HomeActivity,
-                        AdType.BROWSER_MIRROR_REWARD
-                    ) { isSuccess ->
-                        if (isSuccess) {
-                            BrowserMirrorActivity.gotoActivity(this@HomeActivity)
-                            dismissBrowserDialog()
-                        } else {
-                            dismissBrowserDialog()
-                            showBrowserErrorDialog()
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    private fun dismissBrowserErrorDialog() {
+//        if (browserDialogErrorShowing) {
+//            binding.root.removeViewAt(binding.root.childCount - 1)
+//            browserDialogErrorShowing = false
+//        }
+//    }
 
-    private fun dismissBrowserErrorDialog() {
-        if (browserDialogErrorShowing) {
-            binding.root.removeViewAt(binding.root.childCount - 1)
-            browserDialogErrorShowing = false
-        }
-    }
+//    private fun showBrowserErrorDialog() {
+//        if (browserDialogErrorShowing) return
+//        browserDialogErrorShowing = true
+//        dialogBrowserErrorBinding =
+//            LayoutDialogLoadRewardAdErrorBrowserBinding.inflate(layoutInflater, binding.root, true)
+//        dialogBrowserErrorBinding.apply {
+//            txtCancel.setOnClickListener {
+//                dismissBrowserErrorDialog()
+//            }
+//            cardDialog.setOnClickListener { }
+//            constraintBgDialogDisconnect.setOnClickListener { dismissBrowserDialog() }
+//
+//            txtRetry.setOnClickListener {
+//                dismissBrowserErrorDialog()
+//                dialogCenter.showDialog(DialogCenter.DialogType.Browser(admobHelper))
+//            }
+//        }
+//    }
 
-    private fun showBrowserErrorDialog() {
-        if (browserDialogErrorShowing) return
-        browserDialogErrorShowing = true
-        dialogBrowserErrorBinding =
-            LayoutDialogLoadRewardAdErrorBrowserBinding.inflate(layoutInflater, binding.root, true)
-        dialogBrowserErrorBinding.apply {
-            txtCancel.setOnClickListener {
-                dismissBrowserErrorDialog()
-            }
-            cardDialog.setOnClickListener { }
-            constraintBgDialogDisconnect.setOnClickListener { dismissBrowserDialog() }
+//    private fun showTutorialDialog() {
+//        tutorialDialogIsShowing = true
+//        dialogTutorialBinding =
+//            LayoutDialogTutorialFirstOpenBinding.inflate(layoutInflater, binding.root, true)
+//        val tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
+//        dialogTutorialBinding.apply {
+//            viewPagerTutorialDialog.adapter = tutorialAdapter
+//            constraintBgDialogTutorial.setOnClickListener {}
+//            updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+//
+//            viewPagerTutorialDialog.addOnPageChangeListener(object :
+//                ViewPager.OnPageChangeListener {
+//                override fun onPageScrolled(
+//                    position: Int,
+//                    positionOffset: Float,
+//                    positionOffsetPixels: Int,
+//                ) {
+//                }
+//
+//                override fun onPageSelected(position: Int) {
+//                    updateTabTutorialDialogPager(dialogTutorialBinding, position)
+//                }
+//
+//                override fun onPageScrollStateChanged(state: Int) {}
+//            })
+//
+//            imgStateStep1.setOnClickListener {
+//                viewPagerTutorialDialog.currentItem = 0
+//                updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+//            }
+//
+//            imgStateStep2.setOnClickListener {
+//                viewPagerTutorialDialog.currentItem = 1
+//                updateTabTutorialDialogPager(dialogTutorialBinding, 1)
+//            }
+//
+//            imgStateStep3.setOnClickListener {
+//                viewPagerTutorialDialog.currentItem = 2
+//                updateTabTutorialDialogPager(dialogTutorialBinding, 2)
+//            }
+//            btnPrevious.setOnClickListener {
+//                viewPagerTutorialDialog.setCurrentItem(
+//                    viewPagerTutorialDialog.currentItem - 1,
+//                    true
+//                )
+//            }
+//            txtOk.setOnClickListener {
+//                if (AppPreferences().isPremiumSubscribed == true) {
+//                    dismissTutorialDialog()
+//                } else {
+////                    dialogCenter.showLoadingAdsDialog()
+//                    dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
+//                    admobHelper.showGeneralAdInterstitial(
+//                        this@HomeActivity,
+//                    ) {
+//                        dialogCenter.dismissLoadingAdDialog()
+//                        dismissTutorialDialog()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-            txtRetry.setOnClickListener {
-                dismissBrowserErrorDialog()
-                showBrowserDialog()
-            }
-        }
-    }
+//    private fun dismissExitAppDialog() {
+//        if (exitAppDialogShowing) {
+//            binding.root.removeViewAt(binding.root.childCount - 1)
+//            exitAppDialogShowing = false
+//        }
+//    }
 
-    private fun showTutorialDialog() {
-        tutorialDialogIsShowing = true
-        dialogTutorialBinding =
-            LayoutDialogTutorialFirstOpenBinding.inflate(layoutInflater, binding.root, true)
-        val tutorialAdapter = TutorialDialogAdapter(this, supportFragmentManager)
-        dialogTutorialBinding.apply {
-            viewPagerTutorialDialog.adapter = tutorialAdapter
-            constraintBgDialogTutorial.setOnClickListener {}
-            updateTabTutorialDialogPager(dialogTutorialBinding, 0)
+//    private fun showExitAppDialog() {
+//        if (exitAppDialogShowing) return
+//        exitAppDialogShowing = true
+//        dialogExitAppBinding =
+//            LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
+//        dialogExitAppBinding.apply {
+//
+//            admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
+//
+//            btnExitApp.setOnClickListener {
+//                super.onBackPressed()
+//            }
+//            btnClose.setOnClickListener {
+//                dismissExitAppDialog()
+//            }
+//            constraintExitAppDialog.setOnClickListener {
+//                dismissExitAppDialog()
+//            }
+//
+//            cardDialog.setOnClickListener { }
+//        }
+//    }
 
-            viewPagerTutorialDialog.addOnPageChangeListener(object :
-                ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int,
-                ) {
-                }
+//    private fun dismissAskPermissionOverlayDialog() {
+//        if (askPermissionOverLayDialogShowing) {
+//            binding.root.removeViewAt(binding.root.childCount - 1)
+//            askPermissionOverLayDialogShowing = false
+//        }
+//    }
 
-                override fun onPageSelected(position: Int) {
-                    updateTabTutorialDialogPager(dialogTutorialBinding, position)
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {}
-            })
-
-            imgStateStep1.setOnClickListener {
-                viewPagerTutorialDialog.currentItem = 0
-                updateTabTutorialDialogPager(dialogTutorialBinding, 0)
-            }
-
-            imgStateStep2.setOnClickListener {
-                viewPagerTutorialDialog.currentItem = 1
-                updateTabTutorialDialogPager(dialogTutorialBinding, 1)
-            }
-
-            imgStateStep3.setOnClickListener {
-                viewPagerTutorialDialog.currentItem = 2
-                updateTabTutorialDialogPager(dialogTutorialBinding, 2)
-            }
-            btnPrevious.setOnClickListener {
-                viewPagerTutorialDialog.setCurrentItem(
-                    viewPagerTutorialDialog.currentItem - 1,
-                    true
-                )
-            }
-            txtOk.setOnClickListener {
-                if (AppPreferences().isPremiumSubscribed == true) {
-                    dismissTutorialDialog()
-                } else {
-                    dialogCenter.showLoadingAdsDialog()
-                    admobHelper.showGeneralAdInterstitial(
-                        this@HomeActivity,
-                    ) {
-                        dialogCenter.dismissLoadingAdDialog()
-                        dismissTutorialDialog()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun dismissExitAppDialog() {
-        if (exitAppDialogShowing) {
-            binding.root.removeViewAt(binding.root.childCount - 1)
-            exitAppDialogShowing = false
-        }
-    }
-
-    private fun showExitAppDialog() {
-        if (exitAppDialogShowing) return
-        exitAppDialogShowing = true
-        dialogExitAppBinding =
-            LayoutDialogExitAppBinding.inflate(layoutInflater, binding.root, true)
-        dialogExitAppBinding.apply {
-
-            admobHelper.showNativeAdmob(this@HomeActivity, AdType.EXIT_APP_NATIVE, nativeAdView)
-
-            btnExitApp.setOnClickListener {
-                super.onBackPressed()
-            }
-            btnClose.setOnClickListener {
-                dismissExitAppDialog()
-            }
-            constraintExitAppDialog.setOnClickListener {
-                dismissExitAppDialog()
-            }
-
-            cardDialog.setOnClickListener { }
-        }
-    }
-
-    private fun dismissAskPermissionOverlayDialog() {
-        if (askPermissionOverLayDialogShowing) {
-            binding.root.removeViewAt(binding.root.childCount - 1)
-            askPermissionOverLayDialogShowing = false
-        }
-    }
-
-    private fun showAskPermissionOverlayDialog() {
-        if (askPermissionOverLayDialogShowing) return
-        askPermissionOverLayDialogShowing = true
-        dialogAskPermissionOverLayBinding =
-            LayoutDialogAskDisplayOverlayPermissionBinding.inflate(
-                layoutInflater,
-                binding.root,
-                true
-            )
-        dialogAskPermissionOverLayBinding.apply {
-            btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
-            btnAllow.setOnClickListener {
-                AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
-                requestOverlaysPermission()
-                dismissAskPermissionOverlayDialog()
-            }
-            constraintBgDialogAskPermission.setOnClickListener {
-                dismissAskPermissionOverlayDialog()
-            }
-            llDialog.setOnClickListener {}
-        }
-    }
+//    private fun showAskPermissionOverlayDialog() {
+//        if (askPermissionOverLayDialogShowing) return
+//        askPermissionOverLayDialogShowing = true
+//        dialogAskPermissionOverLayBinding =
+//            LayoutDialogAskDisplayOverlayPermissionBinding.inflate(
+//                layoutInflater,
+//                binding.root,
+//                true
+//            )
+//        dialogAskPermissionOverLayBinding.apply {
+//            btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
+//            btnAllow.setOnClickListener {
+//                AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+//                requestOverlaysPermission()
+//                dismissAskPermissionOverlayDialog()
+//            }
+//            constraintBgDialogAskPermission.setOnClickListener {
+//                dismissAskPermissionOverlayDialog()
+//            }
+//            llDialog.setOnClickListener {}
+//        }
+//    }
 
 
-    private fun updateTabTutorialDialogPager(
-        binding: LayoutDialogTutorialFirstOpenBinding,
-        position: Int,
-    ) {
+//    private fun updateTabTutorialDialogPager(
+//        binding: LayoutDialogTutorialFirstOpenBinding,
+//        position: Int,
+//    ) {
+//        binding.apply {
+//            imgStateStep1.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+//            imgStateStep2.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+//            imgStateStep3.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
+//            if (position == 0) {
+//                imgStateStep1.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+//            } else if (position == 1) {
+//                imgStateStep2.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+//            } else {
+//                imgStateStep3.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
+//            }
+//            if (position != 0) {
+//                btnPrevious.visibility = View.VISIBLE
+//            } else {
+//                btnPrevious.visibility = View.INVISIBLE
+//            }
+//            if (position < 2) {
+//                btnNext.setOnClickListener {
+//                    viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem + 1
+//                }
+//                txtOk.visibility = View.INVISIBLE
+//                btnNext.visibility = View.VISIBLE
+//            } else {
+//                btnNext.visibility = View.INVISIBLE
+//                txtOk.visibility = View.VISIBLE
+//            }
+//        }
+//    }
 
-        binding.apply {
-            imgStateStep1.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep2.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
-            imgStateStep3.setImageResource(R.drawable.ic_state_off_tutorial_dialog)
-            if (position == 0) {
-                imgStateStep1.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
-            } else if (position == 1) {
-                imgStateStep2.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
-            } else {
-                imgStateStep3.setImageResource(R.drawable.ic_state_on_tutorial_dialog)
-            }
-            if (position != 0) {
-                btnPrevious.visibility = View.VISIBLE
-            } else {
-                btnPrevious.visibility = View.INVISIBLE
-            }
-            if (position < 2) {
-                btnNext.setOnClickListener {
-                    viewPagerTutorialDialog.currentItem = viewPagerTutorialDialog.currentItem + 1
-                }
-                txtOk.visibility = View.INVISIBLE
-                btnNext.visibility = View.VISIBLE
-            } else {
-                btnNext.visibility = View.INVISIBLE
-                txtOk.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun dismissTutorialDialog() {
-        if (tutorialDialogIsShowing) {
-            binding.root.removeViewAt(binding.root.childCount - 1)
-            tutorialDialogIsShowing = false
-        }
-    }
+//    private fun dismissTutorialDialog() {
+//        if (tutorialDialogIsShowing) {
+//            binding.root.removeViewAt(binding.root.childCount - 1)
+//            tutorialDialogIsShowing = false
+//        }
+//    }
 
     override fun onBackPressed() {
-        if (browserDialogShowing) {
-            dismissBrowserDialog()
-        } else if (browserDialogErrorShowing) {
-            dismissBrowserErrorDialog()
-        } else if (tutorialDialogIsShowing) {
+        if (dialogCenter.browserDialogShowing) {
+            dialogCenter.dismissDialog(DialogCenter.DialogType.Browser)
+//            dismissBrowserDialog()
+        } else if (dialogCenter.browserDialogErrorShowing) {
+            dialogCenter.dismissDialog(DialogCenter.DialogType.BrowserError)
+        } else if (dialogCenter.tutorialDialogIsShowing) {
         } else if (dialogCenter.mLoadingAdsDialogShowing) {
-        } else if (askPermissionOverLayDialogShowing) {
-            dismissAskPermissionOverlayDialog()
+            dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
+        } else if (dialogCenter.askPermissionOverLayDialogShowing) {
+            dialogCenter.dismissDialog(DialogCenter.DialogType.AskPermissionOverLay)
+//            dismissAskPermissionOverlayDialog()
         } else {
-            if (!exitAppDialogShowing && AppPreferences().isPremiumSubscribed == false) {
-                showExitAppDialog()
+            if (!dialogCenter.exitAppDialogShowing && AppPreferences().isPremiumSubscribed == false) {
+                dialogCenter.showDialog(DialogCenter.DialogType.ExitApp)
+//                showExitAppDialog()
             } else {
                 super.onBackPressed()
             }
