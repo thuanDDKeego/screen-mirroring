@@ -85,6 +85,8 @@ abstract class PermissionActivity<V : ViewBinding> : BaseActivity<V>() {
                 .exceptionHandler { ex -> Timber.e(ex) }
                 .build()
         )
+        // assign new port to web streaming
+        settings!!.severPort = 5050
         AppCompatDelegate.setDefaultNightMode(settings!!.nightMode)
         isCastPermissionsPending =
             savedInstanceState?.getBoolean(CAST_PERMISSION_PENDING_KEY) ?: false
