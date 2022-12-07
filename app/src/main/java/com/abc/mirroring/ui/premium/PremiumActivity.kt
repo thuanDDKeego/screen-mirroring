@@ -14,6 +14,7 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityPremiumBinding
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
+import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
 import dev.sofi.ads.AdCenter
@@ -28,6 +29,42 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
     private lateinit var billingClient: BillingClient
     private lateinit var screenState: ScreenState
     private lateinit var dialogCenter: DialogCenter
+    val purchasesUpdatedListener =
+        PurchasesUpdatedListener { billingResult, purchases ->
+            // To be implemented in a later section.
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                dialogCenter.dismissLoadingBarDialog()
+                AppPreferences().isPremiumSubscribed = true
+                AdCenter.getInstance().enable.value = false
+                AppPreferences().purchaseDate = purchases[0].purchaseTime
+                updateView(ScreenState.HAS_SUBSCRIBED)
+                for (purchase in purchases) {
+                    verifySubPurchase(purchase)
+                }
+            }
+//if item already subscribed then check and reflect changes
+            //...
+//if Purchase canceled
+            else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+                dialogCenter.dismissLoadingBarDialog()
+                Toast.makeText(
+                    this@PremiumActivity,
+                    getString(R.string.purchase_cancel),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+// Handle any other error msgs
+            else {
+                dialogCenter.dismissLoadingBarDialog()
+                Toast.makeText(
+                    this@PremiumActivity,
+                    "Error: " + billingResult.debugMessage,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    private var billingConnection = BillingConnection(this, purchasesUpdatedListener)
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -59,8 +96,25 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
             screenState = ScreenState.HAS_SUBSCRIBED
             updateView(screenState)
         } else {
-            initGoogleBilling()
-            establishConnection()
+            billingConnection.establishConnection (onError = {}){
+                for (productDetails in it) {
+                    if (productDetails.productId == Global.SUB_PURCHASE_ID) {
+                        val subDetails =
+                            productDetails.subscriptionOfferDetails!!
+//                    Log.d("testOffer", subDetails[0])
+                        binding.apply {
+                            txtPurchaseState.text = "${
+                                subDetails[0].pricingPhases.pricingPhaseList[0]
+                                    .formattedPrice
+                            }"
+                            btnUpgrade.setOnClickListener {
+                                dialogCenter.showLoadingProgressBar()
+                                launchPurchaseFlow(productDetails)
+                            }
+                        }
+                    }
+                }
+            }
             screenState = ScreenState.HASNT_SUBSCRIBED
             updateView(screenState)
 
@@ -177,7 +231,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
                                     }"
                                     btnUpgrade.setOnClickListener {
                                         dialogCenter.showLoadingProgressBar()
-                                        launchPurchaseFlow(productDetails)
+                                        billingConnection.launchPurchaseFlow(productDetails)
                                     }
                                 }
                             }
