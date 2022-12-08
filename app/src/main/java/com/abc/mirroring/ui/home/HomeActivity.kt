@@ -360,7 +360,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("destroy home")
-        dialogCenter.onDestory()
+        dialogCenter.onDestroy()
 //        countDownJob?.cancel()
     }
 }
