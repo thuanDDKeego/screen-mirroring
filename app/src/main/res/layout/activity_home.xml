@@ -30,6 +30,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgCast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/margin_16dp"
+        android:paddingStart="@dimen/margin_16dp"
+        android:paddingEnd="@dimen/margin_8dp"
+        android:src="@drawable/ic_cast"
+        android:visibility="visible"
+        android:tint="@color/blueA01"
+        app:layout_constraintEnd_toStartOf="@id/imgSetting"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgPremium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +51,7 @@
         android:paddingEnd="@dimen/margin_8dp"
         android:src="@drawable/ic_crown"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/imgSetting"
+        app:layout_constraintEnd_toStartOf="@id/imgCast"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -304,11 +317,11 @@
                     android:id="@+id/llCastItemRow1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/txtCastDes"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginVertical="@dimen/margin_16dp"
                     android:orientation="horizontal"
-                    android:layout_marginVertical="@dimen/margin_16dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtCastDes">
 
                     <LinearLayout
                         android:id="@+id/llVideo"
@@ -321,44 +334,44 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_42dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:tint="#FF6D00"
-                            android:src="@drawable/ic_video"/>
+                            android:src="@drawable/ic_video"
+                            android:tint="#FF6D00" />
 
                         <TextView
                             android:id="@+id/txtVideo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
                             android:gravity="center"
+                            android:maxLines="2"
+                            android:text="@string/video"
                             android:textColor="@color/blackA01"
-                            android:textStyle="bold"
-                            android:text="@string/video"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llImage"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_42dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:tint="#FFAB00"
-                            android:src="@drawable/ic_image"/>
+                            android:src="@drawable/ic_image"
+                            android:tint="#FFAB00" />
 
                         <TextView
                             android:id="@+id/txtImage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold"
                             android:gravity="center"
-                            android:text="@string/image"/>
+                            android:maxLines="2"
+                            android:text="@string/image"
+                            android:textColor="@color/blackA01"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -372,18 +385,18 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_42dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:tint="#6200EA"
-                            android:src="@drawable/ic_audio"/>
+                            android:src="@drawable/ic_audio"
+                            android:tint="#6200EA" />
 
                         <TextView
                             android:id="@+id/txtAudio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold"
                             android:gravity="center"
-                            android:text="@string/audio"/>
+                            android:maxLines="2"
+                            android:text="@string/audio"
+                            android:textColor="@color/blackA01"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -392,12 +405,12 @@
                     android:id="@+id/llCastItemRow2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/llCastItemRow1"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginVertical="@dimen/margin_16dp"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="@dimen/margin_16dp">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/llCastItemRow1">
 
                     <LinearLayout
                         android:id="@+id/llYoutube"
@@ -410,42 +423,42 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_36dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_youtube"/>
+                            android:src="@drawable/ic_youtube" />
 
                         <TextView
                             android:id="@+id/txtYoutube"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
                             android:gravity="center"
+                            android:maxLines="2"
+                            android:text="@string/youtube"
                             android:textColor="@color/blackA01"
-                            android:textStyle="bold"
-                            android:text="@string/youtube"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llDrive"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_36dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_drive"/>
+                            android:src="@drawable/ic_drive" />
 
                         <TextView
                             android:id="@+id/txtDrive"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold"
                             android:gravity="center"
-                            android:text="@string/drive"/>
+                            android:maxLines="2"
+                            android:text="@string/drive"
+                            android:textColor="@color/blackA01"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -459,18 +472,18 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/margin_42dp"
                             android:layout_height="@dimen/margin_42dp"
-                            android:tint="#00B8D4"
-                            android:src="@drawable/ic_travel_explore"/>
+                            android:src="@drawable/ic_travel_explore"
+                            android:tint="#00B8D4" />
 
                         <TextView
                             android:id="@+id/txtWebBrowser"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold"
                             android:gravity="center"
-                            android:text="@string/web_browser"/>
+                            android:maxLines="2"
+                            android:text="@string/web_browser"
+                            android:textColor="@color/blackA01"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

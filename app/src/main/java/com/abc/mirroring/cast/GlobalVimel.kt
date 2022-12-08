@@ -55,7 +55,7 @@ class GlobalVimel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            caster.start().also { Timber.i("Caster initialized") }
+            // caster.start().also { Timber.i("Caster initialized") }
             caster.discovery.device.collect {
                 update { state ->
                     state.copy(
@@ -72,7 +72,7 @@ class GlobalVimel @Inject constructor(
 
 
     override fun onCleared() {
-        caster.shutdown()
+        // caster.shutdown()
         Timber.d("caster has shutdown")
         super.onCleared()
     }
