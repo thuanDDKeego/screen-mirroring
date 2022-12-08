@@ -1,12 +1,11 @@
-package net.sofigo.cast.tv.section.billing
+package com.abc.mirroring.ui.premium.billing
 
 import android.app.Activity
 import android.content.Context
-import com.abc.mirroring.ui.premium.billing.Subscription
 
 interface IBillingConnection {
-    fun getSubscription(context: Context, callback: (List<Subscription>) -> Unit)
-    fun subscribePremium(activity: Activity)
-    fun getTimeSubscribe(context: Context, callback: (Long) -> Unit)
+    fun getProductPurchases(context: Context, callback: (List<ProductPurchase>) -> Unit)
+    fun subscribeProduct(activity: Activity, product: ProductPurchase)
+    fun checkPremiumUser(context: Context, callback: (Boolean) -> Unit)
     fun onDestroy()
 }
