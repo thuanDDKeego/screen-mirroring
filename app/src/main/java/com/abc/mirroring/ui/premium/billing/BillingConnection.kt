@@ -83,8 +83,20 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
             context,
             onSuccess = {
                 CoroutineScope(Dispatchers.Default).launch {
-                    val products = async { getAllProductPurchaseFollowTypeAndID(BillingClient.ProductType.INAPP, PRODUCT_ID) }
-                    val subscription = async { getAllProductPurchaseFollowTypeAndID(BillingClient.ProductType.SUBS, SUBSCRIPTION_ID) }
+                    //get all in-app product(this is one-time payment item)
+                    val products = async {
+                        getAllProductPurchaseFollowTypeAndID(
+                            BillingClient.ProductType.INAPP,
+                            PRODUCT_ID
+                        )
+                    }
+                    //get all supscription, offers, (monthly, yearly)
+                    val subscription = async {
+                        getAllProductPurchaseFollowTypeAndID(
+                            BillingClient.ProductType.SUBS,
+                            SUBSCRIPTION_ID
+                        )
+                    }
                     val allProductPurchases = mutableListOf<ProductPurchase>()
                     allProductPurchases.addAll(products.await())
                     allProductPurchases.addAll(subscription.await())
@@ -161,28 +173,47 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
         productDetailsResult?.let {
             it.productDetailsList?.forEach { prod ->
                 listProductDetails.add(prod)
-                prod.subscriptionOfferDetails?.let { subsOffers ->
-                    subsOffers.forEach { subsOffer ->
-                        subsOffer.pricingPhases.pricingPhaseList.last().let { price ->
-                            subscriptions.add(
-                                ProductPurchase(
-                                    id = prod.productId,
-                                    title = prod.name,
-                                    price = price.formattedPrice,
-                                    type = BillingClient.ProductType.SUBS,
-                                    offerToken = subsOffer.offerToken
-                                )
-                            )
+                if (type == BillingClient.ProductType.SUBS) {
+                    // if type is subscription, get subscriptionOfferDetails to get offer token and prices
+                    prod.subscriptionOfferDetails?.let { subsOffers ->
+                        subsOffers.forEach { subsOffer ->
+                            if (subsOffer.basePlanId != "base-plan-no-ads") {
+                                subsOffer.pricingPhases.pricingPhaseList.last().let { price ->
+                                    subscriptions.add(
+                                        ProductPurchase(
+                                            id = prod.productId,
+                                            title = prod.name,
+                                            price = price.formattedPrice,
+//                                    type = BillingClient.ProductType.SUBS,
+                                            offerToken = subsOffer.offerToken
+                                        )
+                                    )
+                                }
+                            }
                         }
                     }
+                } else {
+                    // if type is subscription, get oneTimePurchaseOfferDetails to get price, hasn't token
+                    prod.oneTimePurchaseOfferDetails?.formattedPrice?.let { price ->
+                        subscriptions.add(
+                            ProductPurchase(
+                                id = prod.productId,
+                                title = prod.name,
+                                price = price,
+//                                    type = BillingClient.ProductType.SUBS,
+                                offerToken = ""
+                            )
+                        )
+                    }
                 }
+
             }
         }
         return subscriptions.toList()
     }
 
+    //kiểm tra xem user đã mua premium life-time (in-app products) hay đã đăng ký subscription(monthly, yearly) hay chưa?
     private suspend fun checkPremiumUser(): Boolean {
-
         val subscriptionParams = QueryPurchasesParams.newBuilder()
             .setProductType(BillingClient.ProductType.SUBS)
         billingClient?.queryPurchasesAsync(subscriptionParams.build())?.let { result ->
@@ -215,6 +246,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                             .setOfferToken(
                                 product.offerToken
                             )
+                            .setProductDetails(it)
                             .build()
                     )
 

@@ -35,6 +35,7 @@ import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.ui.premium.billing.PremiumActivity2
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -258,7 +259,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
+//            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
+            startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgSaleOffFab.setOnClickListener {
             Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
