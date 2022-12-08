@@ -165,7 +165,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                 } else {
                     openAppInStore()
                 }
-
             })
 //            dialogCenter.showRatingDialog(false) { star ->
 //                if (star <= 3) {

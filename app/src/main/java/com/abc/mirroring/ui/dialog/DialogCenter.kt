@@ -75,9 +75,9 @@ class DialogCenter(private val activity: Activity) {
         dialogRatingBinding.btnRate.visibility = View.GONE
         dialogRatingBinding.animationEmojis.visibility = View.INVISIBLE
         dialogRatingBinding.imgStar.visibility = View.VISIBLE
-        mRateDialogShowing = false
-        mLoadingAdsDialogShowing = false
-        mLoadingProgressBarShowing = false
+//        mRateDialogShowing = false
+//        mLoadingAdsDialogShowing = false
+//        mLoadingProgressBarShowing = false
     }
 
     private fun dismissRatingDialog() {
@@ -121,6 +121,7 @@ class DialogCenter(private val activity: Activity) {
             dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
         }
         dialogRatingBinding.btnClose.setOnClickListener {
+            Timber.d("Rate dialog close $mRateDialogShowing")
             dismissRatingDialog()
         }
         dialogRatingBinding.ratingBar.setOnRatingBarChangeListener { _, _rating, fromUser ->
@@ -175,9 +176,9 @@ class DialogCenter(private val activity: Activity) {
         dialogRatingBinding.mainRatingContentLayout.setOnClickListener {
 
         }
-        dialogRatingBinding.btnClose.setOnClickListener {
-            dismissRatingDialog()
-        }
+//        dialogRatingBinding.btnClose.setOnClickListener {
+//            dismissRatingDialog()
+//        }
         dialogRatingBinding.bgBlackViewInRate.fadeInAnimation()
         dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
         dialogRatingBinding.txtDontAskAgain.setOnClickListener {
