@@ -65,7 +65,7 @@ class DialogCenter(private val activity: Activity) {
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
 
-    fun onDestory() {
+    fun onDestroy() {
         countDownJob?.cancel()
         rewardAdsJob?.cancel()
     }
@@ -133,7 +133,7 @@ class DialogCenter(private val activity: Activity) {
             dialogRatingBinding.imgStar.visibility = View.INVISIBLE
             when (rating) {
                 0, 1, 2 -> {
-                    setUpMessageAndEmoij(
+                    setUpMessageAndEmoji(
                         getString(R.string.oh_no),
                         getString(R.string.please_leave_us_some_feedback),
                         R.raw.animation_2star
@@ -141,7 +141,7 @@ class DialogCenter(private val activity: Activity) {
                 }
 
                 3 -> {
-                    setUpMessageAndEmoij(
+                    setUpMessageAndEmoji(
                         getString(R.string.oh_no),
                         getString(R.string.please_leave_us_some_feedback),
                         R.raw.animation_3star
@@ -149,7 +149,7 @@ class DialogCenter(private val activity: Activity) {
                 }
 
                 4 -> {
-                    setUpMessageAndEmoij(
+                    setUpMessageAndEmoji(
                         getString(R.string.we_like_you_too),
                         getString(R.string.thanks_for_your_feedback),
                         R.raw.animation_4star
@@ -159,7 +159,7 @@ class DialogCenter(private val activity: Activity) {
                 else -> {
                     Glide.with(activity.applicationContext).load(R.drawable.ic_5stars)
                         .into(dialogRatingBinding.imgStar)
-                    setUpMessageAndEmoij(
+                    setUpMessageAndEmoji(
                         getString(R.string.we_like_you_too),
                         getString(R.string.thanks_for_your_feedback),
                         R.raw.animation_5star
@@ -199,7 +199,7 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun setUpMessageAndEmoij(label: String, message: String, emoij: Int) {
+    private fun setUpMessageAndEmoji(label: String, message: String, emoij: Int) {
         dialogRatingBinding.layoutRateDialogTitle.text = label
         dialogRatingBinding.txtDescription.text = message
         dialogRatingBinding.animationEmojis.setAnimation(emoij)
@@ -227,16 +227,10 @@ class DialogCenter(private val activity: Activity) {
             LayoutLoadingBinding.inflate(activity.layoutInflater, view, true)
     }
 
-    private fun dismissBrowserDialog() {
-        if (browserDialogShowing) {
-            activity.findViewById<ViewGroup>(android.R.id.content)
-                .removeViewAt(activity.findViewById<ViewGroup>(android.R.id.content).childCount - 1)
-            countDownJob?.cancel()
-            countDownJob = null
-            rewardAdsJob?.cancel()
-            rewardAdsJob = null
-            Timber.d("jobState $countDownJob $rewardAdsJob")
-            browserDialogShowing = false
+    private fun dismissBrowserErrorDialog() {
+        if (browserDialogErrorShowing) {
+            view.removeViewAt(view.childCount - 1)
+            browserDialogErrorShowing = false
         }
     }
 
@@ -269,6 +263,7 @@ class DialogCenter(private val activity: Activity) {
             tooManyAdsDialogShowing = false
         }
     }
+
     private fun showTooManyAdsDialog(callback: () -> Unit) {
         if (tooManyAdsDialogShowing) return
         tooManyAdsDialogShowing = true
@@ -299,13 +294,18 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun dismissBrowserErrorDialog() {
-        if (browserDialogErrorShowing) {
-            view.removeViewAt(view.childCount - 1)
-            browserDialogErrorShowing = false
+    private fun dismissBrowserDialog() {
+        if (browserDialogShowing) {
+            activity.findViewById<ViewGroup>(android.R.id.content)
+                .removeViewAt(activity.findViewById<ViewGroup>(android.R.id.content).childCount - 1)
+            countDownJob?.cancel()
+            countDownJob = null
+            rewardAdsJob?.cancel()
+            rewardAdsJob = null
+            Timber.d("jobState $countDownJob $rewardAdsJob")
+            browserDialogShowing = false
         }
     }
-
     private fun showBrowserDialog() {
         if (browserDialogShowing) return
         browserDialogShowing = true
@@ -322,6 +322,11 @@ class DialogCenter(private val activity: Activity) {
                         goToRewardAds()
                     }
                 }
+            }
+            llUpgrade.setOnClickListener {
+                dismissBrowserDialog()
+                countDownJob?.cancel()
+                PremiumActivity.gotoActivity(activity)
             }
             txtClose.setOnClickListener {
                 dismissBrowserDialog()
