@@ -34,7 +34,6 @@ import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
-import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.premium.PremiumActivity2
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -86,7 +85,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             )
 //            showTutorialDialog()
         } else if (AppPreferences().countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false && AppConfigRemote().enable_premium == true) {
-            PremiumActivity.gotoActivity(this@HomeActivity)
+            startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
 
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
@@ -259,7 +258,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
-//            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
             startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgSaleOffFab.setOnClickListener {

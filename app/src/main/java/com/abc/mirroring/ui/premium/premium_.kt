@@ -84,12 +84,14 @@ fun premium_(
         )
         // button back
         Icon(
-            imageVector = Icons.Rounded.Close, contentDescription = null, modifier = Modifier
+            imageVector = Icons.Rounded.Close, contentDescription = null,
+            modifier = Modifier
                 .padding(24.dp)
                 .size(32.dp)
                 .clickable {
                     activity.finish()
-                }, tint = Color.White
+                },
+            tint = Color.White
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

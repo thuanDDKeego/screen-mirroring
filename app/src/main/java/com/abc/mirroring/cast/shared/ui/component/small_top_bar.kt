@@ -48,6 +48,7 @@ import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.destinations.premium_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -106,12 +107,11 @@ fun small_top_bar(
                         contentDescription = "Battery optimize"
                     )
                 }
-//                }
 
                 IconButton(onClick = {
                     FirebaseTracking.logHomeIconHelpClicked()
                     TutorialActivity.gotoActivity(context as Activity)
-                }) {
+                }){
                     Image(
                         painter = painterResource(id = R.drawable.ic_help),
                         contentDescription = "Help"
@@ -236,7 +236,7 @@ fun top_bar_webview(
             }
             if (enablePremium) {
                 IconButton(onClick = {
-//                    navigator.navigate(premium_Destination())
+                    navigator.navigate(premium_Destination())
                 }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_crown),
