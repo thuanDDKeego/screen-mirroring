@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8dp"
         android:paddingVertical="@dimen/margin_8dp"
-        android:text="English"
+        android:text="@string/english"
         app:layout_constraintStart_toEndOf="@+id/btnCheckBox"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.appcompat.widget.LinearLayoutCompat>

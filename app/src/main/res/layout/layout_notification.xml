@@ -34,7 +34,7 @@
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="@string/title"
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
             android:id="@+id/txtMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Message"
+            android:text="@string/message"
             android:textSize="15sp" />
 
     </LinearLayout>

@@ -33,7 +33,7 @@
                 android:layout_marginHorizontal="@dimen/margin_24dp"
                 android:layout_marginTop="@dimen/margin_12dp"
                 android:gravity="center|left"
-                android:text="Stop optimizing battery usage?"
+                android:text="@string/stop_optimizing_battery_usage"
                 android:textColor="@color/txt_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                 android:layout_marginHorizontal="@dimen/margin_24dp"
                 android:layout_marginTop="@dimen/margin_12dp"
                 android:gravity="center|left"
-                android:text="Screen cast will be able to run in the background. Its battery usage won't be restricted."
+                android:text="@string/screen_cast_will_be_able_to_run_in_the_background_its_battery_usage_won_t_be_restricted"
                 android:textColor="@color/txt_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin_12dp"
                     android:paddingVertical="@dimen/margin_8dp"
-                    android:text="Deny"
+                    android:text="@string/deny"
                     android:textColor="@color/txt_dark_gray" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -84,7 +84,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin_12dp"
                     android:paddingVertical="@dimen/margin_8dp"
-                    android:text="Allow"
+                    android:text="@string/allow"
                     android:textColor="@color/txt_dark_gray" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
