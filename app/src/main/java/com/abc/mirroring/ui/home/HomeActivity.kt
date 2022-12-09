@@ -18,6 +18,7 @@ import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.cast.MainActivity
 import com.abc.mirroring.cast.MainActivity.Companion.MEDIA_ROUTE
+import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
