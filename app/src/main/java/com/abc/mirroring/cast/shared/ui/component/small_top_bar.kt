@@ -48,6 +48,7 @@ import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.premium_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -77,7 +78,7 @@ fun small_top_bar(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote().enable_premium!!
+    val enablePremium = AppConfigRemote().enable_premium!! && AppPreferences().isPremiumSubscribed == false
 
     // show / hide disconnect device confirmation
     var dialogVisibility by remember { mutableStateOf(false) }
@@ -162,7 +163,7 @@ fun top_bar_webview(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote().enable_premium!!
+    val enablePremium = AppConfigRemote().enable_premium!! && AppPreferences().isPremiumSubscribed == false
 
     // used to clear focus in text-field
     val focusManager = LocalFocusManager.current

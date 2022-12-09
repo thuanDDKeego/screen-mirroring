@@ -126,17 +126,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onResume()
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
-        }
-        //shake img animation
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
-            while (true) {
-                delay(1000L)
-                withContext(Dispatchers.Main) {
-                    binding.imgPremium.clearAnimation()
-                    binding.imgPremium.startAnimation(shake)
+            binding.imgPremium.visibility = View.GONE
+        } else {
+            //shake img animation
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+                while (true) {
+                    delay(1000L)
+                    withContext(Dispatchers.Main) {
+                        binding.imgPremium.clearAnimation()
+                        binding.imgPremium.startAnimation(shake)
+                    }
+                    delay(9000L)
                 }
-                delay(9000L)
             }
         }
 
@@ -308,8 +310,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
                         startActivity(intent)
                     })
-                }
-                else startActivity(intent)
+                } else startActivity(intent)
             }
         } else {
             startActivity(intent)

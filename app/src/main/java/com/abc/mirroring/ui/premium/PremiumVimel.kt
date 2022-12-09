@@ -34,9 +34,9 @@ class PremiumVimel @Inject constructor() :
 
     private lateinit var billingConnection: BillingConnection
 
-    fun createConnectionAndFetchData(context: Context) {
-        billingConnection = createBillingConnection(context)
-        fetchProducts(context)
+    fun createConnectionAndFetchData(activity: Activity) {
+        billingConnection = createBillingConnection(activity)
+        fetchProducts(activity)
     }
 
     private fun fetchProducts(context: Context) {
@@ -58,17 +58,17 @@ class PremiumVimel @Inject constructor() :
         }
     }
 
-    private fun createBillingConnection(context: Context): BillingConnection {
+    private fun createBillingConnection(activity: Activity): BillingConnection {
         val listener =
             PurchasesUpdatedListener { billingResult, purchases ->
                 // To be implemented in a later section.
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                     AppPreferences().isPremiumSubscribed = true
                     AdCenter.getInstance().enable.value = false
-
                     update { state -> state.copy(isSubscribed = true) }
-                    billingConnection.checkPremiumUser(context) {
+                    billingConnection.checkPremiumUser(activity) {
                     }
+                    activity.finish()
                 }
 //if item already subscribed then check and reflect changes
                 //...
@@ -80,7 +80,7 @@ class PremiumVimel @Inject constructor() :
                 else {
 //            dismis sLoadingBarDialog()
                     Toast.makeText(
-                        context,
+                        activity,
                         "Error: " + billingResult.debugMessage,
                         Toast.LENGTH_SHORT
                     ).show()

@@ -29,7 +29,6 @@ import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.premium.PremiumActivity
-import com.abc.mirroring.ui.premium.SubscriptionsActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -50,6 +49,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun initBinding() = ActivitySettingBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        if (AppPreferences().isPremiumSubscribed == true) {
+            binding.imgCrown.visibility = View.GONE
+        } else {
+            binding.imgCrown.visibility = View.VISIBLE
+        }
         dialogCenter = DialogCenter(this)
         FirebaseTracking.logSettingShowed()
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
@@ -159,7 +163,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llRate.setOnClickListener {
-            dialogCenter.showDialog(DialogCenter.DialogType.Rating(false){ star ->
+            dialogCenter.showDialog(DialogCenter.DialogType.Rating(false) { star ->
                 if (star <= 3) {
                     FeedbackActivity.start(this, star)
                 } else {
@@ -199,11 +203,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
-        binding.llSubscriptionItem.setOnClickListener {
-            if (AppPreferences().isPremiumSubscribed == true) {
-                SubscriptionsActivity.gotoActivity(this@SettingActivity)
-            }
-        }
     }
 
     private fun showKeyboard(context: Context) {
@@ -221,49 +220,25 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun onResume() {
         super.onResume()
         if (AppPreferences().isPremiumSubscribed == true) {
-            binding.txtSubscription.setTextColor(
-                ContextCompat.getColor(
-                    this@SettingActivity,
-                    R.color.txt_black
-                )
-            )
-            binding.imgSubscription.setColorFilter(
-                ContextCompat.getColor(
-                    this@SettingActivity,
-                    R.color.blueA01
-                )
-            )
+            binding.imgCrown.visibility = View.GONE
         } else {
-            binding.txtSubscription.setTextColor(
-                ContextCompat.getColor(
-                    this@SettingActivity,
-                    R.color.txt_light_gray
-                )
-            )
-            binding.imgSubscription.setColorFilter(
-                ContextCompat.getColor(
-                    this@SettingActivity,
-                    R.color.txt_light_gray
-                )
-            )
-        }
-
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
-            while (true) {
-                delay(1000L)
-                withContext(Dispatchers.Main) {
-                    binding.imgCrown.clearAnimation()
-                    binding.imgCrown.startAnimation(shake)
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+                while (true) {
+                    delay(1000L)
+                    withContext(Dispatchers.Main) {
+                        binding.imgCrown.clearAnimation()
+                        binding.imgCrown.startAnimation(shake)
+                    }
+                    delay(9000L)
                 }
-                delay(9000L)
             }
         }
     }
 
     override fun onBackPressed() {
         if (dialogCenter.mRateDialogShowing) {
-            dialogCenter.dismissDialog(DialogCenter.DialogType.Rating{})
+            dialogCenter.dismissDialog(DialogCenter.DialogType.Rating {})
 //            dialogCenter.dismissRatingDialog()
             return
         }
