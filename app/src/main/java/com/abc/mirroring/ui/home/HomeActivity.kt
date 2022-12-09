@@ -18,6 +18,7 @@ import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.cast.MainActivity
 import com.abc.mirroring.cast.MainActivity.Companion.MEDIA_ROUTE
+import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
@@ -51,6 +52,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @Inject
     lateinit var admobHelper: AdmobHelper
 
+    @Inject
+    lateinit var caster: Caster
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -91,7 +94,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
         initAnim()
-
         binding.imgPremium.visibility =
             if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
@@ -170,6 +172,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
+        // Start server streaming
+        CoroutineScope(Dispatchers.IO).launch {
+            caster.start().also { Timber.i("Caster initialized") }
+            caster.discovery.device.collect {
+                if (it == null) return@collect
+
+                binding.imgCast.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this@HomeActivity,
+                        if (it.isConnected) R.drawable.ic_cast_connected else R.drawable.ic_cast
+                    )
+                )
+            }
+        }
+
         goToMirrorActivityResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode
@@ -242,6 +259,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         binding.imgPremium.setOnClickListener {
             startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
+        }
+        binding.imgSaleOffFab.setOnClickListener {
+            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
+        }
+        binding.imgCast.setOnClickListener {
+            // TODO: open dialog
+            caster.discovery.picker(this)
         }
         castOnClickSection()
     }
@@ -361,6 +385,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onDestroy()
         Timber.d("destroy home")
         dialogCenter.onDestroy()
+        caster.shutdown()
 //        countDownJob?.cancel()
     }
 }
