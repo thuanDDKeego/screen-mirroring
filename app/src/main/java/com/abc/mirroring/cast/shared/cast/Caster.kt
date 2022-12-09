@@ -13,19 +13,18 @@ import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.service.capability.MediaPlayer
 import com.connectsdk.service.capability.listeners.ResponseListener
 import com.connectsdk.service.command.ServiceCommandError
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.AutoHeadResponse
+import io.ktor.features.CORS
+import io.ktor.features.PartialContent
 import io.ktor.http.HttpMethod
-import io.ktor.server.application.call
-import io.ktor.server.application.install
+import io.ktor.request.httpMethod
+import io.ktor.response.respondFile
+import io.ktor.routing.get
+import io.ktor.routing.routing
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.plugins.autohead.AutoHeadResponse
-import io.ktor.server.plugins.callloging.CallLogging
-import io.ktor.server.plugins.cors.routing.CORS
-import io.ktor.server.plugins.partialcontent.PartialContent
-import io.ktor.server.request.httpMethod
-import io.ktor.server.response.respondFile
-import io.ktor.server.routing.get
-import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,12 +57,11 @@ class Caster(
         embeddedServer(CIO, 6996) {
             install(PartialContent)
             install(AutoHeadResponse)
-            install(CallLogging)
             install(CORS) {
                 allowCredentials = true
                 allowHeaders { true }
                 anyHost()
-                HttpMethod.DefaultMethods.forEach { allowHeader(it.value) }
+//                HttpMethod.DefaultMethods.forEach { allowHeaders { it.value -> true} }
             }
             routing {
                 get("/") {

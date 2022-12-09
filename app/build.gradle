@@ -42,7 +42,7 @@ android {
 //        if (variant.name.contains("debug")) {
 //            variant.mergedFlavor.applicationId = project.properties['dev.package.id']
 //        } else {
-            variant.mergedFlavor.applicationId = project.properties['prod.package.id']
+        variant.mergedFlavor.applicationId = project.properties['prod.package.id']
 //        }
     }
 
@@ -158,13 +158,13 @@ dependencies {
     //ads
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
 
-    def ktor_version = '2.1.3'
+    def ktor_version = '1.6.8'
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-server-cio:$ktor_version"
-    implementation "io.ktor:ktor-server-call-logging:$ktor_version"
-    implementation("io.ktor:ktor-server-partial-content:$ktor_version")
-    implementation("io.ktor:ktor-server-auto-head-response:$ktor_version")
-    implementation("io.ktor:ktor-server-cors:$ktor_version")
+//    implementation "io.ktor:ktor-server-call-logging:$ktor_version"
+//    implementation("io.ktor:ktor-server-partial-content:$ktor_version")
+//    implementation("io.ktor:ktor-server-auto-head-response:$ktor_version")
+//    implementation("io.ktor:ktor-server-cors:$ktor_version")
 
     // <chromecast>
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -204,11 +204,11 @@ dependencies {
 
     implementation "com.android.billingclient:billing:$billing_version"
     //unity-ads
-    implementation  'com.unity3d.ads:unity-ads:4.4.1'
-    implementation  'com.google.ads.mediation:unity:4.4.1.0'
+    implementation 'com.unity3d.ads:unity-ads:4.4.1'
+    implementation 'com.google.ads.mediation:unity:4.4.1.0'
 
     //ironsource
-    implementation  'com.google.ads.mediation:ironsource:7.2.3.1.0'
+    implementation 'com.google.ads.mediation:ironsource:7.2.3.1.0'
 
 
     //============================================================ cast integration
