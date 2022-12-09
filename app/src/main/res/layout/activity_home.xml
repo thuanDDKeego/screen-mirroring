@@ -37,7 +37,6 @@
         android:paddingStart="@dimen/margin_16dp"
         android:paddingEnd="@dimen/margin_8dp"
         android:src="@drawable/ic_cast"
-        android:visibility="visible"
         android:tint="@color/blueA01"
         app:layout_constraintEnd_toStartOf="@id/imgSetting"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +52,19 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/imgCast"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.abc.mirroring.ui.home.MovableFloatingActionButton
+        android:id="@+id/imgSaleOffFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_crown"
+        android:clickable="true"
+        android:elevation="1dp"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ScrollView
         android:layout_width="0dp"

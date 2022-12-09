@@ -94,7 +94,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         //set swift mode with floating tools state
 //        binding.switchModeFloatingTool.isChecked = FloatToolService.isRunning
         initAnim()
-
         binding.imgPremium.visibility =
             if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
@@ -261,6 +260,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgPremium.setOnClickListener {
             startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
         }
+        binding.imgSaleOffFab.setOnClickListener {
+            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
+        }
         binding.imgCast.setOnClickListener {
             // TODO: open dialog
             caster.discovery.picker(this)
@@ -306,7 +308,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
                         startActivity(intent)
                     })
-                } else startActivity(intent)
+                }
+                else startActivity(intent)
             }
         } else {
             startActivity(intent)
