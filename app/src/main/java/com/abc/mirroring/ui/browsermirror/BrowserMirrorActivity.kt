@@ -24,6 +24,7 @@ import com.abc.mirroring.databinding.ActivityBrowserMirrorBinding
 import com.abc.mirroring.databinding.LayoutDialogDisconnectBrowserMirrorBinding
 import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -50,6 +51,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
   private val clipboard: ClipboardManager? by lazy {
     ContextCompat.getSystemService(this, ClipboardManager::class.java)
   }
+  private lateinit var dialogCenter: DialogCenter
 
   companion object {
     fun gotoActivity(activity: Activity) {
@@ -69,6 +71,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
   override fun initBinding() = ActivityBrowserMirrorBinding.inflate(layoutInflater)
 
   override fun initViews() {
+    dialogCenter = DialogCenter(this)
     FirebaseTracking.logBrowserStartShowed()
     CoroutineScope(Dispatchers.Main).launch {
       delay(2000)
@@ -122,6 +125,9 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     binding.imgHelp.setOnClickListener {
       FirebaseTracking.logHomeIconHelpClicked()
       TutorialActivity.gotoActivity(this@BrowserMirrorActivity)
+    }
+    binding.imgBattery.setOnClickListener {
+      dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
     }
   }
 

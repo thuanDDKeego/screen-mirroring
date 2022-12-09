@@ -48,6 +48,7 @@ import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
 
@@ -71,6 +72,7 @@ fun small_top_bar(
     actions: @Composable (() -> Unit)? = null
 ) {
     val context = LocalContext.current
+    val dialogCenter: DialogCenter = DialogCenter(context as Activity)
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
@@ -94,21 +96,22 @@ fun small_top_bar(
             if (actions != null) {
                 actions.invoke()
             } else {
-                if (enablePremium) {
-                    IconButton(onClick = {
+//                if (enablePremium) {
+                IconButton(onClick = {
 //                        navigator.navigate(premium_Destination())
-                    }) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_crown),
-                            contentDescription = "Premium"
-                        )
-                    }
+                    dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
+                }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_battery_warning),
+                        contentDescription = "Battery optimize"
+                    )
                 }
+//                }
 
                 IconButton(onClick = {
                     FirebaseTracking.logHomeIconHelpClicked()
                     TutorialActivity.gotoActivity(context as Activity)
-                }){
+                }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_help),
                         contentDescription = "Help"

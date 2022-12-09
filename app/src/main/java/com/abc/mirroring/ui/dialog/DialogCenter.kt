@@ -2,11 +2,18 @@ package com.abc.mirroring.ui.dialog
 
 import AdType
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -17,6 +24,7 @@ import com.abc.mirroring.databinding.LayoutDialogBrowserMirrorBinding
 import com.abc.mirroring.databinding.LayoutDialogExitAppBinding
 import com.abc.mirroring.databinding.LayoutDialogLoadRewardAdErrorBrowserBinding
 import com.abc.mirroring.databinding.LayoutDialogLoadingAdsBinding
+import com.abc.mirroring.databinding.LayoutDialogStopOptimizeBatteryBinding
 import com.abc.mirroring.databinding.LayoutDialogTooManyAdsBinding
 import com.abc.mirroring.databinding.LayoutDialogTutorialFirstOpenBinding
 import com.abc.mirroring.databinding.LayoutLoadingBinding
@@ -47,6 +55,7 @@ class DialogCenter(private val activity: Activity) {
     var tutorialDialogIsShowing = false
     var browserDialogShowing = false
     var browserDialogErrorShowing = false
+    var stopOptimizeBatteryDialogShowing = false
     var tooManyAdsDialogShowing = false
     var askPermissionOverLayDialogShowing = false
     var exitAppDialogShowing = false
@@ -59,8 +68,9 @@ class DialogCenter(private val activity: Activity) {
     private lateinit var layoutLoadingBinding: LayoutLoadingBinding
 
     private lateinit var dialogBrowserBinding: LayoutDialogBrowserMirrorBinding
-    private lateinit var dialogTooManyAdsBinding: LayoutDialogTooManyAdsBinding
     private lateinit var dialogBrowserErrorBinding: LayoutDialogLoadRewardAdErrorBrowserBinding
+    private lateinit var dialogStopOptimizeBatteryBinding: LayoutDialogStopOptimizeBatteryBinding
+    private lateinit var dialogTooManyAdsBinding: LayoutDialogTooManyAdsBinding
     private lateinit var dialogTutorialBinding: LayoutDialogTutorialFirstOpenBinding
     private lateinit var dialogExitAppBinding: LayoutDialogExitAppBinding
     private lateinit var dialogAskPermissionOverLayBinding: LayoutDialogAskDisplayOverlayPermissionBinding
@@ -257,7 +267,7 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun dismissTooManyAdsDialog(){
+    private fun dismissTooManyAdsDialog() {
         if (tooManyAdsDialogShowing) {
             view.removeViewAt(view.childCount - 1)
             tooManyAdsDialogShowing = false
@@ -306,6 +316,7 @@ class DialogCenter(private val activity: Activity) {
             browserDialogShowing = false
         }
     }
+
     private fun showBrowserDialog() {
         if (browserDialogShowing) return
         browserDialogShowing = true
@@ -532,6 +543,67 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
+    private fun dismissStopOptimizeBatteryDialog() {
+        if (stopOptimizeBatteryDialogShowing) {
+            view.removeViewAt(view.childCount - 1)
+            stopOptimizeBatteryDialogShowing = false
+        }
+    }
+
+    private fun isIgnoringBatteryOptimizations(context: Context): Boolean {
+        val pwrm =
+            context.applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val name = context.applicationContext.packageName
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return pwrm.isIgnoringBatteryOptimizations(name)
+        }
+        return true
+    }
+
+    private fun checkBattery() {
+        if (!isIgnoringBatteryOptimizations(activity) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val name = getString(R.string.app_name)
+            Toast.makeText(
+                activity.applicationContext,
+                "Battery optimization -> All apps -> $name -> Don't optimize",
+                Toast.LENGTH_LONG
+            ).show()
+            val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+            activity.startActivity(intent)
+            Toast.makeText(
+                activity.applicationContext,
+                "Battery optimization1111 -> All apps -> $name -> Don't optimize",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            Toast.makeText(
+                activity.applicationContext,
+                "Battery optimization is disabled",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun showStopOptimizeBatteryDialog() {
+        if (stopOptimizeBatteryDialogShowing) return
+        stopOptimizeBatteryDialogShowing = true
+        dialogStopOptimizeBatteryBinding =
+            LayoutDialogStopOptimizeBatteryBinding.inflate(
+                layoutInflater,
+                view,
+                true
+            )
+        dialogStopOptimizeBatteryBinding.apply {
+            txtAllow.setOnClickListener {
+                dismissStopOptimizeBatteryDialog()
+                checkBattery()
+            }
+
+            txtDeny.setOnClickListener {
+                dismissStopOptimizeBatteryDialog()
+            }
+        }
+    }
 
     fun showDialog(type: DialogType) {
         when (type) {
@@ -539,6 +611,7 @@ class DialogCenter(private val activity: Activity) {
             is DialogType.LoadingAds -> showLoadingAdsDialog()
             is DialogType.TooManyAds -> showTooManyAdsDialog(type.callback)
             is DialogType.Browser -> showBrowserDialog()
+            is DialogType.StopOptimizeBattery -> showStopOptimizeBatteryDialog()
             is DialogType.BrowserError -> showLoadingAdsDialog()
             is DialogType.Tutorial -> showTutorialDialog(type.tutorialAdapter)
             is DialogType.ExitApp -> showExitAppDialog()
@@ -547,12 +620,14 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
+
     fun dismissDialog(type: DialogType) {
         when (type) {
             is DialogType.Rating -> dismissRatingDialog()
             is DialogType.LoadingAds -> dismissLoadingAdDialog()
             is DialogType.TooManyAds -> dismissTooManyAdsDialog()
             is DialogType.Browser -> dismissBrowserDialog()
+            is DialogType.StopOptimizeBattery -> dismissStopOptimizeBatteryDialog()
             is DialogType.BrowserError -> dismissBrowserErrorDialog()
             is DialogType.Tutorial -> dismissTutorialDialog()
             is DialogType.ExitApp -> dismissExitAppDialog()
@@ -566,6 +641,8 @@ class DialogCenter(private val activity: Activity) {
         data class Rating(val autoShow: Boolean = true, val onRate: (Int) -> Unit) : DialogType
         object LoadingAds : DialogType
         data class TooManyAds(val callback: () -> Unit) : DialogType
+
+        object StopOptimizeBattery : DialogType
         object Browser : DialogType
         object BrowserError : DialogType
         object LoadingBar : DialogType
