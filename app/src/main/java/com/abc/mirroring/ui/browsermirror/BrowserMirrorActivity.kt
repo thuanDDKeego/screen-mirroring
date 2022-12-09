@@ -26,6 +26,7 @@ import com.abc.mirroring.service.ServiceMessage
 import com.abc.mirroring.service.helper.IntentAction
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.settings.SettingActivity
+import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.elvishew.xlog.XLog
 import info.dvkr.screenstream.data.model.AppError
@@ -117,6 +118,10 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
   override fun initActions() {
     binding.btnBack.setOnClickListener {
       onBackPressed()
+    }
+    binding.imgHelp.setOnClickListener {
+      FirebaseTracking.logHomeIconHelpClicked()
+      TutorialActivity.gotoActivity(this@BrowserMirrorActivity)
     }
   }
 

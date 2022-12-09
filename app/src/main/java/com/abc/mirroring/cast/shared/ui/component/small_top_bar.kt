@@ -48,6 +48,8 @@ import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseTracking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,6 +103,16 @@ fun small_top_bar(
                             contentDescription = "Premium"
                         )
                     }
+                }
+
+                IconButton(onClick = {
+                    FirebaseTracking.logHomeIconHelpClicked()
+                    TutorialActivity.gotoActivity(context as Activity)
+                }){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_help),
+                        contentDescription = "Help"
+                    )
                 }
                 IconButton(onClick = {
                     if (globalState.isDeviceConnected) {
