@@ -17,6 +17,7 @@ import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.mirroring.ui.home.HomeActivity
+import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,6 +104,10 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
             }
             btnBack.setOnClickListener { onBackPressed() }
+        }
+        binding.imgHelp.setOnClickListener {
+            FirebaseTracking.logHomeIconHelpClicked()
+            TutorialActivity.gotoActivity(this@DeviceMirrorActivity)
         }
     }
 
