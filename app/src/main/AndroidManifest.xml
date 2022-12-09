@@ -67,7 +67,7 @@
         </activity>
 
         <activity
-            android:name=".ui.premium.billing.PremiumActivity2"
+            android:name=".ui.premium.PremiumActivity2"
             android:exported="false"
             android:screenOrientation="portrait">
         </activity>

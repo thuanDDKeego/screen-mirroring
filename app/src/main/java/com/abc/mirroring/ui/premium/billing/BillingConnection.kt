@@ -28,8 +28,12 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
 
     companion object {
 
-        private const val SUBSCRIPTION_ID: String = "subscription_premium_no_ads"
-        private const val PRODUCT_ID: String = "premium_life_time"
+        const val PRODUCT_ID: String = "premium_life_time"
+
+        const val SUBSCRIPTION_ID: String = "subscription_premium_no_ads"
+        const val NO_ADS_BASE_PLAN_ID: String = "base-plan-no-ads"
+        const val MONTHLY_BASE_PLAN_ID: String = "premium-1-month"
+        const val YEARLY_BASE_PLAN_ID: String = "premium-yearly"
 
         private const val SUBSCRIPTION_URL =
             "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=$SUBSCRIPTION_ID"
@@ -177,7 +181,8 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     // if type is subscription, get subscriptionOfferDetails to get offer token and prices
                     prod.subscriptionOfferDetails?.let { subsOffers ->
                         subsOffers.forEach { subsOffer ->
-                            if (subsOffer.basePlanId != "base-plan-no-ads") {
+                            //NO_ADS_BASE_PLAN_ID has been inactive
+                            if (subsOffer.basePlanId != NO_ADS_BASE_PLAN_ID) {
                                 subsOffer.pricingPhases.pricingPhaseList.last().let { price ->
                                     subscriptions.add(
                                         ProductPurchase(
@@ -185,6 +190,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                                             title = prod.name,
                                             price = price.formattedPrice,
 //                                    type = BillingClient.ProductType.SUBS,
+                                            basePlanId = subsOffer.basePlanId,
                                             offerToken = subsOffer.offerToken
                                         )
                                     )
