@@ -63,7 +63,14 @@
         <activity
             android:name=".ui.premium.PremiumActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ui.premium.PremiumActivity2"
+            android:exported="false"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -208,7 +215,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="" />
-        <!--    </cast section>-->
+<!--    </cast section>-->
     </application>
 
 </manifest>

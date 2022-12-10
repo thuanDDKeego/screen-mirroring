@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.audible.component.audibles
-import com.abc.mirroring.cast.screen.destinations.audible_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.VideoNavGraph
 import com.abc.mirroring.cast.shared.Permissionary
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.abc.mirroring.destinations.audible_player_Destination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding

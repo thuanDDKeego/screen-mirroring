@@ -265,6 +265,12 @@
     <string name="web_browser">Web Browser</string>
     <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
     <string name="coming_soon">Coming Soon</string>
+    <string name="premium_upgrade">Premium Upgrade</string>
+    <string name="monthly">Monthly</string>
+    <string name="best_offer">Best Offer</string>
+    <string name="sale_50">SALE 50%</string>
+    <string name="get_3_days_free_trial">Get 3 Days Free trial</string>
+    <string name="year">Year</string>
     <string name="pin_0000">Pin: 0000</string>
     <string name="pin">Pin</string>
     <string name="_0000">0000</string>
@@ -279,5 +285,6 @@
     <string name="buy_premium">Buy premium</string>
     <string name="title">Title</string>
     <string name="message">Message</string>
+    <string name="premium_privacy_des">"- Subcribed user have unlimited use of all Services and Features without Ads.  "</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.abc.mirroring.cast.screen.home
+package com.abc.mirroring.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -48,12 +48,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
-import com.abc.mirroring.cast.screen.NavGraphs
-import com.abc.mirroring.cast.screen.destinations.audio_picker_Destination
-import com.abc.mirroring.cast.screen.destinations.screen_mirroring_Destination
-import com.abc.mirroring.cast.screen.destinations.setting_Destination
-import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
-import com.abc.mirroring.cast.screen.destinations.youtube_webview_Destination
+import com.abc.mirroring.NavGraphs
+import com.abc.mirroring.destinations.audio_picker_Destination
+import com.abc.mirroring.destinations.screen_mirroring_Destination
+import com.abc.mirroring.destinations.setting_Destination
+import com.abc.mirroring.destinations.web_cast_Destination
+import com.abc.mirroring.destinations.youtube_webview_Destination
 import com.abc.mirroring.cast.shared.ui.component._card_small
 import com.abc.mirroring.cast.shared.ui.component.card_gradient
 import com.abc.mirroring.cast.shared.ui.component.card_reversed

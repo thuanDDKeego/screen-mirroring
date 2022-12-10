@@ -16,6 +16,7 @@ import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -149,56 +150,63 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkSubscription() {
-        billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
-            .setListener { _: BillingResult?, _: List<Purchase?>? -> }
-            .build()
-        val finalBillingClient: BillingClient = billingClient
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingServiceDisconnected() {}
-            override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    Timber.d("On billing finish")
-                    finalBillingClient.queryPurchasesAsync(
-                        QueryPurchasesParams.newBuilder()
-                            .setProductType(BillingClient.ProductType.SUBS).build()
-                    ) { billingResult1: BillingResult, list: List<Purchase> ->
-                        if (billingResult1.responseCode == BillingClient.BillingResponseCode.OK) {
-                            if (list.isNotEmpty()) {
-                                Timber.d("Free Premium is active")
-                                for ((i, purchase) in list.withIndex()) {
-                                    //Here you can manage each product, if you have multiple subscription
-                                    // Get to see the order information
+        val billingConnection = BillingConnection()
+        billingConnection.checkPremiumUser(this) {
+            AppPreferences().isPremiumSubscribed = it
+        }
+    }
 
-                                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                                        AppPreferences().isPremiumSubscribed =
-                                            true // set 0 to de-activate premium feature
-                                        AppPreferences().purchaseDate = purchase.purchaseTime
-
-                                        break
-                                    }
-                                    Timber.d("testOffer", " index$i")
-                                    AppPreferences().isPremiumSubscribed =
-                                        false // set 0 to de-activate premium feature
-                                }
-                            } else {
-                                Timber.d("Free Premium isn't active")
-                                AppPreferences().isPremiumSubscribed =
-                                    false // set 0 to de-activate premium feature
-                            }
-                        }
-                    }
-//                    billingClient.queryPurchasesAsync(BillingClient.ProductType.SUBS){
-//                            responseCode, purchasesList ->
-//                        if(purchasesList.isNullOrEmpty()){
-//                            Timber.d("Purchase App","history for SUBS is empty")
-//                        }else{
-//                            Timber.d("Purchase App","history subs has ${purchasesList.size} items : ${purchasesList.toString()}")
+//    private fun checkSubscription() {
+//        billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
+//            .setListener { _: BillingResult?, _: List<Purchase?>? -> }
+//            .build()
+//        val finalBillingClient: BillingClient = billingClient
+//        billingClient.startConnection(object : BillingClientStateListener {
+//            override fun onBillingServiceDisconnected() {}
+//            override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
+//                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+//                    Timber.d("On billing finish")
+//                    finalBillingClient.queryPurchasesAsync(
+//                        QueryPurchasesParams.newBuilder()
+//                            .setProductType(BillingClient.ProductType.SUBS).build()
+//                    ) { billingResult1: BillingResult, list: List<Purchase> ->
+//                        if (billingResult1.responseCode == BillingClient.BillingResponseCode.OK) {
+//                            if (list.isNotEmpty()) {
+//                                Timber.d("Free Premium is active")
+//                                for ((i, purchase) in list.withIndex()) {
+//                                    //Here you can manage each product, if you have multiple subscription
+//                                    // Get to see the order information
+//
+//                                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+//                                        AppPreferences().isPremiumSubscribed =
+//                                            true // set 0 to de-activate premium feature
+//                                        AppPreferences().purchaseDate = purchase.purchaseTime
+//
+//                                        break
+//                                    }
+//                                    Timber.d("testOffer", " index$i")
+//                                    AppPreferences().isPremiumSubscribed =
+//                                        false // set 0 to de-activate premium feature
+//                                }
+//                            } else {
+//                                Timber.d("Free Premium isn't active")
+//                                AppPreferences().isPremiumSubscribed =
+//                                    false // set 0 to de-activate premium feature
+//                            }
 //                        }
 //                    }
-                }
-            }
-        })
-    }
+////                    billingClient.queryPurchasesAsync(BillingClient.ProductType.SUBS){
+////                            responseCode, purchasesList ->
+////                        if(purchasesList.isNullOrEmpty()){
+////                            Timber.d("Purchase App","history for SUBS is empty")
+////                        }else{
+////                            Timber.d("Purchase App","history subs has ${purchasesList.size} items : ${purchasesList.toString()}")
+////                        }
+////                    }
+//                }
+//            }
+//        })
+//    }
 
     private fun initializeMobileAds() {
         MobileAds.initialize(this) { initializationStatus ->

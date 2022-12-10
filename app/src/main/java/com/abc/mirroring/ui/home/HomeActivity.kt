@@ -34,7 +34,7 @@ import com.abc.mirroring.ui.devicemirror.DeviceMirrorActivity
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.feedback.FeedbackActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
-import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.ui.premium.PremiumActivity2
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -85,7 +85,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             )
 //            showTutorialDialog()
         } else if (AppPreferences().countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false && AppConfigRemote().enable_premium == true) {
-            PremiumActivity.gotoActivity(this@HomeActivity)
+            startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
 
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
@@ -126,17 +126,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onResume()
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
-        }
-        //shake img animation
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
-            while (true) {
-                delay(1000L)
-                withContext(Dispatchers.Main) {
-                    binding.imgPremium.clearAnimation()
-                    binding.imgPremium.startAnimation(shake)
+            binding.imgPremium.visibility = View.GONE
+        } else {
+            //shake img animation
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
+                while (true) {
+                    delay(1000L)
+                    withContext(Dispatchers.Main) {
+                        binding.imgPremium.clearAnimation()
+                        binding.imgPremium.startAnimation(shake)
+                    }
+                    delay(9000L)
                 }
-                delay(9000L)
             }
         }
 
@@ -258,7 +260,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PremiumActivity::class.java))
+            startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgSaleOffFab.setOnClickListener {
             Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
@@ -308,8 +310,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
                         startActivity(intent)
                     })
-                }
-                else startActivity(intent)
+                } else startActivity(intent)
             }
         } else {
             startActivity(intent)
