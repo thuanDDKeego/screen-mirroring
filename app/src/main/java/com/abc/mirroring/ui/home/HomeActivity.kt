@@ -263,6 +263,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgSaleOffFab.setOnClickListener {
             Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
         }
+        binding.imgSaleOffFab.isClosed.observe(this) {
+            if (it == true) {
+                binding.imgSaleOffFab.visibility = View.GONE
+            }
+        }
         binding.imgCast.setOnClickListener {
             // TODO: open dialog
             caster.discovery.picker(this)

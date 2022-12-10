@@ -6,13 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
-
-import com.abc.mirroring.helper.ScreenInfo;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.lifecycle.MutableLiveData;
 
 import timber.log.Timber;
 
@@ -20,6 +15,8 @@ public class MovableFloatingActionButton extends AppCompatImageView implements V
 
     private final static float CLICK_DRAG_TOLERANCE = 10; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
 
+    private final MutableLiveData<Boolean> _isClosed = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> isClosed = _isClosed;
     private float downRawX, downRawY;
 
     private float dX, dY;
@@ -52,6 +49,14 @@ public class MovableFloatingActionButton extends AppCompatImageView implements V
         int action = motionEvent.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             Timber.d("ACTION_DOWN");
+            //Đây là tỉ lệ của nút close so với view. nút close sẽ ở góc trên cùng bên phải của view
+            float ratioCloseBtn = 0.1f;
+            if (motionEvent.getX() > view.getWidth() - view.getWidth() * ratioCloseBtn &&
+                    motionEvent.getY() < view.getHeight() * ratioCloseBtn
+            ) {
+                _isClosed.setValue(true);
+                return true;
+            }
             downRawX = motionEvent.getRawX();
             downRawY = motionEvent.getRawY();
             dX = view.getX() - downRawX;
