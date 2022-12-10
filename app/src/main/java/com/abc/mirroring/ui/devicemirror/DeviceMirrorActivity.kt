@@ -16,6 +16,7 @@ import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
@@ -34,6 +35,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
 
     @Inject
     lateinit var admobHelper: AdmobHelper
+    private lateinit var dialogCenter: DialogCenter
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -45,6 +47,8 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     override fun initBinding() = ActivityDeviceMirrorBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        dialogCenter = DialogCenter(this)
+        dialogCenter.admobHelper = admobHelper
         FirebaseTracking.logMirrorSelectDeviceShowed()
         val connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
@@ -108,6 +112,9 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         binding.imgHelp.setOnClickListener {
             FirebaseTracking.logHomeIconHelpClicked()
             TutorialActivity.gotoActivity(this@DeviceMirrorActivity)
+        }
+        binding.imgBattery.setOnClickListener {
+            dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
         }
     }
 

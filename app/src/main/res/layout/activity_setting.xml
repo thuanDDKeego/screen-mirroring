@@ -134,7 +134,7 @@
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:paddingHorizontal="20dp"
-                        android:text="Pin"
+                        android:text="@string/pin"
                         android:textColor="@color/txt_black" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:maxLines="1"
-                        android:text="0000"
+                        android:text="@string/_0000"
                         android:textColor="@color/txt_gray01" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingHorizontal="20dp"
-                        android:text="English"
+                        android:text="@string/english"
                         android:textColor="@color/txt_gray01" />
                 </LinearLayout>
 

@@ -5,7 +5,7 @@
     <string name="share_your_image_and_video_to_big_screens">Chia sẻ ảnh và Video tới màn hình lớn hơn</string>
     <string name="mirror">Mirror</string>
     <string name="mirror_to_tv">Mirror to TV</string>
-    <string name="wifi_connected">Wifi được kết nối</string>
+    <string name="wifi_connected">Wifi đã kết nối</string>
     <string name="wifi_not_connected">Wifi chưa được kết nối</string>
     <string name="browser_mirror">Trình chiếu Web</string>
     <string name="floating_tool">Công cụ nổi</string>
@@ -132,5 +132,92 @@
     <string name="expired_on">Đã hết hạn vào %1$s</string>
     <string name="cancel_subscription"><u>Hủy đăng ký</u></string>
     <string name="term_and_policy"><u>Điều khoản dịch vụ &amp; Chính sách quyền riêng tư</u></string>
+
+    <string name="previous_with_underline"><u>Trước</u></string>
+
+    //splash
+    <string name="loading_splash">Đang tải...</string>
+    <string name="on_mode">Bật</string>
+    <string name="off_mode">Tắt</string>
+    //tutorial screen
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="feedback">Phản hồi</string>
+
+
+
+    //timer
+    <string name="txt_2">2</string>
+    <string name="txt_5">5</string>
+    <string name="txt_10">10</string>
+    <string name="txt_15">15</string>
+    <string name="txt_20">20</string>
+    <string name="txt_30">30</string>
+
+
+    <string name="sponsored">Được tài trợ</string>
+    //premium screen
+    <string name="price_and_period">%1s/3 tháng</string>
+    <string name="one_year">1 năm</string>
+    <string name="audio_directory">Thư mục âm thanh</string>
+    <string name="video_directory">Thư mục video</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="stop">Dừng</string>
+    <string name="playlist">Danh sách phát</string>
+    <string name="remote">remote</string>
+    <string name="volume_down">Giảm âm lượng</string>
+    <string name="volume_mute">Tắt âm thanh</string>
+    <string name="volume_up">Tăng âm lượng</string>
+    <string name="previous_video">Video trước</string>
+    <string name="play">Phát</string>
+    <string name="next_video">Video tiếp theo</string>
+    <string name="cast_image">Cast Image</string>
+    <string name="screen_mirroring">Screen Mirroring</string>
+    <string name="device_not_supported">Thiết bị không được hỗ trợ</string>
+    <string name="start">Bắt đầu</string>
+    <string name="guideline">Hướng dẫn</string>
+    <string name="i_understand">Tôi hiểu</string>
+    <string name="screen_mirroring_description">Screen Mirroring cho phép bạn chia sẻ màn hình điện thoại của mình với các thiết bị khác như TV, máy tính bảng, máy tính để bàn, vv</string>
+    <string name="cast_video">Cast Video</string>
+    <string name="cast_video_description">Cast Video Description</string>
+    <string name="back">Quay lại</string>
+    <string name="settings">Cài đặt</string>
+    <string name="premium">Premium</string>
+    <string name="unlock_all_features">Mở khóa tất cả các tính năng</string>
+    <string name="remove_all_ads_permanently">Loại bỏ tất cả quảng cáo vĩnh viễn</string>
+    <string name="upgrade_to_premium">Nâng cấp lên Premium</string>
+    <string name="general_settings">Cài đặt chung</string>
+    <string name="tutorials">Hướng dẫn</string>
+    <string name="tutorial_screen_mirroring_description">Tutorial Screen Mirroring Description</string>
+    <string name="tutorial_cast_tv">Tutorial Cast TV</string>
+    <string name="more">More</string>
+    <string name="share_this_app">Chia sẻ ứng dụng này</string>
+    <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="unlimited_screen_mirroring">Không giới hạn Screen Mirroring</string>
+    <string name="completely_ads_free">"Completely Ads Free "</string>
+    <string name="unlimited_cast_your_media_file">Không giới hạn Cast Media File của bạn</string>
+    <string name="improved_streaming_quality">Chất lượng tốt hơn</string>
+    <string name="cast_tv">Cast TV</string>
+    <string name="image">Image</string>
+    <string name="youtube">Youtube</string>
+    <string name="drive">Drive</string>
+    <string name="web_browser">Web Browser</string>
+    <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="pin_0000">Pin: 0000</string>
+    <string name="pin">Pin</string>
+    <string name="_0000">0000</string>
+    <string name="english">English</string>
+    <string name="_100">100</string>
+    <string name="ad_loading">ad loading</string>
+    <string name="stop_optimizing_battery_usage">Dừng tối ưu hóa sử dụng pin?</string>
+    <string name="screen_cast_will_be_able_to_run_in_the_background_its_battery_usage_won_t_be_restricted">Screen Cast sẽ có thể chạy nền, ứng dụng sẽ chạy tốt hơn nếu không bị giới hạn hiệu năng"</string>
+    <string name="deny">Từ chối</string>
+    <string name="share_screen_to_chrome_pc_only_screen_no_sound">Chia sẻ màn hình với Chrome PC (Chỉ màn hình, không có âm thanh)</string>
+    <string name="one_month_free_trial">Dùng thử miễn phí 1 tháng</string>
+    <string name="buy_premium">Mua Premium</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
 
 </resources>

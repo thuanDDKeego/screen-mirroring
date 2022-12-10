@@ -226,7 +226,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_12dp"
             android:maxLength="3"
-            android:text="100"
+            android:text="@string/_100"
             app:layout_constraintBottom_toBottomOf="@id/seekBarEraserSize"
             app:layout_constraintEnd_toStartOf="@id/btnEraserAccept"
             app:layout_constraintStart_toEndOf="@id/seekBarEraserSize"
