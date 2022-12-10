@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Headphones
+import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,10 +45,10 @@ fun audio(
         ) {
             Icon(
                 modifier = Modifier
-                    .background(LightGrayBg, shape = RoundedCornerShape(8.dp))
+                    .background(Color(0xFF2196F3), shape = RoundedCornerShape(8.dp))
                     .size(36.dp)
                     .padding(4.dp),
-                imageVector = Icons.Outlined.Headphones,
+                imageVector = Icons.Outlined.MusicNote,
                 contentDescription = stringResource(id = R.string.audio),
                 tint = Color.White
             )

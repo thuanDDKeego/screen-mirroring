@@ -17,6 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.abc.mirroring.cast.screen.NavGraphs
+import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
+import com.abc.mirroring.cast.screen.cast.image.ImageVimel
+import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
+import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
+import com.abc.mirroring.cast.setup.theme.CastTvTheme
+import com.abc.mirroring.cast.shared.route.MediaRoute
+import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.ui.dialog.DialogCenter
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -26,12 +34,6 @@ import com.ramcosta.composedestinations.navigation.DependenciesContainerBuilder
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
-import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
-import com.abc.mirroring.cast.screen.cast.image.ImageVimel
-import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
-import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
-import com.abc.mirroring.cast.setup.theme.CastTvTheme
-import com.abc.mirroring.cast.shared.route.MediaRoute
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val MEDIA_ROUTE = "media_route"
     }
+
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -55,7 +58,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
         var mediaRoute = intent.getStringExtra(MEDIA_ROUTE)
-        if(mediaRoute.isNullOrEmpty()) mediaRoute = MediaRoute.Video.route
+        if (mediaRoute.isNullOrEmpty()) mediaRoute = MediaRoute.Video.route
         val startRoute = when (mediaRoute) {
             MediaRoute.WebCast.route -> web_cast_Destination
             MediaRoute.Image.route -> NavGraphs.image
@@ -64,6 +67,7 @@ class MainActivity : ComponentActivity() {
             else -> NavGraphs.video
         }
         Timber.i("initialized")
+        val dialogCenter = DialogCenter(this)
 
         setContent {
             CastTvTheme {
@@ -87,10 +91,15 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        DestinationsNavHost(navGraph = NavGraphs.root, engine = engine, navController = navController, startRoute = startRoute,dependenciesContainerBuilder = dependencies())
+                        DestinationsNavHost(navGraph = NavGraphs.root, engine = engine, navController = navController, startRoute = startRoute, dependenciesContainerBuilder = dependencies())
                     }
                 }
             }
+        }
+
+        if (AppPreferences().countAdsClosed!! % 3 == 0) {
+            dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
+            })
         }
     }
 

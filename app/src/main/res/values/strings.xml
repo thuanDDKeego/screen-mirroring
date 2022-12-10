@@ -265,6 +265,12 @@
     <string name="web_browser">Web Browser</string>
     <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
     <string name="coming_soon">Coming Soon</string>
+    <string name="premium_upgrade">Premium Upgrade</string>
+    <string name="monthly">Monthly</string>
+    <string name="best_offer">Best Offer</string>
+    <string name="sale_50">SALE 50%</string>
+    <string name="get_3_days_free_trial">Get 3 Days Free trial</string>
+    <string name="year">Year</string>
     <string name="pin_0000">Pin: 0000</string>
     <string name="pin">Pin</string>
     <string name="_0000">0000</string>
@@ -272,12 +278,13 @@
     <string name="_100">100</string>
     <string name="ad_loading">ad loading</string>
     <string name="stop_optimizing_battery_usage">Stop optimizing battery usage?</string>
-    <string name="screen_cast_will_be_able_to_run_in_the_background_its_battery_usage_won_t_be_restricted">Screen cast will be able to run in the background. Its battery usage won\'t be restricted.</string>
+    <string name="screen_cast_will_be_able_to_run_in_the_background_its_battery_usage_won_t_be_restricted">Due to system\'s battery optimization, Cast maybe stopped in a moment. You can disable it to make app work properly</string>
     <string name="deny">Deny</string>
     <string name="share_screen_to_chrome_pc_only_screen_no_sound">Share screen to Chrome, PC... (Only Screen, no sound)</string>
     <string name="one_month_free_trial">One month free trial</string>
     <string name="buy_premium">Buy premium</string>
     <string name="title">Title</string>
     <string name="message">Message</string>
+    <string name="premium_privacy_des">"- Subcribed user have unlimited use of all Services and Features without Ads.  "</string>
 
 </resources>

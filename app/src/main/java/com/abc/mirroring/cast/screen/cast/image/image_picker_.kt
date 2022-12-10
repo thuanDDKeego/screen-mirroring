@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.image.component.image
-import com.abc.mirroring.cast.screen.destinations.image_player_Destination
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.ImageNavGraph
 import com.abc.mirroring.cast.shared.Permissionary
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.abc.mirroring.destinations.image_player_Destination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding

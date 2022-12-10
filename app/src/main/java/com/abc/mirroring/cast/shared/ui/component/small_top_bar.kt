@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.rounded.Cast
 import androidx.compose.material.icons.rounded.CastConnected
 import androidx.compose.material.icons.rounded.Close
@@ -32,10 +33,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -43,14 +44,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
-import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.destinations.premium_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseTracking
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +79,7 @@ fun small_top_bar(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote().enable_premium!!
+    val enablePremium = AppConfigRemote().enable_premium!! && AppPreferences().isPremiumSubscribed == false
 
     // show / hide disconnect device confirmation
     var dialogVisibility by remember { mutableStateOf(false) }
@@ -96,24 +99,23 @@ fun small_top_bar(
             if (actions != null) {
                 actions.invoke()
             } else {
-//                if (enablePremium) {
-                IconButton(onClick = {
-//                        navigator.navigate(premium_Destination())
-                    dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
-                }) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_battery_warning),
-                        contentDescription = "Battery optimize"
-                    )
+                if (!dialogCenter.isIgnoringBatteryOptimizations(context)) {
+                    IconButton(onClick = {
+                        dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
+                    }) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_battery_warning),
+                            contentDescription = "Battery optimize"
+                        )
+                    }
                 }
-//                }
 
                 IconButton(onClick = {
                     FirebaseTracking.logHomeIconHelpClicked()
                     TutorialActivity.gotoActivity(context as Activity)
-                }) {
+                }){
                     Image(
-                        painter = painterResource(id = R.drawable.ic_help),
+                        imageVector = Icons.Filled.Help,
                         contentDescription = "Help"
                     )
                 }
@@ -162,7 +164,7 @@ fun top_bar_webview(
     val globalVimel = GlobalState.current as GlobalVimel
     val globalState by GlobalState.current.state.collectAsState()
 
-    val enablePremium = AppConfigRemote().enable_premium!!
+    val enablePremium = AppConfigRemote().enable_premium!! && AppPreferences().isPremiumSubscribed == false
 
     // used to clear focus in text-field
     val focusManager = LocalFocusManager.current
@@ -236,7 +238,7 @@ fun top_bar_webview(
             }
             if (enablePremium) {
                 IconButton(onClick = {
-//                    navigator.navigate(premium_Destination())
+                    navigator.navigate(premium_Destination())
                 }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_crown),
