@@ -8,8 +8,6 @@ import com.abc.mirroring.ui.premium.billing.BillingConnection
 class PremiumActivity2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val billingConnection = BillingConnection()
-
         setContent {
             premium_()
         }

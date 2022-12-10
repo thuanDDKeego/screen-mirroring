@@ -1,6 +1,8 @@
 package com.abc.mirroring.ui.premium
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -49,8 +51,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,7 +70,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun premium_(
     vm: PremiumVimel = hiltViewModel(),
 ) {
-    val state by vm.state.collectAsState()
     val activity = LocalContext.current as Activity
 
     LaunchedEffect(key1 = true) {
@@ -93,70 +96,63 @@ fun premium_(
                 },
             tint = Color.White
         )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+        Column(Modifier.fillMaxSize()) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth(0.4f)
-                    .padding(top = 24.dp),
-                contentScale = ContentScale.FillWidth
-            )
-            Text(
-                text = stringResource(id = R.string.premium_upgrade),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 12.dp, bottom = 12.dp)
-            )
-            getBenefits(activity).forEach { benefit ->
-                benefit_item(benefit)
-            }
-            if (!state.isSubscribed) {
-                // price info
-            } else {
-                Spacer(modifier = Modifier.height(20.dp))
+                    .weight(1f)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth(0.4f)
+                        .padding(top = 24.dp),
+                    contentScale = ContentScale.FillWidth
+                )
                 Text(
-                    text = "Success!",
-                    fontSize = 64.sp,
-                    color = Color.Green,
-                    textAlign = TextAlign.Center,
+                    text = stringResource(id = R.string.premium_upgrade),
+                    fontSize = 32.sp,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp, bottom = 4.dp)
-                )
-                Text(
-                    text = "Thanks for using Cast TV!",
-                    fontSize = 14.sp,
-                    color = Color.Blue,
+                    color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp)
+                        .wrapContentHeight()
+                        .padding(top = 12.dp, bottom = 12.dp)
+                )
+                getBenefits(activity).forEach { benefit ->
+                    benefit_item(benefit)
+                }
+
+                _purchases_section(vm)
+                Spacer(modifier = Modifier.height(36.dp))
+                Text(
+                    text = "term of service & privacy and policy",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                        .clickable {
+                            activity.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                                data = Uri.parse("https://sofigo.net/policy/")
+                            })
+                        }, textAlign = TextAlign.Center,
+                    style = TextStyle(textDecoration = TextDecoration.Underline)
+                )
+
+                Text(
+                    text = stringResource(id = R.string.premium_privacy_des),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp), textAlign = TextAlign.Center
                 )
             }
-
-            _purchases_section(vm)
-            Text(
-                text = "term of service & privacy and policy",
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp), textAlign = TextAlign.Center
-            )
         }
     }
 }
@@ -164,7 +160,7 @@ fun premium_(
 @Composable
 internal fun benefit_item(label: String) {
     Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+        verticalAlignment = CenterVertically, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp, start = 42.dp)
     ) {
@@ -395,10 +391,10 @@ fun crown_rotate_image(modifier: Modifier = Modifier) {
     var angle by remember { mutableStateOf(-45f) }
     LaunchedEffect(key1 = angleAnimate) {
         val current = System.currentTimeMillis()
-        val a = current - startTime
-        if (a < 2000) {
+        if (current - startTime < 2000) {
             angle = angleAnimate
-        } else if (a < 4000) {
+        } else if (current - startTime < 4000) {
+            return@LaunchedEffect
         } else {
             startTime = current
         }

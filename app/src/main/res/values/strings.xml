@@ -285,5 +285,6 @@
     <string name="buy_premium">Buy premium</string>
     <string name="title">Title</string>
     <string name="message">Message</string>
+    <string name="premium_privacy_des">"- Subcribed user have unlimited use of all Services and Features without Ads.  "</string>
 
 </resources>

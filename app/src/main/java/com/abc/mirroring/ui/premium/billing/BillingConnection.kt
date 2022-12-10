@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingConnection {
@@ -30,10 +31,14 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
 
         const val PRODUCT_ID: String = "premium_life_time"
 
-        const val SUBSCRIPTION_ID: String = "subscription_premium_no_ads"
-        const val NO_ADS_BASE_PLAN_ID: String = "base-plan-no-ads"
-        const val MONTHLY_BASE_PLAN_ID: String = "premium-1-month"
-        const val YEARLY_BASE_PLAN_ID: String = "premium-yearly"
+        const val SUBSCRIPTION_ID: String = "subs_premium_v3"
+
+        //const val NO_ADS_BASE_PLAN_ID: String = "base-plan-no-ads"
+        const val MONTHLY_BASE_PLAN_ID: String = "premium-v3-monthly"
+        const val YEARLY_BASE_PLAN_ID: String = "premium-v3-yearly"
+
+
+        const val FREE_TRIAL_TAG: String = "free-trial"
 
         private const val SUBSCRIPTION_URL =
             "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=$SUBSCRIPTION_ID"
@@ -181,19 +186,32 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     // if type is subscription, get subscriptionOfferDetails to get offer token and prices
                     prod.subscriptionOfferDetails?.let { subsOffers ->
                         subsOffers.forEach { subsOffer ->
-                            //NO_ADS_BASE_PLAN_ID has been inactive
-                            if (subsOffer.basePlanId != NO_ADS_BASE_PLAN_ID) {
-                                subsOffer.pricingPhases.pricingPhaseList.last().let { price ->
+                            subsOffer.pricingPhases.pricingPhaseList.last().formattedPrice.let { price ->
+                                Timber.d("offer id: ${subsOffer.offerId}")
+                                if (subsOffer.basePlanId != YEARLY_BASE_PLAN_ID) {
                                     subscriptions.add(
                                         ProductPurchase(
                                             id = prod.productId,
                                             title = prod.name,
-                                            price = price.formattedPrice,
+                                            price = price,
 //                                    type = BillingClient.ProductType.SUBS,
                                             basePlanId = subsOffer.basePlanId,
                                             offerToken = subsOffer.offerToken
                                         )
                                     )
+                                } else {
+                                    if (subsOffer.offerTags.contains(FREE_TRIAL_TAG)) {
+                                        subscriptions.add(
+                                            ProductPurchase(
+                                                id = prod.productId,
+                                                title = prod.name,
+                                                price = price,
+//                                    type = BillingClient.ProductType.SUBS,
+                                                basePlanId = subsOffer.basePlanId,
+                                                offerToken = subsOffer.offerToken
+                                            )
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -241,18 +259,21 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
         return false
     }
 
+    /*
+    * {"productId":"subs_premium_v3","type":"subs","title":"Premium Subscription (Screen Mirroring For Smart TV)","name":"Premium Subscription","description":"contain yearly and monthly subscription","localizedIn":["en-US"],"skuDetailsToken":"AEuhp4IL_35wVYFqVSYh1myvWxk3klWZ8uKUXxrdxL27Bm71WZlpzIlnhsYEFo4OS5y1","subscriptionOfferDetails":[{"offerIdToken":"AUj\/YhhIDfR8\/6yUhnDASFC+RH\/Z1Buvtxii7t+59ZOZaP9xTyzvROP2+emu5HZsPnq+nFnINhKrQx3lOjtT3MsIzW4EhVIlS98LHCQO2mlXUE9QsrMnhQRaCDN0w5uoRoSE","basePlanId":"premium-v3-monthly","pricingPhases":[{"priceAmountMicros":120000000000,"priceCurrencyCode":"VND","formattedPrice":"120.000 ₫","billingPeriod":"P1M","recurrenceMode":1}],"offerTags":["no-ads","screen-cast","screen-mirror","screen-mirroring","screen-to-chromecast","unlimited-features"]},{"offerIdToken":"AUj\/YhgsggbU3KozAGC9I33cS0SOzT1wlZ9rrCdoZE32kNfPVmK+8GRatyTBd4QAZrVvcr90nOgQ7QApbJLx8M+0ioh9fi6GxIoOrvrohqeIzthinn0o\/dIVgi1Aj1AkTuoFHSVunUKdBVPl7d+Le8IV+hg7RQ==","basePlanId":"premium-v3-yearly","offerId":"premium-v3-free-trials","pricingPhases":[{"priceAmountMicros":0,"priceCurrencyCode":"VND","formattedPrice":"Miễn phí","billingPeriod":"P3D","recurrenceMode":2,"billingCycleCount":1},{"priceAmountMicros":280000000000,"priceCurrencyCode":"VND","formattedPrice":"280.000 ₫","billingPeriod":"P1Y","recurrenceMode":1}],"offerTags":["free-trial","three-days","yearly"]},{"offerIdToken":"AUj\/YhhCkjX2uNSOo\/1vc8+de6rL021ju3UGFRlpCQd+hAw8HTK3hjrYUWHplU\/a63flMY3hPlpSanJMRofFIXHV4RTh7Mx\/azmSkOzMkO4lGmycAoSiVgAjMmccK89BUs00","basePlanId":"premium-v3-yearly","pricingPhases":[{"priceAmountMicros":280000000000,"priceCurrencyCode":"VND","formattedPrice":"280.000 ₫","billingPeriod":"P1Y","recurrenceMode":1}],"offerTags":[]}]}*/
+
     override fun subscribeProduct(activity: Activity, product: ProductPurchase) {
         createConnection(
             activity.baseContext,
             onSuccess = {
                 listProductDetails.first { it.productId == product.id }.let {
+                    val a = it
                     val productDetailsParamsList = listOf(
                         BillingFlowParams.ProductDetailsParams.newBuilder()
                             .setProductDetails(it)
                             .setOfferToken(
                                 product.offerToken
                             )
-                            .setProductDetails(it)
                             .build()
                     )
 

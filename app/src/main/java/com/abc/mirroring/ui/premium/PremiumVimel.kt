@@ -29,7 +29,6 @@ class PremiumVimel @Inject constructor() :
         var monthlySubscription: ProductPurchase = ProductPurchase("", "", "0 $"),
         var yearlySubscription: ProductPurchase = ProductPurchase("", "", "0 $"),
         var oneTimePayment: ProductPurchase = ProductPurchase("", "", "0 $"),
-        var isSubscribed: Boolean = AppPreferences().isPremiumSubscribed ?: false
     ) : State
 
     private lateinit var billingConnection: BillingConnection
@@ -65,7 +64,6 @@ class PremiumVimel @Inject constructor() :
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                     AppPreferences().isPremiumSubscribed = true
                     AdCenter.getInstance().enable.value = false
-                    update { state -> state.copy(isSubscribed = true) }
                     billingConnection.checkPremiumUser(activity) {
                     }
                     activity.finish()
