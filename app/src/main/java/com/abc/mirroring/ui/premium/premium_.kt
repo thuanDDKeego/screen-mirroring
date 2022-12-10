@@ -31,6 +31,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -84,17 +85,6 @@ fun premium_(
             painter = painterResource(id = R.mipmap.bg_premium_xmas),
             contentDescription = null,
             contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize()
-        )
-        // button back
-        Icon(
-            imageVector = Icons.Rounded.Close, contentDescription = null,
-            modifier = Modifier
-                .padding(24.dp)
-                .size(32.dp)
-                .clickable {
-                    activity.finish()
-                },
-            tint = Color.White
         )
         Column(Modifier.fillMaxSize()) {
             Column(
@@ -153,6 +143,17 @@ fun premium_(
                         .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp), textAlign = TextAlign.Center
                 )
             }
+        }
+        // button back
+        IconButton(
+            modifier =Modifier.padding(24.dp).size(24.dp),onClick = {
+            activity.finish()
+        }) {
+            Icon(
+                imageVector = Icons.Rounded.Close,
+                contentDescription = null,
+                tint = Color.White
+            )
         }
     }
 }

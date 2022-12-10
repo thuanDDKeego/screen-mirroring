@@ -318,6 +318,7 @@ class AdmobHelper {
         adType: AdType,
         adView: NativeAdView,
         haveIcon: Boolean = false,
+        adLoadedCallBack: (() -> Unit )? = null
     ) {
         val builder = AdLoader.Builder(context, context.getString(adType.adsId))
         builder.forNativeAd {
@@ -333,6 +334,12 @@ class AdmobHelper {
         builder.withNativeAdOptions(adOptions)
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: LoadAdError) {
+            }
+
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                adLoadedCallBack?.invoke()
+
             }
         }).build()
         adLoader.loadAd(adRequest)

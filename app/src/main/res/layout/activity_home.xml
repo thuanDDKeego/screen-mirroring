@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgGray"
     tools:context=".ui.home.HomeActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -69,7 +68,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/containerAd"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgSetting">
@@ -84,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_12dp"
+                android:layout_marginTop="@dimen/margin_8dp"
                 android:background="@mipmap/bg_banner_mirror"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -103,6 +102,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView"
                     android:layout_width="@dimen/medium_img_icon_size"
                     android:layout_height="@dimen/medium_img_icon_size"
                     android:layout_marginEnd="24dp"
@@ -127,7 +127,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_8dp"
-                    android:layout_marginTop="@dimen/margin_8dp"
                     android:layout_marginBottom="@dimen/margin_54dp"
                     android:text="@string/wifi_not_connected"
                     android:textColor="@color/white"
@@ -140,8 +139,7 @@
                     style="@style/SmallBoldText"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/margin_36dp"
-                    android:layout_marginTop="@dimen/margin_12dp"
-                    android:layout_marginBottom="@dimen/margin_20dp"
+                    android:layout_marginBottom="@dimen/margin_16dp"
                     android:background="@drawable/bg_button_gradient_radius_15dp"
                     android:backgroundTint="@color/white"
                     android:gravity="center"
@@ -150,376 +148,555 @@
                     android:textAllCaps="false"
                     android:textColor="@color/blueA01"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/imgWifiState"
+                    app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
                     app:layout_constraintTop_toBottomOf="@id/imgWifiState" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
                 android:id="@+id/constraintBrowserMirror"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/dimen_150dp"
-                android:layout_marginVertical="@dimen/margin_16dp"
-                android:layout_marginEnd="@dimen/margin_8dp"
-                android:background="@drawable/bg_browser_miror_box"
-                android:orientation="vertical"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/margin_16dp"
+                app:cardElevation="@dimen/margin_4dp"
+                android:layout_marginStart="16dp"
+                app:cardUseCompatPadding="true"
+                android:minHeight="50dp"
+                android:gravity="center"
                 app:layout_constraintEnd_toStartOf="@id/constraintFloatingTool"
-                app:layout_constraintStart_toStartOf="@id/constrantMirror"
-                app:layout_constraintTop_toBottomOf="@id/constrantMirror">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtBrowserMirror"
-                    style="@style/BoldTitleText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_12dp"
-                    android:maxLines="2"
-                    android:text="@string/browser_mirror_home"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@id/imgWeb"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgWeb"
-                    android:layout_width="@dimen/small_img_icon_size"
-                    android:layout_height="@dimen/small_img_icon_size"
-                    android:layout_marginHorizontal="@dimen/margin_12dp"
-                    android:layout_marginVertical="@dimen/margin_16dp"
-                    android:src="@drawable/ic_web"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgStateOnOffConnectBrowser"
-                    android:layout_width="@dimen/margin_12dp"
-                    android:layout_height="@dimen/margin_12dp"
-                    android:layout_marginTop="@dimen/margin_4dp"
-                    android:src="@drawable/ic_on_off_state"
-                    android:tint="@color/grayA01"
-                    app:layout_constraintStart_toStartOf="@id/txtBrowserMirror"
-                    app:layout_constraintTop_toTopOf="@+id/txtConnectBrowserState" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtConnectBrowserState"
-                    style="@style/SmallText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_8dp"
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:paddingEnd="12dp"
-                    android:text="@string/connect_with_browser"
-                    android:textColor="@color/txt_dark_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgStateOnOffConnectBrowser"
-                    app:layout_constraintTop_toBottomOf="@+id/imgWeb" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/constrantMirror"
+                app:layout_constraintBottom_toBottomOf="@id/constraintFloatingTool">
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_browser_miror_box"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtBrowserMirror"
+                        style="@style/BoldTitleText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_12dp"
+                        android:maxLines="2"
+                        android:text="@string/browser_mirror_home"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/imgWeb"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgWeb"
+                        android:layout_width="@dimen/small_img_icon_size"
+                        android:layout_height="@dimen/small_img_icon_size"
+                        android:layout_marginHorizontal="@dimen/margin_12dp"
+                        android:layout_marginVertical="@dimen/margin_16dp"
+                        android:src="@drawable/ic_web"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgStateOnOffConnectBrowser"
+                        android:layout_width="@dimen/margin_12dp"
+                        android:layout_height="@dimen/margin_12dp"
+                        android:layout_marginTop="@dimen/margin_4dp"
+                        android:src="@drawable/ic_on_off_state"
+                        android:tint="@color/grayA01"
+                        app:layout_constraintStart_toStartOf="@id/txtBrowserMirror"
+                        app:layout_constraintTop_toTopOf="@+id/txtConnectBrowserState" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtConnectBrowserState"
+                        style="@style/SmallText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_8dp"
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:paddingEnd="12dp"
+                        android:layout_marginBottom="@dimen/margin_8dp"
+                        android:text="@string/connect_with_browser"
+                        android:textColor="@color/txt_dark_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imgStateOnOffConnectBrowser"
+                        app:layout_constraintTop_toBottomOf="@+id/imgWeb"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/constraintFloatingTool"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/dimen_150dp"
-                android:layout_marginVertical="@dimen/margin_16dp"
-                android:layout_marginStart="@dimen/margin_8dp"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/margin_16dp"
+                app:cardElevation="@dimen/margin_4dp"
+                android:layout_marginEnd="16dp"
+                app:cardUseCompatPadding="true"
+                android:minHeight="50dp"
+                android:gravity="center"
                 android:background="@drawable/bg_device_mirror_box"
-                app:layout_constraintEnd_toEndOf="@id/constrantMirror"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/constraintBrowserMirror"
                 app:layout_constraintTop_toBottomOf="@id/constrantMirror">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtFloatingTool"
-                    style="@style/BoldTitleText"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_12dp"
-                    android:maxLines="2"
-                    android:text="@string/floating_ntool"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@id/imgWrench"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    >
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgWrench"
-                    android:layout_width="@dimen/small_img_icon_size"
-                    android:layout_height="@dimen/small_img_icon_size"
-                    android:layout_marginHorizontal="@dimen/margin_12dp"
-                    android:layout_marginVertical="@dimen/margin_16dp"
-                    android:src="@drawable/ic_wrench"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtFloatingTool"
+                        style="@style/BoldTitleText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_12dp"
+                        android:maxLines="2"
+                        android:text="@string/floating_ntool"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/imgWrench"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgWrench"
+                        android:layout_width="@dimen/small_img_icon_size"
+                        android:layout_height="@dimen/small_img_icon_size"
+                        android:layout_marginHorizontal="@dimen/margin_12dp"
+                        android:layout_marginVertical="@dimen/margin_16dp"
+                        android:src="@drawable/ic_wrench"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtFloatingToolsDes"
-                    style="@style/SmallText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_12dp"
-                    android:paddingEnd="12dp"
-                    android:text="@string/floating_tool_des"
-                    android:textColor="@color/txt_dark_gray"
-                    app:layout_constraintBottom_toBottomOf="@id/switchModeFloatingTool"
-                    app:layout_constraintEnd_toStartOf="@id/switchModeFloatingTool"
-                    app:layout_constraintStart_toStartOf="@id/txtFloatingTool"
-                    app:layout_constraintTop_toTopOf="@id/switchModeFloatingTool" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtFloatingToolsDes"
+                        style="@style/SmallText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_12dp"
+                        android:paddingEnd="12dp"
+                        android:layout_marginBottom="@dimen/margin_8dp"
+                        android:text="@string/floating_tool_des"
+                        android:textColor="@color/txt_dark_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/switchModeFloatingTool"
+                        app:layout_constraintEnd_toStartOf="@id/switchModeFloatingTool"
+                        app:layout_constraintStart_toStartOf="@id/txtFloatingTool"
+                        app:layout_constraintTop_toTopOf="@id/switchModeFloatingTool" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchModeFloatingTool"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:backgroundTint="@color/blueA01"
-                    android:button="@color/blueA01"
-                    android:theme="@style/ColorSwitchStyle"
-                    app:layout_constraintEnd_toEndOf="@id/imgWrench"
-                    app:layout_constraintStart_toEndOf="@id/txtFloatingToolsDes"
-                    app:layout_constraintTop_toBottomOf="@id/imgWrench" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchModeFloatingTool"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:backgroundTint="@color/blueA01"
+                        android:button="@color/blueA01"
+                        android:theme="@style/ColorSwitchStyle"
+                        app:layout_constraintEnd_toEndOf="@id/imgWrench"
+                        app:layout_constraintStart_toEndOf="@id/txtFloatingToolsDes"
+                        app:layout_constraintTop_toBottomOf="@id/imgWrench" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintCastTv"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/containerAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button_gradient_radius_15dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/margin_16dp"
+                app:cardElevation="@dimen/margin_4dp"
+                android:layout_marginHorizontal="@dimen/margin_16dp"
+                app:cardUseCompatPadding="true"
+                android:minHeight="50dp"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/constraintBrowserMirror"
+                app:layout_constraintBottom_toTopOf="@id/llCastTv">
+
+                <include
+                    android:id="@+id/nativeAdView"
+                    layout="@layout/layout_admob_native_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llCastTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_16dp"
-                android:background="@drawable/bg_browser_miror_box"
+                android:layout_marginBottom="@dimen/margin_16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@id/constraintFloatingTool"
                 app:layout_constraintStart_toStartOf="@id/constraintBrowserMirror"
-                app:layout_constraintTop_toBottomOf="@id/constraintBrowserMirror">
+                app:layout_constraintTop_toBottomOf="@id/containerAd">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtCastTv"
                     style="@style/BoldTitleText"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_12dp"
-                    android:layout_marginTop="@dimen/margin_12dp"
                     android:maxLines="2"
                     android:text="@string/cast_tv"
                     android:textColor="@color/black"
-                    android:textSize="26sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="26sp" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtCastDes"
                     style="@style/ContentText"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_12dp"
-                    android:layout_marginBottom="12dp"
                     android:text="@string/cast_tv_description"
                     android:textColor="@color/txt_dark_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtCastTv" />
+                    android:textSize="14sp" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llCastItemRow1"
+                    android:id="@+id/llVideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/margin_16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtCastDes">
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/llVideo"
-                        android:layout_width="0dp"
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_video"
+                            android:tint="#64DD17"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_42dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_video"
-                            android:tint="#FF6D00" />
-
                         <TextView
-                            android:id="@+id/txtVideo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:gravity="start"
                             android:maxLines="2"
                             android:text="@string/video"
+                            android:textSize="18sp"
                             android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llImage"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_42dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_image"
-                            android:tint="#FFAB00" />
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
 
                         <TextView
-                            android:id="@+id/txtImage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/image"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llAudio"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_42dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_audio"
-                            android:tint="#6200EA" />
-
-                        <TextView
-                            android:id="@+id/txtAudio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:text="@string/audio"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:textSize="14sp"
+                            android:fontFamily="@font/inter_light"
+                            android:text="@string/cast_your_video"
+                            android:textColor="@color/blackA01" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llCastItemRow2"
+                    android:id="@+id/llImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/margin_16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llCastItemRow1">
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/llYoutube"
-                        android:layout_width="0dp"
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_image"
+                            android:tint="#FFAB00"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_36dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_youtube" />
-
                         <TextView
-                            android:id="@+id/txtYoutube"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/youtube"
+                            android:text="@string/image"
+                            android:textSize="18sp"
                             android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llDrive"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_36dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_drive" />
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
 
                         <TextView
-                            android:id="@+id/txtDrive"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/drive"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llWebCast"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_42dp"
-                            android:layout_height="@dimen/margin_42dp"
-                            android:src="@drawable/ic_travel_explore"
-                            android:tint="#00B8D4" />
-
-                        <TextView
-                            android:id="@+id/txtWebBrowser"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:text="@string/web_browser"
-                            android:textColor="@color/blackA01"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:textSize="14sp"
+                            android:fontFamily="@font/inter_light"
+                            android:text="@string/cast_your_image"
+                            android:textColor="@color/blackA01" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_video"
+                            android:tint="#AA00FF"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/audio"
+                            android:textSize="18sp"
+                            android:textColor="@color/blackA01"
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:textSize="14sp"
+                            android:text="@string/cast_your_audio"
+                            android:fontFamily="@font/inter_light"
+                            android:textColor="@color/blackA01" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llYoutube"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_youtube" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/youtube"
+                            android:textSize="18sp"
+                            android:textColor="@color/blackA01"
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llWebCast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_travel_explore"
+                            android:tint="#0091EA"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/browser_cast"
+                            android:textSize="18sp"
+                            android:textColor="@color/blackA01"
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llDrive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardDialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_8dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_drive"
+                           />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/drive"
+                            android:textSize="18sp"
+                            android:textColor="@color/blackA01"
+                            android:fontFamily="@font/inter_semi_bold"
+                            />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <FrameLayout
-        android:id="@+id/containerAd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include
-            android:id="@+id/nativeAdView"
-            layout="@layout/layout_admob_native_tutorial"
-            android:layout_width="match_parent"
-            android:layout_height="70dp" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
