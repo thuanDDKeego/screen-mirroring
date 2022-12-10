@@ -267,7 +267,6 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
             activity.baseContext,
             onSuccess = {
                 listProductDetails.first { it.productId == product.id }.let {
-                    val a = it
                     val productDetailsParamsList = listOf(
                         BillingFlowParams.ProductDetailsParams.newBuilder()
                             .setProductDetails(it)
