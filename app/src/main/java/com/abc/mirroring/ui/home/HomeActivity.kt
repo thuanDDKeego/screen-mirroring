@@ -306,11 +306,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
             admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
                 dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
-                if (AppPreferences().countAdsClosed!! % 3 == 0) {
-                    dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
-                        startActivity(intent)
-                    })
-                } else startActivity(intent)
+                startActivity(intent)
             }
         } else {
             startActivity(intent)

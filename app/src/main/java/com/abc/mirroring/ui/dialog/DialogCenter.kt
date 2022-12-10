@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
@@ -290,16 +289,10 @@ class DialogCenter(private val activity: Activity) {
             }
             cardDialog.setOnClickListener { }
             constraintBgTooManyAdsDialog.setOnClickListener { dismissTooManyAdsDialog() }
-
-            txtFreeTrial.setOnClickListener {
+            btnBuyPremium.setOnClickListener {
                 PremiumActivity.gotoActivity(activity)
-//                dismissTooManyAdsDialog()
-//                callback()
-            }
-            txtBuyPremium.setOnClickListener {
-                PremiumActivity.gotoActivity(activity)
-//                dismissTooManyAdsDialog()
-//                callback()
+                dismissTooManyAdsDialog()
+                callback()
             }
         }
     }
@@ -339,7 +332,7 @@ class DialogCenter(private val activity: Activity) {
                 countDownJob?.cancel()
                 PremiumActivity.gotoActivity(activity)
             }
-            txtClose.setOnClickListener {
+            btnClose.setOnClickListener {
                 dismissBrowserDialog()
             }
             cardDialog.setOnClickListener { }
@@ -550,7 +543,7 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun isIgnoringBatteryOptimizations(context: Context): Boolean {
+    fun isIgnoringBatteryOptimizations(context: Context): Boolean {
         val pwrm =
             context.applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         val name = context.applicationContext.packageName
@@ -563,23 +556,23 @@ class DialogCenter(private val activity: Activity) {
     private fun checkBattery() {
         if (!isIgnoringBatteryOptimizations(activity) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val name = getString(R.string.app_name)
-            Toast.makeText(
-                activity.applicationContext,
-                "Battery optimization -> All apps -> $name -> Don't optimize",
-                Toast.LENGTH_LONG
-            ).show()
+//            Toast.makeText(
+//                activity.applicationContext,
+//                "Battery optimization -> All apps -> $name -> Don't optimize",
+//                Toast.LENGTH_LONG
+//            ).show()
             val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
             activity.startActivity(intent)
-            Toast.makeText(
-                activity.applicationContext,
-                "Battery optimization1111 -> All apps -> $name -> Don't optimize",
-                Toast.LENGTH_LONG
-            ).show()
+//            Toast.makeText(
+//                activity.applicationContext,
+//                "Battery optimization1111 -> All apps -> $name -> Don't optimize",
+//                Toast.LENGTH_LONG
+//            ).show()
         } else {
             Toast.makeText(
                 activity.applicationContext,
                 "Battery optimization is disabled",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -587,12 +580,12 @@ class DialogCenter(private val activity: Activity) {
     private fun showStopOptimizeBatteryDialog() {
         if (stopOptimizeBatteryDialogShowing) return
         stopOptimizeBatteryDialogShowing = true
-        dialogStopOptimizeBatteryBinding =
-            LayoutDialogStopOptimizeBatteryBinding.inflate(
-                layoutInflater,
-                view,
-                true
-            )
+        dialogStopOptimizeBatteryBinding = LayoutDialogStopOptimizeBatteryBinding.inflate(
+            layoutInflater,
+            view,
+            true
+        )
+
         dialogStopOptimizeBatteryBinding.apply {
             txtAllow.setOnClickListener {
                 dismissStopOptimizeBatteryDialog()

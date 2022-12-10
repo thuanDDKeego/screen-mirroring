@@ -42,6 +42,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtTitleDialog"
@@ -101,31 +110,17 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtUpgrade"
-                    android:drawableLeft="@drawable/ic_upgrade"
-                    android:layout_width="match_parent"
                     style="@style/regularBoldText"
-
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_title_24sp"
                     android:layout_marginHorizontal="@dimen/margin_24dp"
                     android:layout_marginVertical="@dimen/margin_12dp"
-                    android:text="@string/upgrade_now" />
+                    android:drawableLeft="@drawable/ic_upgrade"
+                    android:gravity="center"
+                    android:text="@string/upgrade_now"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_title_24sp" />
             </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtClose"
-                style="@style/regularText"
-                android:layout_width="67dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="@dimen/margin_24dp"
-                android:paddingHorizontal="@dimen/margin_12dp"
-                android:text="@string/close"
-                android:textColor="@color/txt_dark_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llUpgrade" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartVideoInTime"
@@ -133,12 +128,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:drawableStart="@drawable/ic_play"
                 android:drawablePadding="@dimen/margin_8dp"
                 android:gravity="center"
                 android:textColor="@color/blueA01"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/llUpgrade" />
 
             <ProgressBar
