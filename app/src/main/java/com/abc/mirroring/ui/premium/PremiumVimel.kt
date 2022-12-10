@@ -12,6 +12,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sofi.ads.AdCenter
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -79,9 +80,10 @@ class PremiumVimel @Inject constructor() :
 //            dismis sLoadingBarDialog()
                     Toast.makeText(
                         activity,
-                        "Error: " + billingResult.debugMessage,
+                        "Has an Error, check your internet and try again!",
                         Toast.LENGTH_SHORT
                     ).show()
+                    Timber.e(billingResult.debugMessage)
                 }
             }
         return BillingConnection(listener)
