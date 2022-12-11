@@ -47,13 +47,15 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
     }
 
     private fun initViewPager() {
-        binding.viewPager.offscreenPageLimit = 3
+        binding.viewPager.offscreenPageLimit = 4
         binding.viewPager.adapter = TutorialPagerAdapter(this, supportFragmentManager)
 
         fun updateTabPager(position: Int) {
 
-            binding.txtTutorial.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
-            binding.viewTutorial.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            binding.txtMirror.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewMirror.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            binding.txtCast.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewCast.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
             binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
             binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
             binding.txtConnectedDevices.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
@@ -65,14 +67,17 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             )
 
             if (position == 0) {
-                binding.txtTutorial.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
-                binding.viewTutorial.setBackgroundColor(
+                binding.txtMirror.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                binding.viewMirror.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
                         R.color.blueA01
                     )
                 )
             } else if (position == 1) {
+                binding.txtCast.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                binding.viewCast.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
+            } else if (position == 2) {
                 binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
                 binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
             } else {
@@ -106,25 +111,30 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             override fun onPageScrollStateChanged(state: Int) {}
         })
 
-        binding.llTutorial.setOnClickListener {
+        binding.llMirror.setOnClickListener {
             binding.viewPager.currentItem = 0
             updateTabPager(0)
         }
 
-        binding.llFAQ.setOnClickListener {
+        binding.llCast.setOnClickListener {
             binding.viewPager.currentItem = 1
             updateTabPager(1)
         }
 
-        binding.llConnectedDevices.setOnClickListener {
+        binding.llFAQ.setOnClickListener {
             binding.viewPager.currentItem = 2
             updateTabPager(2)
+        }
+
+        binding.llConnectedDevices.setOnClickListener {
+            binding.viewPager.currentItem = 3
+            updateTabPager(3)
         }
     }
 
     override fun onBackPressed() {
-        if(dialogCenter.mLoadingAdsDialogShowing) return
-        if (binding.viewPager.currentItem == 1 || binding.viewPager.currentItem == 2) {
+        if (dialogCenter.mLoadingAdsDialogShowing) return
+        if (binding.viewPager.currentItem != 0) {
             binding.viewPager.currentItem = 0
         } else {
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {

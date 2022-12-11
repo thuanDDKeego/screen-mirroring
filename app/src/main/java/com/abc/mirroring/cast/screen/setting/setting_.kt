@@ -56,7 +56,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
-import com.abc.mirroring.destinations.guideline_Destination
 import com.abc.mirroring.cast.shared.utils.FeedbackUtils
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
@@ -203,15 +202,15 @@ fun setting_(
                                 // TODO: Tutorial screen
                             }
                         }
-                        item {
-                            SofiSetting._item(
-                                title = stringResource(id = R.string.tutorial_cast_tv),
-                                icon = Icons.Rounded.Cast
-                            ) {
-                                // TODO: Cast Tutorial screen
-                                navigator.navigate(guideline_Destination())
-                            }
-                        }
+//                        item {
+//                            SofiSetting._item(
+//                                title = stringResource(id = R.string.tutorial_cast_tv),
+//                                icon = Icons.Rounded.Cast
+//                            ) {
+//                                // TODO: Cast Tutorial screen
+//                                navigator.navigate(guideline_Destination())
+//                            }
+//                        }
                         item {
                             SofiSetting._subtitle(text = stringResource(id = R.string.more))
                         }

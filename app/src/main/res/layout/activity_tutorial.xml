@@ -40,34 +40,65 @@
         app:layout_constraintTop_toBottomOf="@id/btnBack">
 
         <LinearLayout
-            android:id="@+id/llTutorial"
+            android:id="@+id/llMirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_16dp"
+            android:paddingHorizontal="@dimen/margin_8dp"
             android:paddingVertical="10dp"
-            app:layout_constraintEnd_toStartOf="@id/llFAQ"
+            app:layout_constraintEnd_toStartOf="@id/llCast"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtTutorial"
+                android:id="@+id/txtMirror"
                 style="@style/SmallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lines="1"
                 android:paddingHorizontal="@dimen/margin_8dp"
-                android:text="@string/tutorial"
+                android:text="@string/mirror"
                 android:textColor="@color/blueA01" />
 
             <View
-                android:id="@+id/viewTutorial"
+                android:id="@+id/viewMirror"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/blueA01" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llCast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_8dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintEnd_toStartOf="@id/llFAQ"
+            app:layout_constraintStart_toEndOf="@id/llMirror"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCast"
+                style="@style/SmallText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingHorizontal="@dimen/margin_8dp"
+                android:text="@string/cast"
+                android:textColor="@color/grayA06" />
+
+            <View
+                android:id="@+id/viewCast"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,11 +107,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_16dp"
+            android:paddingHorizontal="@dimen/margin_8dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toStartOf="@id/llConnectedDevices"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/llTutorial"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/llCast"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -109,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_16dp"
+            android:paddingHorizontal="@dimen/margin_8dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/llFAQ"
