@@ -84,6 +84,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     }
                 }
             })
+
         }
     }
 
