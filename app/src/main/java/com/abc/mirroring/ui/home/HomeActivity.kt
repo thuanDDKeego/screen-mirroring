@@ -263,7 +263,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgSaleOffFab.setOnClickListener {
-            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgCast.setOnClickListener {
             // TODO: open dialog

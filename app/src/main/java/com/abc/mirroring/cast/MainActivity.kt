@@ -16,14 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.abc.mirroring.cast.screen.NavGraphs
+import com.abc.mirroring.NavGraphs
 import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel
 import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
-import com.abc.mirroring.cast.screen.destinations.web_cast_Destination
 import com.abc.mirroring.cast.setup.theme.CastTvTheme
 import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.destinations.web_cast_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics

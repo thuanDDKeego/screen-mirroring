@@ -42,6 +42,7 @@ class PremiumVimel @Inject constructor() :
     private fun fetchProducts(context: Context) {
         billingConnection.getProductPurchases(context) { products ->
             if (products.isNotEmpty()) {
+                var freeTrialProduct: ProductPurchase? = null
                 products.forEach { product ->
                     //check if the product is in-app product (onetime)
                     if (product.id == BillingConnection.PRODUCT_ID) {
@@ -50,10 +51,17 @@ class PremiumVimel @Inject constructor() :
                         if (product.basePlanId == BillingConnection.MONTHLY_BASE_PLAN_ID) {
                             update { state -> state.copy(monthlySubscription = product) }
                         } else if (product.basePlanId == BillingConnection.YEARLY_BASE_PLAN_ID) {
-                            update { state -> state.copy(yearlySubscription = product) }
+                            if (product.offerTags.contains(BillingConnection.FREE_TRIAL_TAG)) {
+                                freeTrialProduct = product
+                            } else {
+                                if (freeTrialProduct == null) {
+                                    freeTrialProduct = product
+                                }
+                            }
                         }
                     }
                 }
+                update { state -> state.copy(yearlySubscription = freeTrialProduct?:ProductPurchase("", "", "0$")) }
             }
         }
     }
@@ -90,9 +98,9 @@ class PremiumVimel @Inject constructor() :
     }
 
 
-    fun subscribeProduct(activity: Activity, product: ProductPurchase) {
-        if(!::billingConnection.isInitialized) return
-        billingConnection.subscribeProduct(activity, product)
+    fun subscribeProduct(activity: Activity, product: ProductPurchase, onError: () -> Unit) {
+        if (!::billingConnection.isInitialized) return
+        billingConnection.subscribeProduct(activity, product, onError)
     }
 
     override fun onCleared() {
