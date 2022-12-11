@@ -221,8 +221,8 @@
     <string name="term_and_policy"><u>Terms of Service &amp; Privacy Policy</u></string>
     <string name="audio_directory">Audio Directory</string>
     <string name="video_directory">Video Directory</string>
-    <string name="audio">audio</string>
-    <string name="video">video</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
     <string name="stop">stop</string>
     <string name="playlist">playlist</string>
     <string name="remote">remote</string>
@@ -263,13 +263,13 @@
     <string name="youtube">Youtube</string>
     <string name="drive">Drive</string>
     <string name="web_browser">Web Browser</string>
-    <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
+    <string name="cast_tv_description">Cast your Media file to Smart TV, Chromecast, DLNA, etc.</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="premium_upgrade">Premium Upgrade</string>
     <string name="monthly">Monthly</string>
     <string name="best_offer">Best Offer</string>
     <string name="sale_50">SALE 50%</string>
-    <string name="get_3_days_free_trial">Get 3 Days Free trial</string>
+    <string name="get_3_days_free_trial">Get 3 Days Free Trial</string>
     <string name="year">Year</string>
     <string name="pin_0000">Pin: 0000</string>
     <string name="pin">Pin</string>
@@ -285,7 +285,20 @@
     <string name="buy_premium">Buy premium</string>
     <string name="title">Title</string>
     <string name="message">Message</string>
-    <string name="premium_privacy_des">"- Subcribed user have unlimited use of all Services and Features without Ads.  "</string>
+    <string name="premium_privacy_des">Subscribed users have unlimited use and access to all of its Premium features, without any ads.
+\n- Non-subscribed users can continuously use the app with advertisements, and have a limited for use of Premium features.
+\n- Users can subscribe to 2 different plans: Monthly, Weekly auto-renewing subscriptions.
+\n- Alternatively, users can purchase the full app (LIFETIME) for a one-time payment. All updates and new features are received.
+\n- Payment will be charged to your Google Account at confirmation of purchase.
+\n- Subscriptions automatically renew unless auto-renew is disabled at least 24 hours before the end of the current period
+\n- Account will be charged for renewal within 24-hour prior to the end of the current period, and identify the cost of renewal.
+\n- Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.- Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user Account Settings after purchase
+\n\n
+Note that uninstalling the app will not cancel your subscription.
+\n1. On your Android phone or tablet, let open the Google Play Store.
+\n2. Check if you are signed in to the correct Google Account.
+\n3. Tap Menu Subscriptions and Select the subscription you want to cancel.
+\n4. Tap Cancel subscription.</string>
     <string name="cast_your_video">Cast Your Video</string>
     <string name="cast_your_image">Cast your image</string>
     <string name="cast_your_audio">Cast your audio</string>

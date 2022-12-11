@@ -49,31 +49,91 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llUpgrade"
+                android:id="@+id/llBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="10dp"
-                android:visibility="gone"
-                android:paddingStart="@dimen/margin_12dp">
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgCrown"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_crown"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/img_banner_xmas_setting" />
 
-                <TextView
-                    style="@style/regularBoldText"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/upgrade"
-                    android:textColor="@color/txt_black" />
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp"
+                    android:paddingStart="@dimen/margin_12dp"
+                    android:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_draw_tick" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="Unlock all features"
+                        android:textColor="@color/txt_black" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp"
+                    android:paddingStart="@dimen/margin_12dp"
+                    android:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_draw_tick" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:paddingHorizontal="20dp"
+                        android:text="Remove All Ads Permanently"
+                        android:textColor="@color/txt_black" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:id="@+id/btnBuyPremium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_button_gradient_radius_15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContentDialog">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtUpgrade"
+                    style="@style/regularBoldText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginVertical="@dimen/margin_12dp"
+                    android:drawableLeft="@drawable/ic_upgrade"
+                    android:gravity="center"
+                    android:text="Join Premium"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_title_24sp" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/llHelp"

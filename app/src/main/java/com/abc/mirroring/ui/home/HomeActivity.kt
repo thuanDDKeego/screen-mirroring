@@ -127,6 +127,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
+            binding.imgSaleOffFab.visibility = View.GONE
+            shakeAnimJob?.cancel()
+            shakeAnimJob = null
         } else {
             //shake img animation
             val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
@@ -136,6 +139,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     withContext(Dispatchers.Main) {
                         binding.imgPremium.clearAnimation()
                         binding.imgPremium.startAnimation(shake)
+                        if (binding.imgSaleOffFab.isClosed == false) {
+                            binding.imgSaleOffFab.clearAnimation()
+                            binding.imgSaleOffFab.startAnimation(shake)
+                        }
                     }
                     delay(9000L)
                 }
@@ -265,11 +272,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imgSaleOffFab.setOnClickListener {
 //            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
-        }
-        binding.imgSaleOffFab.isClosed.observe(this) {
-            if (it == true) {
-                binding.imgSaleOffFab.visibility = View.GONE
-            }
         }
         binding.imgCast.setOnClickListener {
             // TODO: open dialog

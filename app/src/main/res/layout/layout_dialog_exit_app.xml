@@ -27,11 +27,12 @@
             <FrameLayout
                 android:id="@+id/containerAd"
                 android:layout_width="0dp"
-                android:layout_height="260dp"
-                android:background="#ccc"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_24dp"
+                android:paddingBottom="@dimen/margin_8dp"
                 android:gravity="center|center_horizontal|center_vertical"
-                android:maxHeight="260dp"
-                android:minHeight="240dp"
+                android:maxHeight="310dp"
+                android:minHeight="280dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -40,7 +41,7 @@
                     android:id="@+id/nativeAdView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16dp">
+                    android:layout_marginHorizontal="@dimen/margin_8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -103,7 +104,7 @@
                             android:layout_height="@dimen/margin_36dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
-                            android:background="@drawable/bg_border_radius_10dp"
+                            android:background="@drawable/bg_border_radius_15dp"
                             android:backgroundTint="@color/blueA01"
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/margin_16dp"
@@ -125,7 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/md_btn_selected_dark"
                 android:elevation="3dp"
                 android:gravity="center"
@@ -143,7 +144,6 @@
                 android:id="@+id/btnClose"
                 android:layout_width="@dimen/margin_24dp"
                 android:layout_height="@dimen/margin_24dp"
-                android:layout_margin="8dp"
                 android:src="@drawable/ic_close"
                 android:tint="@color/grayA05"
                 app:layout_constraintEnd_toEndOf="parent"
