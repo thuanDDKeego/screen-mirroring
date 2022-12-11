@@ -3,6 +3,7 @@ package com.abc.mirroring.ui.premium
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -150,7 +151,8 @@ fun premium_(
                     fontSize = 12.sp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp), textAlign = TextAlign.Center
+                        .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp),
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -184,13 +186,33 @@ internal fun _purchases_section(vm: PremiumVimel) {
     val state by vm.state.collectAsState()
     val activity = LocalContext.current as Activity
     state.monthlySubscription.let { product ->
-        _normal_product_item(product) { vm.subscribeProduct(activity, product) }
+        _normal_product_item(product) {
+            vm.subscribeProduct(activity, product) {
+                Toast.makeText(
+                    activity,
+                    "Check your internet and try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
     state.oneTimePayment.let { product ->
-        _best_offer_product_item(product) { vm.subscribeProduct(activity, product) }
+        _best_offer_product_item(product) { vm.subscribeProduct(activity, product) {
+            Toast.makeText(
+                activity,
+                "Check your internet and try again!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }}
     }
     state.yearlySubscription.let { product ->
-        _sale_off_product_item(product = product) { vm.subscribeProduct(activity, product) }
+        _sale_off_product_item(product = product) { vm.subscribeProduct(activity, product) {
+            Toast.makeText(
+                activity,
+                "Check your internet and try again!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }}
     }
 }
 

@@ -84,6 +84,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     }
                 }
             })
+
         }
     }
 
@@ -200,19 +201,20 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                                         )
                                     )
                                 } else {
-                                    if (subsOffer.offerTags.contains(FREE_TRIAL_TAG)) {
+//                                    if (subsOffer.offerTags.contains(FREE_TRIAL_TAG)) {
                                         subscriptions.add(
                                             ProductPurchase(
                                                 id = prod.productId,
                                                 title = prod.name,
                                                 price = price,
 //                                    type = BillingClient.ProductType.SUBS,
+                                                offerTags = subsOffer.offerTags,
                                                 basePlanId = subsOffer.basePlanId,
                                                 offerToken = subsOffer.offerToken
                                             )
                                         )
                                     }
-                                }
+//                                }
                             }
                         }
                     }
@@ -259,10 +261,15 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
         return false
     }
 
-    /*
-    * {"productId":"subs_premium_v3","type":"subs","title":"Premium Subscription (Screen Mirroring For Smart TV)","name":"Premium Subscription","description":"contain yearly and monthly subscription","localizedIn":["en-US"],"skuDetailsToken":"AEuhp4IL_35wVYFqVSYh1myvWxk3klWZ8uKUXxrdxL27Bm71WZlpzIlnhsYEFo4OS5y1","subscriptionOfferDetails":[{"offerIdToken":"AUj\/YhhIDfR8\/6yUhnDASFC+RH\/Z1Buvtxii7t+59ZOZaP9xTyzvROP2+emu5HZsPnq+nFnINhKrQx3lOjtT3MsIzW4EhVIlS98LHCQO2mlXUE9QsrMnhQRaCDN0w5uoRoSE","basePlanId":"premium-v3-monthly","pricingPhases":[{"priceAmountMicros":120000000000,"priceCurrencyCode":"VND","formattedPrice":"120.000 ₫","billingPeriod":"P1M","recurrenceMode":1}],"offerTags":["no-ads","screen-cast","screen-mirror","screen-mirroring","screen-to-chromecast","unlimited-features"]},{"offerIdToken":"AUj\/YhgsggbU3KozAGC9I33cS0SOzT1wlZ9rrCdoZE32kNfPVmK+8GRatyTBd4QAZrVvcr90nOgQ7QApbJLx8M+0ioh9fi6GxIoOrvrohqeIzthinn0o\/dIVgi1Aj1AkTuoFHSVunUKdBVPl7d+Le8IV+hg7RQ==","basePlanId":"premium-v3-yearly","offerId":"premium-v3-free-trials","pricingPhases":[{"priceAmountMicros":0,"priceCurrencyCode":"VND","formattedPrice":"Miễn phí","billingPeriod":"P3D","recurrenceMode":2,"billingCycleCount":1},{"priceAmountMicros":280000000000,"priceCurrencyCode":"VND","formattedPrice":"280.000 ₫","billingPeriod":"P1Y","recurrenceMode":1}],"offerTags":["free-trial","three-days","yearly"]},{"offerIdToken":"AUj\/YhhCkjX2uNSOo\/1vc8+de6rL021ju3UGFRlpCQd+hAw8HTK3hjrYUWHplU\/a63flMY3hPlpSanJMRofFIXHV4RTh7Mx\/azmSkOzMkO4lGmycAoSiVgAjMmccK89BUs00","basePlanId":"premium-v3-yearly","pricingPhases":[{"priceAmountMicros":280000000000,"priceCurrencyCode":"VND","formattedPrice":"280.000 ₫","billingPeriod":"P1Y","recurrenceMode":1}],"offerTags":[]}]}*/
+    override fun subscribeProduct(activity: Activity, product: ProductPurchase, onError: () -> Unit) {
+        try {
+            tryConnectAndSubscription(activity, product)
+        } catch (e: Exception) {
+            onError()
+        }
+    }
 
-    override fun subscribeProduct(activity: Activity, product: ProductPurchase) {
+    private fun tryConnectAndSubscription(activity: Activity, product: ProductPurchase) {
         createConnection(
             activity.baseContext,
             onSuccess = {
