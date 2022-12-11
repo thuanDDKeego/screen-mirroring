@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -85,17 +87,6 @@ fun premium_(
             painter = painterResource(id = R.mipmap.bg_premium_xmas),
             contentDescription = null,
             contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize()
-        )
-        // button back
-        Icon(
-            imageVector = Icons.Rounded.Close, contentDescription = null,
-            modifier = Modifier
-                .padding(24.dp)
-                .size(32.dp)
-                .clickable {
-                    activity.finish()
-                },
-            tint = Color.White
         )
         Column(Modifier.fillMaxSize()) {
             Column(
@@ -155,6 +146,19 @@ fun premium_(
                     textAlign = TextAlign.Center
                 )
             }
+        }
+        // button back
+        IconButton(
+            modifier = Modifier
+                .padding(24.dp)
+                .size(24.dp), onClick = {
+                activity.finish()
+            }) {
+            Icon(
+                imageVector = Icons.Rounded.Close,
+                contentDescription = null,
+                tint = Color.White
+            )
         }
     }
 }
@@ -270,6 +274,7 @@ fun _sale_off_product_item(product: ProductPurchase, onclick: () -> Unit) {
 fun _best_offer_product_item(product: ProductPurchase, onclick: () -> Unit) {
     _product_item(
         background = Color(0xFFFFB422),
+        hasSweepLight = true,
         content = {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -349,6 +354,7 @@ internal fun _product_item(
     modifier: Modifier = Modifier,
     background: Color = Color(0xFFFFFFFF),
     hasCrown: Boolean = false,
+    hasSweepLight: Boolean = false,
     content: @Composable () -> Unit = @Composable {},
     onClick: () -> Unit = {},
 ) {
@@ -376,6 +382,9 @@ internal fun _product_item(
                     .clickable { onClick() }
             ) {
                 content.invoke()
+                if (hasSweepLight) {
+                    _light_sweep()
+                }
             }
         }
         Image(
@@ -398,7 +407,27 @@ internal fun _product_item(
 }
 
 @Composable
-fun crown_rotate_image(modifier: Modifier = Modifier) {
+internal fun _light_sweep(modifier: Modifier = Modifier) {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val paddingStart by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1600F,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+
+        )
+    )
+    Image(
+        painter = painterResource(id = R.drawable.img_light), contentDescription = null,
+        modifier = modifier.fillMaxHeight().padding(start = paddingStart.dp),
+        contentScale = ContentScale.FillHeight
+    )
+}
+
+@Composable
+internal fun crown_rotate_image(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition()
 
     val angleAnimate by infiniteTransition.animateFloat(

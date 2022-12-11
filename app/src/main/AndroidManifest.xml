@@ -69,7 +69,8 @@
         <activity
             android:name=".ui.premium.PremiumActivity2"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.XMas.NoActionBar">
         </activity>
         <activity
             android:name=".ui.splash.SplashActivity"

@@ -286,5 +286,9 @@
     <string name="title">Title</string>
     <string name="message">Message</string>
     <string name="premium_privacy_des">"- Subcribed user have unlimited use of all Services and Features without Ads.  "</string>
+    <string name="cast_your_video">Cast Your Video</string>
+    <string name="cast_your_image">Cast your image</string>
+    <string name="cast_your_audio">Cast your audio</string>
+    <string name="browser_cast">Browser cast</string>
 
 </resources>

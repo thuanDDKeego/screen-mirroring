@@ -109,16 +109,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun initAds() {
+        binding.containerAd.visibility = View.GONE
         if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
-            binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this,
                 AdType.HOME_NATIVE,
                 binding.nativeAdView.nativeAdView,
                 true
-            )
-        } else {
-            binding.containerAd.visibility = View.GONE
+            ) {
+                binding.containerAd.visibility = View.VISIBLE
+            }
         }
     }
 

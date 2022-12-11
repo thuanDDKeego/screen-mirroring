@@ -29,6 +29,15 @@
 
     </style>
 
+    <style name="Theme.XMas.NoActionBar" parent="Theme.Sreenmirroringcasttv">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#2F8C4B</item>
+        <item name="colorPrimaryVariant">#2F8C4B</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#2F8C4B</item>
+
+    </style>
+
 
 
     <style name="SplashTheme" parent="Theme.Sreenmirroringcasttv.NoActionBar">
