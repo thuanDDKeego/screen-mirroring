@@ -2,7 +2,10 @@ package com.abc.mirroring.cast.shared.cast
 
 import android.app.Activity
 import android.content.Context
+import android.widget.Toast
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
+import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.device.ConnectableDeviceListener
 import com.connectsdk.device.DevicePicker
@@ -49,7 +52,7 @@ class DeviceDiscovery(
 //        devicesList["com.connectsdk.service.DIALService"] = "com.connectsdk.discovery.provider.SSDPDiscoveryProvider"
         devicesList["com.connectsdk.service.RokuService"] = "com.connectsdk.discovery.provider.SSDPDiscoveryProvider"
         devicesList["com.connectsdk.service.CastService"] = "com.connectsdk.discovery.provider.CastDiscoveryProvider"
-//        devicesList["com.connectsdk.service.AirPlayService"] = "com.connectsdk.discovery.provider.ZeroconfDiscoveryProvider"
+        devicesList["com.connectsdk.service.AirPlayService"] = "com.connectsdk.discovery.provider.ZeroconfDiscoveryProvider"
         devicesList["com.connectsdk.service.FireTVService"] = "com.connectsdk.discovery.provider.FireTVDiscoveryProvider"
         return devicesList
     }
@@ -81,11 +84,18 @@ class DeviceDiscovery(
     }
 
     fun picker(context: Activity) {
-        val dialog = DevicePicker(context).getPickerDialog("Devices") { adapter, view, position, id ->
-            val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
-            mDevice.addListener(this)
-            mDevice.connect()
-        }
+        val dialog = DevicePicker(context).getCustomPickerDialog("Cast to",
+            { adapter, view, position, id ->
+                val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
+                if (mDevice.serviceId.lowercase().equals("airplay")) {
+                    Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                    return@getCustomPickerDialog
+                }
+                mDevice.addListener(this)
+                mDevice.connect()
+            },
+            { _ -> TutorialActivity.gotoActivity(context) },
+            { _ -> BrowserMirrorActivity.gotoActivity(context) })
         dialog.show()
     }
 

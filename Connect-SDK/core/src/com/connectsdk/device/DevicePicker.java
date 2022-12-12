@@ -1,10 +1,10 @@
 /*
  * DevicePicker
  * Connect SDK
- * 
+ *
  * Copyright (c) 2014 LG Electronics.
  * Created by Hyun Kook Khang on 19 Jan 2014
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,13 +25,16 @@ import android.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.connectsdk.R;
 
 /**
  * ###Overview
  * The DevicePicker is provided by the DiscoveryManager as a simple way for you to present a list of available devices to your users.
- *
+ * <p>
  * ###In Depth
  * By calling the getPickerDialog you will get a reference to the AlertDialog that will be updated automatically updated as compatible devices are discovered.
  */
@@ -41,7 +44,7 @@ public class DevicePicker {
 
     /**
      * Creates a new DevicePicker
-     * 
+     *
      * @param activity Activity that DevicePicker will appear in
      */
     public DevicePicker(Activity activity) {
@@ -54,7 +57,7 @@ public class DevicePicker {
 
     /**
      * Sets a selected device.
-     * 
+     *
      * @param device Device that has been selected.
      */
     public void pickDevice(ConnectableDevice device) {
@@ -74,7 +77,7 @@ public class DevicePicker {
     /**
      * This method will return an AlertDialog that contains a ListView with an item for each discovered ConnectableDevice.
      *
-     * @param message The title for the AlertDialog
+     * @param message  The title for the AlertDialog
      * @param listener The listener for the ListView to get the item that was clicked on
      */
     public AlertDialog getPickerDialog(String message, final OnItemClickListener listener) {
@@ -84,18 +87,40 @@ public class DevicePicker {
         title.setText(message);
 
         final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
-        .setCustomTitle(title)
-        .setCancelable(true)
-        .setView(view)
-        .create();
+                .setCustomTitle(title)
+                .setCancelable(true)
+                .setView(view)
+                .create();
 
-        view.setOnItemClickListener(new OnItemClickListener () {
+        view.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                    long arg3) {
+                                    long arg3) {
                 listener.onItemClick(arg0, arg1, arg2, arg3);
                 pickerDialog.dismiss();
             }
+        });
+
+        return pickerDialog;
+    }
+
+    public AlertDialog getCustomPickerDialog(String message, final OnItemClickListener listener, View.OnClickListener onHelpClicked, View.OnClickListener onBrowserCastClicked) {
+        final DevicePickerListView view = new DevicePickerListView(activity);
+
+        View root = activity.getLayoutInflater().inflate(R.layout.dialog_device_picker_head, null);
+        ((TextView) root.findViewById(R.id.dialog_title)).setText(message);
+        ((ImageView) root.findViewById(R.id.btn_help)).setOnClickListener(onHelpClicked::onClick);
+        ((TextView) root.findViewById(R.id.txt_browser_cast)).setOnClickListener(onBrowserCastClicked::onClick);
+
+        final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
+                .setCustomTitle(root)
+                .setCancelable(true)
+                .setView(view)
+                .create();
+
+        view.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+            listener.onItemClick(arg0, arg1, arg2, arg3);
+            pickerDialog.dismiss();
         });
 
         return pickerDialog;

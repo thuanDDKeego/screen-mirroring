@@ -4,6 +4,7 @@ import AdType
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -562,6 +563,7 @@ class DialogCenter(private val activity: Activity) {
 //                Toast.LENGTH_LONG
 //            ).show()
             val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+            intent.data = Uri.fromParts("package", activity.packageName, null)
             activity.startActivity(intent)
 //            Toast.makeText(
 //                activity.applicationContext,
