@@ -45,7 +45,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity<ActivityHomeBinding>() {
+class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
     private lateinit var dialogCenter: DialogCenter
     private var shakeAnimJob: Job? = null
@@ -66,7 +66,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         const val SHOW_RATING_DIALOG = "soRatingDialog"
     }
 
-    override fun initBinding() = ActivityHomeBinding.inflate(layoutInflater)
+    override fun initBinding() = ActivityHomeXmasBinding.inflate(layoutInflater)
 
     override fun initViews() {
         dialogCenter = DialogCenter(this)
