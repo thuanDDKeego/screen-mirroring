@@ -21,7 +21,6 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
     @Inject lateinit var admobHelper: AdmobHelper
     private lateinit var adapter: FAQItemAdapter
     private val viewModel by viewModels<TutorialViewModel>()
-
     override fun initBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

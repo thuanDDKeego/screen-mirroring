@@ -28,6 +28,7 @@ import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.elvishew.xlog.XLog
 import info.dvkr.screenstream.data.model.AppError
@@ -217,6 +218,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
         Timber.d("onServiceMessage lastServiceMessage $lastServiceMessage $serviceMessage")
         lastServiceMessage != serviceMessage || return
         with(binding.btnStopStream) {
+          FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Click_Stop_Stream)
           if (serviceMessage.isStreaming) {
             visibility = View.VISIBLE
             isEnabled = !serviceMessage.isBusy
@@ -226,6 +228,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
             text = getString(R.string.stop_stream)
           } else {
             setOnClickListener {
+              FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Click_Start_Stream)
               val connManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
               val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
               if (networkInfo?.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
@@ -289,6 +292,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
               openInBrowser(fullAddress)
             }
             binding.btnCopy.setOnClickListener {
+              FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Click_Copy)
               clipboard?.setPrimaryClip(
                   ClipData.newPlainText(
                       binding.txtIpAddress.text,

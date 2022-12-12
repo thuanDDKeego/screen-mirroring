@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -67,6 +68,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.shared.utils.PremiumUtils.getBenefits
 import com.abc.mirroring.ui.premium.billing.ProductPurchase
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
@@ -78,6 +81,11 @@ fun premium_(
 
     LaunchedEffect(key1 = true) {
         vm.createConnectionAndFetchData(activity)
+    }
+
+    BackHandler {
+        FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Back)
+        activity.finish()
     }
 
 
@@ -157,6 +165,7 @@ fun premium_(
                 modifier = Modifier
                     .padding(24.dp)
                     .size(24.dp), onClick = {
+                    FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Back)
                     activity.finish()
                 }) {
                 Icon(
@@ -197,6 +206,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
     val activity = LocalContext.current as Activity
     state.monthlySubscription.let { product ->
         _normal_product_item(product) {
+            FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Monthly)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
                     activity,
@@ -208,6 +218,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
     }
     state.oneTimePayment.let { product ->
         _best_offer_product_item(product) {
+            FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Life_Time)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
                     activity,
@@ -219,6 +230,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
     }
     state.yearlySubscription.let { product ->
         _sale_off_product_item(product = product) {
+            FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Trial)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
                     activity,

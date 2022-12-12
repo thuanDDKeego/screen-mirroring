@@ -1,6 +1,7 @@
 package com.abc.mirroring.ui.tutorial.adapter
 
 import AdType
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-
 import com.abc.mirroring.data.model.FAQItem
 import com.abc.mirroring.databinding.LayoutAdContainerBinding
 import com.abc.mirroring.databinding.LayoutItemFaqBinding
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 
 class FAQItemAdapter(
     private val context: AppCompatActivity,
@@ -43,6 +45,13 @@ class FAQItemAdapter(
                     itemBinding as LayoutItemFaqBinding
                     itemBinding.root.setOnClickListener {
                         if (!expanded) {
+                            val params = Bundle().also {
+                                it.putString(
+                                    "FAQ_QUESTION",
+                                    listFAQItem[position].title
+                                )
+                            }
+                            FirebaseTracking.log(FirebaseLogEvent.FAQ_Click_Question, params)
                             itemBinding.imgExpandCollapse.setImageResource(R.drawable.ic_collapse)
                             itemBinding.expandTextView.visibility = View.VISIBLE
                         } else {

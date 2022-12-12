@@ -13,6 +13,7 @@ import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.FragmentTutorialBinding
 import com.abc.mirroring.ui.tutorial.adapter.TutorialGuideAdapter
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -67,6 +68,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 updateTabTutorialDialogPager(2)
             }
             btnPrevious.setOnClickListener {
+                FirebaseTracking.log(if (viewPagerTutorial.currentItem == 3) FirebaseLogEvent.Tutorial_Click_previous_2 else FirebaseLogEvent.Tutorial_Click_previous_1)
                 viewPagerTutorial.setCurrentItem(
                     viewPagerTutorial.currentItem - 1,
                     true
@@ -76,7 +78,7 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
-        if(AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
+        if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 requireActivity(),
@@ -120,6 +122,8 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
             }
             if (position < 2) {
                 btnNext.setOnClickListener {
+                    FirebaseTracking.log(if (position == 1) FirebaseLogEvent.Tutorial_Click_next_1 else FirebaseLogEvent.Tutorial_Click_next_2)
+
                     viewPagerTutorial.currentItem = viewPagerTutorial.currentItem + 1
                 }
                 btnNext.visibility = View.VISIBLE

@@ -35,6 +35,7 @@ import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.premium.PremiumActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
@@ -130,6 +131,7 @@ class DialogCenter(private val activity: Activity) {
             dialogRatingBinding.ratingBarAnimation.visibility = View.GONE
         }
         dialogRatingBinding.btnClose.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Rating_Click_Cancel)
             Timber.d("Rate dialog close $mRateDialogShowing")
             dismissRatingDialog()
         }
@@ -191,16 +193,19 @@ class DialogCenter(private val activity: Activity) {
         dialogRatingBinding.bgBlackViewInRate.fadeInAnimation()
         dialogRatingBinding.mainRatingContentLayout.scaleAnimation()
         dialogRatingBinding.txtDontAskAgain.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Rating_Click_Dont_Ask_Again)
             dismissRatingDialog()
             AppPreferences().isRated = true
         }
         dialogRatingBinding.btnRate.setOnClickListener {
             AppPreferences().isRated = true
-//            if (rating <= 3) {
-//                FeedbackActivity.start(this, rating)
-//            } else {
-//                openAppInStore()
-//            }
+            when (rating) {
+                1 -> FirebaseTracking.log(FirebaseLogEvent.Rating_Click_1_Star)
+                2 -> FirebaseTracking.log(FirebaseLogEvent.Rating_Click_2_Star)
+                3 -> FirebaseTracking.log(FirebaseLogEvent.Rating_Click_3_Star)
+                4 -> FirebaseTracking.log(FirebaseLogEvent.Rating_Click_4_Star)
+                else -> FirebaseTracking.log(FirebaseLogEvent.Rating_Click_5_Star)
+            }
             onRate(rating)
             dismissRatingDialog()
             if (autoShow)
@@ -333,12 +338,14 @@ class DialogCenter(private val activity: Activity) {
                 PremiumActivity.gotoActivity(activity)
             }
             btnClose.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Popup_Click_Close)
                 dismissBrowserDialog()
             }
             cardDialog.setOnClickListener { }
             constraintBgBrowserDialog.setOnClickListener { dismissBrowserDialog() }
 
             txtStartVideoInTime.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Popup_Click_Video_Starting)
                 countDownJob?.cancel()
                 goToRewardAds()
             }

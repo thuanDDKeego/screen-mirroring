@@ -50,23 +50,25 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.abc.mirroring.R
+import com.abc.mirroring.cast.GlobalVimel
+import com.abc.mirroring.cast.LocalState
+import com.abc.mirroring.cast.screen.cast.audible.AudibleParameter
+import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel.Companion.YOUTUBE_URL
+import com.abc.mirroring.cast.section.Youtube
+import com.abc.mirroring.cast.setup.graphs.YoutubeNavGraph
+import com.abc.mirroring.cast.shared.cast.Command
+import com.abc.mirroring.cast.shared.ui.component.intercepted_browser
+import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.abc.mirroring.destinations.audible_player_Destination
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import dev.sofi.extentions.SofiScreen
 import kotlinx.coroutines.launch
-import com.abc.mirroring.cast.GlobalVimel
-import com.abc.mirroring.cast.LocalState
-import com.abc.mirroring.R
-import com.abc.mirroring.cast.screen.cast.audible.AudibleParameter
-import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel.Companion.YOUTUBE_URL
-import com.abc.mirroring.destinations.audible_player_Destination
-import com.abc.mirroring.cast.section.Youtube
-import com.abc.mirroring.cast.setup.graphs.YoutubeNavGraph
-import com.abc.mirroring.cast.shared.cast.Command
-import com.abc.mirroring.cast.shared.ui.component.intercepted_browser
-import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Destination
@@ -82,7 +84,8 @@ fun youtube_webview_(
 
     val state by vm.state.collectAsState()
 
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed))
+    val bottomSheetScaffoldState =
+        rememberBottomSheetScaffoldState(bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed))
     val scope = rememberCoroutineScope()
 
     fun toggleSheet(expand: Boolean) {
@@ -97,6 +100,7 @@ fun youtube_webview_(
     }
 
     fun customBackPressed() {
+        FirebaseTracking.log(FirebaseLogEvent.Youtube_Click_Back)
         if (vm.isOriginalUrl()) (context as Activity).finish() else vm.onControl(Command.Previous)
 //        vm.onControl(Command.Previous)
 //        var a = vm.state.value.url
@@ -174,8 +178,14 @@ fun youtube_webview_(
                 //endregion
 
                 _footer(
-                    onHomePressed = { navigator.popBackStack() },
-                    onQualityPressed = { toggleSheet(expand = true) }
+                    onHomePressed = {
+                        FirebaseTracking.log(FirebaseLogEvent.Youtube_Click_Home)
+                        navigator.popBackStack()
+                    },
+                    onQualityPressed = {
+                        FirebaseTracking.log(FirebaseLogEvent.Youtube_Click_Quality_Option)
+                        toggleSheet(expand = true)
+                    }
                 )
             }
         }
@@ -216,7 +226,8 @@ fun _bottom_sheet_part(
     modifier: Modifier = Modifier,
     onItemPressed: (Youtube) -> Unit
 ) {
-    val state by LocalState.current.stateOrPreview(YoutubeVimel.YoutubeVimelState()).collectAsState()
+    val state by LocalState.current.stateOrPreview(YoutubeVimel.YoutubeVimelState())
+        .collectAsState()
 
     Column(
         modifier = modifier
@@ -253,6 +264,7 @@ fun _option_item(modifier: Modifier = Modifier, item: Youtube, onPressItem: () -
         modifier = modifier
             .fillMaxWidth()
             .clickable {
+                FirebaseTracking.log(if(item.format == 720) FirebaseLogEvent.Quality_Option_Click_720_Video else FirebaseLogEvent.Quality_Option_Click_360_Video)
                 onPressItem.invoke()
             }
             .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -261,7 +273,9 @@ fun _option_item(modifier: Modifier = Modifier, item: Youtube, onPressItem: () -
             modifier = Modifier
         ) {
             Image(
-                painter = if (isVideo) rememberAsyncImagePainter(item.thumbnail) else painterResource(R.drawable.ic_headphone),
+                painter = if (isVideo) rememberAsyncImagePainter(item.thumbnail) else painterResource(
+                    R.drawable.ic_headphone
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(50.dp)

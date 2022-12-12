@@ -8,6 +8,8 @@ import com.abc.mirroring.cast.VimelStateHolder
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.abc.mirroring.ui.premium.billing.ProductPurchase
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,6 +83,7 @@ class PremiumVimel @Inject constructor() :
                 //...
 //if Purchase canceled
                 else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+                    FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Cancel)
 //            dismissLoadingBarDialog()
                 }
 // Handle any other error msgs

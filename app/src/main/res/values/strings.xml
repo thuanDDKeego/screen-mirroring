@@ -304,5 +304,8 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="cast_your_audio">Cast your audio</string>
     <string name="browser_cast">Browser cast</string>
     <string name="cast">Cast</string>
+    <string name="online_image">Online Image</string>
+    <string name="iptv">IPTV</string>
+    <string name="google_photos">Google Photos</string>
 
 </resources>
