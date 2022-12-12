@@ -18,7 +18,7 @@
     <!-- admob -->
 
 
-    <string name="mirror">Mirror</string>
+    <string name="mirror">Mirroring</string>
     <string name="mirror_to_tv">Mirror to TV</string>
     <string name="wifi_connected">Wifi connected</string>
     <string name="wifi_not_connected">Wifi not connected</string>
@@ -38,7 +38,7 @@
     <string name="tutorial">Tutorial</string>
     <string name="faq">FAQ</string>
     <string name="connect">Connect</string>
-    <string name="connected_devices">Connecting devices</string>
+    <string name="connected_devices">Supported Devices</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     //tutorial step
     <string name="tutorial_guild1">1. Make sure your phone and TV connected to the same Wifi without VPN.</string>
