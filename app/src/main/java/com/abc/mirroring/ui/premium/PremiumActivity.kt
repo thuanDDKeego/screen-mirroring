@@ -31,7 +31,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>() {
 
     companion object {
         fun gotoActivity(activity: Activity) {
-            val intent = Intent(activity, PremiumActivity::class.java)
+            val intent = Intent(activity, PremiumActivity2::class.java)
             activity.startActivity(intent)
         }
     }

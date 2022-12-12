@@ -50,9 +50,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     override fun initViews() {
         if (AppPreferences().isPremiumSubscribed == true) {
-            binding.imgCrown.visibility = View.GONE
+            binding.btnBuyPremium.visibility = View.GONE
+            binding.llBanner.visibility = View.GONE
         } else {
-            binding.imgCrown.visibility = View.VISIBLE
+            binding.btnBuyPremium.visibility = View.VISIBLE
+            binding.llBanner.visibility = View.VISIBLE
         }
         dialogCenter = DialogCenter(this)
         FirebaseTracking.logSettingShowed()
@@ -75,13 +77,16 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.txtPinCode.text = AppPreferences().pinCode
         binding.txtLanguage.text = dLocale?.displayName
         binding.txtVersioncode.text = BuildConfig.VERSION_NAME
-        binding.llUpgrade.visibility =
+        binding.btnBuyPremium.visibility =
             if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initActions() {
-        binding.llUpgrade.setOnClickListener {
+        binding.btnBuyPremium.setOnClickListener {
+            PremiumActivity.gotoActivity(this@SettingActivity)
+        }
+        binding.llBanner.setOnClickListener {
             PremiumActivity.gotoActivity(this@SettingActivity)
         }
         binding.llHelp.setOnClickListener {
@@ -220,15 +225,16 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun onResume() {
         super.onResume()
         if (AppPreferences().isPremiumSubscribed == true) {
-            binding.imgCrown.visibility = View.GONE
+            binding.btnBuyPremium.visibility = View.GONE
+            binding.llBanner.visibility = View.GONE
         } else {
             val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
             shakeAnimJob = CoroutineScope(Dispatchers.IO).launch {
                 while (true) {
                     delay(1000L)
                     withContext(Dispatchers.Main) {
-                        binding.imgCrown.clearAnimation()
-                        binding.imgCrown.startAnimation(shake)
+                        binding.btnBuyPremium.clearAnimation()
+                        binding.btnBuyPremium.startAnimation(shake)
                     }
                     delay(9000L)
                 }

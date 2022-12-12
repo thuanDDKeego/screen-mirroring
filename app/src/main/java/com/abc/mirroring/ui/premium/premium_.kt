@@ -35,6 +35,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -81,84 +82,89 @@ fun premium_(
 
 
 //    val isPremiumActive = remember { mutableStateOf(AppPreferences.isPremiumSubscribed) }
-    Box(modifier = Modifier.fillMaxSize()) {
-        // set background for premium screen
-        Image(
-            painter = painterResource(id = R.mipmap.bg_premium_xmas),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize()
-        )
-        Column(Modifier.fillMaxSize()) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(24.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color(0xff2F8C4B)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // set background for premium screen
+            Image(
+                painter = painterResource(id = R.mipmap.bg_premium_xmas),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize()
+            )
+            Column(Modifier.fillMaxSize()) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .fillMaxWidth(0.4f)
-                        .padding(top = 24.dp),
-                    contentScale = ContentScale.FillWidth
-                )
-                Text(
-                    text = stringResource(id = R.string.premium_upgrade),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(top = 12.dp, bottom = 12.dp)
-                )
-                getBenefits(activity).forEach { benefit ->
-                    benefit_item(benefit)
+                        .weight(1f)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(24.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth(0.4f)
+                            .padding(top = 24.dp),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Text(
+                        text = stringResource(id = R.string.premium_upgrade),
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(top = 12.dp, bottom = 12.dp)
+                    )
+                    getBenefits(activity).forEach { benefit ->
+                        benefit_item(benefit)
+                    }
+
+                    _purchases_section(vm)
+                    Spacer(modifier = Modifier.height(36.dp))
+                    Text(
+                        text = "Term of Services & Privacy Policy",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp)
+                            .clickable {
+                                activity.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                                    data = Uri.parse("https://sofigo.net/policy/")
+                                })
+                            }, textAlign = TextAlign.Center,
+                        style = TextStyle(textDecoration = TextDecoration.Underline)
+                    )
+
+                    Text(
+                        text = stringResource(id = R.string.premium_privacy_des),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp),
+                        textAlign = TextAlign.Center
+                    )
                 }
-
-                _purchases_section(vm)
-                Spacer(modifier = Modifier.height(36.dp))
-                Text(
-                    text = "term of service & privacy and policy",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp)
-                        .clickable {
-                            activity.startActivity(Intent(Intent.ACTION_VIEW).apply {
-                                data = Uri.parse("https://sofigo.net/policy/")
-                            })
-                        }, textAlign = TextAlign.Center,
-                    style = TextStyle(textDecoration = TextDecoration.Underline)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.premium_privacy_des),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 6.dp, bottom = 12.dp, start = 8.dp, end = 8.dp),
-                    textAlign = TextAlign.Center
+            }
+            // button back
+            IconButton(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .size(24.dp), onClick = {
+                    activity.finish()
+                }) {
+                Icon(
+                    imageVector = Icons.Rounded.Close,
+                    contentDescription = null,
+                    tint = Color.White
                 )
             }
-        }
-        // button back
-        IconButton(
-            modifier = Modifier
-                .padding(24.dp)
-                .size(24.dp), onClick = {
-                activity.finish()
-            }) {
-            Icon(
-                imageVector = Icons.Rounded.Close,
-                contentDescription = null,
-                tint = Color.White
-            )
         }
     }
 }
@@ -201,22 +207,26 @@ internal fun _purchases_section(vm: PremiumVimel) {
         }
     }
     state.oneTimePayment.let { product ->
-        _best_offer_product_item(product) { vm.subscribeProduct(activity, product) {
-            Toast.makeText(
-                activity,
-                "Check your internet and try again!",
-                Toast.LENGTH_SHORT
-            ).show()
-        }}
+        _best_offer_product_item(product) {
+            vm.subscribeProduct(activity, product) {
+                Toast.makeText(
+                    activity,
+                    "Check your internet and try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
     state.yearlySubscription.let { product ->
-        _sale_off_product_item(product = product) { vm.subscribeProduct(activity, product) {
-            Toast.makeText(
-                activity,
-                "Check your internet and try again!",
-                Toast.LENGTH_SHORT
-            ).show()
-        }}
+        _sale_off_product_item(product = product) {
+            vm.subscribeProduct(activity, product) {
+                Toast.makeText(
+                    activity,
+                    "Check your internet and try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
 
@@ -414,14 +424,16 @@ internal fun _light_sweep(modifier: Modifier = Modifier) {
         initialValue = 0f,
         targetValue = 1600F,
         animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
+            animation = tween(4000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
 
         )
     )
     Image(
         painter = painterResource(id = R.drawable.img_light), contentDescription = null,
-        modifier = modifier.fillMaxHeight().padding(start = paddingStart.dp),
+        modifier = modifier
+            .fillMaxHeight()
+            .padding(start = paddingStart.dp),
         contentScale = ContentScale.FillHeight
     )
 }

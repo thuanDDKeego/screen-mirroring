@@ -11,7 +11,15 @@ import android.widget.TextView
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
@@ -19,7 +27,11 @@ import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class AdmobHelper {
@@ -318,7 +330,7 @@ class AdmobHelper {
         adType: AdType,
         adView: NativeAdView,
         haveIcon: Boolean = false,
-        adLoadedCallBack: (() -> Unit )? = null
+        adLoadedCallBack: (() -> Unit)? = null
     ) {
         val builder = AdLoader.Builder(context, context.getString(adType.adsId))
         builder.forNativeAd {
@@ -330,6 +342,7 @@ class AdmobHelper {
             .build()
         val adOptions = NativeAdOptions.Builder()
             .setVideoOptions(videoOptions)
+            .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_TOP_RIGHT)
             .build()
         builder.withNativeAdOptions(adOptions)
         val adLoader = builder.withAdListener(object : AdListener() {
@@ -397,6 +410,7 @@ class AdmobHelper {
             val fullScreenCall = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
+                    AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
                     callback(isSuccess)
                     adsRewarded[type] = null
                 }

@@ -129,6 +129,10 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
     binding.imgBattery.setOnClickListener {
       dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
     }
+    if (AppPreferences().countAdsClosed!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false) {
+      dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
+      })
+    }
   }
 
   override fun permissionDenied() {

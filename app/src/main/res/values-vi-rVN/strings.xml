@@ -203,7 +203,7 @@
     <string name="youtube">Youtube</string>
     <string name="drive">Drive</string>
     <string name="web_browser">Web Browser</string>
-    <string name="cast_tv_description">Cast your Media file to Chrome cast, DLNA, etc.</string>
+    <string name="cast_tv_description">Cast your Media file to Smart TV, Chromecast, DLNA, etc.</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="pin_0000">Pin: 0000</string>
     <string name="pin">Pin</string>
