@@ -37,6 +37,7 @@ import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.premium.PremiumActivity2
 import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -219,7 +220,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
         binding.constraintBrowserMirror.setOnClickListener {
-            FirebaseTracking.logHomeCardBrowserClicked()
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_Web)
             if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumSubscribed == true) {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
@@ -228,8 +229,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 dialogCenter.showDialog(DialogCenter.DialogType.Browser)
             }
         }
-        binding.constrantMirror.setOnClickListener {
-            FirebaseTracking.logHomeMirrorClicked()
+        binding.constraintMirror.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_TV)
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
 //                dialogCenter.showLoadingAdsDialog()
@@ -245,19 +246,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgSetting.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Setting)
             SettingActivity.gotoActivity(this@HomeActivity)
         }
         binding.imgHelp.setOnClickListener {
-            FirebaseTracking.logHomeIconHelpClicked()
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Help)
             TutorialActivity.gotoActivity(this@HomeActivity)
         }
         binding.switchModeFloatingTool.setOnCheckedChangeListener { _, isChecked ->
             Timber.d("switchMode $isChecked")
             if (isChecked) {
-                FirebaseTracking.logHomeFloatingClicked(isChecked)
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Turn_On_Floating_Tools)
                 if (isDrawOverlaysPermissionGranted()) {
                     FloatToolService.start(this@HomeActivity)
                 } else {
+                    FirebaseTracking.log(FirebaseLogEvent.Home_Click_Turn_Off_Floating_Tools)
                     binding.switchModeFloatingTool.isChecked = false
                     dialogCenter.showDialog(DialogCenter.DialogType.AskPermissionOverLay)
 //                    showAskPermissionOverlayDialog()
@@ -267,14 +270,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
         binding.imgPremium.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Premium)
             startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgSaleOffFab.setOnClickListener {
 //            Toast.makeText(this, "Sale off Onclick", Toast.LENGTH_SHORT).show()
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Gift_icon)
             startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
         }
         binding.imgCast.setOnClickListener {
             // TODO: open dialog
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Connect_Devices)
             caster.discovery.picker(this)
         }
         castOnClickSection()
@@ -283,18 +289,23 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun castOnClickSection() {
         binding.apply {
             llVideo.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Video)
                 goToCast(MediaRoute.Video)
             }
             llImage.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Image)
                 goToCast(MediaRoute.Image)
             }
             llAudio.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Audio)
                 goToCast(MediaRoute.Audio)
             }
             llYoutube.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Youtube)
                 goToCast(MediaRoute.Youtube)
             }
             llDrive.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Drive)
                 Toast.makeText(
                     this@HomeActivity,
                     getString(R.string.coming_soon),
@@ -302,7 +313,32 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 ).show()
             }
             llWebCast.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Web_Cast)
                 goToCast(MediaRoute.WebCast)
+            }
+            llOnlineImage.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Online_Image)
+                Toast.makeText(
+                    this@HomeActivity,
+                    getString(R.string.coming_soon),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            llIpTv.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Iptv)
+                Toast.makeText(
+                    this@HomeActivity,
+                    getString(R.string.coming_soon),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            llGooglePhotos.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Google_Photo)
+                Toast.makeText(
+                    this@HomeActivity,
+                    getString(R.string.coming_soon),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

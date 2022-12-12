@@ -23,9 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.sofi.extentions.SofiComponent
 import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.utils.AppDimensions
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
+import dev.sofi.extentions.SofiComponent
 
 @Composable
 @SofiComponent(private = true, useFor = ["image_player_"])
@@ -44,7 +46,10 @@ fun image_player_controller(
         horizontalArrangement = Arrangement.SpaceAround
         //endregion
     ) {
-        IconButton(onClick = { onControl(Command.Previous) }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Image_Click_Previous)
+            onControl(Command.Previous)
+        }) {
             Icon(
                 imageVector = Icons.Rounded.SkipPrevious,
                 contentDescription = null,
@@ -53,7 +58,10 @@ fun image_player_controller(
             )
         }
         Spacer(Modifier.width(AppDimensions.paddingXXL))
-        IconButton(onClick = { onControl(Command.Play) }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Image_Click_Play)
+            onControl(Command.Play)
+        }) {
             Image(
                 imageVector = Icons.Rounded.PlayArrow,
                 contentDescription = null,
@@ -61,7 +69,10 @@ fun image_player_controller(
             )
         }
         Spacer(Modifier.width(AppDimensions.paddingXXL))
-        IconButton(onClick = { onControl(Command.Next) }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Image_Click_Next)
+            onControl(Command.Next)
+        }) {
             Icon(
                 Icons.Rounded.SkipNext,
                 contentDescription = null,

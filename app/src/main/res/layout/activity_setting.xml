@@ -129,6 +129,7 @@
                     android:layout_marginHorizontal="@dimen/margin_24dp"
                     android:layout_marginVertical="@dimen/margin_12dp"
                     android:drawableLeft="@drawable/ic_upgrade"
+                    android:drawableTint="@color/draw_yellow"
                     android:gravity="center"
                     android:text="Join Premium"
                     android:textColor="@color/white"

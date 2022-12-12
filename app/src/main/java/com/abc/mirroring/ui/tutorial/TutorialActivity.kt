@@ -2,6 +2,7 @@ package com.abc.mirroring.ui.tutorial
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
@@ -14,6 +15,8 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivityTutorialBinding
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -117,16 +120,19 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         }
 
         binding.llCast.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_Cast)
             binding.viewPager.currentItem = 1
             updateTabPager(1)
         }
 
         binding.llFAQ.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_FAQ)
             binding.viewPager.currentItem = 2
             updateTabPager(2)
         }
 
         binding.llConnectedDevices.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_Connecting_devices)
             binding.viewPager.currentItem = 3
             updateTabPager(3)
         }
@@ -137,6 +143,7 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
         if (binding.viewPager.currentItem != 0) {
             binding.viewPager.currentItem = 0
         } else {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_Back)
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
 //                showLoadingAdsDialog()

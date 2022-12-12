@@ -2,6 +2,7 @@ package com.abc.mirroring.cast.screen.cast.image
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,10 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +48,8 @@ import com.abc.mirroring.cast.setup.graphs.ImageNavGraph
 import com.abc.mirroring.cast.shared.cast.SessionPlayer
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.cast.shared.utils.AppDimensions
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 
 @ImageNavGraph
 @Destination
@@ -64,6 +71,11 @@ fun image_player_(
         LaunchedEffect(params.current.id()) {
             vm.moveTo(params.current)
         }
+    }
+
+    BackHandler {
+        FirebaseTracking.log(FirebaseLogEvent.Image_Player_Click_Back)
+        navigator.popBackStack()
     }
 
     /**
@@ -105,6 +117,18 @@ fun image_player_(
              */
             topBar = {
                 small_top_bar(
+                    navigatorIcon = {
+                        IconButton(onClick = {
+                            FirebaseTracking.log(FirebaseLogEvent.Image_Player_Click_Back)
+                            navigator.popBackStack()
+                        }) {
+                            Icon(
+                                Icons.Filled.ArrowBack,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    },
                     navigator = navigator,
                     title = stringResource(id = R.string.cast_image)
                 )

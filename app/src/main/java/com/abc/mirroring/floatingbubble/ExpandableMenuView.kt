@@ -7,7 +7,7 @@ import android.view.WindowManager
 import com.abc.mirroring.helper.logIfError
 import com.abc.mirroring.helper.onComplete
 
-class ExpandableMenuView(
+class  ExpandableMenuView(
     private val builder: BuilderMenu,
 ) : BaseFloatingView(builder.context) {
 

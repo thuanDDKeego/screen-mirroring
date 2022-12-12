@@ -31,6 +31,7 @@ import com.abc.mirroring.ui.policy.PolicyActivity
 import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import kotlinx.coroutines.*
 
@@ -84,15 +85,19 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initActions() {
         binding.btnBuyPremium.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Subscription)
             PremiumActivity.gotoActivity(this@SettingActivity)
         }
         binding.llBanner.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Xmas_Banner)
             PremiumActivity.gotoActivity(this@SettingActivity)
         }
         binding.llHelp.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Help)
             TutorialActivity.gotoActivity(this@SettingActivity)
         }
         binding.switchOnOffPinCode.setOnCheckedChangeListener { _, isChecked ->
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Pin_Switch)
             AppPreferences().isTurnOnPinCode = isChecked
             HomeActivity.isStreamingBrowser.value = false
             isTurnOnPinCode.value = isChecked
@@ -104,6 +109,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llChangePinCode.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Change_Pin_Code)
             if (AppPreferences().isTurnOnPinCode == true) {
                 val dialog =
                     LayoutDialogChangePinCodeBinding.inflate(layoutInflater, binding.root, true)
@@ -168,6 +174,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
 
         binding.llRate.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Rate)
             dialogCenter.showDialog(DialogCenter.DialogType.Rating(false) { star ->
                 if (star <= 3) {
                     FeedbackActivity.start(this, star)
@@ -184,12 +191,15 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 //            }
         }
         binding.llLanguage.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Language)
             startActivity(SelectLanguageActivity.newIntent(this))
         }
         binding.llFeedback.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Feedback)
             FeedbackActivity.start(this)
         }
         binding.llInviteFriendItem.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Invite_Friends)
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(
@@ -203,10 +213,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             startActivity(shareIntent)
         }
         binding.llPolicy.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Policy)
             PolicyActivity.gotoActivity(this@SettingActivity)
         }
         binding.btnBack.setOnClickListener {
-            onBackPressed()
+
+            finish()
         }
     }
 

@@ -4,7 +4,9 @@ import AdType
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.net.NetworkRequest
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
@@ -19,6 +21,7 @@ import com.abc.mirroring.databinding.ActivityDeviceMirrorBinding
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.abc.mirroring.utils.Global
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,7 +78,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         super.onResume()
         observerWifiState(object : onWifiChangeStateConnection {
             override fun onWifiUnavailable() {
-                    setupCheckWifiConnectView(false)
+                setupCheckWifiConnectView(false)
             }
 
             override fun onWifiAvailable() {
@@ -85,7 +88,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     }
 
     override fun initAdmob() {
-        if(AppConfigRemote().turnOnTopNativeDeviceMirror == true && AppPreferences().isPremiumSubscribed == false) {
+        if (AppConfigRemote().turnOnTopNativeDeviceMirror == true && AppPreferences().isPremiumSubscribed == false) {
             binding.containerAd.visibility = View.VISIBLE
             admobHelper.showNativeAdmob(
                 this@DeviceMirrorActivity,
@@ -101,6 +104,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
     override fun initActions() {
         binding.apply {
             btnSelectDevice.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Mirror_to_Tv_Click_Select_Device)
                 AppOpenManager.instance?.disableAddWithActivity(DeviceMirrorActivity::class.java)
                 selectDeviceMirror()
             }
@@ -223,6 +227,9 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
 
     override fun onBackPressed() {
         val returnIntent = Intent()
+        FirebaseTracking.log(
+            FirebaseLogEvent.Mirror_to_Tv_Click_Back
+        )
         returnIntent.putExtra(HomeActivity.SHOW_RATING_DIALOG, true)
         setResult(RESULT_OK, returnIntent)
         super.onBackPressed()

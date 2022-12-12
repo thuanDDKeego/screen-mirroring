@@ -2,6 +2,7 @@ package com.abc.mirroring.cast.screen.cast.image
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,8 @@ import com.abc.mirroring.cast.setup.graphs.ImageNavGraph
 import com.abc.mirroring.cast.shared.Permissionary
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.destinations.image_player_Destination
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
@@ -55,7 +58,7 @@ fun image_picker_(
     /**
      * TODO: UI Wifi checking and loadings the devices
      */
-    val context = LocalContext.current
+    val context = LocalContext.current as Activity
 
     Permissionary.require(Permissionary.getPermission(MediaType.Image)) {
         if (it) vm.fetch(context, ImageParameter(source = SourceType.Internal))
@@ -63,6 +66,11 @@ fun image_picker_(
 
     // initial state
     val device by main.caster.device().collectAsState()
+
+    BackHandler {
+        FirebaseTracking.log(FirebaseLogEvent.Image_Picker_Click_Back)
+        context.finish()
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -75,6 +83,7 @@ fun image_picker_(
                     title = stringResource(id = R.string.cast_image),
                     navigatorIcon = {
                         IconButton(onClick = {
+                            FirebaseTracking.log(FirebaseLogEvent.Image_Picker_Click_Back)
                             (context as Activity).finish()
                         }) {
                             Icon(

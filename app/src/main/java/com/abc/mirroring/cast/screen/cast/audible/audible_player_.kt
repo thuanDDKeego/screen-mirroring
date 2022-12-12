@@ -72,15 +72,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.extentions.SofiBinding
-import dev.sofi.extentions.SofiComponent
-import dev.sofi.extentions.SofiScreen
-import kotlinx.coroutines.launch
+import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.LocalState
-import com.abc.mirroring.R
 import com.abc.mirroring.cast.section.Audible
 import com.abc.mirroring.cast.section.MediaPicker
 import com.abc.mirroring.cast.section.MediaType
@@ -94,6 +88,14 @@ import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.cast.shared.utils.FileUtils
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import dev.sofi.extentions.SofiBinding
+import dev.sofi.extentions.SofiComponent
+import dev.sofi.extentions.SofiScreen
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -203,7 +205,10 @@ fun audible_player_(
                             ) {
 
                                 Text(
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                    modifier = Modifier.padding(
+                                        horizontal = 16.dp,
+                                        vertical = 8.dp
+                                    ),
                                     text = state.current?.name() ?: "",
                                     fontSize = 18.sp
                                 )
@@ -260,7 +265,8 @@ fun audible_player_(
 @SofiComponent(private = true, useFor = ["audible_player_"])
 @Composable
 private fun _thumbnail_part(modifier: Modifier = Modifier) {
-    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState()).collectAsState()
+    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState())
+        .collectAsState()
     if (state.current == null) return
 
     val streamable = state.current!!
@@ -284,7 +290,10 @@ private fun _thumbnail_part(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(modifier = Modifier.background(Color.White), text = "Your media is playing on the TV Screen")
+            Text(
+                modifier = Modifier.background(Color.White),
+                text = "Your media is playing on the TV Screen"
+            )
         }
     }
 }
@@ -360,7 +369,8 @@ private fun _player_button(image: ImageVector, title: String, onClick: () -> Uni
 private fun _volume_part(
     onControl: (Command, (Any?) -> Unit) -> Unit = { _, _ -> }
 ) {
-    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState()).collectAsState()
+    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState())
+        .collectAsState()
 
     Row(
         modifier = Modifier
@@ -370,7 +380,10 @@ private fun _volume_part(
             .padding(vertical = 4.dp, horizontal = 32.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(onClick = { onControl(Command.VolumeDown) {} }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Video_Click_Volume_Down)
+            onControl(Command.VolumeDown) {}
+        }) {
             Icon(
                 modifier = Modifier.size(32.dp),
                 imageVector = Icons.Rounded.Remove,
@@ -378,7 +391,10 @@ private fun _volume_part(
                 tint = DarkGrayBg
             )
         }
-        IconButton(onClick = { onControl(Command.Mute) {} }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Video_Click_Volume_Mute)
+            onControl(Command.Mute) {}
+        }) {
             if (state.isMute) {
                 Icon(
                     modifier = Modifier.size(32.dp),
@@ -395,7 +411,11 @@ private fun _volume_part(
                 )
             }
         }
-        IconButton(onClick = { onControl(Command.VolumeUp) {} }) {
+        IconButton(onClick = {
+            FirebaseTracking.log(FirebaseLogEvent.Video_Click_Volume_Up)
+            onControl(Command.VolumeUp) {}
+        }
+        ) {
             Icon(
                 modifier = Modifier.size(32.dp),
                 imageVector = Icons.Rounded.Add,
@@ -416,7 +436,8 @@ private fun _controller_part(
     onControl: (Command, (Any?) -> Unit) -> Unit = { _, _ -> },
     onPlaylist: () -> Unit = {}
 ) {
-    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState()).collectAsState()
+    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState())
+        .collectAsState()
     val position = state.mPosition
 
     /* thuộc tính duration của internal và youtube đang chính xác, nên chỉ có các file external còn lại
@@ -494,7 +515,10 @@ private fun _controller_part(
                     .weight(1f),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                IconButton(onClick = { onControl(Command.Previous) {} }) {
+                IconButton(onClick = {
+                    FirebaseTracking.log(FirebaseLogEvent.Video_Click_Previous)
+                    onControl(Command.Previous) {}
+                }) {
                     Icon(
                         modifier = Modifier.size(36.dp),
                         imageVector = Icons.Rounded.SkipPrevious,
@@ -502,8 +526,16 @@ private fun _controller_part(
                         tint = DarkGrayBg
                     )
                 }
-                IconButton(onClick = { if (state.isPlaying) onControl(Command.Pause) {} else onControl(
-                    Command.Play) {} }) {
+                IconButton(onClick = {
+                    FirebaseTracking.log(FirebaseLogEvent.Video_Click_Play)
+                    if (state.isPlaying) {
+                        onControl(Command.Pause) {}
+                    } else {
+                        onControl(
+                            Command.Play
+                        ) {}
+                    }
+                }) {
                     Icon(
                         modifier = Modifier.size(48.dp),
                         imageVector = if (state.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayCircle,
@@ -519,7 +551,10 @@ private fun _controller_part(
 //                        tint = DarkGrayBg
 //                    )
 //                }
-                IconButton(onClick = { onControl(Command.Next) {} }) {
+                IconButton(onClick = {
+                    FirebaseTracking.log(FirebaseLogEvent.Video_Click_Next)
+                    onControl(Command.Next) {}
+                }) {
                     Icon(
                         modifier = Modifier.size(36.dp),
                         imageVector = Icons.Rounded.SkipNext,
@@ -529,7 +564,10 @@ private fun _controller_part(
                 }
             }
 
-            IconButton(onClick = { onPlaylist() }) {
+            IconButton(onClick = {
+                FirebaseTracking.log(FirebaseLogEvent.Video_Click_Playlist)
+                onPlaylist()
+            }) {
                 Icon(
                     modifier = Modifier.size(36.dp),
                     imageVector = Icons.Filled.PlaylistAdd,
@@ -550,7 +588,8 @@ private fun _playlist_bottom_dialog(
     onClick: (Streamable) -> Unit = {}
 ) {
 
-    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState()).collectAsState()
+    val state by LocalState.current.stateOrPreview(AudibleVimel.AudibleVimelState())
+        .collectAsState()
     val scope = rememberCoroutineScope()
 //    fix later
 //    val scrollState = LazyListState(state.index)
