@@ -251,6 +251,7 @@ open class FloatToolService : Service() {
 
                 override fun onClick() {
                     Timber.d("onClick")
+                    FirebaseTracking.log(FirebaseLogEvent.Floating_Tool_Click_itself)
                     updateExpandMenuView()
                     action.navigateToExpandableView()
                 }
