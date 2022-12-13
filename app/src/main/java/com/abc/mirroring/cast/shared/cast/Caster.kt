@@ -18,7 +18,6 @@ import io.ktor.application.install
 import io.ktor.features.AutoHeadResponse
 import io.ktor.features.CORS
 import io.ktor.features.PartialContent
-import io.ktor.http.HttpMethod
 import io.ktor.request.httpMethod
 import io.ktor.response.respondFile
 import io.ktor.routing.get
@@ -123,13 +122,28 @@ class Caster(
     }
 
 
+    private fun isSameDevice(device: ConnectableDevice): Boolean {
+        if (currentSession == null) return false;
+        return device.id === currentSession!!.device.id // same id
+                && device.services.contains(currentSession!!.launcher.launchSession.service) //same protocol
+    }
+
     /**
      * Test function
      * Only work for videos only
      * https://connectsdk.com/en/latest/guide-and/and-beam-media.html
      */
     fun cast(device: ConnectableDevice, media: Streamable, onResponse: (SessionPlayer.SessionStatus) -> Unit) {
-        if (isTryingToDisplay) {
+        if (!isSameDevice(device) // user change TV
+            || (currentSession != null && !currentSession!!.device.isConnected)// user disconnect current tV
+        ) {
+            isTryingToDisplay = false
+            currentSession?.clear()
+            currentSession = null
+        }
+
+
+        if (isTryingToDisplay && isSameDevice(device)) {
             onResponse(Error(Throwable("Device is trying to connect to TV, please wait!")))
             return
         }
@@ -181,8 +195,9 @@ class Caster(
                 /**
                  * if this is first time stream, launch it
                  */
-                if (currentSession == null || !device.services.contains(currentSession!!.launcher.launchSession.service)) {
+                if (currentSession == null || !isSameDevice(device)) {
                     currentSession?.clear()
+                    currentSession = null
                     device.getCapability(MediaPlayer::class.java)?.playMedia(mediaInfo, false, listener)
                     return@launch
                 }
