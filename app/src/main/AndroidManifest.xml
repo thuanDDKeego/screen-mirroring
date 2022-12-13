@@ -180,9 +180,6 @@
                 android:name="com.abc.mirroring.cast.setup.startup.FCMOS"
                 android:value="androidx.startup" />
             <meta-data
-                android:name="com.abc.mirroring.cast.setup.startup.ReleaseTree"
-                android:value="androidx.startup" />
-            <meta-data
                 android:name="com.abc.mirroring.cast.setup.startup.TimberOS"
                 android:value="androidx.startup" />
         </provider>

@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        askNotificationPermission()
+//        askNotificationPermission()
         var mediaRoute = intent.getStringExtra(MEDIA_ROUTE)
         if (mediaRoute.isNullOrEmpty()) mediaRoute = MediaRoute.Video.route
         val startRoute = when (mediaRoute) {

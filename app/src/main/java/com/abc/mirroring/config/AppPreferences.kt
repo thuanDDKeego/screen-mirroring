@@ -13,4 +13,5 @@ class AppPreferences : Preferences(name = "app_preferences") {
     var isRated  by booleanPref(defaultValue = false)
     var countTimeOpenApp by intPref(defaultValue = 0)
     var countAdsClosed by intPref(defaultValue = 0)
+    var countReadMediaPermissionRequested by intPref(defaultValue = 0)
 }

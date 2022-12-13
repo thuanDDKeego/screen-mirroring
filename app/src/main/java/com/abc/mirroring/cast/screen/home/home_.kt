@@ -1,4 +1,4 @@
-package com.abc.mirroring.home
+package com.abc.mirroring.cast.screen.home
 
 import android.annotation.SuppressLint
 import android.app.Activity

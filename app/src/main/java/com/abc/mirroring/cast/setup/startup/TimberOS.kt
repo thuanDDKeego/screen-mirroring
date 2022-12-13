@@ -28,7 +28,7 @@ class TimberOS : Initializer<Unit> {
             Timber.d("Timber is initialized.")
 
         } else {
-            Timber.plant(ReleaseTree())
+//            Timber.plant(ReleaseTree())
         }
     }
 

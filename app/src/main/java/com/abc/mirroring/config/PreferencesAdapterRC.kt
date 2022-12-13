@@ -19,8 +19,8 @@ abstract class PreferencesAdapterRC(name: String? = null, private val devMode: B
             fetchAndActivate().addOnCompleteListener {
                 if (it.isSuccessful) {
                     val updated = it.result
-                    Timber.d("Config params updated: $updated")
-                    Timber.d("Config params updated: ${remoteConfig.all}")
+//                    Timber.d("Config params updated: $updated")
+//                    Timber.d("Config params updated: ${remoteConfig.all}")
                     syncRemoteConfigToPreferences()
                 }
             }
@@ -63,7 +63,7 @@ abstract class PreferencesAdapterRC(name: String? = null, private val devMode: B
         }
 
 
-        Timber.d(AppPreferences().toString())
+//        Timber.d(AppPreferences().toString())
     } catch (e: Exception) {
     }
 }

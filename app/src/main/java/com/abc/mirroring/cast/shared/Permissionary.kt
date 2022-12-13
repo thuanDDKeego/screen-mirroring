@@ -12,21 +12,20 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import com.abc.mirroring.cast.section.MediaType
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import dev.sofi.extentions.SofiComponent
-import com.abc.mirroring.cast.section.MediaType
 
 
 @Suppress("SpellCheckingInspection")
@@ -71,44 +70,64 @@ class Permissionary {
 
             val visibility = remember { mutableStateOf(false) }
 
-            if (permissionState.status.isGranted) {
-                // if granted, keep the screen going
-                callback(true)
-                return
-            }
+            val lifecycleOwner = LocalLifecycleOwner.current
 
-            if (!permissionState.status.shouldShowRationale) {
-                SideEffect {
-                    permissionState.launchPermissionRequest()
+            DisposableEffect(key1 = lifecycleOwner, effect = {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_START)
+                        permissionState.launchPermissionRequest()
+                }
+                lifecycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(observer)
+                }
+            })
+
+            when {
+                permissionState.status.isGranted -> {
+                    /* Permission has been granted by the user.
+                       Hence getting the current lat, lang.
+                    */
+                    callback(true)
+                }
+
+                permissionState.status.shouldShowRationale -> {
+                    /* Happens if a user denies the permission two times.
+                       Hence needs to show why permission is required.
+                       On action button click request permission.
+                     */
+                    _permission_dialog(
+                        visibility = visibility.apply { value = true },
+                        description = "Read media permission required for this feature to be available. " +
+                                "Please grant the permission",
+                        confirmAs = "Grant",
+                        onConfirm = { permissionState.launchPermissionRequest() },
+                    )
+                }
+
+                !permissionState.status.isGranted && !permissionState.status.shouldShowRationale -> {
+                    /* If the permission is denied and the should not show rationale
+                       Hence we can only allow the permission manually through app settings.
+                       On action button click go to settings page
+                     */
+                    _permission_dialog(
+                        visibility = visibility.apply { value = true },
+                        description = """
+                        Read media permission required for this feature to be available. Please grant the permission!
+                        Thank you!
+                        """.trimIndent(),
+                        confirmAs = "Go to Setting",
+                        onConfirm = {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            intent.data = Uri.fromParts("package", context.packageName, null)
+                            context.startActivity(intent)
+                        },
+                    )
                 }
             }
 
-            if (permissionState.status.shouldShowRationale) {
-                _permission_dialog(
-                    visibility = visibility.apply { value = true },
-                    description = "Read media permission required for this feature to be available. " +
-                            "Please grant the permission",
-                    confirmAs = "Grant",
-                    onConfirm = { permissionState.launchPermissionRequest() },
-                )
-            } else {
-                _permission_dialog(
-                    visibility = visibility.apply { value = true },
-                    description = """
-                        Read media permission required for this feature to be available. Please grant the permission!
-                        But, you have unintentionally denied access multiple times. *sad*
-                        To grant permission to the app again, we need you to manually grant permission in the app's settings.
-                        Thank you!
-                        """.trimIndent(),
-                    confirmAs = "Go to Setting",
-                    onConfirm = {
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.data = Uri.fromParts("package", context.packageName, null)
-                        context.startActivity(intent)
-                    },
-                )
-            }
         }
 
         private fun checkPermission(context: Context, mediaType: MediaType): Boolean {
