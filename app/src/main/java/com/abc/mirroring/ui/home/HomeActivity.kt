@@ -145,6 +145,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
             binding.imgSaleOffFab.visibility = View.GONE
+            binding.imgSaleOffFab.isClosed = true
+            binding.imgSaleOffFab.clearAnimation()
             shakeAnimJob?.cancel()
             shakeAnimJob = null
         } else {

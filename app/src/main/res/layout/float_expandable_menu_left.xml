@@ -63,7 +63,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="12dp"
         android:elevation="1dp"
-        android:src="@drawable/ic_float_home"
+        android:src="@drawable/ic_float_snapshot"
         app:layout_constraintStart_toStartOf="@+id/btnBubble"
         app:layout_constraintTop_toBottomOf="@+id/btnBubble" />
 

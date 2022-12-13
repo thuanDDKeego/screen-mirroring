@@ -16,11 +16,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.abc.mirroring.R
+import dev.sofi.ads.AdCenter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun guideline_(
 ) {
+    val ads = AdCenter.getInstance()
     val items = listOf(
         GuildelineData(
             "1. Make sure your phone and TV are connected to the same Wi-Fi network",
@@ -51,12 +53,12 @@ fun guideline_(
                 .fillMaxSize()
         ) {
 
-            LazyColumn {
+            LazyColumn(modifier = Modifier.weight(1f)) {
                 items(items.size, key = { items[it].title }) {
                     _guideline_item(items[it])
                 }
             }
-
+            ads.native?.small()
         }
     }
 }
