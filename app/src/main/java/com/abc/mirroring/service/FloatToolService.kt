@@ -321,12 +321,13 @@ open class FloatToolService : Service() {
                 }
                 btnHome.setOnClickListener {
                   FirebaseTracking.log(FirebaseLogEvent.Floating_Tool_Click_Home)
-                  AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
-                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    AppOpenManager.instance?.currentActivity?.finish()
+//                  AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+//                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                    startActivity(intent)
+//                    AppOpenManager.instance?.currentActivity?.finish()
+                    Toast.makeText(context, "Snapshot feature is coming soon!", Toast.LENGTH_SHORT).show()
                     action.popToBubble()
                 }
             }
@@ -340,11 +341,13 @@ open class FloatToolService : Service() {
                 btnCamera.setOnClickListener { action.onCameraPreview() }
                 btnHome.setOnClickListener {
                     AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
-                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    AppOpenManager.instance?.currentActivity?.finish()
+//                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                    startActivity(intent)
+//                    AppOpenManager.instance?.currentActivity?.finish()
+                    Toast.makeText(context, "Snapshot feature is coming soon!", Toast.LENGTH_SHORT).show()
+
                     action.popToBubble()
                 }
             }
