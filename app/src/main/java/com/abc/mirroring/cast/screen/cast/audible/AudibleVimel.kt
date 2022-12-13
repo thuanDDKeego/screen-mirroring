@@ -7,11 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.connectsdk.service.capability.MediaControl
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import com.abc.mirroring.cast.State
 import com.abc.mirroring.cast.VimelStateHolder
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel.ImageVimelState
@@ -22,6 +17,11 @@ import com.abc.mirroring.cast.section.Streamable
 import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.cast.SessionPlayer
+import com.connectsdk.service.capability.MediaControl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -183,7 +183,8 @@ class AudibleVimel @Inject constructor(
         update { state ->
             state.copy(
                 volume = player.volume.current.value ?: 0f,
-                isMute = player.volume.mute.value
+                isMute = player.volume.mute.value,
+                mPosition = 0
             )
         }
 
