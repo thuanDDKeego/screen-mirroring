@@ -570,7 +570,7 @@ class DialogCenter(private val activity: Activity) {
 //                Toast.LENGTH_LONG
 //            ).show()
             val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-            intent.data = Uri.fromParts("package", activity.packageName, null)
+//            intent.data = Uri.fromParts("package", activity.packageName, null)
             activity.startActivity(intent)
 //            Toast.makeText(
 //                activity.applicationContext,
