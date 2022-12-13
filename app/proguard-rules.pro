@@ -108,3 +108,13 @@
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
 -dontwarn com.squareup.okhttp.**
+
+-keep class com.connectsdk.**       { * ; }
+-keep class sun.**       { * ; }
+-keep class org.slf4j.**       { * ; }
+-keep class org.openjsse.**       { * ; }
+-keep class org.chromium.**       { * ; }
+-keep class org.bouncycastle.**       { * ; }
+-keep class javax.**       { * ; }
+-keep class java.**       { * ; }
+-keep class com.amazon.**       { * ; }
