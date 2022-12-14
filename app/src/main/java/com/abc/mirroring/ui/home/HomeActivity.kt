@@ -50,7 +50,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
-    private lateinit var goToMirrorActivityResult: ActivityResultLauncher<Intent>
+    private lateinit var goToActivityAndReceptShowDialogRateResult: ActivityResultLauncher<Intent>
     private lateinit var dialogCenter: DialogCenter
     private var shakeAnimJob: Job? = null
 
@@ -235,11 +235,11 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             }
         }
 
-        goToMirrorActivityResult =
+        goToActivityAndReceptShowDialogRateResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 val result = activityResult.resultCode
                 val data = activityResult.data
-                if (result == RESULT_OK && data != null && AppPreferences().isRated == false) {
+                if (result == RESULT_OK && data != null && AppPreferences().isRated == false && AppPreferences().countSatisfied!! > 1) {
                     val isShowRating = data.getBooleanExtra(SHOW_RATING_DIALOG, false)
                     if (isShowRating) dialogCenter.showDialog(DialogCenter.DialogType.Rating { star ->
                         if (star <= 3) {
@@ -277,10 +277,10 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                     this@HomeActivity,
                 ) {
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
-                    goToMirrorActivityResult.launch(intent)
+                    goToActivityAndReceptShowDialogRateResult.launch(intent)
                 }
             } else {
-                goToMirrorActivityResult.launch(intent)
+                goToActivityAndReceptShowDialogRateResult.launch(intent)
             }
         }
         binding.imgSetting.setOnClickListener {
@@ -388,10 +388,10 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
             admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
                 dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
-                startActivity(intent)
+                goToActivityAndReceptShowDialogRateResult.launch(intent)
             }
         } else {
-            startActivity(intent)
+            goToActivityAndReceptShowDialogRateResult.launch(intent)
         }
     }
 

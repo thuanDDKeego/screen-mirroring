@@ -2,19 +2,17 @@ package com.abc.mirroring.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.abc.mirroring.R
-import com.abc.mirroring.ui.home.HomeActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 
 class FirebaseMessageReceiver : FirebaseMessagingService() {
     private val NOTIFICATION_CHANNEL = "notification_channel"
+
     // Override onMessageReceived() method to extract the
     // title and
     // body from the message passed in FCM

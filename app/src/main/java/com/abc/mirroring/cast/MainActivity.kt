@@ -1,6 +1,7 @@
 package com.abc.mirroring.cast
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -25,6 +26,9 @@ import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.web_cast_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
+import com.abc.mirroring.ui.home.HomeActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -91,7 +95,13 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        DestinationsNavHost(navGraph = NavGraphs.root, engine = engine, navController = navController, startRoute = startRoute, dependenciesContainerBuilder = dependencies())
+                        DestinationsNavHost(
+                            navGraph = NavGraphs.root,
+                            engine = engine,
+                            navController = navController,
+                            startRoute = startRoute,
+                            dependenciesContainerBuilder = dependencies()
+                        )
                     }
                 }
             }
@@ -159,5 +169,12 @@ class MainActivity : ComponentActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+    }
+
+    override fun finish() {
+        val returnIntent = Intent()
+        returnIntent.putExtra(HomeActivity.SHOW_RATING_DIALOG, true)
+        setResult(RESULT_OK, returnIntent)
+        super.finish()
     }
 }
