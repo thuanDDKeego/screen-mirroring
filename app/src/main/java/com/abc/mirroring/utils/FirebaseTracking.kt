@@ -108,7 +108,7 @@ object FirebaseLogEvent {
     const val Home_Click_Image="Home_Click_Image"
     const val Home_Click_Audio="Home_Click_Audio"
     const val Home_Click_Web_Cast="Home_Click_WebCast"
-    const val Home_Click_Video="Home_ClickVideo"
+    const val Home_Click_Video="Home_Click_Video"
     const val Home_Click_Drive="Home_Click_Drive"
     const val Home_Click_Premium="Home_Click_Premium"
     const val Home_Click_Connect_Devices="Home_Click_ConnectDevices"
