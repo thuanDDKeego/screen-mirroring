@@ -52,6 +52,7 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.premium_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -111,8 +112,8 @@ fun small_top_bar(
                 }
 
                 IconButton(onClick = {
-                    FirebaseTracking.logHomeIconHelpClicked()
-                    TutorialActivity.gotoActivity(context as Activity)
+                    FirebaseTracking.log(FirebaseLogEvent.SmallTopBar_Click_Tutorial)
+                    TutorialActivity.gotoActivity(context)
                 }){
                     Image(
                         imageVector = Icons.Filled.Help,
