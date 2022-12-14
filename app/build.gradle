@@ -50,8 +50,8 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-        versionCode 21
-        versionName "2.0.8"
+        versionCode 22
+        versionName "2.0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         resConfigs "en", "US"
@@ -273,6 +273,7 @@ dependencies {
     implementation("androidx.startup:startup-runtime:1.1.1")
 
     implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
 
 }
 kapt {

@@ -41,6 +41,8 @@ import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -123,6 +125,23 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         binding.imgBtnConnect.startAnimation(animFade)
 
         //shake img crown
+
+        listOf<View>(
+            binding.llVideo,
+            binding.llImage,
+            binding.llAudio,
+            binding.llYoutube,
+            binding.llWebCast,
+            binding.llDrive,
+            binding.llOnlineImage,
+            binding.llIpTv,
+            binding.llGooglePhotos,
+        ).forEachIndexed { index, view ->
+            YoYo.with(Techniques.Pulse)
+                .delay((index + 1) * 200L)
+                .duration(800)
+                .playOn(view);
+        }
     }
 
     private fun initAds() {
@@ -144,6 +163,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
+            binding.imgPremium.clearAnimation()
             binding.imgSaleOffFab.visibility = View.GONE
             binding.imgSaleOffFab.isClosed = true
             binding.imgSaleOffFab.clearAnimation()
