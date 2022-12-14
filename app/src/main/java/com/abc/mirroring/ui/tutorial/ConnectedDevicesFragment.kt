@@ -33,6 +33,7 @@ class ConnectedDevicesFragment : BaseFragment<FragmentConnectedDevicesBinding>()
     }
 
     override fun initActions() {
+
     }
 
     override fun showAds() {

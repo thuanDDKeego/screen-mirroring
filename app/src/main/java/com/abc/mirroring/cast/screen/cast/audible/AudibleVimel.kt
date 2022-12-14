@@ -17,6 +17,7 @@ import com.abc.mirroring.cast.section.Streamable
 import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.cast.Command
 import com.abc.mirroring.cast.shared.cast.SessionPlayer
+import com.abc.mirroring.config.AppPreferences
 import com.connectsdk.service.capability.MediaControl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -79,7 +80,13 @@ class AudibleVimel @Inject constructor(
 
             is SessionPlayer.SessionStatus.Error -> {
                 Timber.e(it.error.stackTraceToString())
-                it.error.message?.let { message -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
+                it.error.message?.let { message ->
+                    Toast.makeText(
+                        context,
+                        message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 if (!caster.isConnected()) {
                     caster.discovery.picker(context as Activity)
                 }
@@ -147,7 +154,9 @@ class AudibleVimel @Inject constructor(
         // TODO get state change it
         when (command) {
             is Command.Next -> moveTo(index.inc().run { if (this >= playlists.size) 0 else this })
-            is Command.Previous -> moveTo(index.dec().run { if (this < 0) playlists.size else this })
+            is Command.Previous -> moveTo(
+                index.dec().run { if (this < 0) playlists.size else this })
+
             is Command.Mute -> sPlayer?.volume?.mute(!state.value.isMute)
             is Command.Pause, Command.Play -> {
                 if (state.value.isPlaying) {
@@ -195,7 +204,10 @@ class AudibleVimel @Inject constructor(
                     it?.let {
                         update { state -> state.copy(isPlaying = it == MediaControl.PlayStateStatus.Playing) }
 
-                        if (!state.value.isFinished) update { state -> state.copy(isFinished = it == MediaControl.PlayStateStatus.Finished) }
+                        if (!state.value.isFinished) {
+                            AppPreferences().countSatisfied = AppPreferences().countSatisfied!! + 1
+                            update { state -> state.copy(isFinished = it == MediaControl.PlayStateStatus.Finished) }
+                        }
                     }
 
                 }
