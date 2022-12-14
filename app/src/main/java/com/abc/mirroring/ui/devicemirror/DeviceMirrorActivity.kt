@@ -114,7 +114,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             btnBack.setOnClickListener { onBackPressed() }
         }
         binding.imgHelp.setOnClickListener {
-            FirebaseTracking.logHomeIconHelpClicked()
+            FirebaseTracking.log(FirebaseLogEvent.MirrorSelectDevice_Click_Tutorial)
             TutorialActivity.gotoActivity(this@DeviceMirrorActivity)
         }
         binding.imgBattery.setOnClickListener {

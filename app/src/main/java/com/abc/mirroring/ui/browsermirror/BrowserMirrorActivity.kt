@@ -124,7 +124,7 @@ class BrowserMirrorActivity : PermissionActivity<ActivityBrowserMirrorBinding>()
       onBackPressed()
     }
     binding.imgHelp.setOnClickListener {
-      FirebaseTracking.logHomeIconHelpClicked()
+      FirebaseTracking.log(FirebaseLogEvent.BrowserMirror_Click_Tutorial)
       TutorialActivity.gotoActivity(this@BrowserMirrorActivity)
     }
     binding.imgBattery.setOnClickListener {
