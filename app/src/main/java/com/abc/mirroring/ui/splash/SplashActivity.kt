@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
@@ -19,8 +18,10 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -39,6 +40,7 @@ class SplashActivity : AppCompatActivity() {
     private val TIME_DISPLAY_ONBOARD = 3000L
     private var jobTimeOutOpenApp: Job? = null
     private var showOpenAds = true
+
 
     //    private var jobTimeOut: Job? = null
     private var jobLoadAd: Job? = null
@@ -229,23 +231,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkForUpdateAvailability() {
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
 
-// Returns an intent object that you use to check for an update.
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-
-// Checks that the platform will allow the specified type of update.
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                // This example applies an immediate update. To apply a flexible update
-                // instead, pass in AppUpdateType.FLEXIBLE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-            ) {
-                // Request the update.
-            }
-        }
-    }
 
 
     private fun goToHome() {
@@ -255,6 +241,10 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
     }
+
+    // Checks that the update is not stalled during 'onResume()'.
+// However, you should execute this check at all entry points into the app.
+
 
     override fun onDestroy() {
         super.onDestroy()
