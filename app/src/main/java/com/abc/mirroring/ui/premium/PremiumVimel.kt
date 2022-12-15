@@ -29,9 +29,9 @@ class PremiumVimel @Inject constructor() :
             - life-time - sale 50%
             - yearly - best option
          */
-        var monthlySubscription: ProductPurchase = ProductPurchase("", "", "0 $"),
-        var yearlySubscription: ProductPurchase = ProductPurchase("", "", "0 $"),
-        var oneTimePayment: ProductPurchase = ProductPurchase("", "", "0 $"),
+        var monthlySubscription: ProductPurchase = ProductPurchase("", "", 0L, "$"),
+        var yearlySubscription: ProductPurchase = ProductPurchase("", "", 0L, "$"),
+        var oneTimePayment: ProductPurchase = ProductPurchase("", "", 0L, "$"),
     ) : State
 
     private lateinit var billingConnection: BillingConnection
@@ -45,6 +45,7 @@ class PremiumVimel @Inject constructor() :
         billingConnection.getProductPurchases(context) { products ->
             if (products.isNotEmpty()) {
                 var freeTrialProduct: ProductPurchase? = null
+                if(products.isNullOrEmpty()) return@getProductPurchases
                 products.forEach { product ->
                     //check if the product is in-app product (onetime)
                     if (product.id == BillingConnection.PRODUCT_ID) {
@@ -63,7 +64,11 @@ class PremiumVimel @Inject constructor() :
                         }
                     }
                 }
-                update { state -> state.copy(yearlySubscription = freeTrialProduct?:ProductPurchase("", "", "0$")) }
+                update { state ->
+                    state.copy(
+                        yearlySubscription = freeTrialProduct ?: ProductPurchase("", "",0L, "$")
+                    )
+                }
             }
         }
     }

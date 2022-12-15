@@ -187,14 +187,15 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     // if type is subscription, get subscriptionOfferDetails to get offer token and prices
                     prod.subscriptionOfferDetails?.let { subsOffers ->
                         subsOffers.forEach { subsOffer ->
-                            subsOffer.pricingPhases.pricingPhaseList.last().formattedPrice.let { price ->
+                            subsOffer.pricingPhases.pricingPhaseList.last().let { pricingPhase->
                                 Timber.d("offer id: ${subsOffer.offerId}")
                                 if (subsOffer.basePlanId != YEARLY_BASE_PLAN_ID) {
                                     subscriptions.add(
                                         ProductPurchase(
                                             id = prod.productId,
                                             title = prod.name,
-                                            price = price,
+                                            price = pricingPhase.priceAmountMicros,
+                                            formatPrice = pricingPhase.priceCurrencyCode,
 //                                    type = BillingClient.ProductType.SUBS,
                                             basePlanId = subsOffer.basePlanId,
                                             offerToken = subsOffer.offerToken
@@ -206,7 +207,8 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                                             ProductPurchase(
                                                 id = prod.productId,
                                                 title = prod.name,
-                                                price = price,
+                                                price = pricingPhase.priceAmountMicros,
+                                                formatPrice = pricingPhase.priceCurrencyCode,
 //                                    type = BillingClient.ProductType.SUBS,
                                                 offerTags = subsOffer.offerTags,
                                                 basePlanId = subsOffer.basePlanId,
@@ -220,12 +222,13 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     }
                 } else {
                     // if type is subscription, get oneTimePurchaseOfferDetails to get price, hasn't token
-                    prod.oneTimePurchaseOfferDetails?.formattedPrice?.let { price ->
+                    prod.oneTimePurchaseOfferDetails?.let { pricingPhase ->
                         subscriptions.add(
                             ProductPurchase(
                                 id = prod.productId,
                                 title = prod.name,
-                                price = price,
+                                price = pricingPhase.priceAmountMicros,
+                                formatPrice = pricingPhase.priceCurrencyCode,
 //                                    type = BillingClient.ProductType.SUBS,
                                 offerToken = ""
                             )
@@ -306,6 +309,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
             }
         )
     }
+
 
     override fun onDestroy() {
         if (billingClient != null && billingClient?.isReady == true) {

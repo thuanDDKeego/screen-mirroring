@@ -111,7 +111,8 @@ fun premium_(
                         .padding(24.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+                        painter = painterResource(id = R.drawable.ic_crown),
+                        contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth(0.4f)
                             .padding(top = 24.dp),
@@ -251,7 +252,7 @@ fun _sale_off_product_item(product: ProductPurchase, onclick: () -> Unit) {
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = stringResource(id = R.string.sale_50),
+                    text = stringResource(id = R.string.sale_30),
                     color = Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -279,10 +280,19 @@ fun _sale_off_product_item(product: ProductPurchase, onclick: () -> Unit) {
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = "${product.price}/${stringResource(id = R.string.year)}",
+                        text = "${priceToString(product.price, format = product.formatPrice)}/${stringResource(id = R.string.year)}",
                         color = Color.White,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = priceToString(
+                            getInitialPrice(product.price, discount = 0.3),
+                            format = product.formatPrice
+                        ),
+                        textDecoration = TextDecoration.LineThrough,
+                        color = Color.LightGray,
+                        fontSize = 14.sp,
                     )
                 }
             }
@@ -331,15 +341,31 @@ fun _best_offer_product_item(product: ProductPurchase, onclick: () -> Unit) {
                         fontSize = 14.sp,
                     )
                 }
-                Text(
-                    text = product.price,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .align(CenterEnd)
                         .padding(end = 16.dp)
-                )
+                ) {
+                    Text(
+                        text = priceToString(
+                            getInitialPrice(product.price, discount = 0.5),
+                            format = product.formatPrice
+                        ),
+                        fontSize = 14.sp,
+                        color = Color.DarkGray,
+                        textDecoration = TextDecoration.LineThrough,
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                    )
+                    Text(
+                        text = priceToString(product.price, format = product.formatPrice),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black,
+                        modifier = Modifier
+                    )
+                }
             }
         }
     ) {
@@ -363,7 +389,11 @@ internal fun _normal_product_item(product: ProductPurchase, onClick: () -> Unit)
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = product.price, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = priceToString(product.price, format = product.formatPrice),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
         }
     ) {
@@ -481,6 +511,48 @@ internal fun crown_rotate_image(modifier: Modifier = Modifier) {
                 rotationZ = angle
             })
 }
+
+private val PRICE_UNIT = 1000000L
+internal fun priceToString(price: Long, format: String = "USD"): String {
+    var price = price
+    val priceStr = StringBuilder()
+    //tail is after dot
+    var tail = price % PRICE_UNIT
+    while (tail > 0L && tail % 10 == 0L) tail /= 10
+    if (tail > 0L) priceStr.append(".$tail")
+    price /= PRICE_UNIT
+    var count = 0
+    // if temp
+    if (price == 0L) priceStr.insert(0, "0")
+    //check every each 3 number, we put a ","
+    while (price != 0L) {
+        if (count == 3) {
+            count = 0
+            priceStr.insert(0, ",")
+
+        } else {
+            count++
+        }
+        priceStr.insert(0, price % 10)
+        price /= 10
+    }
+    priceStr.append(format)
+    return priceStr.toString()
+}
+
+internal fun getInitialPrice(price: Long, discount: Double = 0.5): Long {
+    //biến này dùng để kiểm tra giá sẽ có dạng 120000, hay 1.2, hay 2.45 (số làm tròn sau dấu chấm)
+    val numberMustRoundedAfterDot =
+        if (price % PRICE_UNIT == 0L) 1L else if (price % (PRICE_UNIT / 10L) == 0L) 10L else 100L
+    val initialPrice = (price.toDouble() / (1 - discount)).toLong()
+    /* công thức này dùng để làm tròn lên:
+    ex: 120012345678 -> 120012345678 - 345678 + 1000000 = 1200124000000 (làm tròn lên)
+
+    * */
+    if (initialPrice % (PRICE_UNIT / numberMustRoundedAfterDot) != 0L) return initialPrice + PRICE_UNIT / numberMustRoundedAfterDot - initialPrice % (PRICE_UNIT / numberMustRoundedAfterDot)
+    return initialPrice
+}
+
 
 @Preview
 @Composable

@@ -307,5 +307,6 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="online_image">Online Image</string>
     <string name="iptv">IPTV</string>
     <string name="google_photos">Google Photos</string>
+    <string name="sale_30">SALE 30%</string>
 
 </resources>
