@@ -19,6 +19,9 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -225,6 +228,25 @@ class SplashActivity : AppCompatActivity() {
             // Start loading ads here...
         }
     }
+
+    private fun checkForUpdateAvailability() {
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+
+// Returns an intent object that you use to check for an update.
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+// Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                // This example applies an immediate update. To apply a flexible update
+                // instead, pass in AppUpdateType.FLEXIBLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                // Request the update.
+            }
+        }
+    }
+
 
     private fun goToHome() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
