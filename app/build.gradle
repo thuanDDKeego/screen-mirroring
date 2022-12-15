@@ -50,8 +50,8 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-        versionCode 22
-        versionName "2.0.9"
+        versionCode 23
+        versionName "3.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         resConfigs "en", "US"
@@ -274,6 +274,11 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
+
+    // This dependency is downloaded from the Google’s Maven repository.
+    // So, make sure you also include that repository in your project's build.gradle file.
+    // For Kotlin users also import the Kotlin extensions library for Play In-App Update:
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
 }
 kapt {

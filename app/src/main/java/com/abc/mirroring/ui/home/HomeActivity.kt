@@ -43,6 +43,10 @@ import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -59,6 +63,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     @Inject
     lateinit var caster: Caster
+
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val MY_REQUEST_CODE = 1
 
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(
@@ -84,6 +91,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     override fun initBinding() = ActivityHomeXmasBinding.inflate(layoutInflater)
 
     override fun initViews() {
+        checkForUpdateAvailability()
         dialogCenter = DialogCenter(this)
         dialogCenter.admobHelper = admobHelper
         initAds()
@@ -160,6 +168,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     override fun onResume() {
         super.onResume()
+        checkForUpdateStalled()
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
@@ -472,6 +481,64 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     private fun hideBannerAds() {
         binding.containerAd.visibility = View.GONE
+    }
+
+    private fun checkForUpdateAvailability() {
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+
+// Returns an intent object that you use to check for an update.
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+// Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                // This example applies an immediate update. To apply a flexible update
+                // instead, pass in AppUpdateType.FLEXIBLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+//                && appUpdateInfo.updatePriority() >= 4 /* high priority */
+            ) {
+                // Request an immediate update.
+                appUpdateManager.startUpdateFlowForResult(
+                    // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                    appUpdateInfo,
+                    // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                    AppUpdateType.IMMEDIATE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    MY_REQUEST_CODE)
+            }
+        }
+    }
+
+    // Checks that the update is not stalled during 'onResume()'.
+// However, you should execute this check at all entry points into the app.
+    private fun checkForUpdateStalled(){
+        appUpdateManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability()
+                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                ) {
+                    // If an in-app update is already running, resume the update.
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        MY_REQUEST_CODE
+                    )
+                }
+            }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Timber.d("MY_APP", "Update flow failed! Result code: $resultCode")
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+            }
+        }
     }
 
     override fun onStop() {

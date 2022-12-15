@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
@@ -36,6 +35,7 @@ class SplashActivity : AppCompatActivity() {
     private val TIME_DISPLAY_ONBOARD = 3000L
     private var jobTimeOutOpenApp: Job? = null
     private var showOpenAds = true
+
 
     //    private var jobTimeOut: Job? = null
     private var jobLoadAd: Job? = null
@@ -226,6 +226,9 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+
+
+
     private fun goToHome() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
         finish()
@@ -233,6 +236,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
