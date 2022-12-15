@@ -18,11 +18,6 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
-import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -241,9 +236,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
     }
-
-    // Checks that the update is not stalled during 'onResume()'.
-// However, you should execute this check at all entry points into the app.
 
 
     override fun onDestroy() {

@@ -511,6 +511,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         }
     }
 
+    // Checks that the update is not stalled during 'onResume()'.
+// However, you should execute this check at all entry points into the app.
     private fun checkForUpdateStalled(){
         appUpdateManager
             .appUpdateInfo
