@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
+import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.device.ConnectableDeviceListener
@@ -95,7 +97,17 @@ class DeviceDiscovery(
                 mDevice.connect()
             },
             { _ -> TutorialActivity.gotoActivity(context) },
-            { _ -> BrowserMirrorActivity.gotoActivity(context) })
+            { _ ->
+                if(AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
+                    PremiumActivity.gotoActivity(context)
+                    Toast.makeText(context, "you have reached the number of free uses.\n" +
+                            "Please upgrade to continue using this premium feature.", Toast.LENGTH_LONG).show()
+                } else {
+                    AppPreferences().browserMirroringCountUsages = AppPreferences().browserMirroringCountUsages!! + 1
+                    BrowserMirrorActivity.gotoActivity(context)
+
+                }
+            })
         dialog.show()
     }
 

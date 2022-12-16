@@ -121,7 +121,7 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
             dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
         }
         if (AppPreferences().countAdsClosed!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false) {
-            dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
+            dialogCenter.showDialog(DialogCenter.DialogType.AskingForPremium {
             })
         }
     }

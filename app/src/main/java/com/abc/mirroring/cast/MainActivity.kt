@@ -27,8 +27,6 @@ import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.web_cast_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
-import com.abc.mirroring.utils.FirebaseLogEvent
-import com.abc.mirroring.utils.FirebaseTracking
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -108,7 +106,7 @@ class MainActivity : ComponentActivity() {
         }
 
         if (AppPreferences().countAdsClosed!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false) {
-            dialogCenter.showDialog(DialogCenter.DialogType.TooManyAds {
+            dialogCenter.showDialog(DialogCenter.DialogType.AskingForPremium {
             })
         }
     }

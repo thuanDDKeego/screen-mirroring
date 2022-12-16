@@ -4,7 +4,6 @@ import AdType
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -32,7 +31,6 @@ import com.abc.mirroring.databinding.LayoutRateDialogBinding
 import com.abc.mirroring.extentions.fadeInAnimation
 import com.abc.mirroring.extentions.scaleAnimation
 import com.abc.mirroring.helper.requestOverlaysPermission
-import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.home.adapter.TutorialDialogAdapter
 import com.abc.mirroring.ui.premium.PremiumActivity
@@ -250,7 +248,13 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun showBrowserErrorDialog() {
+    private fun showBrowserErrorDialog(
+        label: String?,
+        content: String?,
+        backgroundId: Int,
+        onRewarded: () -> Unit,
+        onRetry: () -> Unit
+    ) {
         if (browserDialogErrorShowing) return
         browserDialogErrorShowing = true
         dialogBrowserErrorBinding =
@@ -260,6 +264,8 @@ class DialogCenter(private val activity: Activity) {
                 true
             )
         dialogBrowserErrorBinding.apply {
+            label?.let { txtTitleDialog.text = it }
+            content?.let { txtContentDialog.text = it }
             txtCancel.setOnClickListener {
                 dismissBrowserErrorDialog()
             }
@@ -268,19 +274,25 @@ class DialogCenter(private val activity: Activity) {
 
             txtRetry.setOnClickListener {
                 dismissBrowserErrorDialog()
-                showBrowserDialog()
+                showBrowserDialog(label, content, backgroundId, onRewarded, onRetry)
             }
+
         }
     }
 
-    private fun dismissTooManyAdsDialog() {
+    private fun dismissAskingForPremium() {
         if (tooManyAdsDialogShowing) {
             view.removeViewAt(view.childCount - 1)
             tooManyAdsDialogShowing = false
         }
     }
 
-    private fun showTooManyAdsDialog(callback: () -> Unit) {
+    private fun showAskingForPremium(
+        label: String? = null,
+        content: String? = null,
+        backgroundLabel: Int = R.drawable.bg_dialog_too_many_ads,
+        callback: () -> Unit
+    ) {
         if (tooManyAdsDialogShowing) return
         tooManyAdsDialogShowing = true
         dialogTooManyAdsBinding =
@@ -291,14 +303,17 @@ class DialogCenter(private val activity: Activity) {
             )
         dialogTooManyAdsBinding.apply {
             btnClose.setOnClickListener {
-                dismissTooManyAdsDialog()
+                dismissAskingForPremium()
                 callback()
             }
+            label?.let { txtTitleDialog.text = label }
+            content?.let { txtContentDialog.text = content }
+            llBackground.background = ContextCompat.getDrawable(activity, backgroundLabel)
             cardDialog.setOnClickListener { }
-            constraintBgTooManyAdsDialog.setOnClickListener { dismissTooManyAdsDialog() }
+            constraintBgTooManyAdsDialog.setOnClickListener { dismissAskingForPremium() }
             btnBuyPremium.setOnClickListener {
                 PremiumActivity.gotoActivity(activity)
-                dismissTooManyAdsDialog()
+                dismissAskingForPremium()
                 callback()
             }
         }
@@ -317,20 +332,35 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun showBrowserDialog() {
+    private fun showBrowserDialog(
+        label: String?,
+        content: String?,
+        backgroundId: Int,
+        onRewarded: () -> Unit,
+        onError: () -> Unit
+    ) {
         if (browserDialogShowing) return
         browserDialogShowing = true
         FirebaseTracking.logHomeBrowserDialogShowed()
         dialogBrowserBinding =
             LayoutDialogBrowserMirrorBinding.inflate(layoutInflater, view, true)
         dialogBrowserBinding.apply {
+            label?.let {
+                txtTitleDialog.visibility = View.VISIBLE
+                txtTitleDialog.text = it
+            }
+            content?.let {
+                txtContentDialog.visibility = View.VISIBLE
+                txtContentDialog.text = it
+            }
+            llBackground.background = ContextCompat.getDrawable(activity, backgroundId)
             txtStartVideoInTime.text = getString(R.string.video_starting_in, "5")
             countDownJob = CoroutineScope(Dispatchers.Main).launch {
                 for (i in 4 downTo 0) {
                     delay(1000L)
                     txtStartVideoInTime.text = getString(R.string.video_starting_in, i.toString())
                     if (i == 0) {
-                        goToRewardAds()
+                        goToRewardAds(onRewarded, onError)
                     }
                 }
             }
@@ -349,12 +379,15 @@ class DialogCenter(private val activity: Activity) {
             txtStartVideoInTime.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Browser_Mirror_Popup_Click_Video_Starting)
                 countDownJob?.cancel()
-                goToRewardAds()
+                goToRewardAds(onRewarded, onError)
             }
         }
     }
 
-    private fun goToRewardAds() {
+    private fun goToRewardAds(
+        onRewarded: () -> Unit,
+        onRetry: () -> Unit
+    ) {
         dialogBrowserBinding.apply {
             txtStartVideoInTime.setTextColor(
                 ContextCompat.getColor(
@@ -369,11 +402,20 @@ class DialogCenter(private val activity: Activity) {
                         activity, AdType.BROWSER_MIRROR_REWARD
                     ) { isSuccess ->
                         if (isSuccess) {
-                            BrowserMirrorActivity.gotoActivity(activity)
+                            AppPreferences().browserMirroringCountUsages =
+                                AppPreferences().browserMirroringCountUsages!! + 1
+                            onRewarded()
                             dismissBrowserDialog()
                         } else {
                             dismissBrowserDialog()
-                            showBrowserErrorDialog()
+                            onRetry()
+//                            showBrowserErrorDialog(
+//                                label,
+//                                content,
+//                                backgroundId,
+//                                onRewarded,
+//                                onRetry
+//                            )
                         }
                     }
                 }
@@ -612,10 +654,23 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> showRatingDialog(type.autoShow, type.onRate)
             is DialogType.LoadingAds -> showLoadingAdsDialog()
-            is DialogType.TooManyAds -> showTooManyAdsDialog(type.callback)
-            is DialogType.Browser -> showBrowserDialog()
+            is DialogType.AskingForPremium -> showAskingForPremium(
+                type.label,
+                type.content,
+                type.backgroundId
+            ) { type.callback }
+
+            is DialogType.RewardAdNotification -> showBrowserDialog(
+                type.label,
+                type.content,
+                type.backgroundId,
+                type.onRewarded,
+                type.onError
+
+            )
+
             is DialogType.StopOptimizeBattery -> showStopOptimizeBatteryDialog()
-            is DialogType.BrowserError -> showLoadingAdsDialog()
+            is DialogType.RewardAdNotificationError -> showLoadingAdsDialog()
             is DialogType.Tutorial -> showTutorialDialog(type.tutorialAdapter)
             is DialogType.ExitApp -> showExitAppDialog()
             is DialogType.AskPermissionOverLay -> showAskPermissionOverlayDialog()
@@ -628,10 +683,10 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> dismissRatingDialog()
             is DialogType.LoadingAds -> dismissLoadingAdDialog()
-            is DialogType.TooManyAds -> dismissTooManyAdsDialog()
-            is DialogType.Browser -> dismissBrowserDialog()
+            is DialogType.AskingForPremium -> dismissAskingForPremium()
+            is DialogType.RewardAdNotification -> dismissBrowserDialog()
             is DialogType.StopOptimizeBattery -> dismissStopOptimizeBatteryDialog()
-            is DialogType.BrowserError -> dismissBrowserErrorDialog()
+            is DialogType.RewardAdNotificationError -> dismissBrowserErrorDialog()
             is DialogType.Tutorial -> dismissTutorialDialog()
             is DialogType.ExitApp -> dismissExitAppDialog()
             is DialogType.AskPermissionOverLay -> dismissAskPermissionOverlayDialog()
@@ -643,11 +698,24 @@ class DialogCenter(private val activity: Activity) {
     sealed interface DialogType {
         data class Rating(val autoShow: Boolean = true, val onRate: (Int) -> Unit) : DialogType
         object LoadingAds : DialogType
-        data class TooManyAds(val callback: () -> Unit) : DialogType
+        data class AskingForPremium(
+            val label: String? = null,
+            val content: String? = null,
+            val backgroundId: Int = R.drawable.bg_dialog_too_many_ads,
+            val callback: () -> Unit
+        ) : DialogType
 
         object StopOptimizeBattery : DialogType
-        object Browser : DialogType
-        object BrowserError : DialogType
+        data class RewardAdNotification(
+            val label: String? = null,
+            val content: String? = null,
+            val backgroundId: Int = R.drawable.bg_dialog_too_many_ads,
+            //invoke when reward success
+            val onRewarded: () -> Unit,
+            val onError: () -> Unit,
+        ) : DialogType
+
+        object RewardAdNotificationError : DialogType
         object LoadingBar : DialogType
         data class Tutorial(val tutorialAdapter: TutorialDialogAdapter) : DialogType
         object ExitApp : DialogType

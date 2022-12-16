@@ -14,4 +14,8 @@ class AppPreferences : Preferences(name = "app_preferences") {
     var countTimeOpenApp by intPref(defaultValue = 0)
     var countAdsClosed by intPref(defaultValue = 0)
     var countSatisfied by intPref(defaultValue = 0)
+
+    var screenMirroringCountUsages by intPref(defaultValue = 0)
+    var browserMirroringCountUsages by intPref(defaultValue = 0)
+    var paintToolCountUsages by intPref(defaultValue = 0)
 }
