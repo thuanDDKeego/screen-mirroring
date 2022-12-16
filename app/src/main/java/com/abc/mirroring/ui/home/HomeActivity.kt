@@ -319,7 +319,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
-                if(AppPreferences().browserMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
+                if (AppPreferences().browserMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
                     dialogCenter.showDialog(
                         DialogCenter.DialogType.AskingForPremium(
                             getString(R.string.subscribe_premium),
@@ -328,7 +328,13 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                         ) {})
                     return@setOnClickListener
                 }
-                dialogCenter.showDialog(DialogCenter.DialogType.Browser)
+                dialogCenter.showDialog(DialogCenter.DialogType.RewardAdNotification(
+                    getString(R.string.browser_mirror_uppercase),
+                    getString(R.string.watch_short_video_to_unlock_browser),
+                    onRewarded = { BrowserMirrorActivity.gotoActivity(this@HomeActivity) }
+                ) {
+                    Toast.makeText(this, getString(R.string.failed_to_unlock_watching_again), Toast.LENGTH_LONG).show()
+                })
             }
         }
     }
@@ -347,7 +353,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                         ) {})
                     return@setOnClickListener
                 }
-                AppPreferences().screenMirroringCountUsages = AppPreferences().screenMirroringCountUsages!! + 1
+                AppPreferences().screenMirroringCountUsages =
+                    AppPreferences().screenMirroringCountUsages!! + 1
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
                 admobHelper.showGeneralAdInterstitial(
                     this@HomeActivity,
@@ -377,7 +384,19 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             }
             llYoutube.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Youtube)
-                goToCast(MediaRoute.Youtube)
+//                goToCast(MediaRoute.Youtube)
+                dialogCenter.showDialog(DialogCenter.DialogType.RewardAdNotification(
+                    label = "",
+                    content = getString(R.string.watch_short_video_to_unlock_youtube),
+                    backgroundId = R.drawable.bg_youtube_dialog,
+                    onRewarded = {
+                        val intent = Intent(this@HomeActivity, MainActivity::class.java)
+                        intent.putExtra(MEDIA_ROUTE, MediaRoute.Youtube.route)
+                        goToActivityAndReceptShowDialogRateResult.launch(intent)
+                    }
+                ) {
+                    Toast.makeText(this@HomeActivity, getString(R.string.failed_to_unlock_watching_again), Toast.LENGTH_LONG).show()
+                })
             }
             llDrive.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Drive)
@@ -492,9 +511,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     override fun onBackPressed() {
         if (dialogCenter.browserDialogShowing) {
-            dialogCenter.dismissDialog(DialogCenter.DialogType.Browser)
+            dialogCenter.dismissDialog(DialogCenter.DialogType.RewardAdNotification(onRewarded = {}) {})
         } else if (dialogCenter.browserDialogErrorShowing) {
-            dialogCenter.dismissDialog(DialogCenter.DialogType.BrowserError)
+            dialogCenter.dismissDialog(DialogCenter.DialogType.RewardAdNotificationError)
         } else if (dialogCenter.tutorialDialogIsShowing) {
         } else if (dialogCenter.mLoadingAdsDialogShowing) {
             dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)

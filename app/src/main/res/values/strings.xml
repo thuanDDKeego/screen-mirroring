@@ -63,7 +63,8 @@
 
     //dialog
     <string name="open_wifi_setting">Open wifi setting</string>
-    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free or upgrade to open life time.</string>
+    <string name="watch_short_video_to_unlock_browser">Watch a short video to unlock Browser mirror for free or upgrade premium to open life time.</string>
+    <string name="watch_short_video_to_unlock_youtube">Watch a short video to unlock Youtube Cast for free or upgrade premium to open life time.</string>
     <string name="close">Close</string>
     <string name="upgrade">Upgrade</string>
 
@@ -310,5 +311,6 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="sale_30">SALE 30%</string>
     <string name="you_have_reached_the_number_of_free_uses">you have reached the number of free uses. Please upgrade to continue using this premium feature.</string>
     <string name="subscribe_premium">Subscribe\nPremium</string>
+    <string name="youtube_cast">Youtube Cast</string>
 
 </resources>
