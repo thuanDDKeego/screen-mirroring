@@ -41,8 +41,6 @@ import com.abc.mirroring.ui.settings.SettingActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -134,22 +132,22 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
         //shake img crown
 
-        listOf<View>(
-            binding.llVideo,
-            binding.llImage,
-            binding.llAudio,
-            binding.llYoutube,
-            binding.llWebCast,
-            binding.llDrive,
-            binding.llOnlineImage,
-            binding.llIpTv,
-            binding.llGooglePhotos,
-        ).forEachIndexed { index, view ->
-            YoYo.with(Techniques.Pulse)
-                .delay((index + 1) * 200L)
-                .duration(800)
-                .playOn(view);
-        }
+//        listOf<View>(
+//            binding.llVideo,
+//            binding.llImage,
+//            binding.llAudio,
+//            binding.llYoutube,
+//            binding.llWebCast,
+//            binding.llDrive,
+//            binding.llOnlineImage,
+//            binding.llIpTv,
+//            binding.llGooglePhotos,
+//        ).forEachIndexed { index, view ->
+//            YoYo.with(Techniques.Pulse)
+//                .delay((index + 1) * 200L)
+//                .duration(800)
+//                .playOn(view);
+//        }
     }
 
     private fun initAds() {
@@ -272,7 +270,6 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 val intent = Intent(this, BrowserMirrorActivity::class.java)
                 startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
             } else {
-//                dialogCenter.showBrowserDialog()
                 dialogCenter.showDialog(DialogCenter.DialogType.Browser)
             }
         }
@@ -362,6 +359,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             llWebCast.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Web_Cast)
                 goToCast(MediaRoute.WebCast)
+                Toast.makeText(this@HomeActivity, "This feature's in early access, some websites are not supported. it will be done in next week", Toast.LENGTH_SHORT).show()
             }
             llOnlineImage.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Online_Image)
@@ -506,14 +504,15 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                     // The current activity making the update request.
                     this,
                     // Include a request code to later monitor this update request.
-                    MY_REQUEST_CODE)
+                    MY_REQUEST_CODE
+                )
             }
         }
     }
 
     // Checks that the update is not stalled during 'onResume()'.
 // However, you should execute this check at all entry points into the app.
-    private fun checkForUpdateStalled(){
+    private fun checkForUpdateStalled() {
         appUpdateManager
             .appUpdateInfo
             .addOnSuccessListener { appUpdateInfo ->
@@ -530,6 +529,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 }
             }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == MY_REQUEST_CODE) {
