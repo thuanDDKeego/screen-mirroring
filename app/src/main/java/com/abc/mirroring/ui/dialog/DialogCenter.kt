@@ -39,6 +39,7 @@ import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
+import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -525,8 +526,8 @@ class DialogCenter(private val activity: Activity) {
                     dismissTutorialDialog()
                 } else {
 //                    dialogCenter.showLoadingAdsDialog()
-                    showDialog(DialogCenter.DialogType.LoadingAds)
-                    admobHelper.showGeneralAdInterstitial(
+                    showDialog(DialogType.LoadingAds)
+                    AdCenter.getInstance().interstitial?.show(
                         activity,
                     ) {
                         dismissLoadingAdDialog()

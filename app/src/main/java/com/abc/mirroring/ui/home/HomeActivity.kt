@@ -48,6 +48,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -60,6 +61,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     @Inject
     lateinit var admobHelper: AdmobHelper
+
+    @Inject
+    lateinit var adCenter: AdCenter
 
     @Inject
     lateinit var caster: Caster
@@ -280,11 +284,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_TV)
             val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
             if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-//                dialogCenter.showLoadingAdsDialog()
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
-                admobHelper.showGeneralAdInterstitial(
-                    this@HomeActivity,
-                ) {
+                adCenter.interstitial?.show(this@HomeActivity) {
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                     goToActivityAndReceptShowDialogRateResult.launch(intent)
                 }
@@ -395,7 +396,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         intent.putExtra(MEDIA_ROUTE, route.route)
         if (AppPreferences().isPremiumSubscribed == false && AppPreferences().countTimeOpenApp!! >= 3) {
             dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
-            admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
+//            admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
+            adCenter.interstitial?.show(this) {
                 dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                 goToActivityAndReceptShowDialogRateResult.launch(intent)
             }
@@ -506,14 +508,15 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                     // The current activity making the update request.
                     this,
                     // Include a request code to later monitor this update request.
-                    MY_REQUEST_CODE)
+                    MY_REQUEST_CODE
+                )
             }
         }
     }
 
     // Checks that the update is not stalled during 'onResume()'.
 // However, you should execute this check at all entry points into the app.
-    private fun checkForUpdateStalled(){
+    private fun checkForUpdateStalled() {
         appUpdateManager
             .appUpdateInfo
             .addOnSuccessListener { appUpdateInfo ->
@@ -530,6 +533,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 }
             }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == MY_REQUEST_CODE) {
