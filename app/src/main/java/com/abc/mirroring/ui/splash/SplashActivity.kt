@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
         initializeMobileAds()
         if(AppPreferences().isPremiumSubscribed == false) {
 //            AdmobHelper().loadGeneralAdInterstitial(this)
-            adCenter.interstitial?.load(this)
+//            adCenter.interstitial?.load(this)
         }
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)

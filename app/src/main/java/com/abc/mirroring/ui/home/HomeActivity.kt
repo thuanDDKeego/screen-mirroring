@@ -158,7 +158,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     private fun initAds() {
         binding.containerAd.visibility = View.GONE
-        if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
+        if (AppPreferences().isPremiumSubscribed == false) {
+            adCenter.interstitial?.load(this)
             admobHelper.showNativeAdmob(
                 this,
                 AdType.HOME_NATIVE,
