@@ -269,28 +269,8 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 //                    }
                 }
             }
-        binding.constraintBrowserMirror.setOnClickListener {
-            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_Web)
-            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumSubscribed == true) {
-                val intent = Intent(this, BrowserMirrorActivity::class.java)
-                startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
-            } else {
-                dialogCenter.showDialog(DialogCenter.DialogType.Browser)
-            }
-        }
-        binding.constraintMirror.setOnClickListener {
-            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_TV)
-            val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
-            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
-                dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
-                adCenter.interstitial?.show(this@HomeActivity) {
-                    dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
-                    goToActivityAndReceptShowDialogRateResult.launch(intent)
-                }
-            } else {
-                goToActivityAndReceptShowDialogRateResult.launch(intent)
-            }
-        }
+        setupBrowserMirrorActions()
+        setupScreenMirroringActions()
         binding.imgSetting.setOnClickListener {
             FirebaseTracking.log(FirebaseLogEvent.Home_Click_Setting)
             SettingActivity.gotoActivity(this@HomeActivity)
@@ -330,6 +310,55 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             caster.discovery.picker(this)
         }
         castOnClickSection()
+    }
+
+    private fun setupBrowserMirrorActions() {
+        binding.constraintBrowserMirror.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_Web)
+            if (isStreamingBrowser.value == true || AppConfigRemote().turnOnHomeBrowserReward == false || AppPreferences().isPremiumSubscribed == true) {
+                val intent = Intent(this, BrowserMirrorActivity::class.java)
+                startActivityForResult(intent, START_WHEN_RUNNING_REQUEST_CODE)
+            } else {
+                if(AppPreferences().browserMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
+                    dialogCenter.showDialog(
+                        DialogCenter.DialogType.AskingForPremium(
+                            getString(R.string.subscribe_premium),
+                            getString(R.string.you_have_reached_the_number_of_free_uses),
+                            R.mipmap.bg_browser_dialog_header
+                        ) {})
+                    return@setOnClickListener
+                }
+                dialogCenter.showDialog(DialogCenter.DialogType.Browser)
+            }
+        }
+    }
+
+    private fun setupScreenMirroringActions() {
+        binding.constraintMirror.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Home_Click_Mirror_to_TV)
+            val intent = Intent(this@HomeActivity, DeviceMirrorActivity::class.java)
+            if (AppConfigRemote().turnOnGoToMirrorDeviceInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
+                if (AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().screenMirroringUsages!!) {
+                    dialogCenter.showDialog(
+                        DialogCenter.DialogType.AskingForPremium(
+                            getString(R.string.subscribe_premium),
+                            getString(R.string.you_have_reached_the_number_of_free_uses),
+                            R.mipmap.bg_browser_dialog_header
+                        ) {})
+                    return@setOnClickListener
+                }
+                AppPreferences().screenMirroringCountUsages = AppPreferences().screenMirroringCountUsages!! + 1
+                dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
+                admobHelper.showGeneralAdInterstitial(
+                    this@HomeActivity,
+                ) {
+                    dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
+                    goToActivityAndReceptShowDialogRateResult.launch(intent)
+                }
+            } else {
+                goToActivityAndReceptShowDialogRateResult.launch(intent)
+            }
+        }
     }
 
     private fun castOnClickSection() {

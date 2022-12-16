@@ -31,6 +31,9 @@ class AppConfigRemote() :
     var ui_home_version by intPref(defaultValue = 1)
     var player_control_counter by intPref(defaultValue = 5)
 
+    var screenMirroringUsages by intPref(defaultValue = 10)
+    var browserMirroringUsages by intPref(defaultValue = 10)
+
     private val gson = GsonBuilder().create()
 
     fun getDevices() = gson.fromJson(connect_sdk_devices, Array<String>::class.java).toList()

@@ -4,7 +4,6 @@ import AdType
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -273,14 +272,19 @@ class DialogCenter(private val activity: Activity) {
         }
     }
 
-    private fun dismissTooManyAdsDialog() {
+    private fun dismissAskingForPremium() {
         if (tooManyAdsDialogShowing) {
             view.removeViewAt(view.childCount - 1)
             tooManyAdsDialogShowing = false
         }
     }
 
-    private fun showTooManyAdsDialog(callback: () -> Unit) {
+    private fun showAskingForPremium(
+        label: String? = null,
+        content: String? = null,
+        backgroundLabel: Int = R.drawable.bg_dialog_too_many_ads,
+        callback: () -> Unit
+    ) {
         if (tooManyAdsDialogShowing) return
         tooManyAdsDialogShowing = true
         dialogTooManyAdsBinding =
@@ -291,14 +295,17 @@ class DialogCenter(private val activity: Activity) {
             )
         dialogTooManyAdsBinding.apply {
             btnClose.setOnClickListener {
-                dismissTooManyAdsDialog()
+                dismissAskingForPremium()
                 callback()
             }
+            label?.let { txtTitleDialog.text = label }
+            content?.let { txtContentDialog.text = content }
+            llBackground.background = ContextCompat.getDrawable(activity, backgroundLabel)
             cardDialog.setOnClickListener { }
-            constraintBgTooManyAdsDialog.setOnClickListener { dismissTooManyAdsDialog() }
+            constraintBgTooManyAdsDialog.setOnClickListener { dismissAskingForPremium() }
             btnBuyPremium.setOnClickListener {
                 PremiumActivity.gotoActivity(activity)
-                dismissTooManyAdsDialog()
+                dismissAskingForPremium()
                 callback()
             }
         }
@@ -369,6 +376,7 @@ class DialogCenter(private val activity: Activity) {
                         activity, AdType.BROWSER_MIRROR_REWARD
                     ) { isSuccess ->
                         if (isSuccess) {
+                            AppPreferences().browserMirroringCountUsages = AppPreferences().browserMirroringCountUsages!! + 1
                             BrowserMirrorActivity.gotoActivity(activity)
                             dismissBrowserDialog()
                         } else {
@@ -612,7 +620,7 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> showRatingDialog(type.autoShow, type.onRate)
             is DialogType.LoadingAds -> showLoadingAdsDialog()
-            is DialogType.TooManyAds -> showTooManyAdsDialog(type.callback)
+            is DialogType.AskingForPremium -> showAskingForPremium(type.label, type.content, type.backgroundId){type.callback}
             is DialogType.Browser -> showBrowserDialog()
             is DialogType.StopOptimizeBattery -> showStopOptimizeBatteryDialog()
             is DialogType.BrowserError -> showLoadingAdsDialog()
@@ -628,7 +636,7 @@ class DialogCenter(private val activity: Activity) {
         when (type) {
             is DialogType.Rating -> dismissRatingDialog()
             is DialogType.LoadingAds -> dismissLoadingAdDialog()
-            is DialogType.TooManyAds -> dismissTooManyAdsDialog()
+            is DialogType.AskingForPremium -> dismissAskingForPremium()
             is DialogType.Browser -> dismissBrowserDialog()
             is DialogType.StopOptimizeBattery -> dismissStopOptimizeBatteryDialog()
             is DialogType.BrowserError -> dismissBrowserErrorDialog()
@@ -643,7 +651,7 @@ class DialogCenter(private val activity: Activity) {
     sealed interface DialogType {
         data class Rating(val autoShow: Boolean = true, val onRate: (Int) -> Unit) : DialogType
         object LoadingAds : DialogType
-        data class TooManyAds(val callback: () -> Unit) : DialogType
+        data class AskingForPremium(val label: String? = null, val content: String? = null, val backgroundId: Int = R.drawable.bg_dialog_too_many_ads, val callback: () -> Unit) : DialogType
 
         object StopOptimizeBattery : DialogType
         object Browser : DialogType

@@ -308,5 +308,7 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="iptv">IPTV</string>
     <string name="google_photos">Google Photos</string>
     <string name="sale_30">SALE 30%</string>
+    <string name="you_have_reached_the_number_of_free_uses">you have reached the number of free uses. Please upgrade to continue using this premium feature.</string>
+    <string name="subscribe_premium">Subscribe\nPremium</string>
 
 </resources>
