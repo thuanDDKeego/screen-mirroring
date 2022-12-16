@@ -18,6 +18,7 @@ import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sofi.ads.AdCenter
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -147,7 +148,8 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             if (AppConfigRemote().turnOnBackFromTutorialInterstitial == true && AppPreferences().isPremiumSubscribed == false) {
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
 //                showLoadingAdsDialog()
-                admobHelper.showGeneralAdInterstitial(
+//                admobHelper.showGeneralAdInterstitial(
+                AdCenter.getInstance().interstitial?.show(
                     this@TutorialActivity,
                 ) {
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)

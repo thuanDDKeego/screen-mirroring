@@ -18,9 +18,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import info.dvkr.screenstream.data.settings.Settings
-import info.dvkr.screenstream.data.settings.SettingsImpl
-import timber.log.Timber
+import dev.sofi.ads.AdCenter
 import javax.inject.Singleton
 
 @Module
@@ -30,6 +28,10 @@ object AppModule {
     @Singleton
     @Provides
     fun providesAdmobHelper(): AdmobHelper = AdmobHelper()
+
+    @Singleton
+    @Provides
+    fun providesAdCenter(): AdCenter = AdCenter.getInstance()
 
     @Singleton
     @Provides

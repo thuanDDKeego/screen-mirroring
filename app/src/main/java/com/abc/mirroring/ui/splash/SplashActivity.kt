@@ -19,6 +19,7 @@ import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,6 +32,9 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     lateinit var admobHelper: AdmobHelper
+
+    @Inject
+    lateinit var adCenter: AdCenter
     private lateinit var binding: ActivitySplashBinding
     private val TIME_DISPLAY_ONBOARD = 3000L
     private var jobTimeOutOpenApp: Job? = null
@@ -43,7 +47,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         checkSubscription()
         initializeMobileAds()
-        if(AppPreferences().isPremiumSubscribed == false) AdmobHelper().loadGeneralAdInterstitial(this)
+        if(AppPreferences().isPremiumSubscribed == false) {
+//            AdmobHelper().loadGeneralAdInterstitial(this)
+//            adCenter.interstitial?.load(this)
+        }
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -83,7 +90,7 @@ class SplashActivity : AppCompatActivity() {
                     finish()  /*set timeout for splash*/
                 }
                 jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
-                    AppOpenManager.instance?.fetchAd {
+                    AppOpenManager.instance?.fetchAd(timeoutAdRequest = 10000L) {
                         val timeFromStart = System.currentTimeMillis() - startTime
                         CoroutineScope(Dispatchers.Main).launch {
                             jobTimeOutOpenApp?.cancel()
@@ -105,9 +112,7 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                admobHelper.showGeneralAdInterstitial(
-                    this@SplashActivity
-                ) {
+                adCenter.interstitial?.show(this@SplashActivity) {
                     goToHome()
                 }
             }
