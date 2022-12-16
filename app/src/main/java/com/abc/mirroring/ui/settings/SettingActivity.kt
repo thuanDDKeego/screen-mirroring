@@ -57,6 +57,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             binding.btnBuyPremium.visibility = View.VISIBLE
             binding.llBanner.visibility = View.VISIBLE
         }
+
         dialogCenter = DialogCenter(this)
         FirebaseTracking.logSettingShowed()
         binding.switchOnOffPinCode.isChecked = AppPreferences().isTurnOnPinCode == true
