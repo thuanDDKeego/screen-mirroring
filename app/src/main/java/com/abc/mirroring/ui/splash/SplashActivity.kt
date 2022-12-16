@@ -90,7 +90,7 @@ class SplashActivity : AppCompatActivity() {
                     finish()  /*set timeout for splash*/
                 }
                 jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
-                    AppOpenManager.instance?.fetchAd {
+                    AppOpenManager.instance?.fetchAd(timeoutAdRequest = 10000L) {
                         val timeFromStart = System.currentTimeMillis() - startTime
                         CoroutineScope(Dispatchers.Main).launch {
                             jobTimeOutOpenApp?.cancel()
