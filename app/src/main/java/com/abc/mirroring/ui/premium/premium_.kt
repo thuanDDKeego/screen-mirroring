@@ -79,6 +79,8 @@ fun premium_(
 ) {
     val activity = LocalContext.current as Activity
 
+    val state by vm.state.collectAsState()
+
     LaunchedEffect(key1 = true) {
         vm.createConnectionAndFetchData(activity)
     }
@@ -88,18 +90,17 @@ fun premium_(
         activity.finish()
     }
 
-
 //    val isPremiumActive = remember { mutableStateOf(AppPreferences.isPremiumSubscribed) }
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xff2F8C4B)
+        modifier = Modifier.fillMaxSize(), color = Color(0xff2F8C4B)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             // set background for premium screen
             Image(
                 painter = painterResource(id = R.mipmap.bg_premium_xmas),
                 contentDescription = null,
-                contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize()
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
             )
             Column(Modifier.fillMaxSize()) {
                 Column(
@@ -133,6 +134,27 @@ fun premium_(
                         benefit_item(benefit)
                     }
 
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp),
+                        text = "Try 3 days for free",
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        text = "Then ${priceToString(state.yearlySubscription.price)}/year (-30%)",
+                        fontSize = 16.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center
+                    )
+
+
                     _purchases_section(vm)
                     Spacer(modifier = Modifier.height(36.dp))
                     Text(
@@ -146,7 +168,8 @@ fun premium_(
                                 activity.startActivity(Intent(Intent.ACTION_VIEW).apply {
                                     data = Uri.parse("https://sofigo.net/policy/")
                                 })
-                            }, textAlign = TextAlign.Center,
+                            },
+                        textAlign = TextAlign.Center,
                         style = TextStyle(textDecoration = TextDecoration.Underline)
                     )
 
@@ -162,17 +185,14 @@ fun premium_(
                 }
             }
             // button back
-            IconButton(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .size(24.dp), onClick = {
-                    FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Back)
-                    activity.finish()
-                }) {
+            IconButton(modifier = Modifier
+                .padding(24.dp)
+                .size(24.dp), onClick = {
+                FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Back)
+                activity.finish()
+            }) {
                 Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = null,
-                    tint = Color.White
+                    imageVector = Icons.Rounded.Close, contentDescription = null, tint = Color.White
                 )
             }
         }
@@ -182,7 +202,8 @@ fun premium_(
 @Composable
 internal fun benefit_item(label: String) {
     Row(
-        verticalAlignment = CenterVertically, modifier = Modifier
+        verticalAlignment = CenterVertically,
+        modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp, start = 42.dp)
     ) {
@@ -210,9 +231,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
             FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Monthly)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
-                    activity,
-                    "Check your internet and try again!",
-                    Toast.LENGTH_SHORT
+                    activity, "Check your internet and try again!", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -222,9 +241,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
             FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Life_Time)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
-                    activity,
-                    "Check your internet and try again!",
-                    Toast.LENGTH_SHORT
+                    activity, "Check your internet and try again!", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -234,9 +251,7 @@ internal fun _purchases_section(vm: PremiumVimel) {
             FirebaseTracking.log(FirebaseLogEvent.Premium_Click_Trial)
             vm.subscribeProduct(activity, product) {
                 Toast.makeText(
-                    activity,
-                    "Check your internet and try again!",
-                    Toast.LENGTH_SHORT
+                    activity, "Check your internet and try again!", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -248,11 +263,13 @@ fun _sale_off_product_item(product: ProductPurchase, onclick: () -> Unit) {
     _product_item(
         background = Color(0xFFC51313),
         hasCrown = true,
+        hasSweepLight = true,
+        lightSweepTween = 3400,
         content = {
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = stringResource(id = R.string.sale_30),
+                    text = stringResource(id = R.string.save_30),
                     color = Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -266,109 +283,80 @@ fun _sale_off_product_item(product: ProductPurchase, onclick: () -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            top = 24.dp,
-                            bottom = 12.dp,
-                            start = 16.dp,
-                            end = 16.dp
-                        )
+                        .padding(22.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.get_3_days_free_trial),
+                        text = stringResource(id = R.string.start_free_trial),
                         color = Color.White,
-                        fontSize = 18.sp,
+                        fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = "${priceToString(product.price, format = product.formatPrice)}/${stringResource(id = R.string.year)}",
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = priceToString(
-                            getInitialPrice(product.price, discount = 0.3),
-                            format = product.formatPrice
-                        ),
-                        textDecoration = TextDecoration.LineThrough,
-                        color = Color.LightGray,
-                        fontSize = 14.sp,
                     )
                 }
             }
-        }
-    ) {
+        }) {
         onclick.invoke()
     }
 }
 
 @Composable
 fun _best_offer_product_item(product: ProductPurchase, onclick: () -> Unit) {
-    _product_item(
-        background = Color(0xFFFFB422),
-        hasSweepLight = true,
-        content = {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(id = R.string.best_offer),
-                    color = Color.White,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(bottomEnd = 12.dp))
-                        .background(Color(0xFFC51313))
-                        .padding(vertical = 4.dp, horizontal = 12.dp)
+    9
+    _product_item(background = Color(0xFFFFB422), hasSweepLight = true, content = {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(id = R.string.best_offer),
+                color = Color.White,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(bottomEnd = 12.dp))
+                    .background(Color(0xFFC51313))
+                    .padding(vertical = 4.dp, horizontal = 12.dp)
+            )
+            Column(
+                horizontalAlignment = Alignment.Start, modifier = Modifier.padding(
+                    top = 24.dp, bottom = 8.dp, start = 16.dp, end = 32.dp
                 )
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.padding(
-                        top = 24.dp,
-                        bottom = 8.dp,
-                        start = 16.dp,
-                        end = 32.dp
-                    )
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.life_time),
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = stringResource(id = R.string.one_time_payment),
-                        color = Color.Black,
-                        fontSize = 14.sp,
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = stringResource(id = R.string.life_time),
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = stringResource(id = R.string.one_time_payment),
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                )
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .align(CenterEnd)
+                    .padding(end = 16.dp)
+            ) {
+                Text(
+                    text = priceToString(
+                        getInitialPrice(product.price, discount = 0.5),
+                        format = product.formatPrice
+                    ),
+                    fontSize = 14.sp,
+                    color = Color.DarkGray,
+                    textDecoration = TextDecoration.LineThrough,
+                    modifier = Modifier.padding(end = 12.dp)
+                )
+                Text(
+                    text = priceToString(product.price, format = product.formatPrice),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black,
                     modifier = Modifier
-                        .align(CenterEnd)
-                        .padding(end = 16.dp)
-                ) {
-                    Text(
-                        text = priceToString(
-                            getInitialPrice(product.price, discount = 0.5),
-                            format = product.formatPrice
-                        ),
-                        fontSize = 14.sp,
-                        color = Color.DarkGray,
-                        textDecoration = TextDecoration.LineThrough,
-                        modifier = Modifier
-                            .padding(end = 12.dp)
-                    )
-                    Text(
-                        text = priceToString(product.price, format = product.formatPrice),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black,
-                        modifier = Modifier
-                    )
-                }
+                )
             }
         }
-    ) {
+    }) {
         onclick.invoke()
     }
 }
@@ -376,27 +364,24 @@ fun _best_offer_product_item(product: ProductPurchase, onclick: () -> Unit) {
 
 @Composable
 internal fun _normal_product_item(product: ProductPurchase, onClick: () -> Unit) {
-    _product_item(
-        background = Color.White,
-        content = {
-            Row(
-                verticalAlignment = CenterVertically,
-                modifier = Modifier.padding(vertical = 18.dp, horizontal = 16.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.monthly),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = priceToString(product.price, format = product.formatPrice),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+    _product_item(background = Color.White, content = {
+        Row(
+            verticalAlignment = CenterVertically,
+            modifier = Modifier.padding(vertical = 18.dp, horizontal = 16.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.monthly),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = priceToString(product.price, format = product.formatPrice),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            )
         }
-    ) {
+    }) {
         onClick()
     }
 }
@@ -407,41 +392,35 @@ internal fun _product_item(
     background: Color = Color(0xFFFFFFFF),
     hasCrown: Boolean = false,
     hasSweepLight: Boolean = false,
+    lightSweepTween: Int = 4000,
     content: @Composable () -> Unit = @Composable {},
     onClick: () -> Unit = {},
 ) {
     ConstraintLayout {
         // Create references for the composables to constrain
         val (cardView, snow, crown) = createRefs()
-        Card(
-            modifier = modifier
-                .constrainAs(cardView) {}
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White,
-            ),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
-            shape = MaterialTheme.shapes.medium
-        ) {
+        Card(modifier = modifier
+            .constrainAs(cardView) {}
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp), colors = CardDefaults.cardColors(
+            containerColor = Color.White,
+        ), elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ), shape = MaterialTheme.shapes.medium) {
 
-            Box(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(background)
-                    .clickable { onClick() }
-            ) {
+            Box(modifier = modifier
+                .fillMaxWidth()
+                .background(background)
+                .clickable { onClick() }) {
                 content.invoke()
                 if (hasSweepLight) {
-                    _light_sweep()
+                    _light_sweep(modifier = Modifier.fillMaxHeight(), tween = lightSweepTween)
                 }
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.img_snow),
+        Image(painter = painterResource(id = R.drawable.img_snow),
             contentDescription = null,
+            contentScale = ContentScale.FillHeight,
             modifier = Modifier
                 .size(48.dp)
                 .constrainAs(snow) {
@@ -449,30 +428,28 @@ internal fun _product_item(
                     end.linkTo(cardView.end, margin = 8.dp)
                 })
         if (hasCrown) {
-            crown_rotate_image(
-                modifier.constrainAs(crown) {
-                    top.linkTo(cardView.top, margin = (-5).dp)
-                    start.linkTo(cardView.start, margin = (-3).dp)
-                })
+            crown_rotate_image(modifier.constrainAs(crown) {
+                top.linkTo(cardView.top, margin = (-5).dp)
+                start.linkTo(cardView.start, margin = (-3).dp)
+            })
         }
     }
 }
 
 @Composable
-internal fun _light_sweep(modifier: Modifier = Modifier) {
+internal fun _light_sweep(modifier: Modifier = Modifier, tween: Int = 4000) {
     val infiniteTransition = rememberInfiniteTransition()
 
     val paddingStart by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1600F,
-        animationSpec = infiniteRepeatable(
-            animation = tween(4000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-
+        initialValue = 0f, targetValue = 1600F, animationSpec = infiniteRepeatable(
+            animation = tween(tween, easing = LinearEasing), repeatMode = RepeatMode.Restart
         )
     )
+
+
     Image(
-        painter = painterResource(id = R.drawable.img_light), contentDescription = null,
+        painter = painterResource(id = R.drawable.img_light),
+        contentDescription = null,
         modifier = modifier
             .fillMaxHeight()
             .padding(start = paddingStart.dp),
@@ -485,11 +462,8 @@ internal fun crown_rotate_image(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition()
 
     val angleAnimate by infiniteTransition.animateFloat(
-        initialValue = -70F,
-        targetValue = -20F,
-        animationSpec = infiniteRepeatable(
-            animation = tween(150, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
+        initialValue = -70F, targetValue = -20F, animationSpec = infiniteRepeatable(
+            animation = tween(150, easing = LinearEasing), repeatMode = RepeatMode.Reverse
         )
     )
     var startTime by remember { mutableStateOf(System.currentTimeMillis()) }
@@ -504,7 +478,8 @@ internal fun crown_rotate_image(modifier: Modifier = Modifier) {
             startTime = current
         }
     }
-    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null,
+    Image(painter = painterResource(id = R.drawable.ic_crown),
+        contentDescription = null,
         modifier = modifier
             .size(36.dp)
             .graphicsLayer {
@@ -544,8 +519,7 @@ internal fun getInitialPrice(price: Long, discount: Double = 0.5): Long {
     //biến này dùng để kiểm tra giá sẽ có dạng 120000, hay 1.2, hay 2.45 (số làm tròn sau dấu chấm)
     val numberMustRoundedAfterDot =
         if (price % PRICE_UNIT == 0L) 1L else if (price % (PRICE_UNIT / 10L) == 0L) 10L else 100L
-    val initialPrice = (price.toDouble() / (1 - discount)).toLong()
-    /* công thức này dùng để làm tròn lên:
+    val initialPrice = (price.toDouble() / (1 - discount)).toLong()/* công thức này dùng để làm tròn lên:
     ex: 120012345678 -> 120012345678 - 345678 + 1000000 = 1200124000000 (làm tròn lên)
 
     * */
