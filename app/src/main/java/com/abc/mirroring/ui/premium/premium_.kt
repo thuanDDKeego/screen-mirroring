@@ -71,6 +71,7 @@ import com.abc.mirroring.ui.premium.billing.ProductPurchase
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
+import timber.log.Timber
 
 @Destination
 @Composable
@@ -138,7 +139,7 @@ fun premium_(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 12.dp),
-                        text = "Try 3 days for free",
+                        text = "TRY 3 DAYS FOR FREE",
                         fontSize = 24.sp,
                         color = Color.White,
                         textAlign = TextAlign.Center,
@@ -148,15 +149,15 @@ fun premium_(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 12.dp),
-                        text = "Then ${priceToString(state.yearlySubscription.price)}/year (-30%)",
-                        fontSize = 16.sp,
+                        text = "Then ${priceToString(state.yearlySubscription.price, state.yearlySubscription.formatPrice)}/year",
+                        fontSize = 12.sp,
                         color = Color.White,
                         textAlign = TextAlign.Center
                     )
 
 
                     _purchases_section(vm)
-                    Spacer(modifier = Modifier.height(36.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "Term of Services & Privacy Policy",
                         color = MaterialTheme.colorScheme.onBackground,
