@@ -112,11 +112,10 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         } else {
             if (AppPreferences().countTimeOpenApp!! % 3 == 0 && AppPreferences().isPremiumSubscribed == false && AppConfigRemote().enable_premium == true) {
                 startActivity(Intent(this@HomeActivity, PremiumActivity2::class.java))
-            } else {
-                askNotificationPermission()
             }
         }
 
+        askNotificationPermission()
         AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
