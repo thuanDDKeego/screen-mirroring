@@ -312,5 +312,7 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="you_have_reached_the_number_of_free_uses">you have reached the number of free uses. Please upgrade to continue using this premium feature.</string>
     <string name="subscribe_premium">Subscribe\nPremium</string>
     <string name="youtube_cast">Youtube Cast</string>
+    <string name="start_free_trial">Start Free Trial</string>
+    <string name="save_30">SAVE 30%</string>
 
 </resources>
