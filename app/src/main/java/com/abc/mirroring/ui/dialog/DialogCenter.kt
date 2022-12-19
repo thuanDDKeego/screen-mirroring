@@ -399,7 +399,7 @@ class DialogCenter(private val activity: Activity) {
             if (rewardAdsJob == null) {
                 rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
 //                    admobHelper.showRewardedAds(
-                    AdCenter.getInstance().rewardedInterstitial?.show(
+                    AdCenter.getInstance().rewarded?.show(
                         activity
                     ) { isSuccess ->
                         if (isSuccess) {

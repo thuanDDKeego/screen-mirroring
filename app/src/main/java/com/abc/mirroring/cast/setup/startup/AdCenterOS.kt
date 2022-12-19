@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import com.abc.mirroring.R
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.config.Preferences
+import dev.sofi.ads.Rewarded
 import dev.sofi.ads.RewardedInterstitial
 
 class AdCenterOS : Initializer<AdCenter> {
@@ -32,6 +33,7 @@ class AdCenterOS : Initializer<AdCenter> {
             banner = Banner(context.getString(R.string.ad_banner_general), MutableStateFlow(false))
             interstitial = Interstitial(context.getString(R.string.ad_interstitial_general), this.enable)
             rewardedInterstitial = RewardedInterstitial(context.getString(R.string.ad_rewarded_interstitial_general), this.enable)
+            rewarded = Rewarded(context.getString(R.string.ad_rewarded_browser_mirror), this.enable)
             appOpen = AppOpen(context.getString(R.string.ad_app_open_general), this.enable)
             native = Native(context.getString(R.string.ad_native_advanced_general), enable = this.enable)
         }.also {
