@@ -330,7 +330,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 dialogCenter.showDialog(DialogCenter.DialogType.RewardAdNotification(
                     getString(R.string.browser_mirror_uppercase),
                     getString(R.string.watch_short_video_to_unlock_browser),
-                    onRewarded = { BrowserMirrorActivity.gotoActivity(this@HomeActivity) }
+                    onRewarded = {
+                        BrowserMirrorActivity.gotoActivity(this@HomeActivity)
+                    }
                 ) {
                     Toast.makeText(this, getString(R.string.failed_to_unlock_watching_again), Toast.LENGTH_LONG).show()
                 })
@@ -355,8 +357,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 AppPreferences().screenMirroringCountUsages =
                     AppPreferences().screenMirroringCountUsages!! + 1
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
-                admobHelper.showGeneralAdInterstitial(
-                    this@HomeActivity,
+//                admobHelper.showGeneralAdInterstitial(
+                adCenter.interstitial?.show(
+                    this@HomeActivity
                 ) {
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                     goToActivityAndReceptShowDialogRateResult.launch(intent)

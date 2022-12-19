@@ -386,7 +386,7 @@ class DialogCenter(private val activity: Activity) {
 
     private fun goToRewardAds(
         onRewarded: () -> Unit,
-        onRetry: () -> Unit
+        onError: () -> Unit
     ) {
         dialogBrowserBinding.apply {
             txtStartVideoInTime.setTextColor(
@@ -398,8 +398,9 @@ class DialogCenter(private val activity: Activity) {
             progressBarLoadAds.visibility = View.VISIBLE
             if (rewardAdsJob == null) {
                 rewardAdsJob = CoroutineScope(Dispatchers.Main).launch {
-                    admobHelper.showRewardedAds(
-                        activity, AdType.BROWSER_MIRROR_REWARD
+//                    admobHelper.showRewardedAds(
+                    AdCenter.getInstance().rewarded?.show(
+                        activity
                     ) { isSuccess ->
                         if (isSuccess) {
                             AppPreferences().browserMirroringCountUsages =
@@ -408,7 +409,7 @@ class DialogCenter(private val activity: Activity) {
                             dismissBrowserDialog()
                         } else {
                             dismissBrowserDialog()
-                            onRetry()
+                            onError()
 //                            showBrowserErrorDialog(
 //                                label,
 //                                content,
@@ -486,7 +487,7 @@ class DialogCenter(private val activity: Activity) {
 
     private fun updateTabTutorialDialogPager(
         binding: LayoutDialogTutorialFirstOpenBinding,
-        position: Int,
+        position: Int
     ) {
         binding.apply {
             imgStateStep1.setImageResource(R.drawable.ic_state_off_tutorial_dialog)

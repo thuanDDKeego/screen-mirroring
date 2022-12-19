@@ -219,7 +219,7 @@ dependencies {
     implementation(project(":extensions"))
 //     sofi libs
     implementation "dev.sofi:setting:1.0.1"
-    implementation "dev.sofi:ads:1.0.27"
+    implementation "dev.sofi:ads:1.0.29"
 //     implementation(project(":ads"))
 
     // <hilt>
