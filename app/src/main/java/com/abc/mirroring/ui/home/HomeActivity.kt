@@ -355,8 +355,9 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 AppPreferences().screenMirroringCountUsages =
                     AppPreferences().screenMirroringCountUsages!! + 1
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
-                admobHelper.showGeneralAdInterstitial(
-                    this@HomeActivity,
+//                admobHelper.showGeneralAdInterstitial(
+                adCenter.interstitial?.show(
+                    this@HomeActivity
                 ) {
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                     goToActivityAndReceptShowDialogRateResult.launch(intent)
