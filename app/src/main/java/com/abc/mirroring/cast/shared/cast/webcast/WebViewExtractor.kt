@@ -1,11 +1,12 @@
-//package com.abc.mirroring.cast.shared.cast.webcast
-//
+package com.abc.mirroring.cast.shared.cast.webcast
+
 //import android.annotation.SuppressLint
 //import android.webkit.JavascriptInterface
 //import android.webkit.WebView
 //import android.webkit.WebViewClient
-//import com.abc.mirroring.cast.section.MediaType
-//import com.abc.mirroring.cast.section.WebMedia
+import com.abc.mirroring.cast.section.MediaType
+import com.abc.mirroring.cast.section.WebMedia
+
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.async
@@ -17,9 +18,31 @@
 //import org.jsoup.Jsoup
 //import timber.log.Timber
 //import java.io.IOException
-//
-//object WebViewExtractor {
-//
+
+object WebViewExtractor {
+    private fun String.isMediaLink(): Boolean {
+        return this.let { str ->
+            val etx: String = str.split(".").last()
+            //this is full extension
+//            etx == "mp4" || etx == "flv" || etx == "m4a" || etx == "3gp" || etx == "mkv" ||
+//                    etx == "mp3" || etx == "ogg" || etx == "jpg" || etx == "png" || etx == "gif"
+            //this is extension that is supported by connect-sdk
+            etx == "mp4" || etx == "mp3" || etx == "png" || etx == "jpg"
+        }
+    }
+
+    fun toWebMedia(url: String): WebMedia? {
+        if (!url.isMediaLink()) return null
+        val etx: String = url.split(".").last()
+        val mediaType = when (etx.lowercase()) {
+            "mp4", "flv", "m4a", "3gp", "mkv" -> MediaType.Video
+            "jpg", "png", "gif" -> MediaType.Image
+            else -> MediaType.Audio
+        }
+        return WebMedia(url, url, 0L, mediaType, etx)
+    }
+}
+
 //
 //    suspend fun streamableFromUrl(webView: WebView): Flow<WebMedia> {
 //        getLinks(webView)
@@ -91,28 +114,7 @@
 ////        return if (s.length > width) s.substring(0, width - 1) + "." else s
 ////    }
 //
-//    private fun String.isMediaLink(): Boolean {
-//        return this.let { str ->
-//            val etx: String = str.split(".").last()
-//            //this is full extension
-////            etx == "mp4" || etx == "flv" || etx == "m4a" || etx == "3gp" || etx == "mkv" ||
-////                    etx == "mp3" || etx == "ogg" || etx == "jpg" || etx == "png" || etx == "gif"
-//            //this is extension that is supported by connect-sdk
-//            etx == "mp4" || etx == "mp3" || etx == "png" || etx == "jpg"
-//        }
-//    }
-//
-//    private fun String.toWebMedia(): WebMedia {
-//        return this.let { url ->
-//            val etx: String = url.split(".").last()
-//            val mediaType = when (etx.lowercase()) {
-//                "mp4", "flv", "m4a", "3gp", "mkv" -> MediaType.Video
-//                "jpg", "png", "gif" -> MediaType.Image
-//                else -> MediaType.Audio
-//            }
-//            WebMedia(url, url, 0L, mediaType, etx)
-//        }
-//    }
+
 //
 //    private fun List<String>.mediaLinks(): List<String> {
 //        return this.filter { str ->

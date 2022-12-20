@@ -5,13 +5,12 @@ import android.content.Context
 import android.webkit.WebView
 import com.abc.mirroring.cast.State
 import com.abc.mirroring.cast.VimelStateHolder
-import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.WebMedia
 import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.cast.Command
+import com.abc.mirroring.cast.shared.cast.webcast.WebViewExtractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -64,13 +63,16 @@ class WebVimel @Inject constructor(
 //    }
 
     fun onLoadResource(url: String) {
-        if (!url.isMediaLink()) return
-        val media = url.toWebMedia()
-        val newMedias =
-            mutableListOf<WebMedia>()
-                .also { it.add(media) }
-                .also { it.addAll(state.value.medias) }
-        update { state -> state.copy(medias = newMedias) }
+        WebViewExtractor.toWebMedia(url)?.let { media ->
+//            mutableListOf<WebMedia>()
+//                .also { it.add(media) }
+//                .also { it.addAll(state.value.medias) }
+            update { state ->
+                state.copy(
+                    medias = state.medias.toMutableList().also { it.add(0, media) })
+            }
+        }
+
     }
 
     fun onPageFinished(view: WebView?, url: String?) {
@@ -88,29 +90,6 @@ class WebVimel @Inject constructor(
             is Command.Previous -> webView?.goBack()
             is Command.Next -> webView?.goForward()
             else -> {}
-        }
-    }
-
-    private fun String.isMediaLink(): Boolean {
-        return this.let { str ->
-            val etx: String = str.split(".").last()
-            //this is full extension
-//            etx == "mp4" || etx == "flv" || etx == "m4a" || etx == "3gp" || etx == "mkv" ||
-//                    etx == "mp3" || etx == "ogg" || etx == "jpg" || etx == "png" || etx == "gif"
-            //this is extension that is supported by connect-sdk
-            etx == "mp4" || etx == "mp3" || etx == "png" || etx == "jpg"
-        }
-    }
-
-    private fun String.toWebMedia(): WebMedia {
-        return this.let { url ->
-            val etx: String = url.split(".").last()
-            val mediaType = when (etx.lowercase()) {
-                "mp4", "flv", "m4a", "3gp", "mkv" -> MediaType.Video
-                "jpg", "png", "gif" -> MediaType.Image
-                else -> MediaType.Audio
-            }
-            WebMedia(url, url, 0L, mediaType, etx)
         }
     }
 }
