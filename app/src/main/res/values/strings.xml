@@ -315,5 +315,10 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="youtube_cast">Youtube Cast</string>
     <string name="start_free_trial">Start Free Trial</string>
     <string name="save_30">SAVE 30%</string>
+    <string name="add_iptv">Add IPTV</string>
+    <string name="enter_address_here">Enter Adress here</string>
+    <string name="enter_name_here">Enter Name Here</string>
+    <string name="add">Add</string>
+    <string name="iptv_apologize_message">Sorry about inconvinient, we\'re maintain this feature right now. Please comeback in next few days</string>
 
 </resources>
