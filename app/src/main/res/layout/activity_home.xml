@@ -640,6 +640,56 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llIpTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_4dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_television_iptv"
+                            android:tint="#6200EA"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/iptv"
+                            android:textColor="@color/blackA01"
+                            android:textSize="18sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/llDrive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -732,56 +782,6 @@
                             android:gravity="start"
                             android:maxLines="2"
                             android:text="@string/online_image"
-                            android:textColor="@color/blackA01"
-                            android:textSize="18sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llIpTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_button_gradient_radius_15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/margin_6dp"
-                        app:cardElevation="@dimen/margin_4dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_54dp"
-                            android:layout_height="@dimen/margin_54dp"
-                            android:padding="@dimen/margin_8dp"
-                            android:src="@drawable/ic_television_iptv"
-                            android:tint="#6200EA"/>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_12dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:gravity="start"
-                            android:maxLines="2"
-                            android:text="@string/iptv"
                             android:textColor="@color/blackA01"
                             android:textSize="18sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>

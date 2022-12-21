@@ -24,6 +24,7 @@ import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
 import com.abc.mirroring.cast.setup.theme.CastTvTheme
 import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppPreferences
+import com.abc.mirroring.destinations.iptv_Destination
 import com.abc.mirroring.destinations.web_cast_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.home.HomeActivity
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
             MediaRoute.Image.route -> NavGraphs.image
             MediaRoute.Audio.route -> NavGraphs.audio
             MediaRoute.Youtube.route -> NavGraphs.youtube
+            MediaRoute.IPTV.route -> iptv_Destination
             else -> NavGraphs.video
         }
         Timber.i("initialized")

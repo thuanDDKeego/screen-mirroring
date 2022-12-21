@@ -7,4 +7,5 @@ sealed class MediaRoute(val route: String){
     object Youtube: MediaRoute("youtube_route")
 //    object Drive: MediaRoute("drive_route")
     object WebCast: MediaRoute("web_cast_route")
+    object IPTV: MediaRoute("iptv_route")
 }

@@ -411,7 +411,6 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             llWebCast.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Web_Cast)
                 goToCast(MediaRoute.WebCast)
-                Toast.makeText(this@HomeActivity, "This feature's in early access, some websites are not supported. it will be done in next week", Toast.LENGTH_SHORT).show()
             }
             llOnlineImage.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Online_Image)
@@ -423,11 +422,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             }
             llIpTv.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Iptv)
-                Toast.makeText(
-                    this@HomeActivity,
-                    getString(R.string.coming_soon),
-                    Toast.LENGTH_LONG
-                ).show()
+                goToCast(MediaRoute.IPTV)
             }
             llGooglePhotos.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Google_Photo)
