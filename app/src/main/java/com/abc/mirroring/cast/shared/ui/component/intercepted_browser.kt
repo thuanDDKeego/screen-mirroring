@@ -6,13 +6,17 @@ import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 
 @Composable
 fun intercepted_browser(
     modifier: Modifier = Modifier,
     url: String,
-    onPageFinished: (view: WebView?, url: String?) -> Unit
+    onLoadResource: ((String) -> Unit)? = null,
+onPageFinished: (view: WebView?, url: String?) -> Unit
 ) {
+    val urlFlow: MutableStateFlow<String> = MutableStateFlow("")
     AndroidView(
         modifier = modifier,
         factory = { context ->
@@ -22,9 +26,21 @@ fun intercepted_browser(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 webViewClient = object : WebViewClient() {
-                    override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+                    override fun doUpdateVisitedHistory(
+                        view: WebView?,
+                        url: String?,
+                        isReload: Boolean
+                    ) {
                         onPageFinished(view, url)
                         super.doUpdateVisitedHistory(view, url, isReload)
+                    }
+
+                    override fun onLoadResource(view: WebView?, url: String?) {
+                        super.onLoadResource(view, url)
+                        Timber.d("onLoadResource $url")
+                        url?.let {
+                            onLoadResource?.invoke(url)
+                        }
                     }
                 }
                 settings.javaScriptEnabled = true

@@ -171,7 +171,7 @@ fun youtube_webview_(
                 //region Webview
                 intercepted_browser(
                     modifier = Modifier.weight(1f),
-                    url = YOUTUBE_URL,
+                    url = state.url,
                     onPageFinished = vm::onPageFinished
                 )
 
@@ -180,7 +180,7 @@ fun youtube_webview_(
                 _footer(
                     onHomePressed = {
                         FirebaseTracking.log(FirebaseLogEvent.Youtube_Click_Home)
-                        navigator.popBackStack()
+                        (context as Activity).finish()
                     },
                     onQualityPressed = {
                         FirebaseTracking.log(FirebaseLogEvent.Youtube_Click_Quality_Option)
