@@ -1,6 +1,8 @@
 package com.abc.mirroring.cast.screen.cast.iptv
 
 import android.app.Activity
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -24,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,16 +51,41 @@ import com.abc.mirroring.ui.dialog.DialogCenter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
+import net.bjoernpetersen.m3u.M3uParser
+import net.bjoernpetersen.m3u.model.M3uEntry
+import okio.source
+import timber.log.Timber
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.nio.file.Paths
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Destination
 fun iptv_(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    main: GlobalVimel
 ) {
     val activity = LocalContext.current as Activity
     var isDialogAddIPTVShow by remember { mutableStateOf(false) }
     var isShowApologizeMessage by remember { mutableStateOf(false) }
+    var caster = main.caster
+    LaunchedEffect(true) {
+        val m3uFile = Paths.get("index.m3u")
+//        val fileEntries: List<M3uEntry> = M3uParser.parse(m3uFile)
+
+        val m3uStream: InputStream = activity.resources.openRawResource(R.raw.index)
+        val m3uReader: InputStreamReader = m3uStream.reader()
+        val streamEntries: List<M3uEntry> = M3uParser.parse(m3uReader)
+        streamEntries.forEach {entry ->
+//            Timber.d("M3u8File: ${streamEntries[i].title}")
+
+            entry.metadata.entries.joinToString { "${it.key}: ${it.value}" }.let {  Timber.d("M3u8File: $it ${entry.location.url}") }
+        }
+    }
+
+
     Column(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             modifier = Modifier
@@ -107,7 +134,8 @@ fun iptv_(
                         .clip(RoundedCornerShape(8.dp))
                         .background(Color(0xFF0091EA))
                         .clickable {
-                            isDialogAddIPTVShow = true
+//                            isDialogAddIPTVShow = true
+                            caster.cast(main.caster.discovery.device.value!!) {}
                         }
                         .padding(vertical = 8.dp, horizontal = 36.dp)
                     ) {

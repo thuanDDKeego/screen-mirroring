@@ -22,6 +22,7 @@ import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel
 import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
 import com.abc.mirroring.cast.setup.theme.CastTvTheme
+import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.route.MediaRoute
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.iptv_Destination
@@ -38,6 +39,7 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -45,6 +47,9 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val MEDIA_ROUTE = "media_route"
     }
+
+    @Inject
+    lateinit var caster: Caster
 
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(

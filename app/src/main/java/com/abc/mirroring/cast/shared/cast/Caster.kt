@@ -157,6 +157,7 @@ class Caster(
                     }
                     ?: return@launch onResponse(Error(Throwable("File doesn't exists")))
 
+
                 String.format("http://%s:%d", NetworkUtils.getLocalIpAddress(), 6996)
             } else {
                 media.url()
@@ -170,6 +171,82 @@ class Caster(
             val mediaInfo: MediaInfo = MediaInfo.Builder(url, mimeType)
                 .setTitle(media.name())
                 .setDescription("Enjoy! Rate us 5 stars. it will help us in making better services") // TODO: Change by appstore name
+                .build()
+
+            val listener: MediaPlayer.LaunchListener = object : MediaPlayer.LaunchListener {
+                override fun onSuccess(launcher: MediaPlayer.MediaLaunchObject) {
+                    Timber.i("Launched new session $launcher")
+                    isTryingToDisplay = false
+                    currentSession = SessionPlayer(device, launcher, discovery.volumeController!!)
+                    onResponse(SessionPlayer.SessionStatus.Connected(currentSession!!))
+                }
+
+                override fun onError(error: ServiceCommandError) {
+                    Timber.e(error.message + " " + error.payload)
+                    isTryingToDisplay = false
+                    onResponse(Error(error))
+                }
+            }
+
+
+            try {
+                // firstly, flag trying to display
+                isTryingToDisplay = true
+
+                /**
+                 * if this is first time stream, launch it
+                 */
+                if (currentSession == null || !isSameDevice(device)) {
+                    currentSession?.clear()
+                    currentSession = null
+                    device.getCapability(MediaPlayer::class.java)?.playMedia(mediaInfo, false, listener)
+                    return@launch
+                }
+
+
+                /**
+                 * if we have connected to TV and want to change to the next video
+                 */
+                device.getCapability(MediaPlayer::class.java)?.closeMedia(currentSession?.launcher?.launchSession, object : ResponseListener<Any> {
+                    override fun onError(error: ServiceCommandError) {
+                        Timber.e("Close media: " + error?.message + " " + error?.payload)
+                        device.getCapability(MediaPlayer::class.java)?.playMedia(mediaInfo, false, listener)
+                    }
+
+                    override fun onSuccess(temp: Any) {
+                        Timber.v("Close media success!")
+                        device.getCapability(MediaPlayer::class.java)?.playMedia(mediaInfo, false, listener)
+                    }
+                })
+
+            } catch (e: Exception) {
+                onResponse(Error(e))
+            }
+        }
+    }
+
+    fun cast(device: ConnectableDevice, onResponse: (SessionPlayer.SessionStatus) -> Unit) {
+        if (!isSameDevice(device) // user change TV
+            || (currentSession != null && !currentSession!!.device.isConnected)// user disconnect current tV
+        ) {
+            isTryingToDisplay = false
+            currentSession?.clear()
+            currentSession = null
+        }
+
+        if (isTryingToDisplay && isSameDevice(device)) {
+            onResponse(Error(Throwable("Device is trying to connect to TV, please wait!")))
+            return
+        }
+        // launch on coroutine for safe
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://iptv-org.github.io/iptv/index.m3u"
+            val mimeType = "application/x-mpegurl"
+            Timber.d("Casting $mimeType $url")
+
+            val mediaInfo: MediaInfo = MediaInfo.Builder("https://panel.dattalive.com/8068/8068/playlist.m3u8", mimeType)
+                .setTitle("test iptv")
+                .setDescription("iptv playlist") // TODO: Change by appstore name
                 .build()
 
             val listener: MediaPlayer.LaunchListener = object : MediaPlayer.LaunchListener {
