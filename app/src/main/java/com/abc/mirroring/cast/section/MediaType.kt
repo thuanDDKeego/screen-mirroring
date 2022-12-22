@@ -5,5 +5,6 @@ enum class MediaType {
     Video,
     Audio,
     Image,
-    Youtube
+    Youtube,
+    M3U8File
 }

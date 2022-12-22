@@ -320,5 +320,10 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="enter_name_here">Enter Name Here</string>
     <string name="add">Add</string>
     <string name="iptv_apologize_message">Sorry about inconvinient, we\'re maintain this feature right now. Please comeback in next few days</string>
+    <string name="iptv_channel">IPTV Channel</string>
+    <string name="enter_channel_name_here">Enter Channel\'s Name Here</string>
+    <string name="iptv_name">IPTV Name</string>
+    <string name="invalid_iptv_address">Invalid IPTV Address</string>
+    <string name="name_must_not_be_empty">Name must not be empty</string>
 
 </resources>

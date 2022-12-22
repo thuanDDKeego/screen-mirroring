@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.abc.mirroring.NavGraphs
 import com.abc.mirroring.cast.screen.cast.audible.AudibleVimel
 import com.abc.mirroring.cast.screen.cast.image.ImageVimel
+import com.abc.mirroring.cast.screen.cast.iptv.IPTVVimel
 import com.abc.mirroring.cast.screen.cast.youtube.YoutubeVimel
 import com.abc.mirroring.cast.setup.theme.CastTvTheme
 import com.abc.mirroring.cast.shared.cast.Caster
@@ -72,7 +73,7 @@ class MainActivity : ComponentActivity() {
             MediaRoute.Image.route -> NavGraphs.image
             MediaRoute.Audio.route -> NavGraphs.audio
             MediaRoute.Youtube.route -> NavGraphs.youtube
-            MediaRoute.IPTV.route -> iptv_Destination
+            MediaRoute.IPTV.route -> NavGraphs.iPTV
             else -> NavGraphs.video
         }
         Timber.i("initialized")
@@ -150,6 +151,14 @@ class MainActivity : ComponentActivity() {
             }
             hiltViewModel<YoutubeVimel>(parent)
         }
+
+        dependency(NavGraphs.iPTV) {
+            val parent = remember(navBackStackEntry) {
+                navController.getBackStackEntry(NavGraphs.iPTV.route)
+            }
+            hiltViewModel<IPTVVimel>(parent)
+        }
+
 
         // 👇 To tie ActivityViewModel to the activity, making it available to all destinations
         dependency(GlobalVimel.get())

@@ -1,4 +1,4 @@
-package com.abc.mirroring.cast.screen.cast.iptv
+package com.abc.mirroring.cast.screen.cast.iptv.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,37 +12,39 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.abc.mirroring.R
+import com.abc.mirroring.cast.screen.cast.iptv.M3UItem
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun dialog_iptv_url(
     onHide: () -> Unit,
-    onAdd: () -> Unit
+    onAdd: (M3UItem) -> Unit
 ) {
-    val iptvAddress = remember { mutableStateOf("") }
-    val iptvName = remember { mutableStateOf("") }
+    var iptvAddress by remember { mutableStateOf("") }
+    var iptvName by remember { mutableStateOf("") }
+    //check if invalid address, show warning text
+    var invalidAdrress by remember { mutableStateOf(false) }
+    //name must not be empty
+    var invalidName by remember { mutableStateOf(false) }
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = {
@@ -79,13 +81,28 @@ fun dialog_iptv_url(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             )
-            _custom_editText(
-                value = iptvAddress,
+            _custom_edit_text(
                 hint = stringResource(id = R.string.enter_address_here)
-            )
+            ) { value ->
+                invalidAdrress = false
+                iptvAddress = value
+
+            }
+            //if invalid adrress, show warning red text
+            if (invalidAdrress) {
+                Text(
+                    text = stringResource(id = R.string.invalid_iptv_address),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Start,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = stringResource(id = R.string.add_iptv),
+                text = stringResource(id = R.string.iptv_name),
                 fontSize = 18.sp,
                 textAlign = TextAlign.Start,
                 color = Color.Black,
@@ -93,11 +110,23 @@ fun dialog_iptv_url(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             )
-            _custom_editText(
-                value = iptvName,
+            _custom_edit_text(
                 hint = stringResource(id = R.string.enter_name_here)
-            )
-
+            ) { value ->
+                iptvName = value
+                invalidName = false
+            }
+            if (invalidName) {
+                Text(
+                    text = stringResource(id = R.string.name_must_not_be_empty),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Start,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            }
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -121,8 +150,16 @@ fun dialog_iptv_url(
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color(0xFF0091EA))
                     .clickable {
-                        onHide.invoke()
-                        onAdd.invoke()
+                        if(!iptvAddress.startsWith("http://", ignoreCase = true) && !iptvAddress.startsWith("https://", ignoreCase = true)) {
+                            invalidAdrress = true
+                            return@clickable
+                        }
+                        if(iptvName.trim().isEmpty()) {
+                            invalidName = true
+                            return@clickable
+                        }
+                        onHide()
+                        onAdd.invoke(M3UItem(iptvName, iptvAddress))
                     }
                     .padding(12.dp)
                 ) {
@@ -137,41 +174,3 @@ fun dialog_iptv_url(
     }
 }
 
-@Composable
-fun _custom_editText(
-    hint: String = "",
-    value: MutableState<String>
-) {
-    val focusManager = LocalFocusManager.current
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .background(shape = RoundedCornerShape(10.dp), color = Color.White)
-            .height(36.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        BasicTextField(
-            value = value.value,
-            onValueChange = { value.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, end = 36.dp),
-            singleLine = true,
-            textStyle = TextStyle(textAlign = TextAlign.Left),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    //clear focus on text-field
-                    focusManager.clearFocus()
-                }
-            ),
-            decorationBox = { innerTextField ->
-                if (value.value.isEmpty()) Text(
-                    text = hint,
-                    color = Color.LightGray,
-                    fontSize = 12.sp,
-                )
-                innerTextField()
-            }
-        )
-    }
-}
