@@ -31,13 +31,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.abc.mirroring.R
-import com.abc.mirroring.cast.screen.cast.iptv.M3UItem
+import com.abc.mirroring.cast.section.data.iptv.M3U
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun dialog_iptv_url(
     onHide: () -> Unit,
-    onAdd: (M3UItem) -> Unit
+    onAdd: (M3U) -> Unit
 ) {
     var iptvAddress by remember { mutableStateOf("") }
     var iptvName by remember { mutableStateOf("") }
@@ -159,7 +159,7 @@ fun dialog_iptv_url(
                             return@clickable
                         }
                         onHide()
-                        onAdd.invoke(M3UItem(iptvName, iptvAddress))
+                        onAdd.invoke(M3U(iptvName, iptvAddress))
                     }
                     .padding(12.dp)
                 ) {

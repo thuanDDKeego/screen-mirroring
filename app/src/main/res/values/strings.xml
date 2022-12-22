@@ -325,5 +325,11 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="iptv_name">IPTV Name</string>
     <string name="invalid_iptv_address">Invalid IPTV Address</string>
     <string name="name_must_not_be_empty">Name must not be empty</string>
+    <string name="edit_file">Edit File</string>
+    <string name="delete_file">Delete File</string>
+    <string name="are_you_sure_you_want_to_remove">Are you sure you want to remove</string>
+    <string name="remove">Remove</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
 
 </resources>
