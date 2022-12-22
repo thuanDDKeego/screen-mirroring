@@ -10,6 +10,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object IPTVExtractor {
+    //leave here your m3u link(m3uUrl) and return m3u8files
     fun getChannels(m3uUrl: String, onError: ((Exception) -> Unit)? = null,onSuccess: (List<M3U8File>) -> Unit) {
         val url = URL(m3uUrl)
         CoroutineScope(Dispatchers.IO).launch {

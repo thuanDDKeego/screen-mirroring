@@ -1,8 +1,6 @@
 package com.abc.mirroring.cast.screen.cast.iptv
 
 import android.app.Activity
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,21 +50,16 @@ import androidx.compose.ui.unit.sp
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
-import com.abc.mirroring.cast.screen.cast.audible.AudibleParameter
 import com.abc.mirroring.cast.screen.cast.iptv.component.dialog_iptv_url
-import com.abc.mirroring.cast.section.MediaType
-import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
 import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
-import com.abc.mirroring.destinations.audible_player_Destination
-import com.abc.mirroring.destinations.m3u8_picker_Destination
+import com.abc.mirroring.destinations.channel_picker_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @IPTVNavGraph(start = true)
 @Composable
@@ -77,13 +70,11 @@ fun iptv_(
 ) {
     val activity = LocalContext.current as Activity
     val state by vm.state.collectAsState()
-    val caster = vm.caster
     //visibility state of dialog add m3u url
     var isDialogAddIPTVShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         //if we back from channels_picker, we need reset channels to empty )
-        vm.resetChannels()
         vm.resetState()
     }
 
@@ -161,7 +152,7 @@ fun iptv_(
                         items(state.m3us, key = { it.url + it.name }) {
                             _m3u_item(item = it) {
                                 vm.updateCurrentM3U(it)
-                                navigator.navigate(m3u8_picker_Destination())
+                                navigator.navigate(channel_picker_Destination())
                             }
                         }
                     }
@@ -215,7 +206,7 @@ private fun _iptv_actions_top_bar(
         if (globalState.isDeviceConnected) {
             dialogVisibility = true
         } else {
-            globalVimel.caster.discovery.picker(context = context as Activity)
+            globalVimel.caster.discovery.picker(context = context)
         }
     }) {
         if (globalState.isDeviceConnected) {

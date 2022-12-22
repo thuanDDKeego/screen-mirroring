@@ -64,7 +64,7 @@ import dev.sofi.ads.AdCenter
 @Destination
 @IPTVNavGraph(start = false)
 @Composable
-fun m3u8_picker_(
+fun channel_picker_(
     navigator: DestinationsNavigator,
     vm: IPTVVimel
 ) {

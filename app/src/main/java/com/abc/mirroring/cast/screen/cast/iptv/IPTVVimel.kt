@@ -17,9 +17,6 @@ class IPTVVimel @Inject constructor(
     var caster: Caster
 ) : VimelStateHolder<IPTVVimel.IPTVVimelState>(IPTVVimelState()) {
 
-    companion object {
-    }
-
     data class IPTVVimelState(
         var currentM3U: M3UItem? = null,
         var m3us: List<M3UItem> = listOf(),
