@@ -76,6 +76,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.LocalState
 import com.abc.mirroring.cast.section.Audible
+import com.abc.mirroring.cast.section.M3U8File
 import com.abc.mirroring.cast.section.MediaPicker
 import com.abc.mirroring.cast.section.MediaType
 import com.abc.mirroring.cast.section.SourceType
@@ -732,17 +733,20 @@ private fun _thumbnail(
             else -> {}
         }
     } else {
-        if (streamable.mediaType() == MediaType.Youtube) {
-            val ytb = streamable as Youtube
-            Image(
-                painter = rememberAsyncImagePainter(model = ytb.thumbnail),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp)),
+        val thumbnail =
+            when (streamable.mediaType()) {
+                MediaType.Youtube -> (streamable as Youtube).thumbnail
+                MediaType.M3U8File -> (streamable as M3U8File).thumbnail
+                else -> null
+            }
+        Image(
+            painter = rememberAsyncImagePainter(model = thumbnail),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp)),
 //                    .aspectRatio(4f / 3f),
-                contentScale = ContentScale.Crop,
-                contentDescription = streamable.name()
-            )
-        }
+            contentScale = ContentScale.Crop,
+            contentDescription = streamable.name()
+        )
     }
 }

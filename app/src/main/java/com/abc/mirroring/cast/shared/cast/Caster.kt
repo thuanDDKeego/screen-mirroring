@@ -157,6 +157,7 @@ class Caster(
                     }
                     ?: return@launch onResponse(Error(Throwable("File doesn't exists")))
 
+
                 String.format("http://%s:%d", NetworkUtils.getLocalIpAddress(), 6996)
             } else {
                 media.url()
