@@ -114,6 +114,7 @@ fun channel_picker_(
                 items(state.channels.filter { it.name.contains(txtSearch.trim(), ignoreCase = true) }, key = { it.url }) {
                     _channel_item(item = it) {
                         if (vm.caster.isConnected()) {
+                            FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Channel)
                             navigator.navigate(audible_player_Destination(AudibleParameter(type = MediaType.M3U8File, source = SourceType.External, urls = state.channels, current = it)))
                         } else { vm.caster.discovery.picker(activity)}
                     }

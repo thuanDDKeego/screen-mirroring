@@ -1,6 +1,7 @@
 package com.abc.mirroring.cast.screen.cast.iptv
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -174,6 +175,10 @@ fun iptv_(
                     ) {
                         items(state.m3us, key = { it.url + it.name }) {
                             _m3u_item(item = it, onClick = {
+                                //log firebase
+                                val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", it.url)}
+                                FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_M3U, bundle)
+
                                 vm.updateCurrentM3U(it)
                                 navigator.navigate(channel_picker_Destination())
                             }, onOptionClick = object : OnOptionClick {

@@ -111,8 +111,7 @@ fun web_cast_(
 
     LaunchedEffect(state.url) {
         txtSearch.value = state.url
-        val bundle = Bundle()
-        bundle.putString(TRACKING_URL, state.url)
+        val bundle = Bundle().also { it.putString(TRACKING_URL, state.url) }
         FirebaseTracking.log(FirebaseLogEvent.WebCast_Track_URL, bundle)
     }
 
@@ -138,9 +137,10 @@ fun web_cast_(
                     }
                 }) { medias, current ->
                 if (main.state.value.isDeviceConnected) {
-                    val bundle = Bundle()
-                    bundle.putString(CAST_URL, current.url())
+                    //log firebase
+                    val bundle = Bundle().also { it.putString(CAST_URL, current.url()) }
                     FirebaseTracking.log(FirebaseLogEvent.WebCast_Cast_URL, bundle)
+
                     when (current.mediaType()) {
                         MediaType.Image -> navigator.navigate(
                             image_player_Destination(
