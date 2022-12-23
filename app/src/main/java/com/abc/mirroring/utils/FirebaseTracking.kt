@@ -114,6 +114,7 @@ object FirebaseLogEvent {
     const val Home_Click_Connect_Devices="Home_Click_ConnectDevices"
     const val Home_Click_Gift_icon="Home_Click_GiftIcon"
     const val Home_Click_Online_Image = "Home_Click_OnlineImage"
+    const val Home_Click_Tiktok = "Home_Click_Tiktok"
     const val Home_Click_Iptv = "Home_Click_Iptv"
     const val Home_Click_Google_Photo = "Home_Click_GooglePhoto"
 

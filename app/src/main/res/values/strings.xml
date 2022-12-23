@@ -334,5 +334,6 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="update_iptv">Update IPTV</string>
     <string name="iptv_address">IPTV Address</string>
     <string name="update">Update</string>
+    <string name="Tiktok">Tiktok</string>
 
 </resources>

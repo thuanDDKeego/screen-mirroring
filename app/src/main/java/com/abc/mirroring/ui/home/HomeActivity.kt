@@ -420,6 +420,14 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+            llTiktok.setOnClickListener {
+                FirebaseTracking.log(FirebaseLogEvent.Home_Click_Tiktok)
+                Toast.makeText(
+                    this@HomeActivity,
+                    getString(R.string.coming_soon),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             llIpTv.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Iptv)
                 goToCast(MediaRoute.IPTV)
