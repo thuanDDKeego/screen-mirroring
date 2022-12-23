@@ -92,7 +92,6 @@ class DeviceDiscovery(
         val dialog = DevicePicker(context).getCustomPickerDialog("Cast to",
             { adapter, view, position, id ->
                 val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
-                Timber.d("===getAllDeivces: ${manager.allDevices}")
                 manager.allDevices.values.forEach { }
                 FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device + "_${mDevice.serviceId}")
                 FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device,
