@@ -1,4 +1,4 @@
-package com.abc.mirroring.cast.section.data.iptv
+package com.abc.mirroring.cast.section.data.iptv.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

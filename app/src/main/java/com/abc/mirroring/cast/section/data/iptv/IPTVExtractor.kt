@@ -1,4 +1,4 @@
-package com.abc.mirroring.cast.screen.cast.iptv
+package com.abc.mirroring.cast.section.data.iptv
 
 import com.abc.mirroring.cast.section.M3U8File
 import kotlinx.coroutines.CoroutineScope

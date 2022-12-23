@@ -1,7 +1,7 @@
-package com.abc.mirroring.cast.screen.cast.iptv
+package com.abc.mirroring.cast.section.data.iptv.repo
 
-import com.abc.mirroring.cast.section.data.iptv.M3U
-import com.abc.mirroring.cast.section.data.iptv.M3uDAO
+import com.abc.mirroring.cast.section.data.iptv.db.M3U
+import com.abc.mirroring.cast.section.data.iptv.db.M3uDAO
 import javax.inject.Inject
 
 class IPTVRepository @Inject constructor(val m3uDAO: M3uDAO) {

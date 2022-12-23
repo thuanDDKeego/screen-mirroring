@@ -1,4 +1,4 @@
-package com.abc.mirroring.cast.section.data.iptv
+package com.abc.mirroring.cast.section.data.iptv.db
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
+import com.abc.mirroring.cast.section.data.iptv.db.M3U
 
 @Dao
 interface M3uDAO {

@@ -2,12 +2,11 @@ package com.abc.mirroring.di
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.content.pm.PermissionInfoCompat.ProtectionFlags
 import androidx.room.Room
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.cast.screen.cast.iptv.IPTVRepository
-import com.abc.mirroring.cast.section.data.iptv.IPTVDatabase
-import com.abc.mirroring.cast.section.data.iptv.M3uDAO
+import com.abc.mirroring.cast.section.data.iptv.repo.IPTVRepository
+import com.abc.mirroring.cast.section.data.iptv.db.IPTVDatabase
+import com.abc.mirroring.cast.section.data.iptv.db.M3uDAO
 import com.abc.mirroring.cast.shared.cast.Caster
 import com.abc.mirroring.cast.shared.utils.GsonParser
 import com.abc.mirroring.cast.shared.utils.UriTypeAdapter
@@ -55,7 +54,7 @@ object AppModule {
     @Provides fun providesIPTVDatabase(@ApplicationContext context: Context): IPTVDatabase =
         Room.databaseBuilder(context, IPTVDatabase::class.java, "iptv-db").allowMainThreadQueries().build()
 
-    @Provides fun providesToDoDao(database: IPTVDatabase) = database.m3uDao()
+    @Provides fun providesM3UDao(database: IPTVDatabase) = database.m3uDao()
 
     @Provides fun providesIPTVRepository(m3uDAO: M3uDAO) = IPTVRepository(m3uDAO)
 }

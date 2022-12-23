@@ -57,7 +57,7 @@ import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.iptv.component.dialog_delete_m3u
 import com.abc.mirroring.cast.screen.cast.iptv.component.dialog_iptv_url
-import com.abc.mirroring.cast.section.data.iptv.M3U
+import com.abc.mirroring.cast.section.data.iptv.db.M3U
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
 import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar

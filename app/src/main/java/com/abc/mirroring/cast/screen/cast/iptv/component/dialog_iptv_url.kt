@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.abc.mirroring.R
-import com.abc.mirroring.cast.section.data.iptv.M3U
+import com.abc.mirroring.cast.section.data.iptv.db.M3U
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
