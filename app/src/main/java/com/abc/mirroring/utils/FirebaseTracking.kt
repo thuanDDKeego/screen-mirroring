@@ -194,4 +194,19 @@ object FirebaseLogEvent {
     const val Premium_Click_Cancel = "Premium_Click_Cancel"
 
     const val SmallTopBar_Click_Tutorial = "SmallTopBar_Click_Tutorial"
+
+    //IPTV
+    const val IPTV_Click_Add="IPTV_Click_Add"
+    const val IPTV_Click_Add_TopBar="IPTV_Click_Add_TopBar"
+    const val IPTV_Click_Back="IPTV_Click_Back"
+    const val IPTV_Click_EditFile="IPTV_Click_EditFile"
+    const val IPTV_Click_DeleteFile="IPTV_Click_DeleteFile"
+    const val DeleteFile_Click_Cancel="DeleteFile_Click_Cancel"
+    const val DeleteFile_Click_Delete="DeleteFile_Click_Delete"
+    const val AddIPTV_Click_IPTVAddress="AddIPTV_Click_IPTVAddress"
+    const val AddIPTV_Click_Add="AddIPTV_Click_Add"
+    const val AddIPTV_Click_Cancel="AddIPTV_Click_Cancel"
+    const val AddIPTV_Click_IPTVName="AddIPTV_Click_IPTVName"
+    const val IPTVChannel_Click_Search="IPTVChannel_Click_Search"
+    const val IPTVChannel_Click_Back="IPTVChannel_Click_Back"
 }

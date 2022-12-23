@@ -57,6 +57,8 @@ import com.abc.mirroring.cast.section.SourceType
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
 import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.destinations.audible_player_Destination
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
@@ -173,6 +175,7 @@ private fun _iptv_picker_actions_top_bar(
                     isSearching = false
                 } else {
                     onBackPressed()
+                    FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Back)
                 }
             },
 //            modifier = Modifier.padding(12.dp)
@@ -195,6 +198,7 @@ private fun _iptv_picker_actions_top_bar(
             Text(text = stringResource(id = R.string.iptv_channel), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = Color.Black, modifier = Modifier)
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = {
+                FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Search)
                 isSearching = true
             }) {
                 Image(
