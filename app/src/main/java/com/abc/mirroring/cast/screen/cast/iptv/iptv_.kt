@@ -148,9 +148,6 @@ fun iptv_(
                         .background(Color(0xFF0091EA))
                         .clickable {
                             isDialogAddIPTVShow = true
-//                            caster.cast(caster.discovery.device.value!!) {}
-//                            state.currentM3U = "index.m3u"
-//                            navigator.navigate(m3u8_picker_Destination())
                         }
                         .padding(vertical = 8.dp, horizontal = 36.dp)
                     ) {
