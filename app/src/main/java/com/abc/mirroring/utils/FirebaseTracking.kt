@@ -215,4 +215,6 @@ object FirebaseLogEvent {
     //web cast - tracking url
     const val WebCast_Track_URL="WebCast_Track_URL"
     const val WebCast_Cast_URL="WebCast_Cast_URL"
+
+    const val DeviceDiscoveryPicker_ClickOrChoose_Device="DeviceDiscoveryPicker_ClickOrChoose_Device"
 }

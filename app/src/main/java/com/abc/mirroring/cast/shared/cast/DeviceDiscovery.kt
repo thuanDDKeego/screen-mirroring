@@ -2,12 +2,15 @@ package com.abc.mirroring.cast.shared.cast
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.widget.Toast
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.device.ConnectableDeviceListener
 import com.connectsdk.device.DevicePicker
@@ -89,6 +92,13 @@ class DeviceDiscovery(
         val dialog = DevicePicker(context).getCustomPickerDialog("Cast to",
             { adapter, view, position, id ->
                 val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
+                FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device,
+                Bundle().apply {
+                    putString("modelName", mDevice.modelName)
+                    putString("modelNumber", mDevice.modelNumber)
+                    putString("service", mDevice.serviceId)
+                }
+                )
                 if (mDevice.serviceId.lowercase().equals("airplay")) {
                     Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
                     return@getCustomPickerDialog
