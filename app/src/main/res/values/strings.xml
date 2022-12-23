@@ -335,5 +335,6 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="iptv_address">IPTV Address</string>
     <string name="update">Update</string>
     <string name="Tiktok">Tiktok</string>
+    <string name="get_channels_error_message">your File has some errors, Please check your internet or try another File!</string>
 
 </resources>

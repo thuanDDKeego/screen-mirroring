@@ -34,19 +34,20 @@ class IPTVVimel @Inject constructor(
         var m3uWantToDelete: M3U? = null,
         var m3uWantToUpdate: M3U? = null,
         var isLoading: Boolean = false,
+        var isChannelScreenError: Boolean = false,
         var channels: List<M3U8File> = listOf()
     ) : State
 
     fun fetchM3Us() {
         viewModelScope.launch {
-            update {state -> state.copy(isLoading = true)}
+            update { state -> state.copy(isLoading = true) }
             //handle data should be run on IO
             withContext(Dispatchers.IO) {
                 val m3us = iptvRepository.getAllM3U()
                 //update ui must be run on Main
                 withContext(Dispatchers.Main) {
                     //loading complete
-                    update {state -> state.copy(isLoading = false)}
+                    update { state -> state.copy(isLoading = false) }
                     //update m3us
                     update { state -> state.copy(m3us = m3us) }
                 }
@@ -67,7 +68,10 @@ class IPTVVimel @Inject constructor(
             onResult(listOf())
             return
         }
-        IPTVExtractor.getChannels(state.value.currentM3U!!.url) {
+        IPTVExtractor.getChannels(state.value.currentM3U!!.url,
+            onError = {
+                update { state -> state.copy(isLoading = false, isChannelScreenError = true) }
+            }) {
             update { state -> state.copy(isLoading = false) }
             onResult(it)
         }
@@ -91,12 +95,12 @@ class IPTVVimel @Inject constructor(
 
     //m3u file you want to delete
     fun updateM3uWantToDelete(m3u: M3U) {
-        update {state -> state.copy(m3uWantToDelete =  m3u)}
+        update { state -> state.copy(m3uWantToDelete = m3u) }
     }
 
     //m3u file you want to update
     fun updateM3uWantToUpdate(m3u: M3U) {
-        update {state -> state.copy(m3uWantToUpdate =  m3u)}
+        update { state -> state.copy(m3uWantToUpdate = m3u) }
     }
 
     //delete m3u from db
@@ -106,7 +110,7 @@ class IPTVVimel @Inject constructor(
             withContext(Dispatchers.IO) {
                 iptvRepository.delete(item)
                 //reset m3u want to delete
-                update {state -> state.copy(m3uWantToDelete =  null)}
+                update { state -> state.copy(m3uWantToDelete = null) }
                 //after modify db, need refresh data
                 fetchM3Us()
             }
@@ -120,7 +124,7 @@ class IPTVVimel @Inject constructor(
             withContext(Dispatchers.IO) {
                 iptvRepository.update(item)
                 //reset m3u want to update
-                update {state -> state.copy(m3uWantToUpdate =  null)}
+                update { state -> state.copy(m3uWantToUpdate = null) }
                 //after modify db, need refresh data
                 fetchM3Us()
             }
@@ -128,7 +132,6 @@ class IPTVVimel @Inject constructor(
     }
 
     fun resetState() {
-        update {state -> state.copy(channels = listOf())}
-        update {state -> state.copy(isLoading = false)}
+        update { state -> state.copy(channels = listOf(), isLoading = false, isChannelScreenError = false) }
     }
 }
