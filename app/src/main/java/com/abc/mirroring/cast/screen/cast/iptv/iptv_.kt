@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.abc.mirroring.R
 import com.abc.mirroring.cast.GlobalState
 import com.abc.mirroring.cast.GlobalVimel
+import com.abc.mirroring.cast.screen.cast.iptv.component.dialog_delete_m3u
 import com.abc.mirroring.cast.screen.cast.iptv.component.dialog_iptv_url
 import com.abc.mirroring.cast.section.data.iptv.M3U
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
@@ -64,6 +66,7 @@ import com.abc.mirroring.ui.dialog.DialogCenter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @IPTVNavGraph(start = true)
@@ -78,6 +81,7 @@ fun iptv_(
     //visibility state of dialog add m3u url
     var isDialogAddIPTVShow by remember { mutableStateOf(false) }
     var isDialogDeleteM3uShow by remember { mutableStateOf(false) }
+    var isDialogUpdateM3uShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         //if we back from channels_picker, we need reset channels to empty )
@@ -85,10 +89,14 @@ fun iptv_(
         vm.fetchM3Us()
     }
 
-    //if m3uWantToDelete Changed, show delete m3u dialog
-    LaunchedEffect(state.m3uWantToDelete) {
-        if(state.m3uWantToDelete != null) isDialogDeleteM3uShow = true
-    }
+//    //if m3uWantToDelete Changed, show delete m3u dialog
+//    LaunchedEffect(state.m3uWantToDelete) {
+//        if(state.m3uWantToDelete != null) isDialogDeleteM3uShow = true
+//    }
+//    //if m3uWantToUpdate Changed, show update m3u dialog
+//    LaunchedEffect(state.m3uWantToUpdate) {
+//        if(state.m3uWantToUpdate != null) isDialogUpdateM3uShow = true
+//    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -150,6 +158,7 @@ fun iptv_(
                             text = stringResource(id = R.string.add), textAlign = TextAlign.Center, color = Color.White, fontSize = 14.sp
                         )
                     }
+                    Spacer(modifier = Modifier.weight(1f))
                 }
                 //if m3us has any item, show lazy-list
                 else {
@@ -168,16 +177,19 @@ fun iptv_(
                             }, onOptionClick = object : OnOptionClick {
                                 override fun onDelete() {
                                     vm.updateM3uWantToDelete(it)
+                                    isDialogDeleteM3uShow = true
                                 }
 
                                 override fun onUpdate() {
-                                    //TODO show dialog update
+                                    vm.updateM3uWantToUpdate(it)
+                                    isDialogUpdateM3uShow = true
                                 }
 
                             })
                         }
                     }
                 }
+                AdCenter.getInstance().native?.medium()
             }
         }
         if (isDialogAddIPTVShow) {
@@ -188,16 +200,30 @@ fun iptv_(
             }
         }
 
+        if (isDialogUpdateM3uShow) {
+            dialog_iptv_url(
+                isAddAction = false,
+                onHide = {
+                    isDialogUpdateM3uShow = false
+            }) {
+                val itemNeedUpdate = it
+                itemNeedUpdate.id = state.m3uWantToUpdate!!.id
+                vm.update(itemNeedUpdate)
+                Timber.d("----m3u ${itemNeedUpdate.id} ${itemNeedUpdate.name}")
+            }
+        }
         if (isDialogDeleteM3uShow && state.m3uWantToDelete != null) {
-            dialog_iptv_url(onHide = {
+            dialog_delete_m3u(
+                title = "Delete \"${state.m3uWantToDelete!!.name}\"",
+                onCancel = {
                 isDialogDeleteM3uShow = false
             }) {
+                Timber.d("---m3u delete ${state.m3uWantToDelete!!.id}")
                 vm.delete(state.m3uWantToDelete!!)
                 state.m3uWantToDelete = null
             }
         }
     }
-    AdCenter.getInstance().native?.medium()
 }
 
 
@@ -290,19 +316,19 @@ private fun _m3u_item(modifier: Modifier = Modifier, item: M3U, onClick: () -> U
             Text(text = item.name, color = Color.Black, fontSize = 14.sp, maxLines = 1, modifier = Modifier.fillMaxWidth(), fontWeight = FontWeight.SemiBold)
             Text(text = item.url, color = Color.Black, fontSize = 12.sp, maxLines = 1, modifier = Modifier.fillMaxWidth(), fontWeight = FontWeight.Light)
         }
-        _drop_down_m3u_options(onOptionClick)
+        _drop_down_m3u_options(modifier.padding(horizontal = 12.dp), onOptionClick)
     }
 }
 
 @Composable
-private fun _drop_down_m3u_options(onOptionClick: OnOptionClick) {
+private fun _drop_down_m3u_options(modifier: Modifier = Modifier,onOptionClick: OnOptionClick) {
     var expanded by remember { mutableStateOf(false) }
     val options = listOf(stringResource(id = R.string.edit_file), stringResource(id = R.string.delete_file))
 
-    Column {
+    Column(modifier = modifier) {
         Icon(
             imageVector = Icons.Rounded.MoreVert, contentDescription = "options",
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp).clickable { expanded = true }
         )
         DropdownMenu(
             expanded = expanded,

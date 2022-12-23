@@ -331,5 +331,8 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="remove">Remove</string>
     <string name="delete">Delete</string>
     <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
+    <string name="update_iptv">Update IPTV</string>
+    <string name="iptv_address">IPTV Address</string>
+    <string name="update">Update</string>
 
 </resources>

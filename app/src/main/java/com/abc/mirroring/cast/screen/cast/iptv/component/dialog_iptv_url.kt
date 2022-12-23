@@ -36,8 +36,9 @@ import com.abc.mirroring.cast.section.data.iptv.M3U
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun dialog_iptv_url(
+    isAddAction: Boolean = true,
     onHide: () -> Unit,
-    onAdd: (M3U) -> Unit
+    onConfirm: (M3U) -> Unit
 ) {
     var iptvAddress by remember { mutableStateOf("") }
     var iptvName by remember { mutableStateOf("") }
@@ -64,7 +65,7 @@ fun dialog_iptv_url(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = stringResource(id = R.string.add_iptv),
+                text = stringResource(id = if(isAddAction) R.string.add_iptv else R.string.update_iptv),
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 color = Color.Black,
@@ -73,7 +74,7 @@ fun dialog_iptv_url(
             )
 //            Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = stringResource(id = R.string.add_iptv),
+                text = stringResource(id = R.string.iptv_address),
                 fontSize = 18.sp,
                 textAlign = TextAlign.Start,
                 color = Color.Black,
@@ -159,17 +160,16 @@ fun dialog_iptv_url(
                             return@clickable
                         }
                         onHide()
-                        onAdd.invoke(M3U(iptvName, iptvAddress))
+                        onConfirm.invoke(M3U(iptvName, iptvAddress))
                     }
                     .padding(12.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.add), textAlign = TextAlign.Center, color = Color.White, fontSize = 14.sp,
+                        text = stringResource(id = if(isAddAction) R.string.add else R.string.update), textAlign = TextAlign.Center, color = Color.White, fontSize = 14.sp,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
-
         }
     }
 }

@@ -30,6 +30,7 @@ class IPTVVimel @Inject constructor(
         var currentM3U: M3U? = null,
         var m3us: List<M3U> = listOf(),
         var m3uWantToDelete: M3U? = null,
+        var m3uWantToUpdate: M3U? = null,
         var isLoading: Boolean = false,
         var channels: List<M3U8File> = listOf()
     ) : State
@@ -86,15 +87,38 @@ class IPTVVimel @Inject constructor(
 //        update { state -> state.copy(m3us = state.m3us.toMutableList().also { it.add(0, item) }) }
     }
 
+    //m3u file you want to delete
     fun updateM3uWantToDelete(m3u: M3U) {
         update {state -> state.copy(m3uWantToDelete =  m3u)}
     }
 
+    //m3u file you want to update
+    fun updateM3uWantToUpdate(m3u: M3U) {
+        update {state -> state.copy(m3uWantToUpdate =  m3u)}
+    }
+
+    //delete m3u from db
     fun delete(item: M3U) {
         viewModelScope.launch {
             //handle data should be run on IO
             withContext(Dispatchers.IO) {
                 iptvRepository.delete(item)
+                //reset m3u want to delete
+                update {state -> state.copy(m3uWantToDelete =  null)}
+                //after modify db, need refresh data
+                fetchM3Us()
+            }
+        }
+    }
+
+    //update m3u from db
+    fun update(item: M3U) {
+        viewModelScope.launch {
+            //handle data should be run on IO
+            withContext(Dispatchers.IO) {
+                iptvRepository.update(item)
+                //reset m3u want to update
+                update {state -> state.copy(m3uWantToUpdate =  null)}
                 //after modify db, need refresh data
                 fetchM3Us()
             }

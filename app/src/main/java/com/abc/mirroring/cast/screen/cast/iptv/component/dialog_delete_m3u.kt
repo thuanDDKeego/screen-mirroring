@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,20 +53,13 @@ fun dialog_delete_m3u(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = stringResource(id = R.string.add_iptv),
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                color = Color.Black,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
 //            Spacer(modifier = Modifier.size(16.dp))
             Text(
                 text = title,
                 fontSize = 18.sp,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Center,
                 color = Color.Black,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)

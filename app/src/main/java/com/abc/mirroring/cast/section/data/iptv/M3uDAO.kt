@@ -14,14 +14,14 @@ interface M3uDAO {
     suspend fun getAllM3U(): List<M3U>
 
     @Query("select * from m3u where id = :id")
-    suspend fun findTaskById(id: Long): M3U
+    suspend fun findM3UById(id: Long): M3U
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertTask(m3u: M3U)
+    suspend fun insertM3U(m3u: M3U)
 
     @Update(onConflict = REPLACE)
-    suspend fun updateTask(m3u: M3U)
+    suspend fun updateM3U(m3u: M3U)
 
     @Delete
-    suspend fun deleteTask(m3u: M3U)
+    suspend fun deleteM3U(m3u: M3U)
 }

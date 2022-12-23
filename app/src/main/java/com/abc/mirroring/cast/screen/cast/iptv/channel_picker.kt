@@ -117,8 +117,8 @@ fun channel_picker_(
                     }
                 }
             }
-            AdCenter.getInstance().native?.small()
         }
+        AdCenter.getInstance().native?.small()
     }
 }
 
@@ -232,5 +232,3 @@ private fun _iptv_picker_actions_top_bar(
         }
     }
 }
-
-//data class M3UItem(val name: String, val url: String)
