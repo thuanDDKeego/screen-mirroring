@@ -361,6 +361,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                 adCenter.interstitial?.show(
                     this@HomeActivity
                 ) {
+                    AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
                     dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                     goToActivityAndReceptShowDialogRateResult.launch(intent)
                 }
@@ -451,6 +452,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 //            admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
             adCenter.interstitial?.show(this) {
                 dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
+                AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
                 goToActivityAndReceptShowDialogRateResult.launch(intent)
             }
         } else {
