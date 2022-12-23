@@ -176,11 +176,13 @@ fun iptv_(
                         items(state.m3us, key = { it.url + it.name }) {
                             _m3u_item(item = it, onClick = {
                                 //log firebase
-                                val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", it.url)}
+                                val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", it.url) }
                                 FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_M3U, bundle)
 
                                 vm.updateCurrentM3U(it)
-                                navigator.navigate(channel_picker_Destination())
+                                AdCenter.getInstance().interstitial?.show(activity) {
+                                    navigator.navigate(channel_picker_Destination())
+                                }
                             }, onOptionClick = object : OnOptionClick {
                                 override fun onDelete() {
                                     FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_DeleteFile)
@@ -217,7 +219,7 @@ fun iptv_(
                 isAddAction = false,
                 onHide = {
                     isDialogUpdateM3uShow = false
-            }) {
+                }) {
                 val itemNeedUpdate = it
                 itemNeedUpdate.id = state.m3uWantToUpdate!!.id
                 vm.update(itemNeedUpdate)
@@ -230,7 +232,7 @@ fun iptv_(
                 onCancel = {
                     FirebaseTracking.log(FirebaseLogEvent.DeleteFile_Click_Cancel)
                     isDialogDeleteM3uShow = false
-            }) {
+                }) {
                 Timber.d("---m3u delete ${state.m3uWantToDelete!!.id}")
                 FirebaseTracking.log(FirebaseLogEvent.DeleteFile_Click_Delete)
                 vm.delete(state.m3uWantToDelete!!)
@@ -335,14 +337,16 @@ private fun _m3u_item(modifier: Modifier = Modifier, item: M3U, onClick: () -> U
 }
 
 @Composable
-private fun _drop_down_m3u_options(modifier: Modifier = Modifier,onOptionClick: OnOptionClick) {
+private fun _drop_down_m3u_options(modifier: Modifier = Modifier, onOptionClick: OnOptionClick) {
     var expanded by remember { mutableStateOf(false) }
     val options = listOf(stringResource(id = R.string.edit_file), stringResource(id = R.string.delete_file))
 
     Column(modifier = modifier) {
         Icon(
             imageVector = Icons.Rounded.MoreVert, contentDescription = "options",
-            modifier = Modifier.size(24.dp).clickable { expanded = true }
+            modifier = Modifier
+                .size(24.dp)
+                .clickable { expanded = true }
         )
         DropdownMenu(
             expanded = expanded,

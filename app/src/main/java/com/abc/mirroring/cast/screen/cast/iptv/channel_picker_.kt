@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -41,8 +42,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -97,26 +100,51 @@ fun channel_picker_(
                     .weight(1f)
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(42.dp),
+                    modifier = Modifier.size(50.dp),
                     color = Color(0xFF0091EA),
-                    strokeWidth = 6.dp
+                    strokeWidth = 4.dp
                 )
             }
         } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                state = rememberLazyListState(),
-                contentPadding = PaddingValues(12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(state.channels.filter { it.name.contains(txtSearch.trim(), ignoreCase = true) }, key = { it.url }) {
-                    _channel_item(item = it) {
-                        if (vm.caster.isConnected()) {
-                            FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Channel)
-                            navigator.navigate(audible_player_Destination(AudibleParameter(type = MediaType.M3U8File, source = SourceType.External, urls = state.channels, current = it)))
-                        } else { vm.caster.discovery.picker(activity)}
+            if (state.isChannelScreenError) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.img_error), contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(64.dp),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Text(
+                        text = stringResource(id = R.string.get_channels_error_message), fontSize = 14.sp, color = Color.Red, textAlign = TextAlign.Center, fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    state = rememberLazyListState(),
+                    contentPadding = PaddingValues(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    items(state.channels.filter { it.name.contains(txtSearch.trim(), ignoreCase = true) }, key = { it.url }) {
+                        _channel_item(item = it) {
+                            if (vm.caster.isConnected()) {
+                                FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Channel)
+                                navigator.navigate(audible_player_Destination(AudibleParameter(type = MediaType.M3U8File, source = SourceType.External, urls = state.channels, current = it)))
+                            } else {
+                                vm.caster.discovery.picker(activity)
+                            }
+                        }
                     }
                 }
             }
