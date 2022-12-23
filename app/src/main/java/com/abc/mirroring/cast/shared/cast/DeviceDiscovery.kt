@@ -92,12 +92,16 @@ class DeviceDiscovery(
         val dialog = DevicePicker(context).getCustomPickerDialog("Cast to",
             { adapter, view, position, id ->
                 val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
+                Timber.d("===getAllDeivces: ${manager.allDevices}")
+                manager.allDevices.values.forEach { }
+                FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device + "_${mDevice.serviceId}")
                 FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device,
-                Bundle().apply {
-                    putString("modelName", mDevice.modelName)
-                    putString("modelNumber", mDevice.modelNumber)
-                    putString("service", mDevice.serviceId)
-                }
+                    Bundle().apply {
+                        putString("modelName", mDevice.modelName)
+                        putString("modelNumber", mDevice.modelNumber)
+                        putString("service", mDevice.serviceId)
+                        putStringArray("allAvailableDevices", manager.allDevices.values.map { it.serviceId }.toTypedArray())
+                    }
                 )
                 if (mDevice.serviceId.lowercase().equals("airplay")) {
                     Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
@@ -108,10 +112,12 @@ class DeviceDiscovery(
             },
             { _ -> TutorialActivity.gotoActivity(context) },
             { _ ->
-                if(AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
+                if (AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
                     PremiumActivity.gotoActivity(context)
-                    Toast.makeText(context, "you have reached the number of free uses.\n" +
-                            "Please upgrade to continue using this premium feature.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context, "you have reached the number of free uses.\n" +
+                                "Please upgrade to continue using this premium feature.", Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     AppPreferences().browserMirroringCountUsages = AppPreferences().browserMirroringCountUsages!! + 1
                     BrowserMirrorActivity.gotoActivity(context)
