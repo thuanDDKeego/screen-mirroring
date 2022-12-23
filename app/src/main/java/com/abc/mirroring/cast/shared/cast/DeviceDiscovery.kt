@@ -2,12 +2,15 @@ package com.abc.mirroring.cast.shared.cast
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.widget.Toast
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity
 import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.connectsdk.device.ConnectableDevice
 import com.connectsdk.device.ConnectableDeviceListener
 import com.connectsdk.device.DevicePicker
@@ -89,6 +92,16 @@ class DeviceDiscovery(
         val dialog = DevicePicker(context).getCustomPickerDialog("Cast to",
             { adapter, view, position, id ->
                 val mDevice = adapter.getItemAtPosition(position) as ConnectableDevice
+                manager.allDevices.values.forEach { }
+                FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device + "_${mDevice.serviceId}")
+                FirebaseTracking.log(FirebaseLogEvent.DeviceDiscoveryPicker_ClickOrChoose_Device,
+                    Bundle().apply {
+                        putString("modelName", mDevice.modelName)
+                        putString("modelNumber", mDevice.modelNumber)
+                        putString("service", mDevice.serviceId)
+                        putStringArray("allAvailableDevices", manager.allDevices.values.map { it.serviceId }.toTypedArray())
+                    }
+                )
                 if (mDevice.serviceId.lowercase().equals("airplay")) {
                     Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
                     return@getCustomPickerDialog
@@ -98,10 +111,12 @@ class DeviceDiscovery(
             },
             { _ -> TutorialActivity.gotoActivity(context) },
             { _ ->
-                if(AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
+                if (AppPreferences().screenMirroringCountUsages!! > AppConfigRemote().browserMirroringUsages!!) {
                     PremiumActivity.gotoActivity(context)
-                    Toast.makeText(context, "you have reached the number of free uses.\n" +
-                            "Please upgrade to continue using this premium feature.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context, "you have reached the number of free uses.\n" +
+                                "Please upgrade to continue using this premium feature.", Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     AppPreferences().browserMirroringCountUsages = AppPreferences().browserMirroringCountUsages!! + 1
                     BrowserMirrorActivity.gotoActivity(context)

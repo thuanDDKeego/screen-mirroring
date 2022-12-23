@@ -114,6 +114,7 @@ object FirebaseLogEvent {
     const val Home_Click_Connect_Devices="Home_Click_ConnectDevices"
     const val Home_Click_Gift_icon="Home_Click_GiftIcon"
     const val Home_Click_Online_Image = "Home_Click_OnlineImage"
+    const val Home_Click_Tiktok = "Home_Click_Tiktok"
     const val Home_Click_Iptv = "Home_Click_Iptv"
     const val Home_Click_Google_Photo = "Home_Click_GooglePhoto"
 
@@ -193,4 +194,27 @@ object FirebaseLogEvent {
     const val Premium_Click_Cancel = "Premium_Click_Cancel"
 
     const val SmallTopBar_Click_Tutorial = "SmallTopBar_Click_Tutorial"
+
+    //IPTV
+    const val IPTV_Click_Add="IPTV_Click_Add"
+    const val IPTV_Click_Add_TopBar="IPTV_Click_Add_TopBar"
+    const val IPTV_Click_M3U="IPTV_Click_M3U"
+    const val IPTV_Click_Back="IPTV_Click_Back"
+    const val IPTV_Click_EditFile="IPTV_Click_EditFile"
+    const val IPTV_Click_DeleteFile="IPTV_Click_DeleteFile"
+    const val DeleteFile_Click_Cancel="DeleteFile_Click_Cancel"
+    const val DeleteFile_Click_Delete="DeleteFile_Click_Delete"
+    const val AddIPTV_Click_IPTVAddress="AddIPTV_Click_IPTVAddress"
+    const val AddIPTV_Click_Add="AddIPTV_Click_Add"
+    const val AddIPTV_Click_Cancel="AddIPTV_Click_Cancel"
+    const val AddIPTV_Click_IPTVName="AddIPTV_Click_IPTVName"
+    const val IPTVChannel_Click_Search="IPTVChannel_Click_Search"
+    const val IPTVChannel_Click_Back="IPTVChannel_Click_Back"
+    const val IPTVChannel_Click_Channel="IPTVChannel_Click_Channel"
+
+    //web cast - tracking url
+    const val WebCast_Track_URL="WebCast_Track_URL"
+    const val WebCast_Cast_URL="WebCast_Cast_URL"
+
+    const val DeviceDiscoveryPicker_ClickOrChoose_Device="DeviceDiscoveryPicker_ClickOrChoose_Device"
 }

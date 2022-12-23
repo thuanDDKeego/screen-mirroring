@@ -1,6 +1,7 @@
 package com.abc.mirroring.cast.screen.cast.iptv
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,6 +64,8 @@ import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.destinations.channel_picker_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
@@ -108,6 +111,7 @@ fun iptv_(
                     navigator = navigator,
                     navigatorIcon = {
                         IconButton(onClick = {
+                            FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_Back)
                             activity.finish()
                         }) {
                             Icon(
@@ -120,6 +124,7 @@ fun iptv_(
                     title = stringResource(id = R.string.iptv),
                     actions = {
                         _iptv_actions_top_bar {
+                            FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_Add_TopBar)
                             isDialogAddIPTVShow = true
                         }
                     }
@@ -147,6 +152,7 @@ fun iptv_(
                         .clip(RoundedCornerShape(8.dp))
                         .background(Color(0xFF0091EA))
                         .clickable {
+                            FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_Add)
                             isDialogAddIPTVShow = true
                         }
                         .padding(vertical = 8.dp, horizontal = 36.dp)
@@ -169,15 +175,21 @@ fun iptv_(
                     ) {
                         items(state.m3us, key = { it.url + it.name }) {
                             _m3u_item(item = it, onClick = {
+                                //log firebase
+                                val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", it.url)}
+                                FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_M3U, bundle)
+
                                 vm.updateCurrentM3U(it)
                                 navigator.navigate(channel_picker_Destination())
                             }, onOptionClick = object : OnOptionClick {
                                 override fun onDelete() {
+                                    FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_DeleteFile)
                                     vm.updateM3uWantToDelete(it)
                                     isDialogDeleteM3uShow = true
                                 }
 
                                 override fun onUpdate() {
+                                    FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_EditFile)
                                     vm.updateM3uWantToUpdate(it)
                                     isDialogUpdateM3uShow = true
                                 }
@@ -192,7 +204,10 @@ fun iptv_(
         if (isDialogAddIPTVShow) {
             dialog_iptv_url(onHide = {
                 isDialogAddIPTVShow = false
+                FirebaseTracking.log(FirebaseLogEvent.AddIPTV_Click_Cancel)
+
             }) {
+                FirebaseTracking.log(FirebaseLogEvent.AddIPTV_Click_Add)
                 vm.addM3U(it)
             }
         }
@@ -213,9 +228,11 @@ fun iptv_(
             dialog_delete_m3u(
                 title = "Delete \"${state.m3uWantToDelete!!.name}\"",
                 onCancel = {
-                isDialogDeleteM3uShow = false
+                    FirebaseTracking.log(FirebaseLogEvent.DeleteFile_Click_Cancel)
+                    isDialogDeleteM3uShow = false
             }) {
                 Timber.d("---m3u delete ${state.m3uWantToDelete!!.id}")
+                FirebaseTracking.log(FirebaseLogEvent.DeleteFile_Click_Delete)
                 vm.delete(state.m3uWantToDelete!!)
                 state.m3uWantToDelete = null
             }
@@ -253,7 +270,7 @@ private fun _iptv_actions_top_bar(
     }) {
         Image(
             imageVector = Icons.Filled.AddCircle,
-            contentDescription = "Help"
+            contentDescription = "add"
         )
     }
     IconButton(onClick = {

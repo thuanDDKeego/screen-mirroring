@@ -507,7 +507,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llAudio"
+                    android:id="@+id/llIpTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -530,8 +530,8 @@
                             android:layout_width="@dimen/margin_54dp"
                             android:layout_height="@dimen/margin_54dp"
                             android:padding="@dimen/margin_8dp"
-                            android:src="@drawable/ic_audio"
-                            android:tint="#AA00FF" />
+                            android:src="@drawable/ic_television_iptv"
+                            android:tint="#6200EA" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -549,19 +549,9 @@
                             android:fontFamily="@font/inter_semi_bold"
                             android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/audio"
+                            android:text="@string/iptv"
                             android:textColor="@color/blackA01"
                             android:textSize="18sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_light"
-                            android:gravity="start"
-                            android:maxLines="2"
-                            android:text="@string/cast_your_audio"
-                            android:textColor="@color/blackA01"
-                            android:textSize="14sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -667,6 +657,55 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llTiktok"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_4dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_tiktok" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/Tiktok"
+                            android:textColor="@color/blackA01"
+                            android:textSize="18sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/llDrive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -709,6 +748,55 @@
                             android:gravity="start"
                             android:maxLines="2"
                             android:text="@string/drive"
+                            android:textColor="@color/blackA01"
+                            android:textSize="18sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llGooglePhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_gradient_radius_15dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/margin_6dp"
+                        app:cardElevation="@dimen/margin_4dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin_54dp"
+                            android:layout_height="@dimen/margin_54dp"
+                            android:padding="@dimen/margin_8dp"
+                            android:src="@drawable/ic_google_photo" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_12dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/google_photos"
                             android:textColor="@color/blackA01"
                             android:textSize="18sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -766,7 +854,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llIpTv"
+                    android:id="@+id/llAudio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -789,8 +877,8 @@
                             android:layout_width="@dimen/margin_54dp"
                             android:layout_height="@dimen/margin_54dp"
                             android:padding="@dimen/margin_8dp"
-                            android:src="@drawable/ic_television_iptv"
-                            android:tint="#6200EA" />
+                            android:src="@drawable/ic_audio"
+                            android:tint="#AA00FF" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -808,58 +896,19 @@
                             android:fontFamily="@font/inter_semi_bold"
                             android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/iptv"
+                            android:text="@string/audio"
                             android:textColor="@color/blackA01"
                             android:textSize="18sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llGooglePhotos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_button_gradient_radius_15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/margin_6dp"
-                        app:cardElevation="@dimen/margin_4dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin_54dp"
-                            android:layout_height="@dimen/margin_54dp"
-                            android:padding="@dimen/margin_8dp"
-                            android:src="@drawable/ic_google_photo" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_12dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_semi_bold"
+                            android:fontFamily="@font/inter_light"
                             android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/google_photos"
+                            android:text="@string/cast_your_audio"
                             android:textColor="@color/blackA01"
-                            android:textSize="18sp" />
+                            android:textSize="14sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
