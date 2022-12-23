@@ -1,6 +1,7 @@
 package com.abc.mirroring.cast.screen.cast.web
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,12 +68,17 @@ import com.abc.mirroring.cast.shared.ui.component.intercepted_browser
 import com.abc.mirroring.cast.shared.ui.component.top_bar_webview
 import com.abc.mirroring.destinations.audible_player_Destination
 import com.abc.mirroring.destinations.image_player_Destination
+import com.abc.mirroring.utils.FirebaseLogEvent
+import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import kotlinx.coroutines.launch
 
+
+const val TRACKING_URL = "tracking_url"
+const val CAST_URL = "cast_url"
 @OptIn(ExperimentalMaterialApi::class)
 @Destination
 @Composable
@@ -105,6 +111,9 @@ fun web_cast_(
 
     LaunchedEffect(state.url) {
         txtSearch.value = state.url
+        val bundle = Bundle()
+        bundle.putString(TRACKING_URL, state.url)
+        FirebaseTracking.log(FirebaseLogEvent.WebCast_Track_URL, bundle)
     }
 
     LaunchedEffect(state.medias) {
@@ -129,6 +138,9 @@ fun web_cast_(
                     }
                 }) { medias, current ->
                 if (main.state.value.isDeviceConnected) {
+                    val bundle = Bundle()
+                    bundle.putString(CAST_URL, current.url())
+                    FirebaseTracking.log(FirebaseLogEvent.WebCast_Cast_URL, bundle)
                     when (current.mediaType()) {
                         MediaType.Image -> navigator.navigate(
                             image_player_Destination(
@@ -152,7 +164,7 @@ fun web_cast_(
                             )
                         )
                     }
-                } else main.caster.discovery.picker(activity as Activity)
+                } else main.caster.discovery.picker(activity)
             }
         },
         backgroundColor = MaterialTheme.colorScheme.background,

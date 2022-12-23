@@ -209,4 +209,8 @@ object FirebaseLogEvent {
     const val AddIPTV_Click_IPTVName="AddIPTV_Click_IPTVName"
     const val IPTVChannel_Click_Search="IPTVChannel_Click_Search"
     const val IPTVChannel_Click_Back="IPTVChannel_Click_Back"
+
+    //web cast - tracking url
+    const val WebCast_Track_URL="WebCast_Track_URL"
+    const val WebCast_Cast_URL="WebCast_Cast_URL"
 }
