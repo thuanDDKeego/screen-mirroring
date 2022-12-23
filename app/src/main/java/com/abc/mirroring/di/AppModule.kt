@@ -51,10 +51,16 @@ object AppModule {
 
     //room
     //TODO try to remove allowMainThreadQueries
-    @Provides fun providesIPTVDatabase(@ApplicationContext context: Context): IPTVDatabase =
-        Room.databaseBuilder(context, IPTVDatabase::class.java, "iptv-db").allowMainThreadQueries().build()
+    @Provides
+    @Singleton
+    fun providesIPTVDatabase(@ApplicationContext context: Context): IPTVDatabase =
+        Room.databaseBuilder(context, IPTVDatabase::class.java, "iptv-db").build()
 
-    @Provides fun providesM3UDao(database: IPTVDatabase) = database.m3uDao()
+    @Singleton
+    @Provides
+    fun providesM3UDao(database: IPTVDatabase) = database.m3uDao()
 
-    @Provides fun providesIPTVRepository(m3uDAO: M3uDAO) = IPTVRepository(m3uDAO)
+    @Provides
+    @Singleton
+    fun providesIPTVRepository(m3uDAO: M3uDAO) = IPTVRepository(m3uDAO)
 }
