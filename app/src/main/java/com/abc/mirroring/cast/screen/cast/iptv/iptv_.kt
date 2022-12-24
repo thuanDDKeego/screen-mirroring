@@ -62,6 +62,7 @@ import com.abc.mirroring.cast.section.data.iptv.db.M3U
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
 import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.channel_picker_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.utils.FirebaseLogEvent
@@ -70,6 +71,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
 import timber.log.Timber
+
+const val DEFAULT_CHANNELS_URL = "https://iptv-org.github.io/iptv/index.m3u"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @IPTVNavGraph(start = true)
@@ -87,6 +90,10 @@ fun iptv_(
     var isDialogUpdateM3uShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
+        if(AppPreferences().isInsertedDefaultM3U == false) {
+            vm.addM3U(M3U(activity.getString(R.string.default_channels), DEFAULT_CHANNELS_URL))
+            AppPreferences().isInsertedDefaultM3U = true
+        }
         //if we back from channels_picker, we need reset channels to empty )
         vm.resetState()
         vm.fetchM3Us()
