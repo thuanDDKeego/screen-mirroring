@@ -337,5 +337,10 @@ Note that uninstalling the app will not cancel your subscription.
     <string name="Tiktok">Tiktok</string>
     <string name="get_channels_error_message">your File has some errors, Please check your internet or try another File!</string>
     <string name="default_channels">Default Channels</string>
+    <string name="public_iptv_address_description">"You can find all the public IPTV Channels (Include NSFW) here: "</string>
+    <string name="iptv_guideline_step1">Firstly, Take a time to read the tutorial of how to connect to TV by Cast. (in the other \"Cast\" tab)</string>
+    <string name="iptv_guideline_step2">Open <b>IPTV</b>and click <b>Add Playlist</b>></string>
+    <string name="iptv_guideline_step3">In the window that opens, type the <b>URL</b> of the IPTV list and <b>Add</b>></string>
+    <string name="iptv_guideline_step4">The IPTV interface will open showing the icons of the available channels.</string>
 
 </resources>

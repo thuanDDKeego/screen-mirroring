@@ -10,6 +10,7 @@ import com.abc.mirroring.R
 import com.abc.mirroring.ui.tutorial.CastFragment
 import com.abc.mirroring.ui.tutorial.ConnectedDevicesFragment
 import com.abc.mirroring.ui.tutorial.FAQFragment
+import com.abc.mirroring.ui.tutorial.iptv.IPTVFragment
 import com.abc.mirroring.ui.tutorial.TutorialFragment
 
 class TutorialPagerAdapter(val context: Context, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -22,6 +23,9 @@ class TutorialPagerAdapter(val context: Context, fragmentManager: FragmentManage
                 CastFragment()
             }
             2-> {
+                IPTVFragment()
+            }
+            3-> {
                 FAQFragment()
             }
             else -> {
@@ -43,7 +47,10 @@ class TutorialPagerAdapter(val context: Context, fragmentManager: FragmentManage
             1 -> {
                 context.getString(R.string.cast).toUpperCase()
             }
-            2 -> {
+            2-> {
+                context.getString(R.string.iptv).toUpperCase()
+            }
+            3 -> {
                 context.getString(R.string.faq).toUpperCase()
             }
             else -> {
@@ -53,6 +60,6 @@ class TutorialPagerAdapter(val context: Context, fragmentManager: FragmentManage
         }
     }
 
-    override fun getCount(): Int = 4
+    override fun getCount(): Int = 5
 
 }

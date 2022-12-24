@@ -2,7 +2,6 @@ package com.abc.mirroring.ui.tutorial
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
@@ -60,43 +59,53 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             binding.viewMirror.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
             binding.txtCast.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
             binding.viewCast.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            binding.txtIPTV.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
+            binding.viewIPTV.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
             binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
             binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
             binding.txtConnectedDevices.setTextColor(ContextCompat.getColor(this, R.color.grayA06))
-            binding.viewConnectedDevices.setBackgroundColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.white
-                )
-            )
+            binding.viewConnectedDevices.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
 
-            if (position == 0) {
-                binding.txtMirror.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
-                binding.viewMirror.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.blueA01
+            when (position) {
+                0 -> {
+                    binding.txtMirror.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                    binding.viewMirror.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.blueA01
+                        )
                     )
-                )
-            } else if (position == 1) {
-                binding.txtCast.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
-                binding.viewCast.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
-            } else if (position == 2) {
-                binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
-                binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
-            } else {
-                binding.txtConnectedDevices.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.blueA01
+                }
+
+                1 -> {
+                    binding.txtCast.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                    binding.viewCast.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
+                }
+
+                2 -> {
+                    binding.txtIPTV.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                    binding.viewIPTV.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
+                }
+
+                3 -> {
+                    binding.txtFAQ.setTextColor(ContextCompat.getColor(this, R.color.blueA01))
+                    binding.viewFAQ.setBackgroundColor(ContextCompat.getColor(this, R.color.blueA01))
+                }
+
+                else -> {
+                    binding.txtConnectedDevices.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.blueA01
+                        )
                     )
-                )
-                binding.viewConnectedDevices.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.blueA01
+                    binding.viewConnectedDevices.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.blueA01
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -126,18 +135,25 @@ class TutorialActivity : BaseActivity<ActivityTutorialBinding>(),
             updateTabPager(1)
         }
 
-        binding.llFAQ.setOnClickListener {
-            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_FAQ)
+        binding.llIPTV.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_IPTV)
             binding.viewPager.currentItem = 2
             updateTabPager(2)
         }
 
-        binding.llConnectedDevices.setOnClickListener {
-            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_Connecting_devices)
+        binding.llFAQ.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_FAQ)
             binding.viewPager.currentItem = 3
             updateTabPager(3)
         }
+
+        binding.llConnectedDevices.setOnClickListener {
+            FirebaseTracking.log(FirebaseLogEvent.Tutorial_Click_Connecting_devices)
+            binding.viewPager.currentItem = 4
+            updateTabPager(4)
+        }
     }
+
 
     override fun onBackPressed() {
         if (dialogCenter.mLoadingAdsDialogShowing) return
