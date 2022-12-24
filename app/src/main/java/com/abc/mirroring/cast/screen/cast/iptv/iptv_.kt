@@ -1,7 +1,6 @@
 package com.abc.mirroring.cast.screen.cast.iptv
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -64,7 +63,6 @@ import com.abc.mirroring.cast.section.data.iptv.db.M3U
 import com.abc.mirroring.cast.setup.graphs.IPTVNavGraph
 import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
-import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.destinations.channel_picker_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.tutorial.TutorialActivity
@@ -93,10 +91,6 @@ fun iptv_(
     var isDialogUpdateM3uShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
-        if (AppPreferences().isInsertedDefaultM3U == false) {
-            vm.addM3U(M3U(activity.getString(R.string.default_channels), DEFAULT_CHANNELS_URL))
-            AppPreferences().isInsertedDefaultM3U = true
-        }
         //if we back from channels_picker, we need reset channels to empty )
         vm.resetState()
         vm.fetchM3Us()
@@ -134,7 +128,7 @@ fun iptv_(
                     title = stringResource(id = R.string.iptv),
                     actions = {
                         _iptv_actions_top_bar(
-                            onHelp =  {
+                            onHelp = {
                                 TutorialActivity.gotoActivity(activity)
                             }
                         ) {
@@ -258,7 +252,7 @@ fun iptv_(
 
 @Composable
 private fun _iptv_actions_top_bar(
-    onHelp:() -> Unit,
+    onHelp: () -> Unit,
     onAddIPTV: () -> Unit
 ) {
     val context = LocalContext.current
