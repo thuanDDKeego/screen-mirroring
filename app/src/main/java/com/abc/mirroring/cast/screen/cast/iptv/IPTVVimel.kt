@@ -22,11 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class IPTVVimel @Inject constructor(
     @ApplicationContext val context: Context,
-    var caster: Caster
+    var caster: Caster,
+    val iptvRepository: IPTVRepository
 ) : VimelStateHolder<IPTVVimel.IPTVVimelState>(IPTVVimelState()) {
-
-    @Inject
-    lateinit var iptvRepository: IPTVRepository
 
     data class IPTVVimelState(
         var currentM3U: M3U? = null,

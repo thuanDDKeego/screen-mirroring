@@ -387,19 +387,19 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
             }
             llYoutube.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Youtube)
-//                goToCast(MediaRoute.Youtube)
-                dialogCenter.showDialog(DialogCenter.DialogType.RewardAdNotification(
-                    label = "",
-                    content = getString(R.string.watch_short_video_to_unlock_youtube),
-                    backgroundId = R.drawable.bg_youtube_dialog,
-                    onRewarded = {
-                        val intent = Intent(this@HomeActivity, MainActivity::class.java)
-                        intent.putExtra(MEDIA_ROUTE, MediaRoute.Youtube.route)
-                        goToActivityAndReceptShowDialogRateResult.launch(intent)
-                    }
-                ) {
-                    Toast.makeText(this@HomeActivity, getString(R.string.failed_to_unlock_watching_again), Toast.LENGTH_LONG).show()
-                })
+                goToCast(MediaRoute.Youtube)
+//                dialogCenter.showDialog(DialogCenter.DialogType.RewardAdNotification(
+//                    label = "",
+//                    content = getString(R.string.watch_short_video_to_unlock_youtube),
+//                    backgroundId = R.drawable.bg_youtube_dialog,
+//                    onRewarded = {
+//                        val intent = Intent(this@HomeActivity, MainActivity::class.java)
+//                        intent.putExtra(MEDIA_ROUTE, MediaRoute.Youtube.route)
+//                        goToActivityAndReceptShowDialogRateResult.launch(intent)
+//                    }
+//                ) {
+//                    Toast.makeText(this@HomeActivity, getString(R.string.failed_to_unlock_watching_again), Toast.LENGTH_LONG).show()
+//                })
             }
             llDrive.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Home_Click_Drive)

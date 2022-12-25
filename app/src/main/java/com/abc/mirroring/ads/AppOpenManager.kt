@@ -196,8 +196,8 @@ class AppOpenManager : ActivityLifecycleCallbacks,
         // and an ad is available.
         Log.d(LOG_TAG, "showAdIfAvailable $isShowingAd -- $isAdAvailable -- $currentActivity")
         val currentTime = System.currentTimeMillis()
-        val timeFromTheLast = currentTime - AppPreferences().lastTimeAdOpenApp!!
-        if (!isShowingAd && isAdAvailable && timeFromTheLast >= AppConfigRemote().timeBetweenTwoAdsOpenAppShow!! && AppPreferences().isPremiumSubscribed == false) {
+        val timeFromTheLast = currentTime - AppPreferences().lastTimeAdOpenApp!! //TODO: We will use it later
+        if (!isShowingAd && isAdAvailable && AppPreferences().isPremiumSubscribed == false) {
             Log.d(LOG_TAG, "Will show ad $currentActivity")
             val fullScreenContentCallback: FullScreenContentCallback =
                 object : FullScreenContentCallback() {
