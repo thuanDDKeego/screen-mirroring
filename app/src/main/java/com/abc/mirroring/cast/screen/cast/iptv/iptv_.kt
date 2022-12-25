@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.rounded.Cast
 import androidx.compose.material.icons.rounded.CastConnected
 import androidx.compose.material.icons.rounded.MoreVert
@@ -64,12 +65,15 @@ import com.abc.mirroring.cast.shared.ui.component._dialog
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.destinations.channel_picker_Destination
 import com.abc.mirroring.ui.dialog.DialogCenter
+import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.ads.AdCenter
 import timber.log.Timber
+
+const val DEFAULT_CHANNELS_URL = "https://iptv-org.github.io/iptv/index.m3u"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @IPTVNavGraph(start = true)
@@ -123,7 +127,11 @@ fun iptv_(
                     },
                     title = stringResource(id = R.string.iptv),
                     actions = {
-                        _iptv_actions_top_bar {
+                        _iptv_actions_top_bar(
+                            onHelp = {
+                                TutorialActivity.gotoActivity(activity)
+                            }
+                        ) {
                             FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_Add_TopBar)
                             isDialogAddIPTVShow = true
                         }
@@ -242,9 +250,9 @@ fun iptv_(
     }
 }
 
-
 @Composable
 private fun _iptv_actions_top_bar(
+    onHelp: () -> Unit,
     onAddIPTV: () -> Unit
 ) {
     val context = LocalContext.current
@@ -254,20 +262,28 @@ private fun _iptv_actions_top_bar(
 
     // show / hide disconnect device confirmation
     var dialogVisibility by remember { mutableStateOf(false) }
-    if (!dialogCenter.isIgnoringBatteryOptimizations(context)) {
-        IconButton(onClick = {
-            dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
-        }) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_battery_warning),
-                contentDescription = "Battery optimize"
-            )
-        }
+    //optimize battery
+//    if (!dialogCenter.isIgnoringBatteryOptimizations(context)) {
+//        IconButton(onClick = {
+//            dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
+//        }) {
+//            Image(
+//                painter = painterResource(id = R.drawable.ic_battery_warning),
+//                contentDescription = "Battery optimize"
+//            )
+//        }
+//    }
+
+    IconButton(onClick = {
+        onHelp()
+    }) {
+        Image(
+            imageVector = Icons.Filled.Help,
+            contentDescription = "help"
+        )
     }
 
     IconButton(onClick = {
-        //TODO tracking add iptv
-//        FirebaseTracking.log(FirebaseLogEvent.SmallTopBar_Click_Tutorial)
         onAddIPTV()
     }) {
         Image(

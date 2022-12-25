@@ -126,6 +126,7 @@ object FirebaseLogEvent {
     const val Tutorial_Click_previous_1="Tutorial_Click_previous1"
     const val Tutorial_Click_previous_2="Tutorial_Click_previous2"
     const val Tutorial_Click_Cast="Tutorial_Click_Cast"
+    const val Tutorial_Click_IPTV="Tutorial_Click_IPTV"
     const val Tutorial_Click_FAQ="Tutorial_Click_FAQ"
     const val FAQ_Click_Question="FAQ_Click_Question"
     const val Tutorial_Click_Connecting_devices="Tutorial_Click_ConnectingDevices"

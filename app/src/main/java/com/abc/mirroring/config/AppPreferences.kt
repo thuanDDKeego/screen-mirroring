@@ -18,4 +18,6 @@ class AppPreferences : Preferences(name = "app_preferences") {
     var screenMirroringCountUsages by intPref(defaultValue = 0)
     var browserMirroringCountUsages by intPref(defaultValue = 0)
     var paintToolCountUsages by intPref(defaultValue = 0)
+
+    var isInsertedDefaultM3U by booleanPref(defaultValue = false)
 }

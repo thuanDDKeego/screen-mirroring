@@ -100,16 +100,17 @@ fun small_top_bar(
             if (actions != null) {
                 actions.invoke()
             } else {
-                if (!dialogCenter.isIgnoringBatteryOptimizations(context)) {
-                    IconButton(onClick = {
-                        dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
-                    }) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_battery_warning),
-                            contentDescription = "Battery optimize"
-                        )
-                    }
-                }
+                //optimize battery
+//                if (!dialogCenter.isIgnoringBatteryOptimizations(context)) {
+//                    IconButton(onClick = {
+//                        dialogCenter.showDialog(DialogCenter.DialogType.StopOptimizeBattery)
+//                    }) {
+//                        Image(
+//                            painter = painterResource(id = R.drawable.ic_battery_warning),
+//                            contentDescription = "Battery optimize"
+//                        )
+//                    }
+//                }
 
                 IconButton(onClick = {
                     FirebaseTracking.log(FirebaseLogEvent.SmallTopBar_Click_Tutorial)

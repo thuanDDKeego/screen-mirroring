@@ -10,6 +10,7 @@ import com.abc.mirroring.cast.section.data.iptv.IPTVExtractor
 import com.abc.mirroring.cast.section.data.iptv.db.M3U
 import com.abc.mirroring.cast.section.data.iptv.repo.IPTVRepository
 import com.abc.mirroring.cast.shared.cast.Caster
+import com.abc.mirroring.config.AppPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class IPTVVimel @Inject constructor(
     @ApplicationContext val context: Context,
-
     var caster: Caster
 ) : VimelStateHolder<IPTVVimel.IPTVVimelState>(IPTVVimelState()) {
 
@@ -37,6 +37,13 @@ class IPTVVimel @Inject constructor(
         var isChannelScreenError: Boolean = false,
         var channels: List<M3U8File> = listOf()
     ) : State
+
+    init {
+        if (AppPreferences().isInsertedDefaultM3U == false) {
+            addM3U(M3U("Defaults Channels", DEFAULT_CHANNELS_URL))
+            AppPreferences().isInsertedDefaultM3U = true
+        }
+    }
 
     fun fetchM3Us() {
         viewModelScope.launch {

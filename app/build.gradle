@@ -50,8 +50,8 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-        versionCode 25
-        versionName "3.0.2"
+        versionCode 27
+        versionName "3.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         resConfigs "en", "US"
@@ -221,7 +221,7 @@ dependencies {
     implementation(project(":extensions"))
 //     sofi libs
     implementation "dev.sofi:setting:1.0.1"
-    implementation "dev.sofi:ads:1.0.31"
+    implementation "dev.sofi:ads:1.0.32"
 //     implementation(project(":ads"))
 
     // <hilt>
