@@ -62,29 +62,33 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
         if (billingClient != null && billingClient?.isReady == true) {
             onSuccess.invoke()
         } else {
-            billingClient = BillingClient.newBuilder(context)
-                .enablePendingPurchases()
-                .setListener(listener)
-                .build()
-            billingClient?.startConnection(object : BillingClientStateListener {
+            try {
+                CoroutineScope(Dispatchers.Default).launch {
+                    billingClient = BillingClient.newBuilder(context)
+                        .enablePendingPurchases()
+                        .setListener(listener)
+                        .build()
+                    billingClient?.startConnection(object : BillingClientStateListener {
 
-                override fun onBillingServiceDisconnected() {
-                    onError.invoke()
-                    createConnection(context, onSuccess) {
-                        //don't invoke onError again when trying reconnect
-                    }
+                        override fun onBillingServiceDisconnected() {
+                            Timber.d("Now we trying connect again!")
+                            createConnection(context, onSuccess) {
+                                //don't invoke onError again when trying reconnect
+                            }
+                        }
+
+                        override fun onBillingSetupFinished(p0: BillingResult) {
+                            if (p0.responseCode == BillingClient.BillingResponseCode.OK) {
+                                onSuccess.invoke()
+                            } else {
+                                onError.invoke()
+                            }
+                        }
+                    })
                 }
-
-                override fun onBillingSetupFinished(p0: BillingResult) {
-                    if (p0.responseCode == BillingClient.BillingResponseCode.OK) {
-                        //
-                        onSuccess.invoke()
-                    } else {
-                        onError.invoke()
-                    }
-                }
-            })
-
+            } catch (e: Exception) {
+                onError()
+            }
         }
     }
 
@@ -187,7 +191,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     // if type is subscription, get subscriptionOfferDetails to get offer token and prices
                     prod.subscriptionOfferDetails?.let { subsOffers ->
                         subsOffers.forEach { subsOffer ->
-                            subsOffer.pricingPhases.pricingPhaseList.last().let { pricingPhase->
+                            subsOffer.pricingPhases.pricingPhaseList.last().let { pricingPhase ->
                                 Timber.d("offer id: ${subsOffer.offerId}")
                                 if (subsOffer.basePlanId != YEARLY_BASE_PLAN_ID) {
                                     subscriptions.add(
@@ -203,19 +207,19 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                                     )
                                 } else {
 //                                    if (subsOffer.offerTags.contains(FREE_TRIAL_TAG)) {
-                                        subscriptions.add(
-                                            ProductPurchase(
-                                                id = prod.productId,
-                                                title = prod.name,
-                                                price = pricingPhase.priceAmountMicros,
-                                                formatPrice = pricingPhase.priceCurrencyCode,
+                                    subscriptions.add(
+                                        ProductPurchase(
+                                            id = prod.productId,
+                                            title = prod.name,
+                                            price = pricingPhase.priceAmountMicros,
+                                            formatPrice = pricingPhase.priceCurrencyCode,
 //                                    type = BillingClient.ProductType.SUBS,
-                                                offerTags = subsOffer.offerTags,
-                                                basePlanId = subsOffer.basePlanId,
-                                                offerToken = subsOffer.offerToken
-                                            )
+                                            offerTags = subsOffer.offerTags,
+                                            basePlanId = subsOffer.basePlanId,
+                                            offerToken = subsOffer.offerToken
                                         )
-                                    }
+                                    )
+                                }
 //                                }
                             }
                         }
