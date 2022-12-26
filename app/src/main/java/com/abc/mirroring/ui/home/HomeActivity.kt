@@ -232,11 +232,10 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initActions() {
         // Start server streaming
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Default).launch {
             caster.start().also { Timber.i("Caster initialized") }
             caster.discovery.device.collect {
                 if (it == null) return@collect
-
                 binding.imgCast.setImageDrawable(
                     ContextCompat.getDrawable(
                         this@HomeActivity,

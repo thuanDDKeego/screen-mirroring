@@ -7,7 +7,9 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.CancellationSignal
 import android.provider.MediaStore
+import android.util.Size
 import timber.log.Timber
 
 /**
@@ -129,14 +131,18 @@ object MediaPicker {
      * TODO: [high] Replace this function
      */
     fun getImage(context: Context, video: Audible): Bitmap? {
-        return MediaStore.Video.Thumbnails.getThumbnail(
-            context.contentResolver,
-            video.id,
-            MediaStore.Video.Thumbnails.MINI_KIND,
-            null
-        )
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val cs = CancellationSignal()
+            context.contentResolver.loadThumbnail(video.uri, Size(256, 256), cs)
+        } else {
+            MediaStore.Video.Thumbnails.getThumbnail(
+                context.contentResolver,
+                video.id,
+                MediaStore.Video.Thumbnails.MINI_KIND,
+                null
+            )
+        }
     }
-
 
     private inline fun <reified T> query(context: Context, root: Uri, projection: Array<String>, onMapping: (Uri, Cursor, Map<String, Int>) -> Any): List<T> {
         val cursor: Cursor = context.contentResolver?.query(root, projection, null, null, null) ?: return emptyList()
