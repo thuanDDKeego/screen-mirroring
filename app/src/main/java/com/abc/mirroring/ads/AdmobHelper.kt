@@ -47,6 +47,8 @@ class AdmobHelper {
         adsInterstitial[type] = null
     }
 
+    val a = 2/0
+
     fun loadAdBanner(
         mAdView: AdView,
     ) {
