@@ -1,0 +1,21 @@
+name: Code Review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Keego-Mobile/Kebo@v1.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_USERNAME: ${{ secrets.OPENAI_USERNAME }}
+          OPENAI_PASSWORD: ${{ secrets.OPENAI_PASSWORD }}
+          LANGUAGE: Vietnamese
