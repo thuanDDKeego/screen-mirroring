@@ -46,8 +46,8 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.*
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 

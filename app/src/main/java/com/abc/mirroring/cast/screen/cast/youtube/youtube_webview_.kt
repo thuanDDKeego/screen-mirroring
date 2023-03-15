@@ -119,16 +119,16 @@ fun youtube_webview_(
             sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             sheetPeekHeight = 0.dp,
             sheetContent = {
-                _bottom_sheet_part {
+                _bottom_sheet_part {youtube ->
                     if (main.state.value.isDeviceConnected) {
                         main.ads.interstitial?.show(context as Activity) {
                             navigator.navigate(
                                 audible_player_Destination(
                                     params = AudibleParameter(
-                                        type = it.mediaType(),
-                                        source = it.source(),
-                                        urls = listOf(it),
-                                        current = it
+                                        type = youtube.mediaType(),
+                                        source = youtube.source(),
+                                        urls = listOf(youtube),
+                                        current = youtube
                                     )
                                 )
                             )

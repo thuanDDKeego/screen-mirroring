@@ -110,14 +110,14 @@ fun image_picker_(
                     items(
                         items = vm.images,
                         key = { it.id() })
-                    {
-                        image(image = it) {
+                    { streamable ->
+                        image(image = streamable) {
                             if (device?.isConnected == true) {
                                 main.ads.interstitial?.show(context as Activity) {
                                     navigator.navigate(
                                         image_player_Destination(
                                             params = ImageParameter(
-                                                current = it
+                                                current = streamable
                                             )
                                         )
                                     )
@@ -130,7 +130,7 @@ fun image_picker_(
                 }
             }
         }
-        main.ads.native?.small()
+        main.ads.natives["general"]?.small()
         // main.ads.banner?.render(Modifier.wrapContentSize())
     }
 }

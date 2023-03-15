@@ -102,6 +102,8 @@ android {
 dependencies {
     implementation project(path: ':screen-stream')
 
+    implementation "one.shot.haki:haki-ads:0.0.40"
+
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
@@ -221,8 +223,6 @@ dependencies {
     implementation(project(":extensions"))
 //     sofi libs
     implementation "dev.sofi:setting:1.0.1"
-    implementation "dev.sofi:ads:1.0.32"
-//     implementation(project(":ads"))
 
     // <hilt>
     implementation "com.google.dagger:hilt-android:$hilt_version"

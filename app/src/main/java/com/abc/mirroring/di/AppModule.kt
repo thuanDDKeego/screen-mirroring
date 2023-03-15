@@ -18,7 +18,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import javax.inject.Singleton
 
 @Module

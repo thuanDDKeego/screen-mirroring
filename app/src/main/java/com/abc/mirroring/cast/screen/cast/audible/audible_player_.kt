@@ -133,7 +133,9 @@ fun audible_player_(
      * React to the change
      */
     LaunchedEffect(state.counter) {
-        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity, vm::resetCounter)
+        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity) {
+            vm.resetCounter()
+        }
     }
 
     LaunchedEffect(key1 = state.isFinished) {
@@ -179,7 +181,7 @@ fun audible_player_(
                             .background(MaterialTheme.colorScheme.background)
                     ) {
 
-                        main.ads.native?.small()
+                        main.ads.natives["general"]?.small()
 
                         Column(
                             modifier = Modifier

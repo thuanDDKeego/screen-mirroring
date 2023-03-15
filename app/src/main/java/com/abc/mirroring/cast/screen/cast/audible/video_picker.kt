@@ -84,13 +84,13 @@ fun video_picker(
 
             ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                audibles(type, vm.playlists) {
+                audibles(type, vm.playlists) {streamable ->
                     if (globalState.isDeviceConnected) {
                         main.ads.interstitial?.show(context as Activity) {
                             navigator.navigate(
                                 audible_player_Destination(
                                     params = AudibleParameter(
-                                        current = it,
+                                        current = streamable,
                                         type = type
                                     )
                                 )
@@ -102,7 +102,7 @@ fun video_picker(
                 }
             }
         }
-        main.ads.native?.small()
+        main.ads.natives["general"]?.small()
         // main.ads.banner?.render(Modifier.wrapContentSize())
     }
 }

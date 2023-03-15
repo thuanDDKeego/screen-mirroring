@@ -19,8 +19,8 @@ import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.*
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 
