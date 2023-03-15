@@ -75,6 +75,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 
 
 const val TRACKING_URL = "tracking_url"
@@ -184,6 +185,7 @@ fun web_cast_(
                 onBack = { customBackPressed() },
                 txtSearch = txtSearch,
                 onSearch = { vm.search(txtSearch.value) })
+            AdCenter.getInstance().banner?.render()
             //region Webview section
             intercepted_browser(
                 modifier = Modifier.weight(1f),
@@ -274,6 +276,7 @@ fun _bottom_sheet_part(
                 .wrapContentHeight()
         ) {
             Text(modifier = Modifier.padding(8.dp), text = "Quality options")
+            AdCenter.getInstance().natives["general"]?.small()
             //for each 3 type of media
             Column(
                 Modifier
