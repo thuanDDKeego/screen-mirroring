@@ -64,7 +64,7 @@ import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 
 @Destination
 @IPTVNavGraph(start = false)
@@ -149,7 +149,7 @@ fun channel_picker_(
                 }
             }
         }
-        AdCenter.getInstance().native?.small()
+        AdCenter.getInstance().natives["general"]?.small()
     }
 }
 

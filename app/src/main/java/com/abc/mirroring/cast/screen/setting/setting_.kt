@@ -127,7 +127,7 @@ fun setting_(
                     .padding(paddingValues)
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    main.ads.native?.small()
+                    main.ads.natives["general"]?.small()
 
 
                     LazyColumn {

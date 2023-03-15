@@ -88,7 +88,9 @@ fun image_player_(
      * React to the change
      */
     LaunchedEffect(state.counter) {
-        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity, vm::reset)
+        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity ){
+            vm.reset()
+        }
     }
 
     LaunchedEffect(state.curIdx) {
@@ -209,7 +211,7 @@ fun image_player_(
                 }
             }
         }
-        main.ads.native?.small()
+        main.ads.natives["general"]?.small()
         // main.ads.banner?.render(Modifier.wrapContentSize())
     }
 }

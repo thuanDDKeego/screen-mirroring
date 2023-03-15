@@ -37,7 +37,7 @@ import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.abc.mirroring.R
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +58,7 @@ fun guideline_(
                     _guideline_item(items[it])
                 }
             }
-            ads.native?.small()
+            ads.natives["general"]?.small()
         }
     }
 }

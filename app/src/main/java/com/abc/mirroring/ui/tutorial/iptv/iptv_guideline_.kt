@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.abc.mirroring.R
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 
 const val PUBLIC_IPTV_ADDRESS = "https://sofigo.net/public-iptv-address"
 
@@ -113,7 +113,7 @@ fun iptv_guideline_(
                 Text(text = stringResource(id = R.string.iptv_guideline_step4))
 
             }
-            ads.native?.small()
+            ads.natives["general"]?.small()
         }
     }
 }

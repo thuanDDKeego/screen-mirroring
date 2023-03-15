@@ -70,7 +70,7 @@ import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 const val DEFAULT_CHANNELS_URL = "https://iptv-org.github.io/iptv/index.m3u"
@@ -208,7 +208,7 @@ fun iptv_(
                         }
                     }
                 }
-                AdCenter.getInstance().native?.medium()
+                AdCenter.getInstance().natives["general"]?.medium()
             }
         }
         if (isDialogAddIPTVShow) {

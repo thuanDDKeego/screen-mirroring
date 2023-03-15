@@ -13,7 +13,7 @@ import com.abc.mirroring.utils.FirebaseTracking
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 
