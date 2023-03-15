@@ -1,11 +1,7 @@
 package com.abc.mirroring.ui.premium.billing
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import com.abc.mirroring.BuildConfig
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -39,19 +35,7 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
         const val YEARLY_BASE_PLAN_ID: String = "premium-v3-yearly"
 
 
-        const val FREE_TRIAL_TAG: String = "free-trial"
-
-        private const val SUBSCRIPTION_URL =
-            "http://play.google.com/store/account/subscriptions?package=${BuildConfig.APPLICATION_ID}&sku=$SUBSCRIPTION_ID"
-
-        fun openProductPurchaseInfoGooglePlay(context: Context, onError: () -> Unit) {
-            try {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SUBSCRIPTION_URL)))
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                onError.invoke()
-            }
-        }
+        val FREE_TRIAL_TAG: List<String> = listOf("free-trial")
     }
 
     private var billingClient: BillingClient? = null
@@ -197,36 +181,19 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                     // if type is subscription, get subscriptionOfferDetails to get offer token and prices
                     prod.subscriptionOfferDetails?.let { subsOffers ->
                         subsOffers.forEach { subsOffer ->
-                            subsOffer.pricingPhases.pricingPhaseList.last().let { pricingPhase ->
+                            subsOffer.pricingPhases.pricingPhaseList.first { pricingPhase -> pricingPhase.priceAmountMicros > 0 }.let { pricingPhase ->
                                 Timber.d("offer id: ${subsOffer.offerId}")
-                                if (subsOffer.basePlanId != YEARLY_BASE_PLAN_ID) {
-                                    subscriptions.add(
-                                        ProductPurchase(
-                                            id = prod.productId,
-                                            title = prod.name,
-                                            price = pricingPhase.priceAmountMicros,
-                                            formatPrice = pricingPhase.priceCurrencyCode,
-//                                    type = BillingClient.ProductType.SUBS,
-                                            basePlanId = subsOffer.basePlanId,
-                                            offerToken = subsOffer.offerToken
-                                        )
+                                subscriptions.add(
+                                    ProductPurchase(
+                                        id = prod.productId,
+                                        title = prod.name,
+                                        price = pricingPhase.priceAmountMicros,
+                                        formatPrice = pricingPhase.priceCurrencyCode,
+                                        offerTags = subsOffer.offerTags,
+                                        basePlanId = subsOffer.basePlanId,
+                                        offerToken = subsOffer.offerToken
                                     )
-                                } else {
-//                                    if (subsOffer.offerTags.contains(FREE_TRIAL_TAG)) {
-                                    subscriptions.add(
-                                        ProductPurchase(
-                                            id = prod.productId,
-                                            title = prod.name,
-                                            price = pricingPhase.priceAmountMicros,
-                                            formatPrice = pricingPhase.priceCurrencyCode,
-//                                    type = BillingClient.ProductType.SUBS,
-                                            offerTags = subsOffer.offerTags,
-                                            basePlanId = subsOffer.basePlanId,
-                                            offerToken = subsOffer.offerToken
-                                        )
-                                    )
-                                }
-//                                }
+                                )
                             }
                         }
                     }
@@ -239,7 +206,6 @@ class BillingConnection(mListener: PurchasesUpdatedListener? = null) : IBillingC
                                 title = prod.name,
                                 price = pricingPhase.priceAmountMicros,
                                 formatPrice = pricingPhase.priceCurrencyCode,
-//                                    type = BillingClient.ProductType.SUBS,
                                 offerToken = ""
                             )
                         )

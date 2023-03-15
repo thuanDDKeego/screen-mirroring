@@ -54,7 +54,7 @@ class PremiumVimel @Inject constructor() :
                         if (product.basePlanId == BillingConnection.MONTHLY_BASE_PLAN_ID) {
                             update { state -> state.copy(monthlySubscription = product) }
                         } else if (product.basePlanId == BillingConnection.YEARLY_BASE_PLAN_ID) {
-                            if (product.offerTags.contains(BillingConnection.FREE_TRIAL_TAG)) {
+                            if (product.offerTags.containsAll(BillingConnection.FREE_TRIAL_TAG)) {
                                 freeTrialProduct = product
                             } else {
                                 if (freeTrialProduct == null) {
