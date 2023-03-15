@@ -10,12 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.config.AppConfigRemote
+import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.ActivitySplashBinding
 import com.abc.mirroring.ui.home.HomeActivity
-import com.abc.mirroring.utils.FirebaseTracking
-import com.abc.mirroring.ads.AppOpenManager
-import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.ui.premium.billing.BillingConnection
+import com.abc.mirroring.utils.FirebaseTracking
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +65,7 @@ class SplashActivity : AppCompatActivity() {
     private fun setUpSplashAction() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AppOpenManager.instance?.resetAdOpenAd()
+        AdCenter.getInstance().appOpen?.resetAdOpenAd()
         val startTime = System.currentTimeMillis()
         setupSplashView()
         FirebaseTracking.logSplashShowed()
@@ -90,7 +89,7 @@ class SplashActivity : AppCompatActivity() {
                     finish()  /*set timeout for splash*/
                 }
                 jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
-                    AppOpenManager.instance?.fetchAd(timeoutAdRequest = 10000L) {
+                    AdCenter.getInstance().appOpen?.fetchAd(timeoutAdRequest = 10000L) {
                         val timeFromStart = System.currentTimeMillis() - startTime
                         CoroutineScope(Dispatchers.Main).launch {
                             jobTimeOutOpenApp?.cancel()
@@ -98,7 +97,7 @@ class SplashActivity : AppCompatActivity() {
                                 delay(1600L - timeFromStart)
                             }
                             if (showOpenAds) {
-                                AppOpenManager.instance?.showAdAtSplash(this@SplashActivity) {
+                                AdCenter.getInstance().appOpen?.showAdAtSplash(this@SplashActivity) {
                                     startActivity(
                                         Intent(
                                             this@SplashActivity,

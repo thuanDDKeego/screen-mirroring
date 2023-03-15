@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.cast.MainActivity
 import com.abc.mirroring.cast.MainActivity.Companion.MEDIA_ROUTE
@@ -116,7 +115,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         }
 
         askNotificationPermission()
-        AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
+        AdCenter.getInstance().appOpen?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
         //set swift mode with floating tools state

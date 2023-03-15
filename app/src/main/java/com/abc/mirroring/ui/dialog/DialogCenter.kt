@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.config.AppPreferences
 import com.abc.mirroring.databinding.LayoutDialogAskDisplayOverlayPermissionBinding
 import com.abc.mirroring.databinding.LayoutDialogBrowserMirrorBinding
@@ -37,12 +36,12 @@ import com.abc.mirroring.ui.premium.PremiumActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.bumptech.glide.Glide
-import one.shot.haki.ads.AdCenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 class DialogCenter(private val activity: Activity) {
@@ -474,7 +473,7 @@ class DialogCenter(private val activity: Activity) {
         dialogAskPermissionOverLayBinding.apply {
             btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
             btnAllow.setOnClickListener {
-                AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+                AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
                 activity.requestOverlaysPermission()
                 dismissAskPermissionOverlayDialog()
             }

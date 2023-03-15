@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.R
-import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.databinding.FloatDrawingToolBinding
 import com.abc.mirroring.databinding.FloatExpandableMenuLeftBinding
 import com.abc.mirroring.databinding.FloatExpandableMenuRightBinding
@@ -53,6 +52,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 
@@ -322,12 +322,12 @@ open class FloatToolService : Service() {
                 }
                 btnHome.setOnClickListener {
                   FirebaseTracking.log(FirebaseLogEvent.Floating_Tool_Click_Home)
-//                  AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+//                  AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
 //                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 //                    startActivity(intent)
-//                    AppOpenManager.instance?.currentActivity?.finish()
+//                    AdCenter.getInstance().appOpen?.currentActivity?.finish()
                     Toast.makeText(context, "Snapshot feature is coming soon!", Toast.LENGTH_SHORT).show()
                     action.popToBubble()
                 }
@@ -341,12 +341,12 @@ open class FloatToolService : Service() {
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
                 btnHome.setOnClickListener {
-                    AppOpenManager.instance?.disableAddWithActivity(HomeActivity::class.java)
+                    AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
 //                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 //                    startActivity(intent)
-//                    AppOpenManager.instance?.currentActivity?.finish()
+//                    AdCenter.getInstance().appOpen?.currentActivity?.finish()
                     Toast.makeText(context, "Snapshot feature is coming soon!", Toast.LENGTH_SHORT).show()
 
                     action.popToBubble()
