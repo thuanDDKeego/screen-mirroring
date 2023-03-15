@@ -473,7 +473,6 @@ class DialogCenter(private val activity: Activity) {
         dialogAskPermissionOverLayBinding.apply {
             btnClose.setOnClickListener { dismissAskPermissionOverlayDialog() }
             btnAllow.setOnClickListener {
-                AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
                 activity.requestOverlaysPermission()
                 dismissAskPermissionOverlayDialog()
             }

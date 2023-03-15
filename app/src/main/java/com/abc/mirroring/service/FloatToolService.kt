@@ -341,7 +341,7 @@ open class FloatToolService : Service() {
                 btnPencil.setOnClickListener { action.navigateToDrawingToolView() }
                 btnCamera.setOnClickListener { action.onCameraPreview() }
                 btnHome.setOnClickListener {
-                    AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
+//                    AdCenter.getInstance().appOpen?.disableAddWithActivity(HomeActivity::class.java)
 //                    val intent = Intent(this@FloatToolService, HomeActivity::class.java)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

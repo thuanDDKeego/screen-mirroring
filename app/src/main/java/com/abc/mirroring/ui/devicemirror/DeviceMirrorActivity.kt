@@ -71,7 +71,6 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
 //
 //            }
 //        connectivityManager.requestNetwork(networkRequest, networkCallback)
-        AdCenter.getInstance().appOpen?.enableAddWithActivity(DeviceMirrorActivity::class.java)
     }
 
     override fun onResume() {
@@ -105,7 +104,6 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         binding.apply {
             btnSelectDevice.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Mirror_to_Tv_Click_Select_Device)
-                AdCenter.getInstance().appOpen?.disableAddWithActivity(DeviceMirrorActivity::class.java)
                 selectDeviceMirror()
             }
             btnGoToWifiSetting.setOnClickListener {
