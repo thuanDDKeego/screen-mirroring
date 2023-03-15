@@ -32,7 +32,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintTabViewPager"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:paddingHorizontal="@dimen/margin_2dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toStartOf="@id/llCast"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp"
+            android:paddingHorizontal="@dimen/margin_2dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toStartOf="@id/llIPTV"
             app:layout_constraintStart_toEndOf="@id/llMirror"
@@ -107,10 +108,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp"
+            android:paddingHorizontal="@dimen/margin_2dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toStartOf="@id/llFAQ"
-            app:layout_constraintStart_toEndOf="@id/llMirror"
+            app:layout_constraintStart_toEndOf="@id/llCast"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -138,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp"
+            android:paddingHorizontal="@dimen/margin_2dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toStartOf="@id/llConnectedDevices"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -171,7 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp"
+            android:paddingHorizontal="@dimen/margin_2dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/llFAQ"
@@ -189,7 +190,7 @@
 
             <View
                 android:id="@+id/viewConnectedDevices"
-                android:layout_width="140dp"
+                android:layout_width="130dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/white" />
