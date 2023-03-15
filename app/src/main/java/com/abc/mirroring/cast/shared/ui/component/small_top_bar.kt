@@ -115,7 +115,7 @@ fun small_top_bar(
                 IconButton(onClick = {
                     FirebaseTracking.log(FirebaseLogEvent.SmallTopBar_Click_Tutorial)
                     TutorialActivity.gotoActivity(context)
-                }){
+                }) {
                     Image(
                         imageVector = Icons.Filled.Help,
                         contentDescription = "Help"
@@ -178,7 +178,7 @@ fun top_bar_webview(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp)
     ) {
         IconButton(onClick = {
             onBack.invoke()
