@@ -347,10 +347,12 @@ class AdmobHelper {
         builder.withNativeAdOptions(adOptions)
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: LoadAdError) {
+                Timber.d("onAdFailedToLoad native $errorCode")
             }
 
             override fun onAdLoaded() {
                 super.onAdLoaded()
+                Timber.d("onAdLoaded native")
                 adLoadedCallBack?.invoke()
 
             }
