@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -100,7 +101,9 @@ fun image_picker_(
                     .padding(padding)
                     .background(MaterialTheme.colorScheme.background)
             ) {
+                main.ads.natives["general"]?.small()
                 LazyVerticalGrid(
+                    modifier = Modifier.weight(1f),
                     columns = GridCells.Fixed(count = 3),
                     state = rememberLazyGridState(),
                     contentPadding = PaddingValues(12.dp),
@@ -130,7 +133,6 @@ fun image_picker_(
                 }
             }
         }
-        main.ads.natives["general"]?.small()
-        // main.ads.banner?.render(Modifier.wrapContentSize())
+        main.ads.banner?.render(Modifier.fillMaxWidth())
     }
 }

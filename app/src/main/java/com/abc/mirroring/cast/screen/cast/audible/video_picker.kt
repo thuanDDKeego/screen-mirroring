@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope.*
 import androidx.compose.material.icons.Icons
@@ -78,13 +79,14 @@ fun video_picker(
                             )
                         }
                     },
-                    title = stringResource(id =if(type == MediaType.Video) R.string.video_directory else R.string.audio_directory)
+                    title = stringResource(id = if (type == MediaType.Video) R.string.video_directory else R.string.audio_directory)
                 )
             },
 
             ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                audibles(type, vm.playlists) {streamable ->
+                main.ads.natives["general"]?.render()
+                audibles(type, vm.playlists) { streamable ->
                     if (globalState.isDeviceConnected) {
                         main.ads.interstitial?.show(context as Activity) {
                             navigator.navigate(
@@ -102,7 +104,6 @@ fun video_picker(
                 }
             }
         }
-        main.ads.natives["general"]?.small()
-        // main.ads.banner?.render(Modifier.wrapContentSize())
+        main.ads.banner?.render(Modifier.fillMaxWidth())
     }
 }

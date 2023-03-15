@@ -145,6 +145,7 @@ fun image_player_(
                     .background(MaterialTheme.colorScheme.background)
                 //endregion
             ) {
+                main.ads.natives["general"]?.small()
 
                 /**
                  * @section thumbnail
@@ -211,7 +212,6 @@ fun image_player_(
                 }
             }
         }
-        main.ads.natives["general"]?.small()
-        // main.ads.banner?.render(Modifier.wrapContentSize())
+         main.ads.banner?.render(Modifier.fillMaxWidth())
     }
 }
