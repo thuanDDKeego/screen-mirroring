@@ -182,6 +182,9 @@
                 android:name="com.abc.mirroring.cast.setup.startup.AdCenterOS"
                 android:value="androidx.startup" />
             <meta-data
+                android:name="com.abc.mirroring.cast.setup.startup.HakiOS"
+                android:value="androidx.startup" />
+            <meta-data
                 android:name="com.abc.mirroring.cast.setup.startup.FCMOS"
                 android:value="androidx.startup" />
             <meta-data

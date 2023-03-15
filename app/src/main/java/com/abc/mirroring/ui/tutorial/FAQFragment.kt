@@ -1,6 +1,7 @@
 package com.abc.mirroring.ui.tutorial
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FAQFragment : BaseFragment<FragmentFAQBinding>() {
 
-    @Inject lateinit var admobHelper: AdmobHelper
+    @Inject
+    lateinit var admobHelper: AdmobHelper
     private lateinit var adapter: FAQItemAdapter
     private val viewModel by viewModels<TutorialViewModel>()
     override fun initBinding(
@@ -37,9 +39,33 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>() {
         adapter.admobHelper = admobHelper
         Timber.tag("binding FAQ").i(binding.toString())
         binding.recyclerViewFAQ.adapter = adapter
+
+        if (AppPreferences().isPremiumSubscribed!!) {
+            binding.containerBannerAd.visibility = View.GONE
+        } else {
+            binding.containerBannerAd.visibility = View.VISIBLE
+            admobHelper.showBannerAd(binding.bannerAdView.adView)
+        }
     }
 
     override fun initActions() {
+    }
+
+    override fun onPause() {
+        binding.bannerAdView.adView.pause()
+        super.onPause()
+    }
+
+    // Called when returning to the activity
+    override fun onResume() {
+        super.onResume()
+        binding.bannerAdView.adView.resume()
+    }
+
+    // Called before the activity is destroyed
+    override fun onDestroy() {
+        binding.bannerAdView.adView.destroy()
+        super.onDestroy()
     }
 
 }

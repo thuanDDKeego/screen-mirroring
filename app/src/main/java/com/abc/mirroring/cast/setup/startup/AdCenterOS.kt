@@ -45,7 +45,7 @@ class AdCenterOS : Initializer<AdCenter> {
             MutableStateFlow(AppPreferences().isPremiumSubscribed != true)
         ).apply {
 //            exitDialog = ExitDialog(context.getString(R.string.ad_native_advanced_general), this.enable)
-            banner = Banner(context.getString(R.string.ad_banner_general), MutableStateFlow(false))
+            banner = Banner(context.getString(R.string.ad_banner_general), this.enable)
             interstitial = Interstitial(context.getString(R.string.ad_interstitial_general), this.enable)
             rewardedInterstitial = RewardedInterstitial(context.getString(R.string.ad_rewarded_interstitial_general), this.enable)
             rewarded = Rewarded(context.getString(R.string.ad_rewarded_browser_mirror), this.enable)

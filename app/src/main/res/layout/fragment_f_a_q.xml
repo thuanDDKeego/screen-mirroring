@@ -13,9 +13,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/containerBannerAd"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
+
+    <FrameLayout
+        android:id="@+id/containerBannerAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/banner_ad_view"
+            layout="@layout/layout_admob_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

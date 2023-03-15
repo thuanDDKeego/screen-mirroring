@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,7 +24,7 @@ import one.shot.haki.ads.AdCenter
 fun guideline_(
 ) {
     val ads = AdCenter.getInstance()
-    val items = listOf(
+    val items = mutableListOf(
         GuildelineData(
             "1. Make sure your phone and TV are connected to the same Wi-Fi network",
             R.drawable.tutorial_cast_1
@@ -54,11 +55,18 @@ fun guideline_(
         ) {
 
             LazyColumn(modifier = Modifier.weight(1f)) {
-                items(items.size, key = { items[it].title }) {
-                    _guideline_item(items[it])
+                items(items.also { it.add(0, GuildelineData("banner", R.drawable.tutorial_cast_1)) }, key = { item -> item.title }) {
+                    if (it.title == "banner") {
+                        ads.natives["general"]?.render()
+                    } else {
+                        _guideline_item(it)
+                    }
                 }
+//                items(items.size, key = { items[it].title }) {
+//                    _guideline_item(items[it])
+//                }
             }
-            ads.natives["general"]?.small()
+            ads.banner?.render()
         }
     }
 }

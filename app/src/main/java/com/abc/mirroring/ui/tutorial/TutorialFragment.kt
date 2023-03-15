@@ -78,16 +78,24 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
     }
 
     override fun showAds() {
+        binding.apply {
         if (AppConfigRemote().turnOnBottomTutorialNative == true && AppPreferences().isPremiumSubscribed == false) {
-            binding.containerAd.visibility = View.VISIBLE
-            admobHelper.showNativeAdmob(
-                requireActivity(),
-                AdType.TUTORIAL_NATIVE,
-                binding.nativeAdView.nativeAdView,
-                true
-            )
-        } else {
-            binding.containerAd.visibility = View.GONE
+                containerNativeAd.visibility = View.VISIBLE
+                admobHelper.showNativeAdmob(
+                    requireActivity(),
+                    AdType.TUTORIAL_NATIVE,
+                    nativeAdView.nativeAdView,
+                    true
+                )
+
+                containerBannerAd.visibility = View.VISIBLE
+                admobHelper.showBannerAd(
+                    bannerAdView.adView
+                )
+            } else {
+                containerNativeAd.visibility = View.GONE
+                containerBannerAd.visibility = View.GONE
+            }
         }
     }
 
@@ -131,5 +139,22 @@ class TutorialFragment : BaseFragment<FragmentTutorialBinding>() {
                 btnNext.visibility = View.INVISIBLE
             }
         }
+    }
+
+    override fun onPause() {
+        binding.bannerAdView.adView.pause()
+        super.onPause()
+    }
+
+    // Called when returning to the activity
+    override fun onResume() {
+        super.onResume()
+        binding.bannerAdView.adView.resume()
+    }
+
+    // Called before the activity is destroyed
+    override fun onDestroy() {
+        binding.bannerAdView.adView.destroy()
+        super.onDestroy()
     }
 }
