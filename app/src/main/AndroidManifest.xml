@@ -87,6 +87,7 @@
             android:name="com.abc.mirroring.ui.settings.SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -101,6 +102,7 @@
             android:name="com.abc.mirroring.ui.tutorial.TutorialActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Sreenmirroringcasttv.NoActionBar" />
         <activity
             android:name="com.abc.mirroring.ui.browsermirror.BrowserMirrorActivity"
@@ -110,10 +112,12 @@
         <activity
             android:name="com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.abc.mirroring.ui.feedback.FeedbackActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -122,6 +126,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.abc.mirroring.ui.policy.PolicyActivity"
+            android:launchMode="singleTop"
             android:exported="false"
             android:screenOrientation="portrait" />
 
@@ -175,6 +180,9 @@
                 android:value="androidx.startup" />
             <meta-data
                 android:name="com.abc.mirroring.cast.setup.startup.AdCenterOS"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="com.abc.mirroring.cast.setup.startup.HakiOS"
                 android:value="androidx.startup" />
             <meta-data
                 android:name="com.abc.mirroring.cast.setup.startup.FCMOS"

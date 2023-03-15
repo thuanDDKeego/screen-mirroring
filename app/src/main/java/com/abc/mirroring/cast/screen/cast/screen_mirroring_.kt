@@ -48,7 +48,7 @@ fun screen_mirroring_(
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            main.ads.native?.medium()
+            main.ads.natives["general"]?.medium()
 
             Box(
                 Modifier

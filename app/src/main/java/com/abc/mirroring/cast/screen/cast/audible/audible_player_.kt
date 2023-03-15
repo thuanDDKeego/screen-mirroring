@@ -97,6 +97,7 @@ import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import dev.sofi.extentions.SofiScreen
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -133,7 +134,9 @@ fun audible_player_(
      * React to the change
      */
     LaunchedEffect(state.counter) {
-        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity, vm::resetCounter)
+        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity) {
+            vm.resetCounter()
+        }
     }
 
     LaunchedEffect(key1 = state.isFinished) {
@@ -179,7 +182,7 @@ fun audible_player_(
                             .background(MaterialTheme.colorScheme.background)
                     ) {
 
-                        main.ads.native?.small()
+                        main.ads.natives["general"]?.small()
 
                         Column(
                             modifier = Modifier
@@ -231,9 +234,8 @@ fun audible_player_(
                             }
                             //endregion
                         }
-
+                        AdCenter.getInstance().banner?.render()
                     }
-
                     _playlist_bottom_dialog(
                         playlists = vm.playlists,
                         modalState = modalState,

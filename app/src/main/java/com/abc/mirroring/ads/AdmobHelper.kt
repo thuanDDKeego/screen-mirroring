@@ -47,22 +47,24 @@ class AdmobHelper {
         adsInterstitial[type] = null
     }
 
-    fun loadAdBanner(
-        mAdView: AdView,
+    fun showBannerAd(
+        mAdView: AdView
     ) {
-        mAdView.loadAd(adRequest)
-        mAdView.adListener = object : AdListener() {
-            override fun onAdClicked() {}
+        mAdView.apply {
+            adListener = object : AdListener() {
+                override fun onAdClicked() {}
 
-            override fun onAdClosed() {}
+                override fun onAdClosed() {}
 
-            override fun onAdFailedToLoad(adError: LoadAdError) {}
+                override fun onAdFailedToLoad(adError: LoadAdError) {}
 
-            override fun onAdImpression() {}
+                override fun onAdImpression() {}
 
-            override fun onAdLoaded() {}
+                override fun onAdLoaded() {}
 
-            override fun onAdOpened() {}
+                override fun onAdOpened() {}
+            }
+            loadAd(adRequest)
         }
     }
 
@@ -347,10 +349,12 @@ class AdmobHelper {
         builder.withNativeAdOptions(adOptions)
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: LoadAdError) {
+                Timber.d("onAdFailedToLoad native $errorCode")
             }
 
             override fun onAdLoaded() {
                 super.onAdLoaded()
+                Timber.d("onAdLoaded native")
                 adLoadedCallBack?.invoke()
 
             }

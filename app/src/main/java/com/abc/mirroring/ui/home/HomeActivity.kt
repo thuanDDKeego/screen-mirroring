@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.cast.MainActivity
 import com.abc.mirroring.cast.MainActivity.Companion.MEDIA_ROUTE
@@ -46,8 +45,8 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sofi.ads.AdCenter
 import kotlinx.coroutines.*
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,9 +58,6 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     @Inject
     lateinit var admobHelper: AdmobHelper
-
-    @Inject
-    lateinit var adCenter: AdCenter
 
     @Inject
     lateinit var caster: Caster
@@ -93,7 +89,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     override fun initBinding() = ActivityHomeXmasBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        checkForUpdateAvailability()
+//        checkForUpdateAvailability()
         dialogCenter = DialogCenter(this)
         dialogCenter.admobHelper = admobHelper
         initAds()
@@ -116,7 +112,6 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         }
 
         askNotificationPermission()
-        AppOpenManager.instance?.enableAddWithActivity(HomeActivity::class.java)
         observerConnectingBrowser()
         observerConnectFloatingToolService()
         //set swift mode with floating tools state
@@ -156,7 +151,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     private fun initAds() {
         binding.containerAd.visibility = View.GONE
         if (AppPreferences().isPremiumSubscribed == false) {
-            adCenter.interstitial?.load(this)
+            AdCenter.getInstance().interstitial?.load(this)
             admobHelper.showNativeAdmob(
                 this,
                 AdType.HOME_NATIVE,
@@ -170,7 +165,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     override fun onResume() {
         super.onResume()
-        checkForUpdateStalled()
+//        checkForUpdateStalled()
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
@@ -357,7 +352,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
                     AppPreferences().screenMirroringCountUsages!! + 1
                 dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
 //                admobHelper.showGeneralAdInterstitial(
-                adCenter.interstitial?.show(
+                AdCenter.getInstance().interstitial?.show(
                     this@HomeActivity
                 ) {
                     AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
@@ -449,7 +444,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
         if (AppPreferences().isPremiumSubscribed == false && AppPreferences().countTimeOpenApp!! >= 3) {
             dialogCenter.showDialog(DialogCenter.DialogType.LoadingAds)
 //            admobHelper.showGeneralAdInterstitial(this@HomeActivity) {
-            adCenter.interstitial?.show(this) {
+            AdCenter.getInstance().interstitial?.show(this) {
                 dialogCenter.dismissDialog(DialogCenter.DialogType.LoadingAds)
                 AppPreferences().countAdsClosed = AppPreferences().countAdsClosed!! + 1
                 goToActivityAndReceptShowDialogRateResult.launch(intent)

@@ -13,11 +13,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -70,7 +71,7 @@ import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 const val DEFAULT_CHANNELS_URL = "https://iptv-org.github.io/iptv/index.m3u"
@@ -181,34 +182,39 @@ fun iptv_(
                         contentPadding = PaddingValues(12.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        items(state.m3us, key = { it.url + it.name }) {
-                            _m3u_item(item = it, onClick = {
-                                //log firebase
-                                val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", it.url) }
-                                FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_M3U, bundle)
+                        itemsIndexed(state.m3us, key = { _, item -> item.url + item.name }) { index, item ->
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                _m3u_item(item = item, onClick = {
+                                    //log firebase
+                                    val bundle = Bundle().also { bundle -> bundle.putString("M3U_URL", item.url) }
+                                    FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_M3U, bundle)
 
-                                vm.updateCurrentM3U(it)
-                                AdCenter.getInstance().interstitial?.show(activity) {
-                                    navigator.navigate(channel_picker_Destination())
-                                }
-                            }, onOptionClick = object : OnOptionClick {
-                                override fun onDelete() {
-                                    FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_DeleteFile)
-                                    vm.updateM3uWantToDelete(it)
-                                    isDialogDeleteM3uShow = true
-                                }
+                                    vm.updateCurrentM3U(item)
+                                    AdCenter.getInstance().interstitial?.show(activity) {
+                                        navigator.navigate(channel_picker_Destination())
+                                    }
+                                }, onOptionClick = object : OnOptionClick {
+                                    override fun onDelete() {
+                                        FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_DeleteFile)
+                                        vm.updateM3uWantToDelete(item)
+                                        isDialogDeleteM3uShow = true
+                                    }
 
-                                override fun onUpdate() {
-                                    FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_EditFile)
-                                    vm.updateM3uWantToUpdate(it)
-                                    isDialogUpdateM3uShow = true
+                                    override fun onUpdate() {
+                                        FirebaseTracking.log(FirebaseLogEvent.IPTV_Click_EditFile)
+                                        vm.updateM3uWantToUpdate(item)
+                                        isDialogUpdateM3uShow = true
+                                    }
+                                })
+                                if (index % 3 == 0) {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    AdCenter.getInstance().natives["general"]?.medium()
                                 }
-
-                            })
+                            }
                         }
                     }
                 }
-                AdCenter.getInstance().native?.medium()
+                AdCenter.getInstance().banner?.render()
             }
         }
         if (isDialogAddIPTVShow) {

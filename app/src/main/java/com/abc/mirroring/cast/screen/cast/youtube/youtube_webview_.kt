@@ -69,6 +69,7 @@ import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import dev.sofi.extentions.SofiScreen
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Destination
@@ -119,16 +120,16 @@ fun youtube_webview_(
             sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             sheetPeekHeight = 0.dp,
             sheetContent = {
-                _bottom_sheet_part {
+                _bottom_sheet_part {youtube ->
                     if (main.state.value.isDeviceConnected) {
                         main.ads.interstitial?.show(context as Activity) {
                             navigator.navigate(
                                 audible_player_Destination(
                                     params = AudibleParameter(
-                                        type = it.mediaType(),
-                                        source = it.source(),
-                                        urls = listOf(it),
-                                        current = it
+                                        type = youtube.mediaType(),
+                                        source = youtube.source(),
+                                        urls = listOf(youtube),
+                                        current = youtube
                                     )
                                 )
                             )
@@ -167,7 +168,7 @@ fun youtube_webview_(
                             )
                         }
                     })
-
+                AdCenter.getInstance().banner?.render()
                 //region Webview
                 intercepted_browser(
                     modifier = Modifier.weight(1f),
@@ -235,6 +236,7 @@ fun _bottom_sheet_part(
             .fillMaxWidth()
     ) {
         Text(modifier = Modifier.padding(8.dp), text = "Quality options")
+        AdCenter.getInstance().natives["general"]?.small()
         state.ytbOptions.forEachIndexed { index, item ->
             Row(
                 modifier = Modifier

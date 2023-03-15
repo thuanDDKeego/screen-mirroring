@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.abc.mirroring.config.AppPreferences
+import com.google.android.gms.ads.AdView
 import java.util.*
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
@@ -94,6 +95,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     abstract fun initViews()
     abstract fun initActions()
     open fun initAdmob() {}
+    open fun getBannerAdView(): AdView? = null
     interface onWifiChangeStateConnection {
         fun onWifiUnavailable()
         fun onWifiAvailable()

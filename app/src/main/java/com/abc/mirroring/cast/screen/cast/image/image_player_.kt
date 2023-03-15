@@ -35,12 +35,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.extentions.SofiBinding
-import dev.sofi.extentions.SofiScreen
-import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.R
+import com.abc.mirroring.cast.GlobalVimel
 import com.abc.mirroring.cast.screen.cast.image.component.image
 import com.abc.mirroring.cast.screen.cast.image.component.image_player_controller
 import com.abc.mirroring.cast.section.SourceType
@@ -50,6 +46,10 @@ import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.cast.shared.utils.AppDimensions
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import dev.sofi.extentions.SofiBinding
+import dev.sofi.extentions.SofiScreen
 
 @ImageNavGraph
 @Destination
@@ -88,7 +88,9 @@ fun image_player_(
      * React to the change
      */
     LaunchedEffect(state.counter) {
-        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity, vm::reset)
+        if (state.counter >= 5) main.ads.interstitial?.show(context as Activity) {
+            vm.reset()
+        }
     }
 
     LaunchedEffect(state.curIdx) {
@@ -133,7 +135,6 @@ fun image_player_(
                     title = stringResource(id = R.string.cast_image)
                 )
             }) { padding ->
-
             Column(
                 //region
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -143,7 +144,7 @@ fun image_player_(
                     .background(MaterialTheme.colorScheme.background)
                 //endregion
             ) {
-
+                main.ads.banner?.render(Modifier.fillMaxWidth())
                 /**
                  * @section thumbnail
                  */
@@ -194,9 +195,8 @@ fun image_player_(
                             }
                         }
                     }
-
+                    main.ads.natives["general"]?.small()
                     Spacer(modifier = Modifier.weight(1f))
-
                     /**
                      * @section The controller helping to play/pause, next & prev the image slider.
                      */
@@ -204,12 +204,9 @@ fun image_player_(
                         modifier = Modifier.padding(AppDimensions.paddingXXXL),
                         onControl = vm::onControl
                     )
-
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
         }
-        main.ads.native?.small()
-        // main.ads.banner?.render(Modifier.wrapContentSize())
     }
 }

@@ -31,10 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -59,7 +55,10 @@ import com.abc.mirroring.cast.shared.ui.component.card_gradient
 import com.abc.mirroring.cast.shared.ui.component.card_reversed
 import com.abc.mirroring.cast.shared.ui.component.small_top_bar
 import com.abc.mirroring.config.AppConfigRemote
-import com.abc.mirroring.config.AppPreferences
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
+import one.shot.haki.ads.AdCenter
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RootNavGraph(start = true) // sets this as the start destination of the default nav graph
@@ -70,22 +69,21 @@ fun home_(
     @SofiBinding("Do not edit") navigator: DestinationsNavigator,
     @SofiBinding main: GlobalVimel
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current as Activity
     //use to handle rating dialog business logic show
-    var ratingVisibility by rememberSaveable { mutableStateOf(AppPreferences().countTimeOpenApp!! % 3 == 0 && AppPreferences().isRated == false) }
     val abTestHome: Boolean = AppConfigRemote().ui_home_version?.let { it == 1 } ?: true
 
     val state by main.state.collectAsState()
 
-    var exitDialogVisibility by remember { mutableStateOf(false) }
-
     BackHandler {
-        exitDialogVisibility = true
+        AdCenter.getInstance().exitDialog(context).show().also {
+            Firebase.analytics.logEvent("exit_dialog_VIEW") {}
+        }
     }
 
     fun adsWrapper(onClick: () -> Unit) {
         if (state.count > 0) {
-            main.ads.interstitial?.show(context as Activity) {
+            main.ads.interstitial?.show(context) {
                 onClick()
             }
         } else {
@@ -312,13 +310,6 @@ fun home_(
                 }
                 //endregion
             }
-            if (exitDialogVisibility) {
-                main.ads.exitDialog?.render(onHide = { exitDialogVisibility = false }) {
-                    adsWrapper {
-                        (context as Activity).finish()
-                    }
-                }
-            }
 //            if (ratingVisibility) {
 //                modal_rate(context = context, hideDialog = { askAgain ->
 //                    AppPreferences.isRated = askAgain == true
@@ -337,6 +328,6 @@ fun home_(
         /**
          * FOOTER CONTENT
          */
-        main.ads.native?.small()
+        main.ads.natives["general"]?.small()
     }
 }
