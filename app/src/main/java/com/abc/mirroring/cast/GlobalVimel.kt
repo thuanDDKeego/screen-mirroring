@@ -7,7 +7,7 @@ import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.lifecycle.viewModelScope
 import com.connectsdk.device.ConnectableDevice
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import kotlinx.coroutines.launch
 import com.abc.mirroring.cast.shared.cast.Caster
 import timber.log.Timber

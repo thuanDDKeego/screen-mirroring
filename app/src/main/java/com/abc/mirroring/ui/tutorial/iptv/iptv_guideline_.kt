@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.abc.mirroring.R
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 
 const val PUBLIC_IPTV_ADDRESS = "https://sofigo.net/public-iptv-address"
 
@@ -55,8 +55,10 @@ fun iptv_guideline_(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth()
+                    .weight(1f)
                     .verticalScroll(rememberScrollState())
             ){
+                AdCenter.getInstance().natives["general"]?.render()
                 Text(text = stringResource(id = R.string.public_iptv_address_description))
                 Text(text = PUBLIC_IPTV_ADDRESS, color = Color.Blue, textDecoration = TextDecoration.Underline, modifier = Modifier.clickable {
                     context.startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -113,7 +115,7 @@ fun iptv_guideline_(
                 Text(text = stringResource(id = R.string.iptv_guideline_step4))
 
             }
-            ads.native?.small()
+            AdCenter.getInstance().banner?.render()
         }
     }
 }

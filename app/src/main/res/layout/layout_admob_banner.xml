@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:minHeight="50dp"
     android:paddingVertical="4dp"
-    android:background="@color/black"
+    android:background="@color/transparent"
     >
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -16,9 +16,11 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_edit_video_banner">
+        ads:adUnitId="@string/ad_banner_general">
     </com.google.android.gms.ads.AdView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

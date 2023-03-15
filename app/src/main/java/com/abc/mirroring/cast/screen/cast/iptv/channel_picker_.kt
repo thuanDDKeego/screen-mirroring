@@ -13,10 +13,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -64,7 +65,7 @@ import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 
 @Destination
 @IPTVNavGraph(start = false)
@@ -124,7 +125,9 @@ fun channel_picker_(
                     )
                     Text(
                         text = stringResource(id = R.string.get_channels_error_message), fontSize = 14.sp, color = Color.Red, textAlign = TextAlign.Center, fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp)
                     )
                 }
             } else {
@@ -136,20 +139,27 @@ fun channel_picker_(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    items(state.channels.filter { it.name.contains(txtSearch.trim(), ignoreCase = true) }, key = { it.url }) {
-                        _channel_item(item = it) {
-                            if (vm.caster.isConnected()) {
-                                FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Channel)
-                                navigator.navigate(audible_player_Destination(AudibleParameter(type = MediaType.M3U8File, source = SourceType.External, urls = state.channels, current = it)))
-                            } else {
-                                vm.caster.discovery.picker(activity)
+                    itemsIndexed(state.channels.filter { it.name.contains(txtSearch.trim(), ignoreCase = true) }, key = { _, it -> it.url }) { index, it ->
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                            _channel_item(item = it) {
+                                if (vm.caster.isConnected()) {
+                                    FirebaseTracking.log(FirebaseLogEvent.IPTVChannel_Click_Channel)
+                                    navigator.navigate(audible_player_Destination(AudibleParameter(type = MediaType.M3U8File, source = SourceType.External, urls = state.channels, current = it)))
+                                } else {
+                                    vm.caster.discovery.picker(activity)
+                                }
+                            }
+                            if (index % 5 == 0) {
+                                Spacer(modifier = Modifier.height(12.dp))
+                                AdCenter.getInstance().natives["general"]?.medium()
                             }
                         }
                     }
                 }
             }
         }
-        AdCenter.getInstance().native?.small()
+        AdCenter.getInstance().banner?.render()
     }
 }
 

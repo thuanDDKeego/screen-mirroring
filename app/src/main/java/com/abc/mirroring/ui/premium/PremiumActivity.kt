@@ -16,7 +16,7 @@ import com.abc.mirroring.ui.dialog.DialogCenter
 import com.abc.mirroring.ui.premium.PremiumUtils.Companion.showProducts
 import com.abc.mirroring.utils.Global
 import com.android.billingclient.api.*
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*

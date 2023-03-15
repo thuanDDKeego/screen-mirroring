@@ -1,19 +1,18 @@
 package com.abc.mirroring.ui.settings
 
+import AdType
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
 import com.abc.mirroring.BuildConfig
 import com.abc.mirroring.R
+import com.abc.mirroring.ads.AdmobHelper
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
@@ -33,12 +32,23 @@ import com.abc.mirroring.ui.selectLanguage.SelectLanguageActivity
 import com.abc.mirroring.ui.tutorial.TutorialActivity
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
-import kotlinx.coroutines.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     private val isTurnOnPinCode = MutableLiveData(AppPreferences().isTurnOnPinCode == true)
     private var shakeAnimJob: Job? = null
     private lateinit var dialogCenter: DialogCenter
+
+    @Inject
+    lateinit var admobHelper: AdmobHelper
 
     companion object {
         fun gotoActivity(activity: Activity) {
@@ -83,7 +93,16 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             if (AppConfigRemote().enable_premium == true) View.VISIBLE else View.GONE
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    override fun initAdmob() {
+        super.initAdmob()
+        admobHelper.showNativeAdmob(
+            this@SettingActivity,
+            AdType.HOME_NATIVE,
+            binding.nativeAdView.nativeAdView,
+            true
+        )
+    }
+
     override fun initActions() {
         binding.btnBuyPremium.setOnClickListener {
             FirebaseTracking.log(FirebaseLogEvent.Setting_Click_Subscription)
@@ -114,8 +133,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             if (AppPreferences().isTurnOnPinCode == true) {
                 val dialog =
                     LayoutDialogChangePinCodeBinding.inflate(layoutInflater, binding.root, true)
-                showKeyboard(this)
-                dialog.pinView.doOnTextChanged { text, start, before, count ->
+                showKeyboard()
+                dialog.pinView.doOnTextChanged { text, _, _, _ ->
                     if (text?.length == 4) {
                         dialog.btnSaveNewPinCode.isEnabled = true
                         dialog.btnSaveNewPinCode.backgroundTintList =
@@ -126,10 +145,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                             this.getColorStateList(R.color.grayA01)
                     }
                 }
-                dialog.pinView.setOnEditorActionListener { v, actionId, event ->
+                dialog.pinView.setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         if (dialog.pinView.text?.length == 4) {
-                            hideKeyboard(this)
+                            hideKeyboard()
                             HomeActivity.isStreamingBrowser.value = false
                             AppPreferences().pinCode = dialog.pinView.text.toString()
                             binding.txtPinCode.text = AppPreferences().pinCode
@@ -148,7 +167,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     }
                 }
                 dialog.btnSaveNewPinCode.setOnClickListener {
-                    hideKeyboard(this)
+                    hideKeyboard()
                     AppPreferences().pinCode = dialog.pinView.text.toString()
                     binding.txtPinCode.text = AppPreferences().pinCode
                     HomeActivity.isStreamingBrowser.value = false
@@ -161,14 +180,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
                     }
                 }
                 dialog.cardDialog.setOnClickListener {
-                    hideKeyboard(this)
+                    hideKeyboard()
                 }
                 dialog.bgDialog.setOnClickListener {
-                    hideKeyboard(this)
+                    hideKeyboard()
                     dialog.root.visibility = View.INVISIBLE
                 }
                 dialog.btnClose.setOnClickListener {
-                    hideKeyboard(this)
+                    hideKeyboard()
                     dialog.root.visibility = View.INVISIBLE
                 }
             }
@@ -223,15 +242,15 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         }
     }
 
-    private fun showKeyboard(context: Context) {
+    private fun showKeyboard() {
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
-    private fun hideKeyboard(context: Context) {
+    private fun hideKeyboard() {
         val inputManager =
-            context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        val v = (context as Activity).currentFocus ?: return
+            getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val v = currentFocus ?: return
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
@@ -258,7 +277,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     override fun onBackPressed() {
         if (dialogCenter.mRateDialogShowing) {
             dialogCenter.dismissDialog(DialogCenter.DialogType.Rating {})
-//            dialogCenter.dismissRatingDialog()
             return
         }
         super.onBackPressed()

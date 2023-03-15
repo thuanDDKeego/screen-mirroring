@@ -13,7 +13,7 @@ import com.abc.mirroring.utils.FirebaseTracking
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,7 +54,7 @@ class PremiumVimel @Inject constructor() :
                         if (product.basePlanId == BillingConnection.MONTHLY_BASE_PLAN_ID) {
                             update { state -> state.copy(monthlySubscription = product) }
                         } else if (product.basePlanId == BillingConnection.YEARLY_BASE_PLAN_ID) {
-                            if (product.offerTags.contains(BillingConnection.FREE_TRIAL_TAG)) {
+                            if (product.offerTags.containsAll(BillingConnection.FREE_TRIAL_TAG)) {
                                 freeTrialProduct = product
                             } else {
                                 if (freeTrialProduct == null) {

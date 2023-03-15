@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.abc.mirroring.R
 import com.abc.mirroring.ads.AdmobHelper
-import com.abc.mirroring.ads.AppOpenManager
 import com.abc.mirroring.base.BaseActivity
 import com.abc.mirroring.config.AppConfigRemote
 import com.abc.mirroring.config.AppPreferences
@@ -29,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -71,7 +71,6 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
 //
 //            }
 //        connectivityManager.requestNetwork(networkRequest, networkCallback)
-        AppOpenManager.instance?.enableAddWithActivity(DeviceMirrorActivity::class.java)
     }
 
     override fun onResume() {
@@ -105,7 +104,6 @@ class DeviceMirrorActivity : BaseActivity<ActivityDeviceMirrorBinding>() {
         binding.apply {
             btnSelectDevice.setOnClickListener {
                 FirebaseTracking.log(FirebaseLogEvent.Mirror_to_Tv_Click_Select_Device)
-                AppOpenManager.instance?.disableAddWithActivity(DeviceMirrorActivity::class.java)
                 selectDeviceMirror()
             }
             btnGoToWifiSetting.setOnClickListener {

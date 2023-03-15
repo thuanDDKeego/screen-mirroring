@@ -18,7 +18,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import javax.inject.Singleton
 
 @Module
@@ -28,11 +28,6 @@ object AppModule {
     @Singleton
     @Provides
     fun providesAdmobHelper(): AdmobHelper = AdmobHelper()
-
-    @Singleton
-    @Provides
-    fun providesAdCenter(): AdCenter = AdCenter.getInstance()
-
     @Singleton
     @Provides
     fun providesAppConfigRemote(): AppConfigRemote = AppConfigRemote()

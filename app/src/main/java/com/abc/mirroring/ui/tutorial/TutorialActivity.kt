@@ -17,7 +17,7 @@ import com.abc.mirroring.ui.tutorial.adapter.TutorialPagerAdapter
 import com.abc.mirroring.utils.FirebaseLogEvent
 import com.abc.mirroring.utils.FirebaseTracking
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sofi.ads.AdCenter
+import one.shot.haki.ads.AdCenter
 import javax.inject.Inject
 
 @AndroidEntryPoint
