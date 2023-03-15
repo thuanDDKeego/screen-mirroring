@@ -97,6 +97,7 @@ import dev.sofi.extentions.SofiBinding
 import dev.sofi.extentions.SofiComponent
 import dev.sofi.extentions.SofiScreen
 import kotlinx.coroutines.launch
+import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -233,9 +234,8 @@ fun audible_player_(
                             }
                             //endregion
                         }
-
+                        AdCenter.getInstance().banner?.render()
                     }
-
                     _playlist_bottom_dialog(
                         playlists = vm.playlists,
                         modalState = modalState,
