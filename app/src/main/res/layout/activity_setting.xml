@@ -34,10 +34,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="@dimen/margin_24dp"
-        android:paddingVertical="20dp"
+        android:paddingTop="20dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/containerAd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitle">
@@ -46,6 +45,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin_24dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -484,4 +484,20 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/containerAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/nativeAdView"
+            layout="@layout/layout_admob_native_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
