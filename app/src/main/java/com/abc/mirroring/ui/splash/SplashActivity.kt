@@ -1,10 +1,12 @@
 package com.abc.mirroring.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.abc.mirroring.R
@@ -16,13 +18,18 @@ import com.abc.mirroring.ui.home.HomeActivity
 import com.abc.mirroring.ui.premium.billing.BillingConnection
 import com.abc.mirroring.utils.FirebaseTracking
 import com.android.billingclient.api.*
-import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import one.shot.haki.ads.AdCenter
 import timber.log.Timber
 import javax.inject.Inject
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     @Inject
@@ -31,25 +38,12 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     lateinit var admobHelper: AdmobHelper
-
-    @Inject
-    lateinit var adCenter: AdCenter
     private lateinit var binding: ActivitySplashBinding
-    private val TIME_DISPLAY_ONBOARD = 3000L
-    private var jobTimeOutOpenApp: Job? = null
-    private var showOpenAds = true
+    private val TIME_DISPLAY_ONBOARD = 2000L
 
-
-    //    private var jobTimeOut: Job? = null
-    private var jobLoadAd: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkSubscription()
-        initializeMobileAds()
-        if(AppPreferences().isPremiumSubscribed == false) {
-//            AdmobHelper().loadGeneralAdInterstitial(this)
-//            adCenter.interstitial?.load(this)
-        }
         if (AppPreferences().isTheFirstTimeUseApp == true) {
             setTheme(R.style.OnboardTheme)
             FirebaseTracking.logOnBoardingShowed()
@@ -65,60 +59,58 @@ class SplashActivity : AppCompatActivity() {
     private fun setUpSplashAction() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AdCenter.getInstance().appOpen?.resetAdOpenAd()
-        val startTime = System.currentTimeMillis()
-        setupSplashView()
+        setupAnimation()
+        showAds()
         FirebaseTracking.logSplashShowed()
-        if (AppPreferences().isPremiumSubscribed == true) {
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(2000L)
-                startActivity(
-                    Intent(
-                        this@SplashActivity,
-                        HomeActivity::class.java
-                    )
-                )
-                finish()
-            }
-        } else {
-            if (appConfigRemote.isUsingAdsOpenApp == true) {
-                jobTimeOutOpenApp = CoroutineScope(Dispatchers.Main).launch {
-                    delay(appConfigRemote.adsTimeout!!.toLong())
-                    startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-                    showOpenAds = false
-                    finish()  /*set timeout for splash*/
+
+    }
+
+    fun showAds() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val flowResultJob: Flow<Boolean?> = channelFlow {
+                    launch {
+                        Timber.i("Loading Splash with App Open Ads")
+                        send(AdCenter.getInstance().appOpen?.hardload(this@SplashActivity))
+                    }
+                    launch {
+                        Timber.i("Loading interstitial with App Open Ads")
+                        send(AdCenter.getInstance().interstitial?.hardload(this@SplashActivity))
+                    }
                 }
-                jobLoadAd = CoroutineScope(Dispatchers.Main).launch {
-                    AdCenter.getInstance().appOpen?.fetchAd(timeoutAdRequest = 10000L) {
-                        val timeFromStart = System.currentTimeMillis() - startTime
-                        CoroutineScope(Dispatchers.Main).launch {
-                            jobTimeOutOpenApp?.cancel()
-                            if (timeFromStart < 1600) {
-                                delay(1600L - timeFromStart)
-                            }
-                            if (showOpenAds) {
-                                AdCenter.getInstance().appOpen?.showAdAtSplash(this@SplashActivity) {
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            HomeActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                }
-                            }
+                withTimeout(30000) {
+                    flowResultJob.collect {
+                        if (it == true) {
+                            cancel()
                         }
                     }
                 }
-            } else {
-                adCenter.interstitial?.show(this@SplashActivity) {
+            } finally {
+                val goToHomeActivity = {
                     goToHome()
+                }
+                if (AdCenter.getInstance().appOpen?.isAdAvailable() == true) {
+                    Timber.d("splash available")
+                    AdCenter.getInstance().appOpen?.enableAddWithActivity(SplashActivity::class.java)
+                    AdCenter.getInstance().appOpen?.show(this@SplashActivity) {
+                        goToHomeActivity()
+                    }
+                } else if (AdCenter.getInstance().interstitial?.isAvailable() == true) {
+                    Timber.d("interstitial available")
+                    AdCenter.getInstance().interstitial?.show(this@SplashActivity) {
+                        goToHomeActivity()
+                    }
+                } else {
+                    Toast.makeText(this@SplashActivity, "Timeout", Toast.LENGTH_SHORT).show()
+                    Timber.d("splash timeout")
+                    Firebase.analytics.logEvent("splash_TIMEOUT") {}
+                    goToHomeActivity()
                 }
             }
         }
     }
 
-    private fun setupSplashView() {
+    private fun setupAnimation() {
         val animMoveDown = AnimationUtils.loadAnimation(
             applicationContext,
             R.anim.move_down
@@ -147,10 +139,21 @@ class SplashActivity : AppCompatActivity() {
         animMoveRightLoadBar.repeatCount = Animation.INFINITE
         animMoveRightLoadBar.repeatMode = Animation.RESTART
 
-        binding.cardViewLogo.startAnimation(animationIconSet)
-        binding.txtTitleSplash.startAnimation(animationTitleSet)
-        binding.txtContentSplash.startAnimation(animFadeIn)
-        binding.viewLoadBar.startAnimation(animMoveRightLoadBar)
+        binding.apply {
+            cardViewLogo.startAnimation(animationIconSet)
+            txtTitleSplash.startAnimation(animationTitleSet)
+            txtContentSplash.startAnimation(animFadeIn)
+            viewLoadBar.startAnimation(animMoveRightLoadBar)
+        }
+    }
+
+    private fun clearAnimation() {
+        binding.apply {
+            cardViewLogo.clearAnimation()
+            txtTitleSplash.clearAnimation()
+            txtContentSplash.clearAnimation()
+            viewLoadBar.clearAnimation()
+        }
     }
 
     private fun checkSubscription() {
@@ -160,92 +163,16 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-//    private fun checkSubscription() {
-//        billingClient = BillingClient.newBuilder(this).enablePendingPurchases()
-//            .setListener { _: BillingResult?, _: List<Purchase?>? -> }
-//            .build()
-//        val finalBillingClient: BillingClient = billingClient
-//        billingClient.startConnection(object : BillingClientStateListener {
-//            override fun onBillingServiceDisconnected() {}
-//            override fun onBillingSetupFinished(@NonNull billingResult: BillingResult) {
-//                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-//                    Timber.d("On billing finish")
-//                    finalBillingClient.queryPurchasesAsync(
-//                        QueryPurchasesParams.newBuilder()
-//                            .setProductType(BillingClient.ProductType.SUBS).build()
-//                    ) { billingResult1: BillingResult, list: List<Purchase> ->
-//                        if (billingResult1.responseCode == BillingClient.BillingResponseCode.OK) {
-//                            if (list.isNotEmpty()) {
-//                                Timber.d("Free Premium is active")
-//                                for ((i, purchase) in list.withIndex()) {
-//                                    //Here you can manage each product, if you have multiple subscription
-//                                    // Get to see the order information
-//
-//                                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-//                                        AppPreferences().isPremiumSubscribed =
-//                                            true // set 0 to de-activate premium feature
-//                                        AppPreferences().purchaseDate = purchase.purchaseTime
-//
-//                                        break
-//                                    }
-//                                    Timber.d("testOffer", " index$i")
-//                                    AppPreferences().isPremiumSubscribed =
-//                                        false // set 0 to de-activate premium feature
-//                                }
-//                            } else {
-//                                Timber.d("Free Premium isn't active")
-//                                AppPreferences().isPremiumSubscribed =
-//                                    false // set 0 to de-activate premium feature
-//                            }
-//                        }
-//                    }
-////                    billingClient.queryPurchasesAsync(BillingClient.ProductType.SUBS){
-////                            responseCode, purchasesList ->
-////                        if(purchasesList.isNullOrEmpty()){
-////                            Timber.d("Purchase App","history for SUBS is empty")
-////                        }else{
-////                            Timber.d("Purchase App","history subs has ${purchasesList.size} items : ${purchasesList.toString()}")
-////                        }
-////                    }
-//                }
-//            }
-//        })
-//    }
-
-    private fun initializeMobileAds() {
-        MobileAds.initialize(this) { initializationStatus ->
-            val statusMap =
-                initializationStatus.adapterStatusMap
-            for (adapterClass in statusMap.keys) {
-                val status = statusMap[adapterClass]
-                Timber.d(
-                    "MyApp" + String.format(
-                        "Adapter name: %s, Description: %s, Latency: %d",
-                        adapterClass, status!!.description, status.latency
-                    )
-                )
-            }
-
-            // Start loading ads here...
-        }
-    }
-
-
-
-
     private fun goToHome() {
         startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
         finish()
     }
 
-    override fun onBackPressed() {
-    }
-
-
     override fun onDestroy() {
-        super.onDestroy()
         if (::billingClient.isInitialized) {
             billingClient.endConnection()
         }
+        clearAnimation()
+        super.onDestroy()
     }
 }

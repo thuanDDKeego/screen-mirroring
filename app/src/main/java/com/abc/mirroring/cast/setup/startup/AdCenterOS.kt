@@ -19,10 +19,24 @@ import one.shot.haki.ads.Native
 import one.shot.haki.ads.Rewarded
 import one.shot.haki.ads.RewardedInterstitial
 import one.shot.haki.ads.v2.Interstitial
+import timber.log.Timber
 
 class AdCenterOS : Initializer<AdCenter> {
     override fun create(context: Context): AdCenter {
-        MobileAds.initialize(context)
+        MobileAds.initialize(context) { initializationStatus ->
+            val statusMap =
+                initializationStatus.adapterStatusMap
+            for (adapterClass in statusMap.keys) {
+                val status = statusMap[adapterClass]
+                Timber.d(
+                    "MyApp" + String.format(
+                        "Adapter name: %s, Description: %s, Latency: %d",
+                        adapterClass, status!!.description, status.latency
+                    )
+                )
+            }
+            // Start loading ads here...
+        }
         Preferences.init(context)
 
         return AdCenter.initialize(

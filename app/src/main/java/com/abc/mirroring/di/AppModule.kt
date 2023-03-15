@@ -28,11 +28,6 @@ object AppModule {
     @Singleton
     @Provides
     fun providesAdmobHelper(): AdmobHelper = AdmobHelper()
-
-    @Singleton
-    @Provides
-    fun providesAdCenter(): AdCenter = AdCenter.getInstance()
-
     @Singleton
     @Provides
     fun providesAppConfigRemote(): AppConfigRemote = AppConfigRemote()

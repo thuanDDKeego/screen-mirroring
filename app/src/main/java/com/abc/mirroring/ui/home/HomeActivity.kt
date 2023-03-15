@@ -92,7 +92,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
     override fun initBinding() = ActivityHomeXmasBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        checkForUpdateAvailability()
+//        checkForUpdateAvailability()
         dialogCenter = DialogCenter(this)
         dialogCenter.admobHelper = admobHelper
         initAds()
@@ -169,7 +169,7 @@ class HomeActivity : BaseActivity<ActivityHomeXmasBinding>() {
 
     override fun onResume() {
         super.onResume()
-        checkForUpdateStalled()
+//        checkForUpdateStalled()
         if (AppPreferences().isPremiumSubscribed == true) {
             hideBannerAds()
             binding.imgPremium.visibility = View.GONE
